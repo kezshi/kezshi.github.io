@@ -1,0 +1,84 @@
+---
+output:
+    html_document:
+      toc: false
+      toc_float: false
+      number_sections: false
+      theme: journal
+      highlight: textmate
+---
+
+#Articles{.tabset}
+
+## Data Science avec R
+
+**Algorithmes pour les débutants**
+
+- [Comment j'ai appris la classification naïve bayésienne en 30 minutes](machine_learning_r/introduction_classification_naive_bayesienne.html)
+- [Introduction à kNN (k-plus-voisins)](machine_learning_r/introduction_kNN.html)
+- [Introduction à l'analyse en composantes principales](machine_learning_r/introduction_analyse__composantes_principales.html)
+
+**Exemples d'application**
+
+- [Comparaison des algorithmes sur quelques bases de données types](machine_learning_r/comparatif_visualise_machine_learning.html)
+- [Analyse de la base iris](machine_learning_r/analyse_donnees_iris.html)
+- [Détection de spams](machine_learning_r/detection_spams.html)
+- [Reconstruction d'image avec machine learning](machine_learning_r/reconstruction_image.html)
+
+- [Analyse du risque de pluie à Paris pendant Roland Garros](pluie_paris.html)
+- [Analyse des températures à Paris](https://fr.linkedin.com/in/kezhanshi)
+
+**Analyse des images**
+
+- [Compression d'image à l'aide des valeurs singulières](machine_learning_r/valeurs_singulières_compression_image.html)
+- [Traitement d'image avec la transformée de Fourrier](fft_traitement_image.html)
+- [Visualisation des couleurs en 3D](couleurs_3d.html)
+- [Analyse de la tendance des robes](https://fr.linkedin.com/in/kezhanshi)
+
+**Etude géospatiale**
+
+- [Géolocation des accidents auto corporels en France](geolocalisation_accidents_auto.html)
+- [Analyse l'implantation géographique de Quick en France](implantation_geographique_quick.html)
+- [Comment tracer un cercle et un carré sur la surface de la Terre](cercle_carre_sur_terre.html)
+
+**Text-mining**
+
+- [Analyse des avis sur des produits d'assurance](avis_assurance.html)
+- [Analyse des tweets de l'argus de l'assurance](twitter_text_mining_argus_assurance.html)
+- [Analyse des discours de François Hollande](https://kezhanshi.shinyapps.io/discours_fh)
+- [Une analyse qui sent bon ! (1) ou étude des ingrédients dans les parfums ](analyse_parfums_1.html)
+- [Une analyse qui sent bon ! (2) ou étude des notes des parfums ](analyse_parfums_2.html)
+
+## Visualisation
+
+**Pour mieux comprendre**
+
+- [Comparaison des algorithmes sur quelques bases de données types](machine_learning_r/comparatif_visualise_machine_learning.html)
+
+**Pour mieux communiquer**
+
+- [Sankey network : chocs pendant les accidents auto](chocs_accidents_auto.html)
+- [Sunburst : lieux, type de collision et gravité d'accidents](sunburst_accidents_auto.html)
+- [Sunburst : des plaintes dans les banques](en/finance_complaints_sunburst.html)
+
+**Etude géospatiale**
+
+- [Géolocation des accidents auto corporels en France](geolocalisation_accidents_auto.html)
+- [Analyse l'implantation géographique de Quick en France](implantation_geographique_quick.html)
+- [Comment tracer un cercle et un carré sur la surface de la Terre](cercle_carre_sur_terre.html)
+
+## Web scraping
+
+- [Technique de base du web-scraping](web_scraping.html)
+
+## Actuariat
+
+- [Analyse de la sinistralité](actuariat/sinistre_graves_par_tranche.html)
+- Exemple d'application de la théorie des valeurs extrêmes [Partie1](actuariat/sp500_1_presentation.html) [Partie 2](actuariat/sp500_2_calibration_valeurs_extremes.html)
+- [Effet de la taille du portefeuille sur l'OEP](actuariat/effet_taille_portefeuille_oep.html)
+- [Lissage des coefficients de développement Chain-Ladder d'un triangle](actuariat/lissage_coeff_chainladder.html)
+
+```{r eval=FALSE, echo=FALSE}
+rmarkdown::render_site()
+```
+
