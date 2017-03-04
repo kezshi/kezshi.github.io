@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Implantation de McDonald’s en France</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="site_libs/d3-0.1.0/d3.js"></script>
+<script src="site_libs/cartogram-0.1.0/cartogram.js"></script>
+<script src="site_libs/topojson-0.1.0/topojson.js"></script>
+<script src="site_libs/shapes-0.1.0/shapes.js"></script>
+<link href="site_libs/css-0.1.0/topogRam.css" rel="stylesheet" />
+<script src="site_libs/topogRam-binding-0.1.9000/topogRam.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li>
+  <a href="0_preparation.html">
+    <span class="fa fa-table"></span>
+     
+    Préparation
+  </a>
+</li>
+<li>
+  <a href="0_analytics.html">
+    <span class="fa fa-flask"></span>
+     
+    Analytics
+  </a>
+</li>
+<li>
+  <a href="0_datavis.html">
+    <span class="fa fa-line-chart"></span>
+     
+    Visualisation
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Implantation de McDonald’s en France</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>En viusaliant les adresses des McDonald’s en France, on peut se rendre compte à quel point son réseau de restaurants est réparti de façon homogène et saturée sur tout le territoire français.</p>
+</div>
+<div id="nombre-de-restaurants-par-departement" class="section level1">
+<h1><span class="header-section-number">2</span> Nombre de restaurants par département</h1>
+<p>On peut visualiser le nombre de restaurants par département.</p>
+<div id="htmlwidget-2a18bea95f63731dbe12" style="width:500px;height:500px;" class="topogRam html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2a18bea95f63731dbe12">{"x":{"data":[{"Var1":"01","Freq":12,"id":"01"},{"Var1":"02","Freq":11,"id":"02"},{"Var1":"03","Freq":8,"id":"03"},{"Var1":"04","Freq":3,"id":"04"},{"Var1":"05","Freq":4,"id":"05"},{"Var1":"06","Freq":22,"id":"06"},{"Var1":"07","Freq":5,"id":"07"},{"Var1":"08","Freq":5,"id":"08"},{"Var1":"09","Freq":4,"id":"09"},{"Var1":"10","Freq":6,"id":"10"},{"Var1":"11","Freq":8,"id":"11"},{"Var1":"12","Freq":5,"id":"12"},{"Var1":"13","Freq":41,"id":"13"},{"Var1":"14","Freq":18,"id":"14"},{"Var1":"15","Freq":2,"id":"15"},{"Var1":"16","Freq":5,"id":"16"},{"Var1":"17","Freq":12,"id":"17"},{"Var1":"18","Freq":4,"id":"18"},{"Var1":"19","Freq":4,"id":"19"},{"Var1":"21","Freq":11,"id":"21"},{"Var1":"22","Freq":8,"id":"22"},{"Var1":"23","Freq":1,"id":"23"},{"Var1":"24","Freq":6,"id":"24"},{"Var1":"25","Freq":6,"id":"25"},{"Var1":"26","Freq":14,"id":"26"},{"Var1":"27","Freq":10,"id":"27"},{"Var1":"28","Freq":11,"id":"28"},{"Var1":"29","Freq":17,"id":"29"},{"Var1":"30","Freq":17,"id":"30"},{"Var1":"31","Freq":35,"id":"31"},{"Var1":"32","Freq":2,"id":"32"},{"Var1":"33","Freq":43,"id":"33"},{"Var1":"34","Freq":24,"id":"34"},{"Var1":"35","Freq":24,"id":"35"},{"Var1":"36","Freq":3,"id":"36"},{"Var1":"37","Freq":11,"id":"37"},{"Var1":"38","Freq":26,"id":"38"},{"Var1":"39","Freq":4,"id":"39"},{"Var1":"40","Freq":9,"id":"40"},{"Var1":"41","Freq":5,"id":"41"},{"Var1":"42","Freq":16,"id":"42"},{"Var1":"43","Freq":3,"id":"43"},{"Var1":"44","Freq":27,"id":"44"},{"Var1":"45","Freq":13,"id":"45"},{"Var1":"46","Freq":2,"id":"46"},{"Var1":"47","Freq":7,"id":"47"},{"Var1":"48","Freq":2,"id":"48"},{"Var1":"49","Freq":13,"id":"49"},{"Var1":"50","Freq":8,"id":"50"},{"Var1":"51","Freq":14,"id":"51"},{"Var1":"52","Freq":4,"id":"52"},{"Var1":"53","Freq":4,"id":"53"},{"Var1":"54","Freq":17,"id":"54"},{"Var1":"55","Freq":2,"id":"55"},{"Var1":"56","Freq":11,"id":"56"},{"Var1":"57","Freq":25,"id":"57"},{"Var1":"58","Freq":4,"id":"58"},{"Var1":"59","Freq":47,"id":"59"},{"Var1":"60","Freq":20,"id":"60"},{"Var1":"61","Freq":5,"id":"61"},{"Var1":"62","Freq":30,"id":"62"},{"Var1":"63","Freq":12,"id":"63"},{"Var1":"64","Freq":15,"id":"64"},{"Var1":"65","Freq":5,"id":"65"},{"Var1":"66","Freq":14,"id":"66"},{"Var1":"67","Freq":21,"id":"67"},{"Var1":"68","Freq":16,"id":"68"},{"Var1":"69","Freq":39,"id":"69"},{"Var1":"70","Freq":6,"id":"70"},{"Var1":"71","Freq":13,"id":"71"},{"Var1":"72","Freq":13,"id":"72"},{"Var1":"73","Freq":8,"id":"73"},{"Var1":"74","Freq":13,"id":"74"},{"Var1":"75","Freq":67,"id":"75"},{"Var1":"76","Freq":22,"id":"76"},{"Var1":"77","Freq":34,"id":"77"},{"Var1":"78","Freq":34,"id":"78"},{"Var1":"79","Freq":6,"id":"79"},{"Var1":"80","Freq":14,"id":"80"},{"Var1":"81","Freq":8,"id":"81"},{"Var1":"82","Freq":6,"id":"82"},{"Var1":"83","Freq":28,"id":"83"},{"Var1":"84","Freq":14,"id":"84"},{"Var1":"85","Freq":11,"id":"85"},{"Var1":"86","Freq":4,"id":"86"},{"Var1":"87","Freq":8,"id":"87"},{"Var1":"88","Freq":6,"id":"88"},{"Var1":"89","Freq":7,"id":"89"},{"Var1":"90","Freq":2,"id":"90"},{"Var1":"91","Freq":33,"id":"91"},{"Var1":"92","Freq":26,"id":"92"},{"Var1":"93","Freq":28,"id":"93"},{"Var1":"94","Freq":26,"id":"94"},{"Var1":"95","Freq":32,"id":"95"}],"colors":["#91BFDB","#FFFFBF","#FC8D59"],"fields":[{"key":"Freq","name":"","format":"","lab":""}],"shape":"france-dep","addSelect":false,"idSelect":"selectfield8486117","origin":[8,45.5],"scale":[2500]},"evals":[],"jsHooks":[]}</script>
+<p>Quand regarde maintenant le nombre de restaurants par 100 mille habitants, on peut observer cette remarque homogénéité sur tous les départements.</p>
+<p><div id="htmlwidget-06ad102a80f8341c263c" style="width:500px;height:500px;" class="topogRam html-widget"></div>
+<script type="application/json" data-for="htmlwidget-06ad102a80f8341c263c">{"x":{"data":[{"id":"10","Var1":"10","Freq":6,"NAME":"Aube","pop":314825,"nph":1.9058},{"id":"11","Var1":"11","Freq":8,"NAME":"Aude","pop":374868,"nph":2.1341},{"id":"12","Var1":"12","Freq":5,"NAME":"Aveyron","pop":289257,"nph":1.7286},{"id":"13","Var1":"13","Freq":41,"NAME":"Bouches-du-Rhône","pop":2022604,"nph":2.0271},{"id":"14","Var1":"14","Freq":18,"NAME":"Calvados","pop":706635,"nph":2.5473},{"id":"15","Var1":"15","Freq":2,"NAME":"Cantal","pop":152797,"nph":1.3089},{"id":"16","Var1":"16","Freq":5,"NAME":"Charente","pop":366587,"nph":1.3639},{"id":"17","Var1":"17","Freq":12,"NAME":"Charente-Maritime","pop":652610,"nph":1.8388},{"id":"18","Var1":"18","Freq":4,"NAME":"Cher","pop":319693,"nph":1.2512},{"id":"19","Var1":"19","Freq":4,"NAME":"Corrèze","pop":249452,"nph":1.6035},{"id":"21","Var1":"21","Freq":11,"NAME":"Côte-d'Or","pop":543648,"nph":2.0234},{"id":"22","Var1":"22","Freq":8,"NAME":"Côtes-d'Armor","pop":617565,"nph":1.2954},{"id":"23","Var1":"23","Freq":1,"NAME":"Creuse","pop":125714,"nph":0.7955},{"id":"24","Var1":"24","Freq":6,"NAME":"Dordogne","pop":429579,"nph":1.3967},{"id":"25","Var1":"25","Freq":6,"NAME":"Doubs","pop":548026,"nph":1.0948},{"id":"26","Var1":"26","Freq":14,"NAME":"Drôme","pop":509444,"nph":2.7481},{"id":"27","Var1":"27","Freq":10,"NAME":"Eure","pop":612518,"nph":1.6326},{"id":"28","Var1":"28","Freq":11,"NAME":"Eure-et-Loir","pop":444385,"nph":2.4753},{"id":"29","Var1":"29","Freq":17,"NAME":"Finistère","pop":934625,"nph":1.8189},{"id":"30","Var1":"30","Freq":17,"NAME":"Gard","pop":750025,"nph":2.2666},{"id":"31","Var1":"31","Freq":35,"NAME":"Haute-Garonne","pop":1325392,"nph":2.6407},{"id":"32","Var1":"32","Freq":2,"NAME":"Gers","pop":197598,"nph":1.0122},{"id":"33","Var1":"33","Freq":43,"NAME":"Gironde","pop":1536448,"nph":2.7987},{"id":"34","Var1":"34","Freq":24,"NAME":"Hérault","pop":1111881,"nph":2.1585},{"id":"35","Var1":"35","Freq":24,"NAME":"Ille-et-Vilaine","pop":1047873,"nph":2.2904},{"id":"36","Var1":"36","Freq":3,"NAME":"Indre","pop":235181,"nph":1.2756},{"id":"37","Var1":"37","Freq":11,"NAME":"Indre-et-Loire","pop":615557,"nph":1.787},{"id":"38","Var1":"38","Freq":26,"NAME":"Isère","pop":1263850,"nph":2.0572},{"id":"39","Var1":"39","Freq":4,"NAME":"Jura","pop":270914,"nph":1.4765},{"id":"40","Var1":"40","Freq":9,"NAME":"Landes","pop":411197,"nph":2.1887},{"id":"41","Var1":"41","Freq":5,"NAME":"Loir-et-Cher","pop":342471,"nph":1.46},{"id":"42","Var1":"42","Freq":16,"NAME":"Loire","pop":774144,"nph":2.0668},{"id":"43","Var1":"43","Freq":3,"NAME":"Haute-Loire","pop":233918,"nph":1.2825},{"id":"44","Var1":"44","Freq":27,"NAME":"Loire-Atlantique","pop":1364453,"nph":1.9788},{"id":"45","Var1":"45","Freq":13,"NAME":"Loiret","pop":684104,"nph":1.9003},{"id":"46","Var1":"46","Freq":2,"NAME":"Lot","pop":180470,"nph":1.1082},{"id":"47","Var1":"47","Freq":7,"NAME":"Lot-et-Garonne","pop":343645,"nph":2.037},{"id":"48","Var1":"48","Freq":2,"NAME":"Lozère","pop":80712,"nph":2.4779},{"id":"49","Var1":"49","Freq":13,"NAME":"Maine-et-Loire","pop":823546,"nph":1.5785},{"id":"50","Var1":"50","Freq":8,"NAME":"Manche","pop":518364,"nph":1.5433},{"id":"51","Var1":"51","Freq":14,"NAME":"Marne","pop":583691,"nph":2.3985},{"id":"52","Var1":"52","Freq":4,"NAME":"Haute-Marne","pop":188083,"nph":2.1267},{"id":"53","Var1":"53","Freq":4,"NAME":"Mayenne","pop":318095,"nph":1.2575},{"id":"54","Var1":"54","Freq":17,"NAME":"Meurthe-et-Moselle","pop":745398,"nph":2.2807},{"id":"55","Var1":"55","Freq":2,"NAME":"Meuse","pop":198334,"nph":1.0084},{"id":"56","Var1":"56","Freq":11,"NAME":"Morbihan","pop":761433,"nph":1.4446},{"id":"57","Var1":"57","Freq":25,"NAME":"Moselle","pop":1068119,"nph":2.3406},{"id":"58","Var1":"58","Freq":4,"NAME":"Nièvre","pop":222688,"nph":1.7962},{"id":"59","Var1":"59","Freq":47,"NAME":"Nord","pop":2635494,"nph":1.7833},{"id":"60","Var1":"60","Freq":20,"NAME":"Oise","pop":835918,"nph":2.3926},{"id":"61","Var1":"61","Freq":5,"NAME":"Orne","pop":298248,"nph":1.6765},{"id":"62","Var1":"62","Freq":30,"NAME":"Pas-de-Calais","pop":1491735,"nph":2.0111},{"id":"63","Var1":"63","Freq":12,"NAME":"Puy-de-Dôme","pop":658489,"nph":1.8224},{"id":"64","Var1":"64","Freq":15,"NAME":"Pyrénées-Atlantiques","pop":685564,"nph":2.188},{"id":"65","Var1":"65","Freq":5,"NAME":"Hautes-Pyrénées","pop":236728,"nph":2.1121},{"id":"66","Var1":"66","Freq":14,"NAME":"Pyrénées-Orientales","pop":471573,"nph":2.9688},{"id":"67","Var1":"67","Freq":21,"NAME":"Bas-Rhin","pop":1128825,"nph":1.8603},{"id":"68","Var1":"68","Freq":16,"NAME":"Haut-Rhin","pop":774976,"nph":2.0646},{"id":"69","Var1":"69","Freq":39,"NAME":"Rhône","pop":1812196,"nph":2.1521},{"id":"70","Var1":"70","Freq":6,"NAME":"Haute-Saône","pop":246782,"nph":2.4313},{"id":"71","Var1":"71","Freq":13,"NAME":"Saône-et-Loire","pop":575097,"nph":2.2605},{"id":"72","Var1":"72","Freq":13,"NAME":"Sarthe","pop":584865,"nph":2.2227},{"id":"73","Var1":"73","Freq":8,"NAME":"Savoie","pop":437915,"nph":1.8268},{"id":"74","Var1":"74","Freq":13,"NAME":"Haute-Savoie","pop":793342,"nph":1.6386},{"id":"75","Var1":"75","Freq":67,"NAME":"Paris","pop":2254262,"nph":2.9721},{"id":"76","Var1":"76","Freq":22,"NAME":"Seine-Maritime","pop":1280410,"nph":1.7182},{"id":"77","Var1":"77","Freq":34,"NAME":"Seine-et-Marne","pop":1387830,"nph":2.4499},{"id":"78","Var1":"78","Freq":34,"NAME":"Yvelines","pop":1446301,"nph":2.3508},{"id":"79","Var1":"79","Freq":6,"NAME":"Deux-Sèvres","pop":383079,"nph":1.5663},{"id":"80","Var1":"80","Freq":14,"NAME":"Somme","pop":584184,"nph":2.3965},{"id":"81","Var1":"81","Freq":8,"NAME":"Tarn","pop":393877,"nph":2.0311},{"id":"82","Var1":"82","Freq":6,"NAME":"Tarn-et-Garonne","pop":256867,"nph":2.3358},{"id":"83","Var1":"83","Freq":28,"NAME":"Var","pop":1046346,"nph":2.676},{"id":"84","Var1":"84","Freq":14,"NAME":"Vaucluse","pop":562254,"nph":2.49},{"id":"85","Var1":"85","Freq":11,"NAME":"Vendée","pop":674843,"nph":1.63},{"id":"86","Var1":"86","Freq":4,"NAME":"Vienne","pop":442696,"nph":0.9036},{"id":"87","Var1":"87","Freq":8,"NAME":"Haute-Vienne","pop":384411,"nph":2.0811},{"id":"88","Var1":"88","Freq":6,"NAME":"Vosges","pop":388551,"nph":1.5442},{"id":"89","Var1":"89","Freq":7,"NAME":"Yonne","pop":352182,"nph":1.9876},{"id":"90","Var1":"90","Freq":2,"NAME":"Territoire de Belfort","pop":147777,"nph":1.3534},{"id":"91","Var1":"91","Freq":33,"NAME":"Essonne","pop":1273233,"nph":2.5918},{"id":"92","Var1":"92","Freq":26,"NAME":"Hauts-de-Seine","pop":1611290,"nph":1.6136},{"id":"93","Var1":"93","Freq":28,"NAME":"Seine-Saint-Denis","pop":1565222,"nph":1.7889},{"id":"94","Var1":"94","Freq":26,"NAME":"Val-de-Marne","pop":1367091,"nph":1.9018},{"id":"95","Var1":"95","Freq":32,"NAME":"Val-d'Oise","pop":1211138,"nph":2.6421}],"colors":["#91BFDB","#FFFFBF","#FC8D59"],"fields":[{"key":"nph","name":"","format":"","lab":""}],"shape":"france-dep","addSelect":false,"idSelect":"selectfield2321789","origin":[8,45.5],"scale":[2500]},"evals":[],"jsHooks":[]}</script><img src="4_mcdonalds_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+</div>
+<div id="densite-des-restaurants" class="section level1">
+<h1><span class="header-section-number">3</span> Densité des restaurants</h1>
+<p><img src="4_mcdonalds_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="4_mcdonalds_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="4_mcdonalds_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
