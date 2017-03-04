@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Introduction à l’algorithme kNN (k plus proches voisins)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li>
+  <a href="0_preparation.html">
+    <span class="fa fa-table"></span>
+     
+    Préparation
+  </a>
+</li>
+<li>
+  <a href="0_analytics.html">
+    <span class="fa fa-flask"></span>
+     
+    Analytics
+  </a>
+</li>
+<li>
+  <a href="0_datavis.html">
+    <span class="fa fa-line-chart"></span>
+     
+    Visualisation
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction à l’algorithme kNN (k plus proches voisins)</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="principe" class="section level2">
+<h2><span class="header-section-number">1.1</span> Principe</h2>
+<p>Le principe de l’algorithme des k plus proches voisins est basé le fait que les objets d’un même type sont “proches” entre eux. Pour quantifier la distance entre les objets, la grandeur couramment utilisée est la distance euclidienne.</p>
+<p>L’algorithme permet ainsi de prédire l’appartenance d’un nouvel objet à une classe en fonction de ses distances avec ses voisins : elle appartiendra à la classe majoritaire de ses voisins.</p>
+</div>
+<div id="types-de-variables" class="section level2">
+<h2><span class="header-section-number">1.2</span> Types de variables</h2>
+<p>Comme on calcule des distances euclidienne, la version de base suppose que les varibles sont numériques. Pour que l’échelle des valeurs numériques des différentes variables n’impactent pas le calcul de la distance, les valeurs doivent être normalisées.</p>
+<p>Il est toujours possible d’avoir des variables catégoriques, mais on doit alors définir la notion de distance.</p>
+</div>
+<div id="caracteristique-algorithmique" class="section level2">
+<h2><span class="header-section-number">1.3</span> Caractéristique algorithmique</h2>
+<p>Cet algorithme ne construit un modèle. En entrée, on doit disposer d’une base de données libelées. Ensuite, pour chacune des nouvelles observations, on calcule les distances avec les voisins. Comme son nom l’indique, le nombre de voisin est un paramtère de l’algorithme. L’apprentissage automatique consiste à optimiser ce paramètre.</p>
+</div>
+</div>
+<div id="construction-de-lalgorithme" class="section level1">
+<h1><span class="header-section-number">2</span> Construction de l’algorithme</h1>
+<div id="donnees" class="section level2">
+<h2><span class="header-section-number">2.1</span> Données</h2>
+<p>La base de données sur le diagnostic des cancers du sein peut illustrer cet algorithme. les données utilisées regroupent les observations des caractéristiques des cellules des seins. Elles sont disponibles sur le site de <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)">UCI</a>,</p>
+<p>On a 30 variables prédictives et une variable à prédire :</p>
+<pre><code>##  [1] &quot;radius_mean&quot;             &quot;texture_mean&quot;           
+##  [3] &quot;perimeter_mean&quot;          &quot;area_mean&quot;              
+##  [5] &quot;smoothness_mean&quot;         &quot;compactness_mean&quot;       
+##  [7] &quot;concavity_mean&quot;          &quot;concave.points_mean&quot;    
+##  [9] &quot;symmetry_mean&quot;           &quot;fractal_dimension_mean&quot; 
+## [11] &quot;radius_se&quot;               &quot;texture_se&quot;             
+## [13] &quot;perimeter_se&quot;            &quot;area_se&quot;                
+## [15] &quot;smoothness_se&quot;           &quot;compactness_se&quot;         
+## [17] &quot;concavity_se&quot;            &quot;concave.points_se&quot;      
+## [19] &quot;symmetry_se&quot;             &quot;fractal_dimension_se&quot;   
+## [21] &quot;radius_worst&quot;            &quot;texture_worst&quot;          
+## [23] &quot;perimeter_worst&quot;         &quot;area_worst&quot;             
+## [25] &quot;smoothness_worst&quot;        &quot;compactness_worst&quot;      
+## [27] &quot;concavity_worst&quot;         &quot;concave.points_worst&quot;   
+## [29] &quot;symmetry_worst&quot;          &quot;fractal_dimension_worst&quot;
+## [31] &quot;class&quot;</code></pre>
+<p>La variable à prédire prend la valeur “B” qui signifie bénigne, et “M” qui signifie maligne.</p>
+<pre><code>## 
+##   B   M 
+## 357 212</code></pre>
+<pre><code>##   radius_mean texture_mean perimeter_mean area_mean smoothness_mean
+## 1       17.99        10.38         122.80    1001.0         0.11840
+## 2       20.57        17.77         132.90    1326.0         0.08474
+## 3       19.69        21.25         130.00    1203.0         0.10960
+## 4       11.42        20.38          77.58     386.1         0.14250
+## 5       20.29        14.34         135.10    1297.0         0.10030
+## 6       12.45        15.70          82.57     477.1         0.12780
+##   compactness_mean concavity_mean concave.points_mean symmetry_mean
+## 1          0.27760         0.3001             0.14710        0.2419
+## 2          0.07864         0.0869             0.07017        0.1812
+## 3          0.15990         0.1974             0.12790        0.2069
+## 4          0.28390         0.2414             0.10520        0.2597
+## 5          0.13280         0.1980             0.10430        0.1809
+## 6          0.17000         0.1578             0.08089        0.2087
+##   fractal_dimension_mean radius_se texture_se perimeter_se area_se
+## 1                0.07871    1.0950     0.9053        8.589  153.40
+## 2                0.05667    0.5435     0.7339        3.398   74.08
+## 3                0.05999    0.7456     0.7869        4.585   94.03
+## 4                0.09744    0.4956     1.1560        3.445   27.23
+## 5                0.05883    0.7572     0.7813        5.438   94.44
+## 6                0.07613    0.3345     0.8902        2.217   27.19
+##   smoothness_se compactness_se concavity_se concave.points_se symmetry_se
+## 1      0.006399        0.04904      0.05373           0.01587     0.03003
+## 2      0.005225        0.01308      0.01860           0.01340     0.01389
+## 3      0.006150        0.04006      0.03832           0.02058     0.02250
+## 4      0.009110        0.07458      0.05661           0.01867     0.05963
+## 5      0.011490        0.02461      0.05688           0.01885     0.01756
+## 6      0.007510        0.03345      0.03672           0.01137     0.02165
+##   fractal_dimension_se radius_worst texture_worst perimeter_worst
+## 1             0.006193        25.38         17.33          184.60
+## 2             0.003532        24.99         23.41          158.80
+## 3             0.004571        23.57         25.53          152.50
+## 4             0.009208        14.91         26.50           98.87
+## 5             0.005115        22.54         16.67          152.20
+## 6             0.005082        15.47         23.75          103.40
+##   area_worst smoothness_worst compactness_worst concavity_worst
+## 1     2019.0           0.1622            0.6656          0.7119
+## 2     1956.0           0.1238            0.1866          0.2416
+## 3     1709.0           0.1444            0.4245          0.4504
+## 4      567.7           0.2098            0.8663          0.6869
+## 5     1575.0           0.1374            0.2050          0.4000
+## 6      741.6           0.1791            0.5249          0.5355
+##   concave.points_worst symmetry_worst fractal_dimension_worst class
+## 1               0.2654         0.4601                 0.11890     M
+## 2               0.1860         0.2750                 0.08902     M
+## 3               0.2430         0.3613                 0.08758     M
+## 4               0.2575         0.6638                 0.17300     M
+## 5               0.1625         0.2364                 0.07678     M
+## 6               0.1741         0.3985                 0.12440     M</code></pre>
+</div>
+<div id="normalisation" class="section level2">
+<h2><span class="header-section-number">2.2</span> Normalisation</h2>
+<p>On peut normaliser les valeurs à l’aide la fonction suivante :</p>
+<p>Ainsi toutes les variables prennent des valeurs de 0 à 1 :</p>
+<pre><code>##   radius_mean      texture_mean    perimeter_mean     area_mean     
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.2233   1st Qu.:0.2185   1st Qu.:0.2168   1st Qu.:0.1174  
+##  Median :0.3024   Median :0.3088   Median :0.2933   Median :0.1729  
+##  Mean   :0.3382   Mean   :0.3240   Mean   :0.3329   Mean   :0.2169  
+##  3rd Qu.:0.4164   3rd Qu.:0.4089   3rd Qu.:0.4168   3rd Qu.:0.2711  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+##  smoothness_mean  compactness_mean concavity_mean    concave.points_mean
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.00000   Min.   :0.0000     
+##  1st Qu.:0.3046   1st Qu.:0.1397   1st Qu.:0.06926   1st Qu.:0.1009     
+##  Median :0.3904   Median :0.2247   Median :0.14419   Median :0.1665     
+##  Mean   :0.3948   Mean   :0.2606   Mean   :0.20806   Mean   :0.2431     
+##  3rd Qu.:0.4755   3rd Qu.:0.3405   3rd Qu.:0.30623   3rd Qu.:0.3678     
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.00000   Max.   :1.0000     
+##  symmetry_mean    fractal_dimension_mean   radius_se      
+##  Min.   :0.0000   Min.   :0.0000         Min.   :0.00000  
+##  1st Qu.:0.2823   1st Qu.:0.1630         1st Qu.:0.04378  
+##  Median :0.3697   Median :0.2439         Median :0.07702  
+##  Mean   :0.3796   Mean   :0.2704         Mean   :0.10635  
+##  3rd Qu.:0.4530   3rd Qu.:0.3404         3rd Qu.:0.13304  
+##  Max.   :1.0000   Max.   :1.0000         Max.   :1.00000  
+##    texture_se      perimeter_se        area_se        smoothness_se   
+##  Min.   :0.0000   Min.   :0.00000   Min.   :0.00000   Min.   :0.0000  
+##  1st Qu.:0.1047   1st Qu.:0.04000   1st Qu.:0.02064   1st Qu.:0.1175  
+##  Median :0.1653   Median :0.07209   Median :0.03311   Median :0.1586  
+##  Mean   :0.1893   Mean   :0.09938   Mean   :0.06264   Mean   :0.1811  
+##  3rd Qu.:0.2462   3rd Qu.:0.12251   3rd Qu.:0.07170   3rd Qu.:0.2187  
+##  Max.   :1.0000   Max.   :1.00000   Max.   :1.00000   Max.   :1.0000  
+##  compactness_se     concavity_se     concave.points_se  symmetry_se    
+##  Min.   :0.00000   Min.   :0.00000   Min.   :0.0000    Min.   :0.0000  
+##  1st Qu.:0.08132   1st Qu.:0.03811   1st Qu.:0.1447    1st Qu.:0.1024  
+##  Median :0.13667   Median :0.06538   Median :0.2070    Median :0.1526  
+##  Mean   :0.17444   Mean   :0.08054   Mean   :0.2235    Mean   :0.1781  
+##  3rd Qu.:0.22680   3rd Qu.:0.10619   3rd Qu.:0.2787    3rd Qu.:0.2195  
+##  Max.   :1.00000   Max.   :1.00000   Max.   :1.0000    Max.   :1.0000  
+##  fractal_dimension_se  radius_worst    texture_worst    perimeter_worst 
+##  Min.   :0.00000      Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.04675      1st Qu.:0.1807   1st Qu.:0.2415   1st Qu.:0.1678  
+##  Median :0.07919      Median :0.2504   Median :0.3569   Median :0.2353  
+##  Mean   :0.10019      Mean   :0.2967   Mean   :0.3640   Mean   :0.2831  
+##  3rd Qu.:0.12656      3rd Qu.:0.3863   3rd Qu.:0.4717   3rd Qu.:0.3735  
+##  Max.   :1.00000      Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+##    area_worst      smoothness_worst compactness_worst concavity_worst  
+##  Min.   :0.00000   Min.   :0.0000   Min.   :0.0000    Min.   :0.00000  
+##  1st Qu.:0.08113   1st Qu.:0.3000   1st Qu.:0.1163    1st Qu.:0.09145  
+##  Median :0.12321   Median :0.3971   Median :0.1791    Median :0.18107  
+##  Mean   :0.17091   Mean   :0.4041   Mean   :0.2202    Mean   :0.21740  
+##  3rd Qu.:0.22090   3rd Qu.:0.4942   3rd Qu.:0.3025    3rd Qu.:0.30583  
+##  Max.   :1.00000   Max.   :1.0000   Max.   :1.0000    Max.   :1.00000  
+##  concave.points_worst symmetry_worst   fractal_dimension_worst
+##  Min.   :0.0000       Min.   :0.0000   Min.   :0.0000         
+##  1st Qu.:0.2231       1st Qu.:0.1851   1st Qu.:0.1077         
+##  Median :0.3434       Median :0.2478   Median :0.1640         
+##  Mean   :0.3938       Mean   :0.2633   Mean   :0.1896         
+##  3rd Qu.:0.5546       3rd Qu.:0.3182   3rd Qu.:0.2429         
+##  Max.   :1.0000       Max.   :1.0000   Max.   :1.0000</code></pre>
+</div>
+<div id="creation-de-partition" class="section level2">
+<h2><span class="header-section-number">2.3</span> Création de partition</h2>
+<p>Pour tester l’algorithme, on répartit les données en deux bases : base d’apprentissage et base de test.</p>
+<pre><code>## [1] 172  31</code></pre>
+<pre><code>## [1] 397  31</code></pre>
+</div>
+<div id="prediction" class="section level2">
+<h2><span class="header-section-number">2.4</span> Prédiction</h2>
+<p>On peut faire la prédiction des classes de la base de test à l’aide la fonction <code>knn</code> du package <code>class</code>. On peut choisir dans un premier temps <code>k=5</code>.</p>
+<p>On peut construire la matrice de confusion avec la fonction <code>table</code> :</p>
+<pre><code>##     
+## pred   B   M
+##    B 243   8
+##    M   6 140</code></pre>
+<p>ou utiliser la fonction <code>confusionMatrix</code> qui permet de calculer automatiquement certains caractéristiques :</p>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   B   M
+##          B 243   8
+##          M   6 140
+##                                           
+##                Accuracy : 0.9647          
+##                  95% CI : (0.9415, 0.9806)
+##     No Information Rate : 0.6272          
+##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                                           
+##                   Kappa : 0.9244          
+##  Mcnemar&#39;s Test P-Value : 0.7893          
+##                                           
+##             Sensitivity : 0.9759          
+##             Specificity : 0.9459          
+##          Pos Pred Value : 0.9681          
+##          Neg Pred Value : 0.9589          
+##              Prevalence : 0.6272          
+##          Detection Rate : 0.6121          
+##    Detection Prevalence : 0.6322          
+##       Balanced Accuracy : 0.9609          
+##                                           
+##        &#39;Positive&#39; Class : B               
+## </code></pre>
+</div>
+</div>
+<div id="surapprentissage" class="section level1">
+<h1><span class="header-section-number">3</span> Surapprentissage</h1>
+<p>Le surapprentissage est le cas où l’algorithme fonctionne presque parfaitement pour la base d’apprentissage, mais le résultat est détérioré pour la base de test.</p>
+<p>On peut par exemple choisir <code>k=1</code> pour faire la prédiction sur la base d’apprentissage. La prédiction sera 100% correcte.</p>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   B   M
+##          B 108   0
+##          M   0  64
+##                                      
+##                Accuracy : 1          
+##                  95% CI : (0.9788, 1)
+##     No Information Rate : 0.6279     
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16  
+##                                      
+##                   Kappa : 1          
+##  Mcnemar&#39;s Test P-Value : NA         
+##                                      
+##             Sensitivity : 1.0000     
+##             Specificity : 1.0000     
+##          Pos Pred Value : 1.0000     
+##          Neg Pred Value : 1.0000     
+##              Prevalence : 0.6279     
+##          Detection Rate : 0.6279     
+##    Detection Prevalence : 0.6279     
+##       Balanced Accuracy : 1.0000     
+##                                      
+##        &#39;Positive&#39; Class : B          
+## </code></pre>
+<p>Cependant, si on applique ce paramètre pour la base de test, la précision de prédiction baisse :</p>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   B   M
+##          B 242   7
+##          M   7 141
+##                                           
+##                Accuracy : 0.9647          
+##                  95% CI : (0.9415, 0.9806)
+##     No Information Rate : 0.6272          
+##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                                           
+##                   Kappa : 0.9246          
+##  Mcnemar&#39;s Test P-Value : 1               
+##                                           
+##             Sensitivity : 0.9719          
+##             Specificity : 0.9527          
+##          Pos Pred Value : 0.9719          
+##          Neg Pred Value : 0.9527          
+##              Prevalence : 0.6272          
+##          Detection Rate : 0.6096          
+##    Detection Prevalence : 0.6272          
+##       Balanced Accuracy : 0.9623          
+##                                           
+##        &#39;Positive&#39; Class : B               
+## </code></pre>
+</div>
+<div id="optimisation-de-lalgorithme" class="section level1">
+<h1><span class="header-section-number">4</span> Optimisation de l’algorithme</h1>
+<div id="validation-croisee" class="section level2">
+<h2><span class="header-section-number">4.1</span> Validation croisée</h2>
+<p>On peut utiliser la validation croisée pour tester les différentes valeurs de k :</p>
+<pre><code>## 
+## Parameter tuning of &#39;knn.wrapper&#39;:
+## 
+## - sampling method: 10-fold cross validation 
+## 
+## - best parameters:
+##  k
+##  9
+## 
+## - best performance: 0.02631579 
+## 
+## - Detailed performance results:
+##     k      error dispersion
+## 1   1 0.04213659 0.02215308
+## 2   2 0.03862782 0.02153241
+## 3   3 0.02807018 0.01885908
+## 4   4 0.03859649 0.02453354
+## 5   5 0.03339599 0.02101059
+## 6   6 0.02813283 0.01482859
+## 7   7 0.03161028 0.02154375
+## 8   8 0.02807018 0.02368241
+## 9   9 0.02631579 0.01894953
+## 10 10 0.02985589 0.02344678
+## 11 11 0.03511905 0.02740724
+## 12 12 0.03511905 0.02185333
+## 13 13 0.03157895 0.02309756
+## 14 14 0.03157895 0.02309756
+## 15 15 0.03508772 0.02864900
+## 16 16 0.03508772 0.02742933
+## 17 17 0.03508772 0.02864900
+## 18 18 0.03684211 0.02798476
+## 19 19 0.03508772 0.03094446
+## 20 20 0.04038221 0.02618803
+## 21 21 0.04038221 0.02618803
+## 22 22 0.03687343 0.02670985
+## 23 23 0.04038221 0.02618803
+## 24 24 0.03862782 0.02715203
+## 25 25 0.04213659 0.02638087
+## 26 26 0.04392231 0.02771796
+## 27 27 0.04392231 0.02771796
+## 28 28 0.04392231 0.02771796
+## 29 29 0.04216792 0.02639532
+## 30 30 0.04038221 0.02746289</code></pre>
+<p><img src="3_1_introduction_kNN_files/figure-html/knncross-1.png" width="672" /></p>
+</div>
+<div id="boostrap" class="section level2">
+<h2><span class="header-section-number">4.2</span> Boostrap</h2>
+<p>On peut également faire du rééchantillonage :</p>
+<pre><code>## 
+## Parameter tuning of &#39;knn.wrapper&#39;:
+## 
+## - sampling method: bootstrapping 
+## 
+## - best parameters:
+##   k
+##  18
+## 
+## - best performance: 0.03650283 
+## 
+## - Detailed performance results:
+##     k      error  dispersion
+## 1   1 0.04960789 0.015107817
+## 2   2 0.05348363 0.011109256
+## 3   3 0.05208932 0.008737733
+## 4   4 0.04957252 0.009409546
+## 5   5 0.04610232 0.008329064
+## 6   6 0.04346277 0.012137074
+## 7   7 0.04603357 0.009176791
+## 8   8 0.04518929 0.011854109
+## 9   9 0.04212783 0.012025564
+## 10 10 0.04162343 0.016869806
+## 11 11 0.04207488 0.011680170
+## 12 12 0.03949031 0.012869472
+## 13 13 0.03778166 0.012741881
+## 14 14 0.03863843 0.014347384
+## 15 15 0.03774253 0.015652926
+## 16 16 0.03999183 0.015707999
+## 17 17 0.03867353 0.015721628
+## 18 18 0.03650283 0.013962684
+## 19 19 0.03740534 0.013323598
+## 20 20 0.03869368 0.014909679
+## 21 21 0.03870145 0.016603848
+## 22 22 0.03827971 0.014478321
+## 23 23 0.03867127 0.017811421
+## 24 24 0.03863700 0.017872025
+## 25 25 0.03772459 0.017179507
+## 26 26 0.03912892 0.016219015
+## 27 27 0.03864633 0.017912216
+## 28 28 0.04091349 0.019470388
+## 29 29 0.04132093 0.018204135
+## 30 30 0.04215857 0.018338582</code></pre>
+<p><img src="3_1_introduction_kNN_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+</div>
+<div id="algorithme-finale" class="section level1">
+<h1><span class="header-section-number">5</span> Algorithme finale</h1>
+<p>On ne constate pas une unique valeur de k pour laquelle le taux d’erreurs est le plus bas. Les valeurs entre 5 et 15 semblent toutes pertinentes.</p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
