@@ -351,184 +351,182 @@ div.tocify {
 
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>Pratiquement tous les journaux ont publié des statistiques des résultats du premier tour des élections présidentielles, parfois avec des visualisations par commune. La visualisation de toutes les communes de France donne une carte assez coloriée. De prime abord, ça a l’air impressionnant. Cependant comme je ne connais pas assez bien toutes les communes de France, je n’arrive pas à comprendre la signfication de la visualisation. En revanche, à l’échelle de Paris, c’est plus parlant pour moi:</p>
+<p>Pratiquement tous les journaux ont publié des statistiques des résultats du premier tour des élections présidentielles, parfois avec des visualisations par commune. La visualisation de toutes les communes de France donne une carte assez coloriée. De prime abord, ça a l’air impressionnant. Cependant comme je ne connais pas assez bien toutes les communes de France, je n’arrive pas à comprendre la signfication de la visualisation. De plus, dans les grandes villes, les résultats sont souvent différents en fonction des quartiers. Si on essaie de visualiser les résutlats des quartiers sur une carte nationale, ça devient illisible. Si on prend la moyenne au niveau de la ville, on perd de l’information.</p>
+<p>En revanche, à l’échelle de Paris, c’est plus parlant pour moi:</p>
 <div class="figure">
-<embed src="images/carteparis.png%20%7Bwidth=200px%7D" />
+<img src="images/carteparis.png" />
 
 </div>
 <p><a href="http://www.lemonde.fr/les-decodeurs/article/2017/04/28/presidentielle-souvent-divise-en-deux-paris-separe-en-trois-camps-au-premier-tour_5119253_4355770.html">source</a></p>
-<p>Pourquoi? parce que je connais certaines caractaristiques des différents arrondissements: niveau de revenu, prix immobilier, niveau d’éducation, etc. Ainsi, pour analyser les résultats de toutes les communes, on peut peut-être visualiser les votes en fonction de ces caractéristiques…</p>
+<p>Pourquoi? Parce que je connais certaines caractaristiques des différents arrondissements: niveau de revenu, prix immobilier, niveau d’éducation, etc.</p>
+<p>Ainsi, pour analyser les résultats de toutes les communes, on peut peut-être visualiser les votes en fonction de ces caractéristiques…</p>
 </div>
-<div id="premier-tour" class="section level1">
-<h1><span class="header-section-number">2</span> Premier tour</h1>
+<div id="voix-du-premier-tour" class="section level1">
+<h1><span class="header-section-number">2</span> Voix du premier tour</h1>
 <p>Les données sont issues du ministère de l’intérieur, et représentent les votes par commune. Les données démographiques sont celles de 2012, disponibles sur l’insee.</p>
 <div id="statistiques-globales" class="section level2">
 <h2><span class="header-section-number">2.1</span> Statistiques globales</h2>
-<p>On peut regarder une grande volatilité pour Marine Le Pen.</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>On peut réaliser la densité de distribution des pourcentages de votes par commune pour les 4 candidats qui ont obtenu le plus voix.</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>On peut remarquer une grande volatilité pour Marine Le Pen.</p>
 <p>Le résumé statistique des votes par communes se présente comme suit:</p>
-<pre><code>##  [1] &quot;CODGEO&quot;                                            
-##  [2] &quot;Libellé.commune.ou.ARM&quot;                            
-##  [3] &quot;Région&quot;                                            
-##  [4] &quot;Département&quot;                                       
-##  [5] &quot;Population.en.2012&quot;                                
-##  [6] &quot;Population.en.2007&quot;                                
-##  [7] &quot;Superficie&quot;                                        
-##  [8] &quot;Naissances.entre.2007.et.2012&quot;                     
-##  [9] &quot;Décès.entre.2007.et.2012&quot;                          
-## [10] &quot;Ménages.en.2012&quot;                                   
-## [11] &quot;Nombre.de.naissances.domiciliées.en.2013&quot;          
-## [12] &quot;Nombre.de.décès.domiciliés.en.2013&quot;                
-## [13] &quot;Logements.en.2012&quot;                                 
-## [14] &quot;Résidences.principales.en.2012&quot;                    
-## [15] &quot;Rés.secondaires.et.logts.occasionnels.en.2012&quot;     
-## [16] &quot;Logements.vacants.en.2012&quot;                         
-## [17] &quot;Rés.princ.occupées.Propriétaires.en.2012&quot;          
-## [18] &quot;Nombre.de.ménages.fiscaux.en.2012&quot;                 
-## [19] &quot;Part.des.ménages.fiscaux.imposés..en.2012&quot;         
-## [20] &quot;Médiane.du.revenu.disponible.par.UC.en.2012&quot;       
-## [21] &quot;Taux.de.pauvreté.en.2012&quot;                          
-## [22] &quot;Emplois.au.LT.en.2012&quot;                             
-## [23] &quot;Emplois.salariés.au.LT.en.2012&quot;                    
-## [24] &quot;Emplois.au.LT.en.2007&quot;                             
-## [25] &quot;Pop.15.64.ans.en.2012&quot;                             
-## [26] &quot;Chômeurs.15.64.ans.en.2012&quot;                        
-## [27] &quot;Actifs.15.64.ans.en.2012&quot;                          
-## [28] &quot;Total.des.ets.actifs.au.31.décembre.2012&quot;          
-## [29] &quot;Ets.actifs.agriculture.au.31.12.2012&quot;              
-## [30] &quot;Ets.actifs.industrie.au.31.12.2012&quot;                
-## [31] &quot;Ets.actifs.construction.au.31.12.2012&quot;             
-## [32] &quot;Ets.actifs.commerce.services.au.31.12.2012&quot;        
-## [33] &quot;Ets.actifs.commerce.réparation.auto.au.31.12.2012&quot; 
-## [34] &quot;Ets.actifs.adm.publique.au.31.12.2012&quot;             
-## [35] &quot;Ets.actifs.de.1.à.9.salariés.au.31.décembre.2012&quot;  
-## [36] &quot;Ets.actifs.10.salariés.ou.plus.au.31.décembre.2012&quot;
-## [37] &quot;coordonnees&quot;                                       
-## [38] &quot;Abstentions&quot;                                       
-## [39] &quot;Blancs&quot;                                            
-## [40] &quot;Exprimés&quot;                                          
-## [41] &quot;Inscrits&quot;                                          
-## [42] &quot;M. Benoît HAMON&quot;                                   
-## [43] &quot;M. Emmanuel MACRON&quot;                                
-## [44] &quot;M. François ASSELINEAU&quot;                            
-## [45] &quot;M. François FILLON&quot;                                
-## [46] &quot;M. Jacques CHEMINADE&quot;                              
-## [47] &quot;M. Jean LASSALLE&quot;                                  
-## [48] &quot;M. Jean-Luc MÉLENCHON&quot;                             
-## [49] &quot;M. Nicolas DUPONT-AIGNAN&quot;                          
-## [50] &quot;M. Philippe POUTOU&quot;                                
-## [51] &quot;Mme Marine LE PEN&quot;                                 
-## [52] &quot;Mme Nathalie ARTHAUD&quot;                              
-## [53] &quot;Nuls&quot;                                              
-## [54] &quot;Votants&quot;</code></pre>
-<div id="htmlwidget-703557c0d1ee6eab3417" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-703557c0d1ee6eab3417">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-109615a3fe20e1d425be" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-109615a3fe20e1d425be">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>NB: La moyenne ici est la moyenne des votes par commune. Pour retrouver les moyennes nationales, il faut pondérer par la population.</p>
 </div>
-<div id="densite-de-population" class="section level2">
-<h2><span class="header-section-number">2.2</span> Densité de population</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>Pour cela surcharger le graphique, la taille des points représente la population totale de la commune. La couleur représente le niveau de revenue médiane.</p>
-<p>On peut adopter l’échelle logarithmique pour la densité de la population:</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-</div>
 <div id="revenus" class="section level2">
-<h2><span class="header-section-number">2.3</span> Revenus</h2>
-<p>Revenue médiane de la commune</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<h2><span class="header-section-number">2.2</span> Revenus</h2>
+<p>On peut visualiser les votes en fonction des revenus médians par commune:</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Dans toute la suite, la couleur des points indiquera le niveau de revenu:</p>
+<ul>
+<li>le vert indique la fourchette haute</li>
+<li>plus ça tend vers la couleur orange, plus le niveau de revenu médian de la commune baisse.</li>
+<li>Si c’est gris, ça indique qu’il manque les données.</li>
+</ul>
 <p>Taux de pauvreté</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="densite-de-population" class="section level2">
+<h2><span class="header-section-number">2.3</span> Densité de population</h2>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Pour cela surcharger le graphique, la taille des points représente la population totale de la commune. La couleur représente le niveau de revenue médian.</p>
+<p>On peut adopter l’échelle logarithmique pour la densité de la population:</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="emplois" class="section level2">
 <h2><span class="header-section-number">2.4</span> Emplois</h2>
 <p>Taux de chômage</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="menages" class="section level2">
 <h2><span class="header-section-number">2.5</span> Ménages</h2>
 <p>Nombre de personnes par foyer</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Nombre de naissances en 2013 sur la population en 2012</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="logements" class="section level2">
 <h2><span class="header-section-number">2.6</span> Logements</h2>
 <p>Nombre de résidences principales occupées par les propriétaires sur le total des logements</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>Nombre de résidences secondaires et logements occasionnels sur le total de logements</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-</div>
-<div id="naissances" class="section level2">
-<h2><span class="header-section-number">2.7</span> Naissances</h2>
-<p>Nombre de naissances en 2013 sur la population en 2012</p>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>On peut remarquer aussi que les propriétaires riches votent pour Macron et les propriétaires pauvres votent pour Le Pen.</p>
+<p>Nombre de résidences secondaires et logements occasionnels sur le total de logements</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="entreprises" class="section level2">
-<h2><span class="header-section-number">2.8</span> Entreprises</h2>
-<p>Nombre d’établissements agricoles sur la population en 2012</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Nombre d’établissements de commerce et service sur la population en 2012</p>
+<h2><span class="header-section-number">2.7</span> Entreprises</h2>
+<p>Pourcentages d’établissements agricoles</p>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Nombre d’établissements de commerce et service sur la population en 2012</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="immigration" class="section level2">
+<h2><span class="header-section-number">2.8</span> Immigration</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 <div id="autres" class="section level2">
 <h2><span class="header-section-number">2.9</span> Autres</h2>
-<p>D’autres caractéristiques peuvent ^être intéressantes à étudier: immigration, catégories professionnelles, taux de criminalité, etc.</p>
+<p>Si vous souhaitez voir les votes en fonction d’autres paramètres, n’hésitez pas à commenter.</p>
+<p>D’autres caractéristiques peuvent être intéressantes à étudier: immigration, catégories professionnelles, taux de criminalité, etc.</p>
+</div>
+</div>
+<div id="gagnants-par-commune" class="section level1">
+<h1><span class="header-section-number">3</span> Gagnants par commune</h1>
+<p>On peut analyser les gagnants par commune.</p>
+<div id="densite-popoulation-et-revenu" class="section level2">
+<h2><span class="header-section-number">3.1</span> Densité popoulation et revenu</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-21-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+</div>
+<div id="chomage" class="section level2">
+<h2><span class="header-section-number">3.2</span> Chômage</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="taux-immigres" class="section level2">
+<h2><span class="header-section-number">3.3</span> Taux immigrés</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+</div>
+<div id="ecarts-candidat" class="section level1">
+<h1><span class="header-section-number">4</span> Ecarts candidat</h1>
+<p>Dans la section précédante, on analyse les gagnants par commune. Cependant, l’écart du premier peut-être plus ou moins important par rapport au deuxième. On peut analyser les communes où un score est particulièrement important, cela permet de mieux comprendre les profils de personnes qui votent pour un candidat en particulier.</p>
+<p>Par exemple, comme on a vu que le score pour Marine Le Pen était volatile, on peut analyser les communes où son score est supérieur à 40%</p>
+<div id="revenus-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Revenus</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+<div id="menages-1" class="section level2">
+<h2><span class="header-section-number">4.2</span> Ménages</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+</div>
+<div id="immigration-1" class="section level2">
+<h2><span class="header-section-number">4.3</span> Immigration</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 </div>
 </div>
 <div id="second-tour" class="section level1">
-<h1><span class="header-section-number">3</span> Second tour</h1>
+<h1><span class="header-section-number">5</span> Second tour</h1>
+<p>N’oubliez pas d’aller voter le 7 mai 2017.</p>
 </div>
-<div id="formation" class="section level1">
-<h1><span class="header-section-number">4</span> Formation</h1>
-<div id="question" class="section level2">
-<h2><span class="header-section-number">4.1</span> Question</h2>
-<p>Pourquoi visualiser une carte ? Si c’est pour voir une commune en particulier, on peut tout simplement utiliser une liste.</p>
-<p>Certains sites d’interpréter une carte, cependant, il n’est pas facile.</p>
+<div id="demarche" class="section level1">
+<h1><span class="header-section-number">6</span> Démarche</h1>
+<p>Quelques commentaires sur la façon de réaliser ces quelques graphiques.</p>
+<div id="questions" class="section level2">
+<h2><span class="header-section-number">6.1</span> Questions</h2>
+<p>Vis-à-vis des données des résultats du premier tour, on peut avoir plusieurs objectifs :</p>
+<ul>
+<li>Objectif informatif: informer les électeurs des résultats de l’élection. On peut donner des résultats brutes, pour qu’un électeur donné puisse les consulter. Cependant, il serait plus intéressant de donner quelques interprétations.</li>
+<li>Objectif prédictif: si on arrive à bien modéliser les résultats de votes en fonction des caractéristiques de la population, on pourrait alors faire des prédictions en fonction de ces caractéristiques et comprendre le profil d’électeurs qui voteraient pour un candidat en particulier.</li>
+<li>Stratégie de campagne: les candidats peuvent utiliser ces données pour mieux comprendre leurs forces et faiblesses pour mieux orienter les lieux et axes de communication.</li>
+</ul>
 </div>
 <div id="sources-de-donnees" class="section level2">
-<h2><span class="header-section-number">4.2</span> Sources de données</h2>
+<h2><span class="header-section-number">6.2</span> Sources de données</h2>
+<p>Avec le mouvement Open Data, on voit que certaines villes ont commencé à ouvrir des bases de données. Le site de data.gouv centralise un certain nombre de données. Pour les résultats de l’élection par commune, ou par bureau de votes au niveau national, à ma connaissance, il n’y a malheureusement pas une base propre qui existe.</p>
+<p><strong>Résultats officels 2017</strong></p>
+<p>Les données officielles des élections sont sur le site du Ministère de l’intérieur: <a href="http://elections.interieur.gouv.fr/presidentielle-2017/index.html">élection présidentielle 2017</a>. Malheureusement, il n’existe de fichier à télécharger directement.</p>
+<p>Il existe <a href="https://www.data.gouv.fr/fr/datasets/election-presidentielle-des-23-avril-et-7-mai-2017-resultats-du-1er-tour/">un fichier sur data gouv</a>, mais les données sont par canton de vote.</p>
+<p>Pour le département du 92, on a les données structurées. De plus, il y a les élections historiques : <a href="http://www.data.gouv.fr/fr/datasets/resultats-des-elections-presidentielles-par-commune/">élections présidentielles par commune dans le 92</a></p>
+<p><strong>Historique des élections</strong></p>
+<p>Cet <a href="https://www.nextinpact.com/news/93157-les-resultats-elections-depuis-1958-disponibles-en-open-data.htm">article</a> par des sources de données.</p>
+<p><strong>Visualisation</strong></p>
+<ul>
+<li><a href="http://www.ouest-france.fr/elections/presidentielle/carte-presidentielle-qui-est-arrive-en-tete-dans-votre-commune-4947859">Visualisation par commune sur Ouest France</a></li>
+<li><a href="http://www.liberation.fr/elections-presidentielle-legislatives-2017/2017/04/24/par-departement-ou-par-communes-plongee-au-coeur-des-resultats-du-1er-tour_1565002">Visualisation dans la Libération</a></li>
+<li><a href="https://www.slate.fr/story/144490/cartes-candidat-premier-tour-presidentielle-commune">Visualisation sur Slate</a></li>
+</ul>
+<p><strong>Par bureaux de votes</strong></p>
+<p>On a les résultats de votes <a href="https://www.data.gouv.fr/fr/datasets/election-presidentielle-2012-resultats-par-bureaux-de-vote-1/">par bureau de vote en 2012</a></p>
+<p>Les résultats <a href="http://www.lemonde.fr/les-decodeurs/article/2017/04/28/presidentielle-souvent-divise-en-deux-paris-separe-en-trois-camps-au-premier-tour_5119253_4355770.html?utm_campaign=Echobox&amp;utm_medium=Social&amp;utm_source=Twitter#link_time=1493371092">par bureau de vote à paris en 2017</a> sur cette carte, je n’ai pas trouvé la source de données.</p>
+<p><strong>Données statistiques de la population</strong></p>
+<p>On peut en trouver plein, et il faut un peut nettoyer, concaténer avant de pouvoir utiliser, un fichier que j’ai utilisé est <a href="https://www.data.gouv.fr/fr/datasets/resume-statistique-communes-departements-et-regions-france-2012-2013-2014/">un résumé statistique</a></p>
 </div>
 <div id="analyse-des-donnees" class="section level2">
-<h2><span class="header-section-number">4.3</span> Analyse des données</h2>
-<ul>
-<li>Si on récupère d’autres caractéristiques des communes, on peut d’autant mieux comprendre le choix</li>
-<li>Cela pourrait se vérifier aussi pour les élections historisques</li>
-<li>On peut ainsi construire un algorithme pour les résultats</li>
-<li>Il est possible d’utiliser les caractéristiques de la population pour d’autres</li>
-</ul>
+<h2><span class="header-section-number">6.3</span> Analyse des données</h2>
+<p><strong>Exploration des données 2017</strong></p>
+<p>Ce qui a été fait, c’est juste une exploration visuelle des données pour 2017.</p>
+<p><strong>Analyse historique</strong></p>
+<p>Si on prend en compte l’évolution temporelle, on peut déjà mieux comprendre. D’ailleurs les données statistiques de la population datent de 2012.</p>
+<p><strong>Segmentation</strong></p>
+<p>Il est possible de trouver les profils de population qui votent plus pour un candidat particulier.</p>
+<p><strong>Prédictions</strong></p>
+<p>Avec un certain nombre de variables, on peut construire un algorithme (GLM ou arbre de décision) pour prédire les votes.</p>
+<p>J’ai entendu certains instituts de sondage dire: on choisit un certain nombre de communes qui ont une bonne représentativité de la France pour estimer les résultats d’élections.</p>
+<p>J’imagine que cela que veut dire que ce sont les communes qui ont des caractéristiques similaires par rapport au niveau national. Si on sait comment certaines caractéristiques influent sur les résultats, on pourrait sans doute améliorer l’estimation, en prenant en comptes toutes les communes avec les caractéristiques correspondantes.</p>
 </div>
 <div id="visualisation" class="section level2">
-<h2><span class="header-section-number">4.4</span> Visualisation</h2>
-<p>Afin de réaliser ce petit projet, les différentes techniques mises en application sont:</p>
-<ul>
-<li>Webscrapping
-<ul>
-<li>Connaissance de la structure des pages html</li>
-<li>Manipulation des codes html</li>
-<li>Manipulation des expressions régulières</li>
-</ul></li>
-<li>Nettoyage de données
-<ul>
-<li>Manipulation des vecteurs et des <code>data.frame</code></li>
-<li>Fusion et sélection de données</li>
-</ul></li>
-<li>Machine learning
-<ul>
-<li>Apprentissage supervisé</li>
-<li>Régression</li>
-</ul></li>
-<li>Visualisation des données
-<ul>
-<li>Utilisation du package <code>ggplot2</code></li>
-<li>Types de visualisation</li>
-<li>Graphiques interactifs</li>
-<li>Formattage des tables</li>
-</ul></li>
-<li>Outil de production
-<ul>
-<li>Rmarkdown</li>
-<li>htmlwidgets</li>
-<li>Tableaux de bord</li>
-</ul></li>
-</ul>
+<h2><span class="header-section-number">6.4</span> Visualisation</h2>
+<p>La visualisation permet de mieux comprendre certaines relations de façon efficace.</p>
+<p><strong>Visualisation des voix par candidat</strong></p>
+<p>La première partie consistait à visualiser la relation entre les voix d’un candidat et une caractéristique. La couleur représente une troisième dimension. Il est possible de représenter une autre variable. Il y a une quatrième variable représentée pas la taille des points, mais c’est peu illisble à cause du nombre important de points. Il est possible de représenter encore une variable avec la transparence.</p>
+<p><strong>Gagnant par commune</strong></p>
+<p>Si on considère le gagnant, il est alors possible de mettre deux variables sur le plan.</p>
+</div>
+<div id="conclusions" class="section level2">
+<h2><span class="header-section-number">6.5</span> Conclusions</h2>
+<p><strong>Objectif informatique</strong></p>
+<p>Les graphiques, les statistiques ne sont que des <em>inputs</em>, donner des commentaires pertinents restent un travail d’importance, qui n’est pas été fait.</p>
+<p><strong>Pour aller plus loin, par exemple, on peut utiliser les données statistiques sur la popoulation pour mieux calculer une prime d’assurance habitation.</strong></p>
 </div>
 </div>
 
