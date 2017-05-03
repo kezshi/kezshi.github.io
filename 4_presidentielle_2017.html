@@ -352,6 +352,11 @@ div.tocify {
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>Pratiquement tous les journaux ont publié des statistiques des résultats du premier tour des élections présidentielles, parfois avec des visualisations par commune. La visualisation de toutes les communes de France donne une carte assez coloriée. De prime abord, ça a l’air impressionnant. Cependant comme je ne connais pas assez bien toutes les communes de France, je n’arrive pas à comprendre la signfication de la visualisation. De plus, dans les grandes villes, les résultats sont souvent différents en fonction des quartiers. Si on essaie de visualiser les résutlats des quartiers sur une carte nationale, ça devient illisible. Si on prend la moyenne au niveau de la ville, on perd de l’information.</p>
+<div class="figure">
+<img src="images/cartefrance.png" />
+
+</div>
+<p><a href="http://www.ouest-france.fr/elections/presidentielle/carte-presidentielle-qui-est-arrive-en-tete-dans-votre-commune-4947859">source</a></p>
 <p>En revanche, à l’échelle de Paris, c’est plus parlant pour moi:</p>
 <div class="figure">
 <img src="images/carteparis.png" />
@@ -370,14 +375,23 @@ div.tocify {
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>On peut remarquer une grande volatilité pour Marine Le Pen.</p>
 <p>Le résumé statistique des votes par communes se présente comme suit:</p>
-<div id="htmlwidget-109615a3fe20e1d425be" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-109615a3fe20e1d425be">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a0348765084392805d71" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a0348765084392805d71">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <p>NB: La moyenne ici est la moyenne des votes par commune. Pour retrouver les moyennes nationales, il faut pondérer par la population.</p>
 </div>
+<div id="typologies-des-communes" class="section level2">
+<h2><span class="header-section-number">2.2</span> Typologies des communes</h2>
+<p>Grâce au travail de Fabien Couprie sur la <a href="http://www.dataclear.club/index.php?post/2016/11/26/Typologie-communale">typologie des communues</a>, on peut aggréer les voix en fonction de ces typologies.</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>A cause de la variation du total par typologie, on n’arrive pas à voir clairement les pourcentages, on peut visualiser uniquement les proportions:</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Dans la suite, on peut détailler les différents composantes typologiques des communes.</p>
+</div>
 <div id="revenus" class="section level2">
-<h2><span class="header-section-number">2.2</span> Revenus</h2>
+<h2><span class="header-section-number">2.3</span> Revenus</h2>
 <p>On peut visualiser les votes en fonction des revenus médians par commune:</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>Dans toute la suite, la couleur des points indiquera le niveau de revenu:</p>
 <ul>
 <li>le vert indique la fourchette haute</li>
@@ -385,66 +399,77 @@ div.tocify {
 <li>Si c’est gris, ça indique qu’il manque les données.</li>
 </ul>
 <p>Taux de pauvreté</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 <div id="densite-de-population" class="section level2">
-<h2><span class="header-section-number">2.3</span> Densité de population</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<h2><span class="header-section-number">2.4</span> Densité de population</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Pour cela surcharger le graphique, la taille des points représente la population totale de la commune. La couleur représente le niveau de revenue médian.</p>
 <p>On peut adopter l’échelle logarithmique pour la densité de la population:</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 <div id="emplois" class="section level2">
-<h2><span class="header-section-number">2.4</span> Emplois</h2>
+<h2><span class="header-section-number">2.5</span> Emplois</h2>
 <p>Taux de chômage</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-</div>
-<div id="menages" class="section level2">
-<h2><span class="header-section-number">2.5</span> Ménages</h2>
-<p>Nombre de personnes par foyer</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>Nombre de naissances en 2013 sur la population en 2012</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-</div>
-<div id="logements" class="section level2">
-<h2><span class="header-section-number">2.6</span> Logements</h2>
-<p>Nombre de résidences principales occupées par les propriétaires sur le total des logements</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>On peut remarquer aussi que les propriétaires riches votent pour Macron et les propriétaires pauvres votent pour Le Pen.</p>
-<p>Nombre de résidences secondaires et logements occasionnels sur le total de logements</p>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
-<div id="entreprises" class="section level2">
-<h2><span class="header-section-number">2.7</span> Entreprises</h2>
-<p>Pourcentages d’établissements agricoles</p>
+<div id="menages" class="section level2">
+<h2><span class="header-section-number">2.6</span> Ménages</h2>
+<p>Nombre de personnes par foyer</p>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<p>Nombre d’établissements de commerce et service sur la population en 2012</p>
+<p>Nombre de naissances en 2013 sur la population en 2012</p>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
-<div id="immigration" class="section level2">
-<h2><span class="header-section-number">2.8</span> Immigration</h2>
+<div id="logements" class="section level2">
+<h2><span class="header-section-number">2.7</span> Logements</h2>
+<p>Nombre de résidences principales occupées par les propriétaires sur le total des logements</p>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>On peut remarquer aussi que les propriétaires riches votent pour Macron et les propriétaires pauvres votent pour Le Pen.</p>
+<p>Nombre de résidences secondaires et logements occasionnels sur le total de logements</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="entreprises" class="section level2">
+<h2><span class="header-section-number">2.8</span> Entreprises</h2>
+<p>Pourcentages d’établissements agricoles</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Nombre d’établissements de commerce et service sur la population en 2012</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="immigration" class="section level2">
+<h2><span class="header-section-number">2.9</span> Immigration</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 </div>
 <div id="autres" class="section level2">
-<h2><span class="header-section-number">2.9</span> Autres</h2>
+<h2><span class="header-section-number">2.10</span> Autres</h2>
 <p>Si vous souhaitez voir les votes en fonction d’autres paramètres, n’hésitez pas à commenter.</p>
 <p>D’autres caractéristiques peuvent être intéressantes à étudier: immigration, catégories professionnelles, taux de criminalité, etc.</p>
 </div>
 </div>
 <div id="gagnants-par-commune" class="section level1">
 <h1><span class="header-section-number">3</span> Gagnants par commune</h1>
-<p>On peut analyser les gagnants par commune.</p>
+<p>On peut analyser les gagnants par commune. On ne considère pas le gagnant absolu, mais le gagnant entre les quatre principaux candidats.</p>
+<div id="typologies-des-commnunes" class="section level2">
+<h2><span class="header-section-number">3.1</span> Typologies des commnunes</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Pour voir les pourcentages</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>NB: on compte en nombre de communes, et non pas la population.</p>
+<p>On peut classer les typopologies selon la taille de la population.</p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>On pourrait représenter la largeur des barres par la population, mais comme certaines typologies représentent une taille de population, on risque de ne rien voir.</p>
+<p>Aussi pour combiner plusieurs variables (population, nombres de communes, voix), on pourrait utiliser un treemap.</p>
+</div>
 <div id="densite-popoulation-et-revenu" class="section level2">
-<h2><span class="header-section-number">3.1</span> Densité popoulation et revenu</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-21-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+<h2><span class="header-section-number">3.2</span> Densité popoulation et revenu</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-28-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
 </div>
 <div id="chomage" class="section level2">
-<h2><span class="header-section-number">3.2</span> Chômage</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<h2><span class="header-section-number">3.3</span> Chômage</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 <div id="taux-immigres" class="section level2">
-<h2><span class="header-section-number">3.3</span> Taux immigrés</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<h2><span class="header-section-number">3.4</span> Taux immigrés</h2>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 </div>
 </div>
 <div id="ecarts-candidat" class="section level1">
@@ -453,15 +478,15 @@ div.tocify {
 <p>Par exemple, comme on a vu que le score pour Marine Le Pen était volatile, on peut analyser les communes où son score est supérieur à 40%</p>
 <div id="revenus-1" class="section level2">
 <h2><span class="header-section-number">4.1</span> Revenus</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 </div>
 <div id="menages-1" class="section level2">
 <h2><span class="header-section-number">4.2</span> Ménages</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 </div>
 <div id="immigration-1" class="section level2">
 <h2><span class="header-section-number">4.3</span> Immigration</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 </div>
 </div>
 <div id="second-tour" class="section level1">
