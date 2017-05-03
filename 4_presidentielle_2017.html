@@ -349,6 +349,17 @@ div.tocify {
 </div>
 
 
+<div class="alert alert-dismissible alert-warning">
+<button type="button" class="close" data-dismiss="alert">
+×
+</button>
+<h4>
+Actualisation de la page
+</h4>
+<p>
+Afin de visualiser le contenu mis à jour, vous devez actualiser la page active, sans tenir compte du contenu mis en cache. Pour Chrome (sous Mac), vous pouvez utiliser le racourci: ⌘+Maj+R
+</p>
+</div>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>Pratiquement tous les journaux ont publié des statistiques des résultats du premier tour des élections présidentielles, parfois avec des visualisations par commune. La visualisation de toutes les communes de France donne une carte assez coloriée. De prime abord, ça a l’air impressionnant. Cependant comme je ne connais pas assez bien toutes les communes de France, je n’arrive pas à comprendre la signfication de la visualisation. De plus, dans les grandes villes, les résultats sont souvent différents en fonction des quartiers. Si on essaie de visualiser les résutlats des quartiers sur une carte nationale, ça devient illisible. Si on prend la moyenne au niveau de la ville, on perd de l’information.</p>
@@ -375,8 +386,8 @@ div.tocify {
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>On peut remarquer une grande volatilité pour Marine Le Pen.</p>
 <p>Le résumé statistique des votes par communes se présente comme suit:</p>
-<div id="htmlwidget-a0348765084392805d71" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a0348765084392805d71">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a36470d12d0b01cc9568" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a36470d12d0b01cc9568">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <p>NB: La moyenne ici est la moyenne des votes par commune. Pour retrouver les moyennes nationales, il faut pondérer par la population.</p>
 </div>
@@ -450,26 +461,26 @@ div.tocify {
 <p>On peut analyser les gagnants par commune. On ne considère pas le gagnant absolu, mais le gagnant entre les quatre principaux candidats.</p>
 <div id="typologies-des-commnunes" class="section level2">
 <h2><span class="header-section-number">3.1</span> Typologies des commnunes</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/typo_gagnant-1.png" width="672" /></p>
 <p>Pour voir les pourcentages</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/typo_gagnant_pourcentage-1.png" width="672" /></p>
 <p>NB: on compte en nombre de communes, et non pas la population.</p>
 <p>On peut classer les typopologies selon la taille de la population.</p>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>On pourrait représenter la largeur des barres par la population, mais comme certaines typologies représentent une taille de population, on risque de ne rien voir.</p>
 <p>Aussi pour combiner plusieurs variables (population, nombres de communes, voix), on pourrait utiliser un treemap.</p>
 </div>
 <div id="densite-popoulation-et-revenu" class="section level2">
 <h2><span class="header-section-number">3.2</span> Densité popoulation et revenu</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-28-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-26-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
 </div>
 <div id="chomage" class="section level2">
 <h2><span class="header-section-number">3.3</span> Chômage</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 </div>
 <div id="taux-immigres" class="section level2">
 <h2><span class="header-section-number">3.4</span> Taux immigrés</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 </div>
 </div>
 <div id="ecarts-candidat" class="section level1">
@@ -478,15 +489,15 @@ div.tocify {
 <p>Par exemple, comme on a vu que le score pour Marine Le Pen était volatile, on peut analyser les communes où son score est supérieur à 40%</p>
 <div id="revenus-1" class="section level2">
 <h2><span class="header-section-number">4.1</span> Revenus</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 </div>
 <div id="menages-1" class="section level2">
 <h2><span class="header-section-number">4.2</span> Ménages</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 </div>
 <div id="immigration-1" class="section level2">
 <h2><span class="header-section-number">4.3</span> Immigration</h2>
-<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 </div>
 </div>
 <div id="second-tour" class="section level1">
