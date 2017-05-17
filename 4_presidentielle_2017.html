@@ -286,25 +286,57 @@ div.tocify {
     Accueil
   </a>
 </li>
-<li>
-  <a href="0_preparation.html">
-    <span class="fa fa-table"></span>
-     
-    Préparation
-  </a>
-</li>
-<li>
-  <a href="0_analytics.html">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-flask"></span>
      
-    Analytics
+    Data Science
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_manipulation.html">
+        <span class="fa fa-table"></span>
+         
+        Manipulation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-calculator"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="0_datavis.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="0_datavis.html">
-    <span class="fa fa-line-chart"></span>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
      
-    Visualisation
+    Blockchain
   </a>
 </li>
 <li>
@@ -312,6 +344,13 @@ div.tocify {
     <span class="fa fa-heartbeat"></span>
      
     Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
   </a>
 </li>
 <li class="dropdown">
@@ -349,17 +388,13 @@ div.tocify {
 </div>
 
 
+<!--
 <div class="alert alert-dismissible alert-warning">
-<button type="button" class="close" data-dismiss="alert">
-×
-</button>
-<h4>
-Actualisation de la page
-</h4>
-<p>
-Afin de visualiser le contenu mis à jour, vous devez actualiser la page active, sans tenir compte du contenu mis en cache. Pour Chrome (sous Mac), vous pouvez utiliser le racourci: ⌘+Maj+R
-</p>
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Actualisation de la page</h4>
+  <p>Afin de visualiser le contenu mis à jour, vous devez actualiser la page active, sans tenir compte du contenu mis en cache. Pour Chrome (sous Mac), vous pouvez utiliser le racourci: ⌘+Maj+R </p>
 </div>
+-->
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <p>Pratiquement tous les journaux ont publié des statistiques des résultats du premier tour des élections présidentielles, parfois avec des visualisations par commune. La visualisation de toutes les communes de France donne une carte assez coloriée. De prime abord, ça a l’air impressionnant. Cependant comme je ne connais pas assez bien toutes les communes de France, je n’arrive pas à comprendre la signfication de la visualisation. De plus, dans les grandes villes, les résultats sont souvent différents en fonction des quartiers. Si on essaie de visualiser les résutlats des quartiers sur une carte nationale, ça devient illisible. Si on prend la moyenne au niveau de la ville, on perd de l’information.</p>
@@ -386,8 +421,8 @@ Afin de visualiser le contenu mis à jour, vous devez actualiser la page active,
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>On peut remarquer une grande volatilité pour Marine Le Pen.</p>
 <p>Le résumé statistique des votes par communes se présente comme suit:</p>
-<div id="htmlwidget-a36470d12d0b01cc9568" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a36470d12d0b01cc9568">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9de2e049784f1a07d2bd" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9de2e049784f1a07d2bd">{"x":{"filter":"none","data":[["MACRON","LE PEN","FILLON","MELENCHON"],[0,0,0,0],[0.1652,0.1987,0.1486,0.1308],[0.202,0.2594,0.1892,0.1667],[0.204,0.2635,0.1996,0.1724],[0.2409,0.3245,0.2381,0.2067],[0.7711,0.8372,0.8468,0.7317],[0.05998,0.09123,0.07687,0.06627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>min\u003c/th>\n      <th>q25\u003c/th>\n      <th>med\u003c/th>\n      <th>mean\u003c/th>\n      <th>q75\u003c/th>\n      <th>max\u003c/th>\n      <th>sd\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="4_presidentielle_2017_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <p>NB: La moyenne ici est la moyenne des votes par commune. Pour retrouver les moyennes nationales, il faut pondérer par la population.</p>
 </div>

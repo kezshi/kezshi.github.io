@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Reconnaissance optique de caractères</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -162,6 +165,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -193,28 +291,28 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="0_preparation.html">
+      <a href="1_0_collecte.html">
         <span class="fa fa-hand-paper-o"></span>
          
         Collecte des données
       </a>
     </li>
     <li>
-      <a href="0_analytics.html">
+      <a href="2_0_manipulation.html">
         <span class="fa fa-table"></span>
          
         Manipulation des données
       </a>
     </li>
     <li>
-      <a href="0_analytics.html">
+      <a href="3_0_analytics.html">
         <span class="fa fa-calculator"></span>
          
         Analyse des données
       </a>
     </li>
     <li>
-      <a href="0_datavis.html">
+      <a href="4_0_datavis.html">
         <span class="fa fa-line-chart"></span>
          
         Visualisation des données
@@ -230,7 +328,7 @@ $(document).ready(function () {
   </ul>
 </li>
 <li>
-  <a href="0_actuariat.html">
+  <a href="0_blockchain.html">
     <span class="fa fa-btc"></span>
      
     Blockchain
@@ -244,7 +342,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="0_actuariat.html">
+  <a href="0_formations.html">
     <span class="fa fa-graduation-cap"></span>
      
     Formations
@@ -280,24 +378,37 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Reconnaissance optique de caractères</h1>
 
 </div>
 
 
-<p>Pour avoir une vision globale de Data Science, voici quelques informations intéressantes.</p>
-<ul>
-<li>Compétences Data Science</li>
-<li>Data Science Process</li>
-</ul>
-<div id="data-science-venn-diagram" class="section level1">
-<h1>Data Science Venn Diagram</h1>
-<p>On peut trouver beaucoup de Venn Diagrammes différents pour les compétences data science, voici un exemple:</p>
-<p><img src="http://blog.operasolutions.com/hs-fs/hub/213893/file-730245378-jpg/images/os_signalcentral_what_is_data_science_gp_2014_v1.2_venn_diagram.jpg?t=1487881469000&width=1200&height=1234&name=os_signalcentral_what_is_data_science_gp_2014_v1.2_venn_diagram.jpg" width="600px" /></p>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Avec la gestion électronique des documents en plus en plus généralisée dans les entreprises, les documents sont centralisés, et partagés entre différentes parties.</p>
+<p>Les documents sont en général scannés en PDF. De plus en plus de scanneurs font la reconnaissance de caractères. Mais ce n’est pas le cas pour tous.</p>
+<p>Pour l’automatisation de certaines tâches, on pourrait dans un premier temps extraire les données textuelles dans les fichiers PDF.</p>
 </div>
-<div id="data-science-process" class="section level1">
-<h1>Data Science Process</h1>
-<p><img src="http://blog.operasolutions.com/hs-fs/hub/213893/file-725863214-jpg/images/os_signalcentral_what_is_data_science_gp_2014_v1.2_the_data_science_process.jpg?t=1487881469000&width=1200&height=1394&name=os_signalcentral_what_is_data_science_gp_2014_v1.2_the_data_science_process.jpg" width="600px" /></p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Data_visualization_process_v1.png/525px-Data_visualization_process_v1.png" width="600px" /></p>
+<div id="ocr-des-images" class="section level1">
+<h1><span class="header-section-number">2</span> OCR des images</h1>
+<p>L’image suivante est une capture d’écran avec une qualité moyenne.</p>
+<div class="figure">
+<img src="images/text.png" />
+
+</div>
+<p>On peut utiliser R pour extraire le contenu textuel.</p>
+<pre><code>## [1] &quot;Reconnalssance opthue de caracteres\n\nLa mnnzussanee apllque de camﬁres moo), en znglals upncalonalam‘el Ieoognman 10cm, on ooénsanan, de&#39;slgne\nIes procéde&#39;s Inlormzllques pour la Irzducmn d&#39;lnges de Iexles Impnmés on dzaylogrzpmés en mueus de Iexle\n\nUn ordlnzleur réclame pour rexécumn de celle ﬁche un Iogmel d&#39;OCR Celm—cl permel de récupérer Ie lexle dzns nnge\nd&#39;un Iexle Impnmé el de Ie sauvegzrder dzns un ﬂcmer pouvznl élre exploné dzns un lranemem Ge lexle pour\nenrlcnlsemem, el slocké dzns we base de données ou sur un zulre supporl exploitable par un sysléme Inlormzllque\n\n&quot;</code></pre>
+<p>Avec une qualité meilleure, la performance est aussi meilleure.</p>
+<div class="figure">
+<img src="images/text2.png" />
+
+</div>
+<pre><code>## [1] &quot;. . \\\nReconnalssance opthue de caracteres\nLa reconnaissance optique de caractéres (ROC), en anglais optical character recognition (OCR), ou océrisation,\ndésigne les procédés informatiques pour la traduction d&#39;images de textes imprimés ou dactylographiés en ﬁchiers de\ntexte.\nUn ordinateur réclame pour l‘exécution de cette téche un logiciel d&#39;OCR. Celui-ci permet de récupérer le texte dans\nl‘image d&#39;un texte imprimé et de le sauvegarder dans un ﬁchier pouvant étre exploité dans un traitement de texte pour\nenrichissement, et stocké dans une base de données ou sur un autre support exploitable par un systéme informatique.\n\n&quot;</code></pre>
+<p>La reconnaissance n’est pas parfaite. L’étape suivante consiste à nettoyer le fichier. Selon les objectifs différentes méthodes peuvent être adoptées.</p>
+</div>
+<div id="ocr-des-pdf" class="section level1">
+<h1><span class="header-section-number">3</span> OCR des PDF</h1>
+<p>On peut d’abord transformer les fichiers en image, puis procéder à la reconnaissance de caractères.</p>
 </div>
 
 <div id="disqus_thread"></div>
@@ -326,6 +437,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 

@@ -1,6 +1,6 @@
-name: "Blog de Kezhan SHI"
+name: "Blog de Kezhan SHI - Data Scientist et Actuaire"
 navbar:
-  title: "Blog de Kezhan SHI"
+  title: "Blog de Kezhan SHI - Data Scientist et Actuaire"
   left:
     - text: "Accueil"
       icon: fa-home
