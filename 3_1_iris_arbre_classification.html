@@ -11,7 +11,7 @@
 
 
 
-<title>Collecte des données</title>
+<title>Arbre de classification avec la base iris</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -291,13 +291,6 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="0_ds_preambule.html">
-        <span class="fa fa-pencil-square-o"></span>
-         
-        Préambule
-      </a>
-    </li>
-    <li>
       <a href="1_0_collecte.html">
         <span class="fa fa-hand-paper-o"></span>
          
@@ -313,7 +306,7 @@ div.tocify {
     </li>
     <li>
       <a href="3_0_analytics.html">
-        <span class="fa fa-cogs"></span>
+        <span class="fa fa-calculator"></span>
          
         Analyse des données
       </a>
@@ -385,115 +378,175 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Collecte des données</h1>
+<h1 class="title toc-ignore">Arbre de classification avec la base iris</h1>
 
 </div>
 
 
-<div id="sources-de-donnees" class="section level1">
-<h1><span class="header-section-number">1</span> Sources de données</h1>
+<div id="arbre-de-classification" class="section level1">
+<h1><span class="header-section-number">1</span> Arbre de classification</h1>
+<div id="construction" class="section level2">
+<h2><span class="header-section-number">1.1</span> Construction</h2>
 <ul>
-<li>Données internes structurées</li>
-<li>Dark Data (présentes en entreprises, mais non exploitées)
+<li>Créer deux bases : apprentisage et test</li>
+<li>Construire un arbre de décision sur la base d’apprentissage avec la librairie <code>party</code>, et la fonction <code>ctree(variable à expliquer ~ variable 1 + variable 2)</code></li>
+<li>Afficher l’arbre avec <code>print</code> et <code>plot</code></li>
+</ul>
+<pre class="r"><code>ind &lt;- sample(2, nrow(iris), replace=TRUE, prob=c(0.7, 0.3))
+trainData &lt;- iris[ind==1,]
+testData &lt;- iris[ind==2,]
+library(party)
+myFormula &lt;- Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
+iris_ctree &lt;- ctree(myFormula, data=trainData)</code></pre>
+</div>
+<div id="arbre-visualise" class="section level2">
+<h2><span class="header-section-number">1.2</span> Arbre visualisé</h2>
+<pre class="r"><code>plot(iris_ctree)</code></pre>
+<p><img src="3_1_iris_arbre_classification_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>print(iris_ctree)</code></pre>
+<pre><code>## 
+##   Conditional inference tree with 4 terminal nodes
+## 
+## Response:  Species 
+## Inputs:  Sepal.Length, Sepal.Width, Petal.Length, Petal.Width 
+## Number of observations:  107 
+## 
+## 1) Petal.Length &lt;= 1.9; criterion = 1, statistic = 99.688
+##   2)*  weights = 35 
+## 1) Petal.Length &gt; 1.9
+##   3) Petal.Width &lt;= 1.7; criterion = 1, statistic = 47.627
+##     4) Petal.Length &lt;= 4.6; criterion = 0.994, statistic = 9.937
+##       5)*  weights = 27 
+##     4) Petal.Length &gt; 4.6
+##       6)*  weights = 10 
+##   3) Petal.Width &gt; 1.7
+##     7)*  weights = 35</code></pre>
+</div>
+<div id="analyse" class="section level2">
+<h2><span class="header-section-number">1.3</span> Analyse</h2>
 <ul>
-<li>Données web méta données</li>
-<li>Données des réseaux sociaux suite aux actions de marketing</li>
-<li>Mailing (taux d’ouverture, taux de réponse, etc.)</li>
-<li>Enquêtes de satisfaction (choix et données textuelles)</li>
-<li>Données voix via téléphone</li>
-<li>Images</li>
-</ul></li>
-<li>Données publiques</li>
-<li>Données à la vente par des prestataires</li>
-<li>Données des autres entreprises (Kaggle, et autres compétitions)</li>
-<li>Données des objets connectées</li>
+<li>Quelle est la varialbe la plus explicative ?</li>
+<li>Quelle est la précision de prédiction ?</li>
+<li>Combien a-t-on de branches et de feuilles ?</li>
 </ul>
 </div>
-<div id="dark-data" class="section level1">
-<h1><span class="header-section-number">2</span> Dark Data</h1>
-<p>Une grande partie des données stockées par les entreprises ne sont pas exploitées. Pour cause, certaines données sont non-structurées et nécessitent des techniques de nettoyage de données.</p>
-<p>On peut citer quelques exemples:</p>
-<ul>
-<li>des fichiers PDF scanés qui nécessitent une <a href="2_ocr.html">reconnaissance optique de caractères</a></li>
-<li>des adresses qui ne sont pas exploitées à cause des fautes d’orthographes</li>
-<li>des données textes</li>
-</ul>
+<div id="table-de-confusion" class="section level2">
+<h2><span class="header-section-number">1.4</span> Table de confusion</h2>
+<pre class="r"><code>table(predict(iris_ctree), trainData$Species)</code></pre>
+<pre><code>##             
+##              setosa versicolor virginica
+##   setosa         35          0         0
+##   versicolor      0         33         4
+##   virginica       0          1        34</code></pre>
+<p>Calculer les taux de faux positif, faux négatifs, taux d’erreur</p>
 </div>
-<div id="web-scraping" class="section level1">
-<h1><span class="header-section-number">3</span> Web-scraping</h1>
-<p>Des données affichées sur des sites internet peuvent être récupérées de façon structurée grâce à des techniques de web-scraping.</p>
-<ul>
-<li><a href="1_web_scraping.html">Technique de base du web-scraping</a></li>
-</ul>
+<div id="prediction" class="section level2">
+<h2><span class="header-section-number">1.5</span> Prédiction</h2>
+<pre class="r"><code>testPred &lt;- predict(iris_ctree, newdata = testData)
+table(testPred, testData$Species)</code></pre>
+<pre><code>##             
+## testPred     setosa versicolor virginica
+##   setosa         15          0         0
+##   versicolor      0         16         1
+##   virginica       0          0        11</code></pre>
+<p>Calculer les taux de faux positif, faux négatifs, taux d’erreur Pour aller plus loin : créer une boucle pour calculer un taux moyen d’erreur Autre pacakge <code>rpart</code> pour construire un arbre de décision</p>
 </div>
-<div id="open-data" class="section level1">
-<h1><span class="header-section-number">4</span> Open data</h1>
-<div id="portails-institutionnels" class="section level2">
-<h2><span class="header-section-number">4.1</span> Portails institutionnels</h2>
-<p><strong>Portail des données institutionnelles françaises</strong></p>
-<ul>
-<li><a href="https://www.data.gouv.fr/fr/">Data gouv</a></li>
-<li><a href="https://www.banque-france.fr/economie-et-statistiques/base-de-donnees.html">Banque de France</a></li>
-<li><a href="https://data.sncf.com/">SNCF</a></li>
-<li><a href="http://data.ratp.fr/explore/?sort=modified">RATP</a></li>
-<li><a href="https://opendata.paris.fr/page/home/">Open Data Paris</a></li>
-<li><a href="https://dataparis.io/">Visualisation données par métro parisien</a></li>
-<li><a href="https://data.infogreffe.fr/page/index/">Greffes des tribunaux de commerce</a></li>
-</ul>
-<p><strong>Portail des données institutionnelles internationales</strong></p>
-<ul>
-<li><a href="http://stats.oecd.org/">OCDE</a></li>
-<li><a href="http://ec.europa.eu/eurostat/data/database">Eurostat: niveau européen</a></li>
-<li><a href="http://data.worldbank.org/">Banque mondiale</a></li>
-</ul>
+<div id="visualisation" class="section level2">
+<h2><span class="header-section-number">1.6</span> Visualisation</h2>
+<pre class="r"><code>library(tree)
+tr &lt;- tree(Species ~ ., iris)
+tr &lt;- tree(Species ~ Sepal.Width + Petal.Width, trainData)</code></pre>
+<pre class="r"><code>predict(tr, newdata = testData,type = &quot;class&quot;) </code></pre>
+<pre><code>##  [1] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [7] setosa     setosa     setosa     setosa     setosa     setosa    
+## [13] setosa     setosa     setosa     versicolor virginica  versicolor
+## [19] versicolor versicolor versicolor versicolor virginica  versicolor
+## [25] versicolor virginica  versicolor versicolor versicolor versicolor
+## [31] versicolor virginica  virginica  virginica  virginica  virginica 
+## [37] virginica  virginica  virginica  virginica  virginica  virginica 
+## [43] virginica 
+## Levels: setosa versicolor virginica</code></pre>
+<pre class="r"><code>plot(Sepal.Width ~ Petal.Width, iris, col = as.numeric(iris$Species), pch = 19); legend(&quot;topright&quot;, legend = levels(iris$Species), col = seq(levels(iris$Species)), pch = 19)
+partition.tree(tr, label = &quot;Species&quot;, add = TRUE)</code></pre>
+<p><img src="3_1_iris_arbre_classification_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
-<div id="meteo-et-risques-naturels" class="section level2">
-<h2><span class="header-section-number">4.2</span> Météo et risques naturels</h2>
-<p><strong>Données météorologiques</strong></p>
-<ul>
-<li><a href="http://eca.knmi.nl/dailydata/index.php">Bases journalières pour quelques stations en Europe</a></li>
-<li><a href="http://www.infoclimat.fr/observations-meteo/temps-reel/paris-6eme-saint-germain-des-pres/000CT.html">Données par heure pour de nombreuses stations dans le monde</a></li>
-</ul>
-<p><strong>Risque naturels géographiques</strong></p>
-<ul>
-<li><a href="http://www.georisques.gouv.fr/">georisques</a></li>
-</ul>
 </div>
-<div id="autres-sites-de-depots" class="section level2">
-<h2><span class="header-section-number">4.3</span> Autres sites de dépôts</h2>
-<p><strong>Finance</strong></p>
-<ul>
-<li><a href="https://www.quandl.com/">Quandl</a></li>
-</ul>
-<p><strong>Données diverses et autres dépôts</strong></p>
-<ul>
-<li><a href="http://fr.openfoodfacts.org/">Open Food facts</a></li>
-<li><a href="http://dataverse.org/">Données diverses de recherche</a></li>
-<li><a href="http://www.google.com/publicdata/directory">Google public data</a></li>
-<li><a href="https://archive.ics.uci.edu/ml/index.html">UCI machine learnging repository</a></li>
-<li><a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html">R dataset</a></li>
-</ul>
+<div id="forets-aleatoires" class="section level1">
+<h1><span class="header-section-number">2</span> Forêts aléatoires</h1>
+<div id="introduction" class="section level2">
+<h2><span class="header-section-number">2.1</span> Introduction</h2>
+<p>Si on n’a pas fixé le <code>seed()</code> on voit que les échantillons d’apprentissage et de test sont choisis de façon aléatoire. La bagging permet de réaliser ces opérations automatiques. De plus, on peut aussi choisir les variables. Les deux randomisations ensemble, on obtient une forêt aléatoire.</p>
+<pre class="r"><code>library(randomForest)</code></pre>
+<pre><code>## randomForest 4.6-12</code></pre>
+<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
+<pre class="r"><code>rf &lt;- randomForest(Species ~ ., data=trainData, ntree=100, proximity=TRUE)</code></pre>
 </div>
-<div id="exemples-de-donnees" class="section level2">
-<h2><span class="header-section-number">4.4</span> Exemples de données</h2>
-<p><strong>Automobile</strong></p>
-<ul>
-<li><a href="https://www.data.gouv.fr/fr/datasets/base-de-donnees-accidents-corporels-de-la-circulation/">Données sur les sinistres automobiles corporels</a></li>
-<li><a href="http://carlabelling.ademe.fr/">Données caractéristiques des véhicules neufs</a> avec le <a href="https://www.data.gouv.fr/fr/datasets/emissions-de-co2-et-de-polluants-des-vehicules-commercialises-en-france/">lien data gouv</a></li>
-</ul>
-<p><strong>Données démographiques</strong></p>
-<ul>
-<li><a href="http://public.opendatasoft.com/explore/dataset/correspondance-code-insee-code-postal/">Correspondance code postal insee 2013 avec altitude, superficie, population et gécodage</a></li>
-<li><a href="http://datanova.legroupe.laposte.fr/explore/dataset/carte-des-codes-postaux/table/">Carte des Codes Postaux 2016</a>: données de la Poste, centroïdes des codes postaux</li>
-<li><a href="http://public.opendatasoft.com/explore/dataset/evolution-et-structure-de-la-population-france-2012-categories-socio-professionn/information/">Catégories socio-professionnelles</a></li>
-<li><a href="http://public.opendatasoft.com/explore/dataset/evolution-et-structure-de-la-population-france-2012-migrations-residentielles/information/">Migrations résidentielles</a></li>
-<li><a href="http://public.opendatasoft.com/explore/dataset/resume-statistique-communes-departements-et-regions-france-2012-2013-2014/">Résumés statistiques des communes, départements et régions</a></li>
-<li><a href="http://public.opendatasoft.com/explore/dataset/capacite-des-communes-en-hebergement-touristique-2015/">Capacités des communes en hébergement touristique</a></li>
-<li><a href="http://public.opendatasoft.com/explore/dataset/revenus-imposables-et-montant-des-impots-1998-2005/">Revenus imposables et montants des impôts</a></li>
-<li><a href="http://public.opendatasoft.com/explore/dataset/equip-sport-loisir-socio-infra-2014/">Equipement sports et loisir par commune</a></li>
-<li><a href="http://public.opendatasoft.com/explore/dataset/deces-par-commune-departement-et-region-de-2003-a-2013/">Décès par commune, départements et régions</a></li>
-<li><a href="http://www.insee.fr/fr/methodes/default.asp?page=zonages/iris.htm">Découpage IRIS</a></li>
-</ul>
+<div id="analyse-1" class="section level2">
+<h2><span class="header-section-number">2.2</span> Analyse</h2>
+<pre class="r"><code>table(predict(rf), trainData$Species)</code></pre>
+<pre><code>##             
+##              setosa versicolor virginica
+##   setosa         35          0         0
+##   versicolor      0         32         2
+##   virginica       0          2        36</code></pre>
+<pre class="r"><code>print(rf)</code></pre>
+<pre><code>## 
+## Call:
+##  randomForest(formula = Species ~ ., data = trainData, ntree = 100,      proximity = TRUE) 
+##                Type of random forest: classification
+##                      Number of trees: 100
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 3.74%
+## Confusion matrix:
+##            setosa versicolor virginica class.error
+## setosa         35          0         0  0.00000000
+## versicolor      0         32         2  0.05882353
+## virginica       0          2        36  0.05263158</code></pre>
+<pre class="r"><code>attributes(rf)</code></pre>
+<pre><code>## $names
+##  [1] &quot;call&quot;            &quot;type&quot;            &quot;predicted&quot;      
+##  [4] &quot;err.rate&quot;        &quot;confusion&quot;       &quot;votes&quot;          
+##  [7] &quot;oob.times&quot;       &quot;classes&quot;         &quot;importance&quot;     
+## [10] &quot;importanceSD&quot;    &quot;localImportance&quot; &quot;proximity&quot;      
+## [13] &quot;ntree&quot;           &quot;mtry&quot;            &quot;forest&quot;         
+## [16] &quot;y&quot;               &quot;test&quot;            &quot;inbag&quot;          
+## [19] &quot;terms&quot;          
+## 
+## $class
+## [1] &quot;randomForest.formula&quot; &quot;randomForest&quot;</code></pre>
+<pre class="r"><code>importance(rf)</code></pre>
+<pre><code>##              MeanDecreaseGini
+## Sepal.Length         5.826681
+## Sepal.Width          1.696178
+## Petal.Length        28.034735
+## Petal.Width         34.790163</code></pre>
+<pre class="r"><code>varImpPlot(rf)</code></pre>
+<p><img src="3_1_iris_arbre_classification_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>plot(rf)</code></pre>
+<p><img src="3_1_iris_arbre_classification_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre class="r"><code>layout(matrix(c(1,2),nrow=1),
+       width=c(4,1)) 
+par(mar=c(5,4,4,0)) #No margin on the right side
+plot(rf, log=&quot;y&quot;)</code></pre>
+<pre><code>## Warning in xy.coords(x, y, xlabel, ylabel, log = log): 98 y values &lt;= 0
+## omitted from logarithmic plot</code></pre>
+<pre class="r"><code>par(mar=c(5,0,4,2)) #No margin on the left side
+plot(c(0,1),type=&quot;n&quot;, axes=F, xlab=&quot;&quot;, ylab=&quot;&quot;)
+legend(&quot;top&quot;, colnames(rf$err.rate),col=1:4,cex=0.8,fill=1:4)</code></pre>
+<p><img src="3_1_iris_arbre_classification_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+</div>
+<div id="prediction-1" class="section level2">
+<h2><span class="header-section-number">2.3</span> Prédiction</h2>
+<pre class="r"><code>irisPred &lt;- predict(rf, newdata=testData)
+table(irisPred, testData$Species)</code></pre>
+<pre><code>##             
+## irisPred     setosa versicolor virginica
+##   setosa         15          0         0
+##   versicolor      0         15         1
+##   virginica       0          1        11</code></pre>
+<pre class="r"><code>plot(margin(rf, testData$Species))</code></pre>
+<p><img src="3_1_iris_arbre_classification_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
 

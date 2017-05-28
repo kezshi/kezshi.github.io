@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Introduction à la classification Naïve bayésienne</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Data Science
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_manipulation.html">
+        <span class="fa fa-table"></span>
+         
+        Manipulation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-calculator"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="5_0_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
+     
+    Blockchain
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction à la classification Naïve bayésienne</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>En effet, à l’heure actuelle où le phénomène de Big Data envahit le monde professionnel et notre société, les algorithmes sont devenus un outil puissant qui semble être capable de tout faire, et règner sur nous comme laisse croire cet article <a href="https://medium.com/enrique-dans/will-algorithms-rule-our-lives-or-do-they-already-e4db08fd1a6b#.fuwbyg265">les algorithmes vont-ils gouverner notre vie, ou est-ce peut-être déjà le cas ?</a>.</p>
+<p>En entrant des mots clés comme “algorithme machine learning”, “apprentissage automatique” dans un moteur de recherche, on peut trouver de nombreuses méthodes. Par exemple, je suis tombé sur <a href="http://blogs.msdn.com/b/big_data_france/archive/2013/04/24/apprentissage-automatique-machine-learning.aspx">cet article qui parle de l’apprentissage automatique</a>. On peut trouver plusieurs algorithmes :</p>
+<ul>
+<li>Régression logistique (SGV)</li>
+<li>Classification Bayésienne</li>
+<li>Machine à vecteurs de support (SVM)</li>
+<li>Réseau neuronaux</li>
+<li>Forêts d’arbres décisionnels (Random Forest)</li>
+<li>Le Boosting</li>
+<li>K-moyennes (KMeans)</li>
+<li>Fuzzy KMeans</li>
+<li>Espérance-Maximisation</li>
+<li>Regroupement hiérarchique</li>
+</ul>
+<p>La classification naïve bayésienne (naive bayes en anglais) était un algorithme que je ne connaissais pas. Après quelques recherches, j’ai trouvé de nombreux articles assez facilement qui m’ont permis de comprendre le principe, puis j’ai trouvé également une fonction R toute faite, qui permet d’appliquer cet algorithme. Afin de vérifier que j’ai bien compris, j’ai reproduit moi-même le résultat de l’algorithme sous R.</p>
+<p>J’ai tiré quelques conclusions intéressantes :</p>
+<ul>
+<li>Internet est regorgé de ressources, mais il faut savoir trouver les bons articles.</li>
+<li>Il ne faut pas faire confiance aux écrits trouvés sur internet de façon aveugle, et il faut savoir identifier d’éventuelles erreurs.</li>
+<li>Le fait de l’expliquer en écrivant permet mieux comprendre encore.</li>
+</ul>
+<p>Ainsi, je me suis dit qu’il vallait le coup de partager cet expérience, en écrivant comment j’ai fait.</p>
+</div>
+<div id="comprendre-et-appliquer-lalgorithme" class="section level1">
+<h1><span class="header-section-number">2</span> Comprendre et appliquer l’algorithme</h1>
+<div id="principe-de-lalgorithme" class="section level2">
+<h2><span class="header-section-number">2.1</span> Principe de l’algorithme</h2>
+<p>Pour comprendre le principe de l’algorithme, j’ai entré plusieurs mots clés comme “naive bayes explanation”, “naive bayes intuition”. En effet, il faut admettre que les ressources en anglais plus beaucoup plus riches qu’en français; aussi au lieu de chercher des articles scientifiques, avec plein de formules mathématiques, je préfère d’abord avoir des explications en français (ou plôtut en anglais). En général, les autres se sont déjà posés les mêmes questions, et il n’est difficile de tomber sur de bons résultats facilement. Avec le temps, je commence aussi à avoir deux sites en tête <a href="http://stackoverflow.com/">stackoverflow</a> et <a href="https://www.quora.com/">quora</a> sur lesquels j’y vais parfois directement. Justement l’article suivant <a href="http://stackoverflow.com/questions/10059594/a-simple-explanation-of-naive-bayes-classification">a simple explanation of naive bayes classification</a> est sur le site de stackoverflow.</p>
+<p>En survolant la page en 30 secondes, il est intéressant de remarquer:</p>
+<ul>
+<li>La question a reçu plus de 200 votes : un grand nombre de personnes se pose exactement la même question.</li>
+<li>La réponse acceptée par l’auteur a reçu 365 votes, c’est exceptionnel. Mais si on lit un peu plus, il s’agit en réalité d’un copier coller d’un article du site de statsoft. Et en général, si on cherche bien, on peut trouver d’autres articles. Mais ce que le site de stackoverflow propose, c’est une validation par la communauté.</li>
+<li>Une seconde réponse a reçu 437 réponses, et dès le début de la réponse, on voit qu’il soulève un point important : dans la réponse acceptée par l’auteur, deux algorithmes sont mélangés (naive bayes et kNN). Quand je parlais de validation par la communauté, on voit qu’une faille existe également, l’open source est une épée à double tranchant : la ressource est disponible gratuitement et tout le monde a accès, pour modifier et critiquer, mais il n’est pour autant toujours juste et pertinent.</li>
+</ul>
+<p>En tout cas, vu le nombre de votes, je me suis dit, cela vaut le coup de lire. Et en effet l’explication est assez intuitive et le théorème de Bayes est le principe appliqué.</p>
+<p>Une autre question que je me suis posé, c’est sur le mot “naïve”, <del>j’ai commencé alors à réfléchir ce qui est naïf dans le principe de cet algorithme</del>, quelqu’un s’est douté posé la même question, en effet, j’ai trouvé assez rapidement <a href="https://www.quora.com/Why-is-naive-Bayes-naive">pourquoi la classificaiton naïve bayésienne est-elle naïve ?</a>. La réponse qui a le plus de votes dit que c’est en raison de la distribution normale de X|Y qui suppose une corrélation nulle entre les composantes de X. Si on essaie de creuser, l’hythèse de l’indépendance porte sans doute sur les différentes variables pour le calcul du produit des vraisemblances. Mais pourquoi la loi normale ? Enfin bon, <del>faisons semblant de comprendre</del>, si j’essayais d’appliquer l’algorithme sur un exemple, je comprendrai sans doute plus.</p>
+</div>
+<div id="un-exemple-dapplication-avec-r" class="section level2">
+<h2><span class="header-section-number">2.2</span> Un exemple d’application avec R</h2>
+<p>Pour avoir un exemple concret, je sais que de nombreux packages R existent, de ce fait, j’ai cherché avec des mots clés comme “r naive bayes example”, et j’ai trouvé la fonction <code>naiveBayes</code> du packge <code>e1071</code> :</p>
+<pre class="r"><code>library(&quot;e1071&quot;)
+library(knitr)
+## Categorical data only:
+data(HouseVotes84, package = &quot;mlbench&quot;)
+
+model &lt;- naiveBayes(Class ~ ., data = HouseVotes84)
+predict(model, HouseVotes84[1:10,])</code></pre>
+<pre><code>##  [1] republican republican republican democrat   democrat   democrat  
+##  [7] republican republican republican democrat  
+## Levels: democrat republican</code></pre>
+<pre class="r"><code>predict(model, HouseVotes84[1:10,], type = &quot;raw&quot;)</code></pre>
+<pre><code>##           democrat   republican
+##  [1,] 1.029209e-07 9.999999e-01
+##  [2,] 5.820415e-08 9.999999e-01
+##  [3,] 5.684937e-03 9.943151e-01
+##  [4,] 9.985798e-01 1.420152e-03
+##  [5,] 9.666720e-01 3.332802e-02
+##  [6,] 8.121430e-01 1.878570e-01
+##  [7,] 1.751512e-04 9.998248e-01
+##  [8,] 8.300100e-06 9.999917e-01
+##  [9,] 8.277705e-08 9.999999e-01
+## [10,] 1.000000e+00 5.029425e-11</code></pre>
+<pre class="r"><code>pred &lt;- predict(model, HouseVotes84)
+table(pred, HouseVotes84$Class)</code></pre>
+<pre><code>##             
+## pred         democrat republican
+##   democrat        238         13
+##   republican       29        155</code></pre>
+<pre class="r"><code>## using laplace smoothing:
+model &lt;- naiveBayes(Class ~ ., data = HouseVotes84, laplace = 3)
+pred &lt;- predict(model, HouseVotes84[,-1])
+table(pred, HouseVotes84$Class)</code></pre>
+<pre><code>##             
+## pred         democrat republican
+##   democrat        237         12
+##   republican       30        156</code></pre>
+<pre class="r"><code>## Example of using a contingency table:
+data(Titanic)
+m &lt;- naiveBayes(Survived ~ ., data = Titanic)
+m</code></pre>
+<pre><code>## 
+## Naive Bayes Classifier for Discrete Predictors
+## 
+## Call:
+## naiveBayes.formula(formula = Survived ~ ., data = Titanic)
+## 
+## A-priori probabilities:
+## Survived
+##       No      Yes 
+## 0.676965 0.323035 
+## 
+## Conditional probabilities:
+##         Class
+## Survived        1st        2nd        3rd       Crew
+##      No  0.08187919 0.11208054 0.35436242 0.45167785
+##      Yes 0.28551336 0.16596343 0.25035162 0.29817159
+## 
+##         Sex
+## Survived       Male     Female
+##      No  0.91543624 0.08456376
+##      Yes 0.51617440 0.48382560
+## 
+##         Age
+## Survived      Child      Adult
+##      No  0.03489933 0.96510067
+##      Yes 0.08016878 0.91983122</code></pre>
+<pre class="r"><code>predict(m, as.data.frame(Titanic))</code></pre>
+<pre><code>##  [1] Yes No  No  No  Yes Yes Yes Yes No  No  No  No  Yes Yes Yes Yes Yes
+## [18] No  No  No  Yes Yes Yes Yes No  No  No  No  Yes Yes Yes Yes
+## Levels: No Yes</code></pre>
+<pre class="r"><code>## Example with metric predictors:
+data(iris)
+m &lt;- naiveBayes(Species ~ ., data = iris)
+## alternatively:
+m &lt;- naiveBayes(iris[,-5], iris[,5])</code></pre>
+<p>Le code est très facile à exécuter, en une dizine de secondes, j’ai appliqué donc cet algorithme sur plusieurs exemples. D’après les tables de confusion, cet algorithme fonctionne plutôt bien sur ces bases de données. (En réalité, comme l’algorithme est appliqué sur la même base, on ne peut pas conclure a priori, on a un grand risque de surapprentissage.)</p>
+<p><del>La prochaine fois en entretien, je pourrais dire que je connais la classification bayésienne et en plus, je sais l’appliquer.</del> Exécuter le code en appuyant sur ctrl+Entrée, tout le monde sait le faire. Pour vraiment comprendre l’algorithme, je me suis dit que je pourrais retrouver le résultat en faisant moi-même le code.</p>
+</div>
+</div>
+<div id="construction-de-lalgorithme-pour-des-donnees-categoriques" class="section level1">
+<h1><span class="header-section-number">3</span> Construction de l’algorithme pour des données catégoriques</h1>
+<div id="calcul-des-probabilites-conditionnelles" class="section level2">
+<h2><span class="header-section-number">3.1</span> Calcul des probabilités conditionnelles</h2>
+<p>J’ai pris le premier exemple du code R. D’abord, j’ai regardé un échantillon des données pour savoir de quoi il s’agit:</p>
+<pre class="r"><code>library(&quot;e1071&quot;)
+# install.packages(&quot;mlbench&quot;)</code></pre>
+<pre class="r"><code>data(HouseVotes84, package = &quot;mlbench&quot;)
+data=HouseVotes84
+
+kable(head(data))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Class</th>
+<th align="left">V1</th>
+<th align="left">V2</th>
+<th align="left">V3</th>
+<th align="left">V4</th>
+<th align="left">V5</th>
+<th align="left">V6</th>
+<th align="left">V7</th>
+<th align="left">V8</th>
+<th align="left">V9</th>
+<th align="left">V10</th>
+<th align="left">V11</th>
+<th align="left">V12</th>
+<th align="left">V13</th>
+<th align="left">V14</th>
+<th align="left">V15</th>
+<th align="left">V16</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">republican</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">NA</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">y</td>
+</tr>
+<tr class="even">
+<td align="left">republican</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">democrat</td>
+<td align="left">NA</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">NA</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+</tr>
+<tr class="even">
+<td align="left">democrat</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">NA</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">y</td>
+</tr>
+<tr class="odd">
+<td align="left">democrat</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">NA</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+</tr>
+<tr class="even">
+<td align="left">democrat</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">n</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+<td align="left">y</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>dim(data)</code></pre>
+<pre><code>## [1] 435  17</code></pre>
+<p>D’après le titre et l’aperçu de la base, il s’agit du résultat de vote en fonction de plusieurs caractéristiques anonymisés (pour en savoir plus sur la base, une rapide recherche m’a donné <a href="http://rgm.ogalab.net/RGM/R_rdfile?f=mlbench/man/HouseVotes84.Rd&amp;d=R_CC">ce lien</a>). Aussi, la base contient 16 variables explicatives et 435 observations.</p>
+<p>Pour avoir les probabilités a priori, j’ai regardé la répartition des votes entre “republican” et “democrat”.</p>
+<pre class="r"><code>table(data$Class)</code></pre>
+<pre><code>## 
+##   democrat republican 
+##        267        168</code></pre>
+<p>Pour avoir les pourcentages, on peut utiliser une autre fonction <code>prop.table</code>. Même si c’est aussi simple de faire l’opération soi-même :</p>
+<pre class="r"><code>prop.table(table(data$Class))</code></pre>
+<pre><code>## 
+##   democrat republican 
+##  0.6137931  0.3862069</code></pre>
+<p>Pour étudier la première variable V1, il faut construire la table de contingence suivante :</p>
+<pre class="r"><code>t=prop.table(table(data$Class,data[,2]))
+t</code></pre>
+<pre><code>##             
+##                       n          y
+##   democrat   0.24113475 0.36879433
+##   republican 0.31678487 0.07328605</code></pre>
+<p>Ainsi, sans plus de connaissances sur une personne on pourrait prédire son vote selon le pourcentage global. Ici on approxime le pourcentage global par rapport à la base à disposition, cela suppose que l’échantillon est représentatif.</p>
+<p>A partir de ce tableau, on est prêt à calculer les probabilités a posteriori. Si une observation prend la valeur “n”, on peut calculer successivement :</p>
+<pre class="r"><code># probabilités conditionnelles pour le calcul de la vraisemblance
+t[,&quot;n&quot;]/rowSums(t)</code></pre>
+<pre><code>##   democrat republican 
+##  0.3953488  0.8121212</code></pre>
+<pre class="r"><code># constante ce normalisation
+sum(t[,&quot;n&quot;])</code></pre>
+<pre><code>## [1] 0.5579196</code></pre>
+<pre class="r"><code># probabilités a posteriori
+t[,&quot;n&quot;]/rowSums(t)/sum(t[,&quot;n&quot;])*prop.table(table(data$Class))</code></pre>
+<pre><code>## 
+##   democrat republican 
+##  0.4349415  0.5621720</code></pre>
+<p>En réalité, comme je ne comprends pas bien la théorie sur la statistique bayésienne, et que la simplification saute aux yeux, j’ai bien envie de faire calculer la probabilité a posteriori directement en applicant la formule de calcul de probabilité conditionnelle :</p>
+<pre class="r"><code>t[,&quot;n&quot;]/sum(t[,&quot;n&quot;])</code></pre>
+<pre><code>##   democrat republican 
+##  0.4322034  0.5677966</code></pre>
+<p>Mais le calcul devient plus intéressant quand il s’agit de plusieurs variables.</p>
+</div>
+<div id="classification" class="section level2">
+<h2><span class="header-section-number">3.2</span> Classification</h2>
+<p>Il suffit maintenant de calculer le produit des probabilités pour toutes les variables. Je vais construire l’algorithme en l’appliquant directement sur une observation.</p>
+<p>La valeur prise par une obervation de chacune des variable permet de calculer les probabilités a posteriori. Il suffit de construire une boucle pour le calcul du produit. J’ai suivi la formule donnée dans la réponse de Stackoverflow :</p>
+<pre class="r"><code>o=as.vector(unlist(data[1,]))
+p=prop.table(table(data$Class))
+for (i in 2:17){
+  if (is.na(o[i])==FALSE){
+    t=prop.table(table(data$Class,data[,i]))
+    p=p*t[,o[i]]/rowSums(t)/sum(t[,o[i]]) 
+  }
+}
+p</code></pre>
+<pre><code>## 
+##     democrat   republican 
+## 3.966888e-05 3.854309e+02</code></pre>
+<p>Sans trop creuser, je me suis dit que j’avais peut-être commencé à entrevoir l’intérêt du théorème de Bayes dans le cas où on a plusieurs variables : l’opération d’effectuer le produit des vraisemblances semble en effet plus simples que si on cherchait à calculer les probabilités a posteriori directement.</p>
+<p>Quand je lis le résultat, la somme des deux probabilités n’est pa égale à 1: j’ai donc fait une erreur.</p>
+<p>J’ai trouvé l’erreur, j’ai essayé de faire un print de chaque élément du produit de la boucle. Mais je ne voyais pas d’erreurs. Puis j’ai comparé le résultat aux prédictions de l’algorithme du package R :</p>
+<pre class="r"><code>model &lt;- naiveBayes(Class ~ ., data = HouseVotes84)
+predr=predict(model, HouseVotes84[1:10,])
+pred=predict(model, HouseVotes84[1:10,], type = &quot;raw&quot;)
+head(pred)</code></pre>
+<pre><code>##          democrat  republican
+## [1,] 1.029209e-07 0.999999897
+## [2,] 5.820415e-08 0.999999942
+## [3,] 5.684937e-03 0.994315063
+## [4,] 9.985798e-01 0.001420152
+## [5,] 9.666720e-01 0.033328022
+## [6,] 8.121430e-01 0.187857022</code></pre>
+<pre class="r"><code>pred[1,]/p</code></pre>
+<pre><code>## 
+##    democrat  republican 
+## 0.002594499 0.002594499</code></pre>
+<p>Les probabilités sont proportionnelles. Cela nous permet de conclure. On peut sortir les réponses de prédiction pour les 10 premières observations :</p>
+<pre class="r"><code>reponse=rep(1,10)
+for (k in 1:10){
+  o=as.vector(unlist(data[k,]))
+  p=prop.table(table(data$Class))
+  for (i in 2:17){
+    if (is.na(o[i])==FALSE){
+        t=prop.table(table(data$Class,data[,i]))
+        p=p*t[,o[i]]/rowSums(t)/sum(t[,o[i]])
+    }
+  }
+  reponse[k]=(which.max(p))
+}
+
+reponse</code></pre>
+<pre><code>##  [1] 2 2 2 1 1 1 2 2 2 1</code></pre>
+<pre class="r"><code>as.numeric(predr)</code></pre>
+<pre><code>##  [1] 2 2 2 1 1 1 2 2 2 1</code></pre>
+<p>J’ai donc réussi à reproduire les mêmes prédictions que l’algorithmes du package. Cependant, le fait qu’il y a une erreur de proportionnalité sur les probabilités ne hante…</p>
+<p>Pourtant j’ai suivi exactement la formule donnée.</p>
+</div>
+<div id="precision-sur-la-constante-de-normalisation" class="section level2">
+<h2><span class="header-section-number">3.3</span> Précision sur la constante de normalisation</h2>
+<p>Pour retrouver la bonne constante, ou une éventuelle erreur, <del>j’ai commencé à réfléchir sur les formules utilisées</del>, j’ai entré des mots clés comme “naive bayes with multi conditions”, “naive bayes multiple variables”, “naive bayes multi evidence”, etc. et je suis tombé sur cet article : <a href="http://cs.wellesley.edu/~anderson/writing/naive-bayes.pdf">Combining evidence using Bayes’ Rule</a>. La démonstration y est assez claire.</p>
+<p>La solution est donc tout simplement de normaliser à la fin, selon la formule indiquée :</p>
+<p><span class="math display">\[P(D|\cap_{i=1}^n{V_i})=\frac{P(D) \cdot \prod_{i=1}^n{P(V_i|D)}}{P(D) \cdot \prod_{i=1}^n{P(V_i|D)}+P(R) \cdot \prod_{i=1}^n{P(V_i|D)}}\]</span></p>
+<pre class="r"><code>o=as.vector(unlist(data[1,]))
+p=prop.table(table(data$Class))
+for (i in 2:17){
+  if (is.na(o[i])==FALSE){
+    t=prop.table(table(data$Class,data[,i]))
+    p=p*t[,o[i]]/rowSums(t)/sum(t[,o[i]]) 
+  }
+}
+p/(sum(p))</code></pre>
+<pre><code>## 
+##     democrat   republican 
+## 1.029209e-07 9.999999e-01</code></pre>
+<p>Il s’avère ainsi qu’il y a une petite coquille dans la réponse de Stackoverflow. Il est vrai que cela ne change pas le résultat de prédiction, néanmoins, il y une erreur de principe dans la formule. Je voulais commenter la réponse, car il est important de participer, à la fois important pour les autres car on partages nos expériences et remarques, et à la fois pour soi-même, car c’est un excellent moyen d’apprendre. Cependant, mais comme il faut un certain nombres de points de réputation pour pouvoir commenter, je n’ai pas pu le faire avec un nouveau compte. Je ferai quand j’aurai assez de points.</p>
+<p>Par ailleurs, l’auteur a cité le livre sur lequel les calculs sont basés, et il semble que ce soit un excellent livre : <a href="http://aima.cs.berkeley.edu/">Artificial Intelligence: A Modern Approach</a> de Russell et Norvig, qu’on pourrait lire.</p>
+</div>
+</div>
+<div id="algorithme-dans-le-cas-des-donnees-numeriques" class="section level1">
+<h1><span class="header-section-number">4</span> Algorithme dans le cas des données numériques</h1>
+<p>Puis, je me suis dit que je pourrais appliquer le même algorithme sur un autre example de base, iris, par exemple. Mais bien sûr, je ne peux plus faire de tables de contingence, comme les variables sont continues. Si j’avais été plus attentif, j’aurais dû voir les commentaires dans le code R : “categorical data only” pour la base des votes, et “exemple with metric predictors” pour la base iris.</p>
+<p>Ainsi, <del>j’ai commencé à réfléchir</del> je me suis dit que des articles existent certainement pour expliquer comment l’algorithme marche pour les données numériques. Ainsi, j’ai entré les mots clés : “naive bayes numerical data”. J’ai trouvé l’article suivant : <a href="http://www.simafore.com/blog/bid/107702/2-ways-of-using-Naive-Bayes-classification-for-numeric-attributes">deux façons d’utiliser NB pour les données numériques</a>. La première solution est plutôt une astuce : transformer les données numériques en données catégoriques; la deuxième propose de calibrer une densité de probablité, et la loi gaussienne a été citée.</p>
+<p>Dans un premier temps, je calcule les moyennes les écarts types de toutes les variables par classe d’iris. Pour ce faire, j’ai cherché une fonction qui permet de <a href="http://stackoverflow.com/questions/23395366/mean-by-factor-by-level">calculer les moyennes par facteur</a>.</p>
+<p>Il y a certainement d’autres manières sans doute plus simples de le faire, mais c’était la première idée qui me venait à l’esprit :</p>
+<pre class="r"><code>data=iris
+head(iris)</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>meanl=list()
+sdl=list()
+for (i in 1:4){
+  meanl[[i]]=with(iris, tapply(data[,i], Species, mean))
+  sdl[[i]]=with(iris, tapply(data[,i], Species, sd))
+}
+meanl</code></pre>
+<pre><code>## [[1]]
+##     setosa versicolor  virginica 
+##      5.006      5.936      6.588 
+## 
+## [[2]]
+##     setosa versicolor  virginica 
+##      3.428      2.770      2.974 
+## 
+## [[3]]
+##     setosa versicolor  virginica 
+##      1.462      4.260      5.552 
+## 
+## [[4]]
+##     setosa versicolor  virginica 
+##      0.246      1.326      2.026</code></pre>
+<p>La struction de calcul est légèrement différent que celle pour la base des votes, en effet, j’ai procédé à une boucle sur le nombre d’espèces comme il est rapide de calculer les vraisemblances pour toutes les observations :</p>
+<pre class="r"><code># calcul des probabilités
+pm=matrix(1,nrow(data),3)
+for (k in 1:3){
+  p=rep(1,nrow(data))
+  for (i in 1:4){
+    p=p*dnorm(data[,i],meanl[[i]][k],sdl[[i]][k])
+  }
+  pm[,k]=p
+}
+
+# calcul des prédictions pour toutes les observations
+apply(pm,1,which.max)</code></pre>
+<pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [71] 3 2 2 2 2 2 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3
+## [106] 3 2 3 3 3 3 3 3 3 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 3 3 3 3 3
+## [141] 3 3 3 3 3 3 3 3 3 3</code></pre>
+<pre class="r"><code># modèle
+m &lt;- naiveBayes(Species ~ ., data = iris)
+
+# comparaison des deux prédictions
+sum(as.numeric(predict(m, iris))==apply(pm,1,which.max))</code></pre>
+<pre><code>## [1] 150</code></pre>
+<p>C’est également sur cet exemple que je me suis dit que j’ai commencé à comprendre l’intérêt du théorème de Bayes: il est sans doute plus facile de passer par la loi de probabilité d’une caractéristique sachant l’espèce (qui est la vraisemblance) que de calculer directement la probabilité d’avoir une telle espèce en connaissant la valeur d’une caractéristique.</p>
+<p>Par ailleurs, il semble aussi qu’on pourrait améliorer l’algorithme de NB pour les pistes suivantes :</p>
+<ul>
+<li>Utiliser des distributions qui reflètent mieux la réalité, et cela fait partie de la statistique classique</li>
+<li>Introuire des dépendances (conditionnelles) entre les variables</li>
+</ul>
+</div>
+<div id="conclusions" class="section level1">
+<h1><span class="header-section-number">5</span> Conclusions</h1>
+<p><strong>Chercher</strong> : Les ressources sont abondantes sur internet, pour trouver les bons articles, il s’agit d’abord d’entrer de bons mots clés sur les algorithmes, il faut avoir des mots clés. Au début, on commence toujours par des mots clés simples, en entrant par exemple tout simplement le nom de l’algorithme. Ensuite, quand on commence à comprendre la base, on se posera également d’autres questions un peu plus précises, pour “naive bayes”, on peut citer :</p>
+<ul>
+<li>naive bayes numerical data</li>
+<li>naive bayes with multi evidence</li>
+</ul>
+<p>Puis, les autres mots clés connexes font apparition également :</p>
+<ul>
+<li>text classification</li>
+<li>k means</li>
+<li>kNN</li>
+</ul>
+<p><strong>Comprendre</strong> : Avant d’utiliser l’algorithme, il faut comprendre le principe. En effet, il est presque plus facile de trouver des codes R qui donnent des exemples d’application que des articles qui l’expliquent.</p>
+<p>Si on ne comprends pas exactement ce qui est fait, il est difficile de</p>
+<p>comprendre les forces et faiblesses de l’algorithme</p>
+<p><strong>Appliquer</strong> : Pour bien retenir le fonctionnement, il faut aussi l’appliquer sur un exemple simple. En réalité, je me suis souvenu que j’avais déjà lu article pour l’explication de NB (<a href="https://www.quora.com/In-laymans-terms-how-does-Naive-Bayes-work">NB en termes simples</a>), il est important de combiner l’explication en français (ou en anglais) et les calculs simples.</p>
+<p><strong>Expliquer</strong> : Si je n’avais pas décidé de l’écrire et m’appliquer dans l’explication. Je n’aurais pas vu certaines subtilités, comme l’erreur dans la constante de normalisation des probabilités a posteriori. Le fait d’écrire un code R clair nécessite aussi des entraînements, plus on écrit, plus on acquiert certains automatismes.</p>
+<p>J’ai montré également une première version à certains amis et collègues, en effet, tout seul, il faut qu’on se pose de bonnes questions, les autres aident à repérer d’autres points moins clairs.</p>
+<p>Pour aller plus loin, plusieurs problématiques importantes n’étaient pas soulevées :</p>
+<ul>
+<li>base d’apprentissage et base de test</li>
+<li>problème de surapprentissage</li>
+</ul>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

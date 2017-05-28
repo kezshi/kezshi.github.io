@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Bases de R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Data Science
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="0_ds_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_manipulation.html">
+        <span class="fa fa-table"></span>
+         
+        Manipulation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-cogs"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="5_0_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
+     
+    Blockchain
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Bases de R</h1>
+
+</div>
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)</code></pre>
+<div id="installation-des-packages" class="section level1">
+<h1><span class="header-section-number">1</span> Installation des packages</h1>
+<p>Dans RStudio, il est possible d’exécuter le code ligne à ligne en faisant Ctrl+Entrée.</p>
+<p>Dans R, il existe de nombreux packages qu’il est possible d’importer. Ainsi, on pourra utilier des données et des fonctions qui sont contenues dans ces packages.</p>
+<p>Pour installer un package,</p>
+<ul>
+<li>sous RStudio, il est possible d’utiliser le bouton “Install” dans l’onglet “Packages”</li>
+<li>il est possible d’exécuter le code suivant</li>
+</ul>
+<pre class="r"><code>install.packages(&quot;nom_du_package&quot;)</code></pre>
+<p>Ensuite, pour charger le package, il faut exécuter le code suivant:</p>
+<pre class="r"><code>library(&quot;nom_du_package&quot;)</code></pre>
+</div>
+<div id="environnement" class="section level1">
+<h1><span class="header-section-number">2</span> Environnement</h1>
+<ul>
+<li>Créations d’objets: dans RStudio, vous pouvez voir ces objets dans la fenêtre “Environnement”</li>
+</ul>
+<pre class="r"><code>x=3.14159; y=&#39;hello world&#39;; z=TRUE
+# ou
+x &lt;- 5 
+5 -&gt; x</code></pre>
+<ul>
+<li>Voir la valeur des variables dans la console</li>
+</ul>
+<pre class="r"><code>print(y)</code></pre>
+<pre><code>## [1] &quot;hello world&quot;</code></pre>
+<pre class="r"><code># on peut aussi utiliser les parenthèses autour lors de la création d&#39;objets pour les afficher les résultats
+( num &lt;- 3.14 )  </code></pre>
+<pre><code>## [1] 3.14</code></pre>
+<ul>
+<li>Structure des objets ou fonctions</li>
+</ul>
+<pre class="r"><code>str(x)</code></pre>
+<pre><code>##  num 5</code></pre>
+<pre class="r"><code>str(max)</code></pre>
+<pre><code>## function (..., na.rm = FALSE)</code></pre>
+<ul>
+<li>Quelques opérations sur les objets</li>
+</ul>
+<pre class="r"><code>ls()              # lister les objets dans Environnement</code></pre>
+<pre><code>## [1] &quot;num&quot; &quot;x&quot;   &quot;y&quot;   &quot;z&quot;</code></pre>
+<pre class="r"><code>rm(y)             # supprimer un objet
+rm(list=ls())     # supprimer tous les objets</code></pre>
+<ul>
+<li>Répertoire de travail</li>
+</ul>
+<pre class="r"><code># getwd()                                # afficher le répertoire de travail actuel
+# setwd(&quot;/Users/robinedwards/Documents&quot;) # définir un répertoire de travail
+print    (  &quot;R ignores the &#39;white-space&#39; in command syntax&quot;     )   </code></pre>
+<pre><code>## [1] &quot;R ignores the &#39;white-space&#39; in command syntax&quot;</code></pre>
+<ul>
+<li>Aide sur les fonctions ou code R</li>
+</ul>
+<pre class="r"><code># help(fonction à préciser)
+# par exemple:
+# help(max)
+# ou
+# ?max
+# ??csv                  # rechercher dans toute la documentation
+# library(help=utils)    # aide pour un package en particulier</code></pre>
+</div>
+<div id="objets" class="section level1">
+<h1><span class="header-section-number">3</span> Objets</h1>
+<p>Les objets les plus basiques sont présentés: vecteur, matrice, array, data.frame…</p>
+<p>D’autres objets couramment utilisés sont: dates (lubridate), data.table (similaires au data.frame, c’est un package plus efficace et rapide pour manipuler les data.frames).</p>
+<div id="vecteurs" class="section level2">
+<h2><span class="header-section-number">3.1</span> Vecteurs</h2>
+<ul>
+<li>Création de vecteurs</li>
+</ul>
+<pre class="r"><code>vec &lt;- c(2,5,8,3,7)
+# pour une suite de nombre
+vec &lt;- 10:20</code></pre>
+<ul>
+<li>Indexation des éléments dans un vecteur</li>
+</ul>
+<pre class="r"><code>vec[3]</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>vec[3:6]</code></pre>
+<pre><code>## [1] 12 13 14 15</code></pre>
+<pre class="r"><code>vec[ c(1,3,8) ]</code></pre>
+<pre><code>## [1] 10 12 17</code></pre>
+<ul>
+<li>Sélection grâce à un critère</li>
+</ul>
+<pre class="r"><code>vec &gt; 15</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code>vec[vec &gt; 15]</code></pre>
+<pre><code>## [1] 16 17 18 19 20</code></pre>
+<ul>
+<li>Vérifier si un élément est dans le vecteur</li>
+</ul>
+<pre class="r"><code>5 %in% vec</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>12 %in% vec</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<ul>
+<li>Tous les éléments sont dans un vecteur sont du même type</li>
+</ul>
+<pre class="r"><code>(x = c(&#39;one&#39;, &#39;five&#39;, &#39;two&#39;, 3, &#39;two&#39;))</code></pre>
+<pre><code>## [1] &quot;one&quot;  &quot;five&quot; &quot;two&quot;  &quot;3&quot;    &quot;two&quot;</code></pre>
+<ul>
+<li>Trouver un élément dans le vecteur (le premier)</li>
+</ul>
+<pre class="r"><code>match(&#39;two&#39;, x)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>match(c(&#39;two&#39;,&#39;five&#39;), x)</code></pre>
+<pre><code>## [1] 3 2</code></pre>
+<ul>
+<li>Ordonner un vecteur</li>
+</ul>
+<pre class="r"><code>vec &lt;- c(10,6,2,4,10,2,8,7,1,6)
+sort(vec)</code></pre>
+<pre><code>##  [1]  1  2  2  4  6  6  7  8 10 10</code></pre>
+</div>
+<div id="matrices" class="section level2">
+<h2><span class="header-section-number">3.2</span> Matrices</h2>
+<p>Les matrices sont des vecteurs à 2 dimensions.</p>
+<ul>
+<li>Création d’une matrice</li>
+</ul>
+<pre class="r"><code>matrx = matrix(1:15, 3, 5)
+# ou
+matrx &lt;- 1:12
+dim(matrx) &lt;- c(3,4)
+matrx</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    4    7   10
+## [2,]    2    5    8   11
+## [3,]    3    6    9   12</code></pre>
+<ul>
+<li>Tranposée de matrice</li>
+</ul>
+<pre class="r"><code>t(matrx) # a matrix can be easily transposed</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    4    5    6
+## [3,]    7    8    9
+## [4,]   10   11   12</code></pre>
+<ul>
+<li>Matrice de chaînes de charatères (tous les éléments dans une matrice sont du même type)</li>
+</ul>
+<pre class="r"><code>(matrx = matrix(c(1:14,&quot;15e element&quot;), 3, 5))</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]         
+## [1,] &quot;1&quot;  &quot;4&quot;  &quot;7&quot;  &quot;10&quot; &quot;13&quot;         
+## [2,] &quot;2&quot;  &quot;5&quot;  &quot;8&quot;  &quot;11&quot; &quot;14&quot;         
+## [3,] &quot;3&quot;  &quot;6&quot;  &quot;9&quot;  &quot;12&quot; &quot;15e element&quot;</code></pre>
+</div>
+<div id="array" class="section level2">
+<h2><span class="header-section-number">3.3</span> Array</h2>
+<p>Un objet array est un vecteur à n dimensions.</p>
+<ul>
+<li>Création d’un array</li>
+</ul>
+<pre class="r"><code>( arry &lt;- array(1:24, dim=c(4,3,2)) )</code></pre>
+<pre><code>## , , 1
+## 
+##      [,1] [,2] [,3]
+## [1,]    1    5    9
+## [2,]    2    6   10
+## [3,]    3    7   11
+## [4,]    4    8   12
+## 
+## , , 2
+## 
+##      [,1] [,2] [,3]
+## [1,]   13   17   21
+## [2,]   14   18   22
+## [3,]   15   19   23
+## [4,]   16   20   24</code></pre>
+<ul>
+<li>Sélection d’un ou plusieurs éléments</li>
+</ul>
+<pre class="r"><code>arry[12]        # un seul nombre permet de sélection le nième élément dans l&#39;ordre</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>arry[3,1,2]     # plusieurs nombres permettent sélection les éléments selon les dimensions</code></pre>
+<pre><code>## [1] 15</code></pre>
+<pre class="r"><code>arry[,,2]</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   13   17   21
+## [2,]   14   18   22
+## [3,]   15   19   23
+## [4,]   16   20   24</code></pre>
+<pre class="r"><code>arry[,1,]</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    1   13
+## [2,]    2   14
+## [3,]    3   15
+## [4,]    4   16</code></pre>
+</div>
+<div id="data.frame" class="section level2">
+<h2><span class="header-section-number">3.4</span> Data.frame</h2>
+<p>Un data.frame est comme une matrice, mais permet de stocker des données de différents types dans ses différentes colonnes.</p>
+<ul>
+<li>Création d’un data.frame</li>
+</ul>
+<pre class="r"><code>df &lt;- data.frame(name = c(&#39;Matt&#39;,&#39;Kate&#39;,&#39;Jacquie&#39;,&#39;Simon&#39;,&#39;Nita&#39;),
+                 age = c(35,29,32,35,39))</code></pre>
+<ul>
+<li>Structure d’un data.frame</li>
+</ul>
+<pre class="r"><code>str(df)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    5 obs. of  2 variables:
+##  $ name: Factor w/ 5 levels &quot;Jacquie&quot;,&quot;Kate&quot;,..: 3 2 1 5 4
+##  $ age : num  35 29 32 35 39</code></pre>
+<ul>
+<li>Sélection des éléments</li>
+</ul>
+<pre class="r"><code>df[1,]</code></pre>
+<pre><code>##   name age
+## 1 Matt  35</code></pre>
+<pre class="r"><code>df[2:3,]</code></pre>
+<pre><code>##      name age
+## 2    Kate  29
+## 3 Jacquie  32</code></pre>
+<pre class="r"><code>df[,1]</code></pre>
+<pre><code>## [1] Matt    Kate    Jacquie Simon   Nita   
+## Levels: Jacquie Kate Matt Nita Simon</code></pre>
+<pre class="r"><code>df[2,1]</code></pre>
+<pre><code>## [1] Kate
+## Levels: Jacquie Kate Matt Nita Simon</code></pre>
+<ul>
+<li>les noms de lignes et de colonnes</li>
+</ul>
+<pre class="r"><code>dimnames(df)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot;
+## 
+## [[2]]
+## [1] &quot;name&quot; &quot;age&quot;</code></pre>
+<pre class="r"><code>colnames(df)</code></pre>
+<pre><code>## [1] &quot;name&quot; &quot;age&quot;</code></pre>
+<pre class="r"><code>names(df) </code></pre>
+<pre><code>## [1] &quot;name&quot; &quot;age&quot;</code></pre>
+<pre class="r"><code>row.names(df)</code></pre>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot;</code></pre>
+<ul>
+<li>Sélection de variables</li>
+</ul>
+<pre class="r"><code>df$name</code></pre>
+<pre><code>## [1] Matt    Kate    Jacquie Simon   Nita   
+## Levels: Jacquie Kate Matt Nita Simon</code></pre>
+<pre class="r"><code>df$name[2]</code></pre>
+<pre><code>## [1] Kate
+## Levels: Jacquie Kate Matt Nita Simon</code></pre>
+<ul>
+<li>Renommer les variables</li>
+</ul>
+<pre class="r"><code>names(df) &lt;- c(&#39;person&#39;,&#39;years&#39;)
+row.names(df) &lt;- c(&#39;R1&#39;,&#39;R2&#39;,&#39;R3&#39;,&#39;R4&#39;,&#39;R5&#39;)</code></pre>
+<ul>
+<li>Informations sur les dimensions</li>
+</ul>
+<pre class="r"><code>length(vec)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>dim(df)</code></pre>
+<pre><code>## [1] 5 2</code></pre>
+<pre class="r"><code>dim(arry)</code></pre>
+<pre><code>## [1] 4 3 2</code></pre>
+<pre class="r"><code>nrow(df)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>ncol(df)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<ul>
+<li>Ordonner un data.frame selon une variable</li>
+</ul>
+<pre class="r"><code>df[order(df$years),]</code></pre>
+<pre><code>##     person years
+## R2    Kate    29
+## R3 Jacquie    32
+## R1    Matt    35
+## R4   Simon    35
+## R5    Nita    39</code></pre>
+</div>
+<div id="listes" class="section level2">
+<h2><span class="header-section-number">3.5</span> Listes</h2>
+<p>Une liste permet de stocker des données de différentes natures.</p>
+<ul>
+<li>Création d’une liste vide</li>
+</ul>
+<pre class="r"><code>lst = list()</code></pre>
+<ul>
+<li>Remplir des éléments dans une liste</li>
+</ul>
+<pre class="r"><code>lst[1] = &quot;one&quot;
+lst[[2]] &lt;- &quot;two&quot;
+lst[length(lst)+1] &lt;- &quot;three&quot;
+print(lst)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;one&quot;
+## 
+## [[2]]
+## [1] &quot;two&quot;
+## 
+## [[3]]
+## [1] &quot;three&quot;</code></pre>
+<ul>
+<li>Sélectionner des éléments dans une liste</li>
+</ul>
+<pre class="r"><code>lst[[1]] # premier élément de la liste, la sortie n&#39;est plus une liste</code></pre>
+<pre><code>## [1] &quot;one&quot;</code></pre>
+<pre class="r"><code>lst[1]   # premeir élément de la liste, la sortie est une liste</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;one&quot;</code></pre>
+<pre class="r"><code>lst[2:3]</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;two&quot;
+## 
+## [[2]]
+## [1] &quot;three&quot;</code></pre>
+<pre class="r"><code>lst[c(1,3)] </code></pre>
+<pre><code>## [[1]]
+## [1] &quot;one&quot;
+## 
+## [[2]]
+## [1] &quot;three&quot;</code></pre>
+<ul>
+<li>Supprimer des éléments dans une liste</li>
+</ul>
+<pre class="r"><code>lst[[3]] &lt;- NULL
+lst[1:2] &lt;- NULL
+lst</code></pre>
+<pre><code>## list()</code></pre>
+<ul>
+<li>Types d’éléments dans une liste: les éléments d’une liste peuvent être de n’importe quel type</li>
+</ul>
+<pre class="r"><code>lst[[1]] &lt;- list(&#39;subitem1&#39;, 2, 3)
+lst[[2]] &lt;- &#39;item2&#39;
+lst</code></pre>
+<pre><code>## [[1]]
+## [[1]][[1]]
+## [1] &quot;subitem1&quot;
+## 
+## [[1]][[2]]
+## [1] 2
+## 
+## [[1]][[3]]
+## [1] 3
+## 
+## 
+## [[2]]
+## [1] &quot;item2&quot;</code></pre>
+<pre class="r"><code>lst[[1]][[1]]</code></pre>
+<pre><code>## [1] &quot;subitem1&quot;</code></pre>
+<ul>
+<li>Dictionnaire</li>
+</ul>
+<pre class="r"><code>dict &lt;- list(mon=1, tues=2)
+dict[&#39;wed&#39;] &lt;- 3
+print(dict)</code></pre>
+<pre><code>## $mon
+## [1] 1
+## 
+## $tues
+## [1] 2
+## 
+## $wed
+## [1] 3</code></pre>
+<pre class="r"><code>dict[[&#39;tues&#39;]]</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>dict[c(&#39;mon&#39;,&#39;wed&#39;)]</code></pre>
+<pre><code>## $mon
+## [1] 1
+## 
+## $wed
+## [1] 3</code></pre>
+</div>
+<div id="objects-logiques" class="section level2">
+<h2><span class="header-section-number">3.6</span> Objects logiques</h2>
+<ul>
+<li>Création</li>
+</ul>
+<pre class="r"><code>(bool &lt;- TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>(bool &lt;- c(TRUE, FALSE, TRUE))</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
+<ul>
+<li>Opérations de comparaison</li>
+</ul>
+<pre class="r"><code>3==3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>1==2</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>1&gt;2</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>1&lt;2</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="facteurs" class="section level2">
+<h2><span class="header-section-number">3.7</span> Facteurs</h2>
+<p>Les facteurs sont des vecteurs dont les valeurs sont définies et limitées.</p>
+<ul>
+<li>Création d’un facteur</li>
+</ul>
+<pre class="r"><code>factr &lt;- as.factor(c(10,30,20,10,20,20,30))
+str(factr)</code></pre>
+<pre><code>##  Factor w/ 3 levels &quot;10&quot;,&quot;20&quot;,&quot;30&quot;: 1 3 2 1 2 2 3</code></pre>
+<ul>
+<li>Valeurs possibles (“niveaux”)</li>
+</ul>
+<pre class="r"><code>levels(factr)</code></pre>
+<pre><code>## [1] &quot;10&quot; &quot;20&quot; &quot;30&quot;</code></pre>
+<ul>
+<li>Comptage des valeurs</li>
+</ul>
+<pre class="r"><code>table(factr)</code></pre>
+<pre><code>## factr
+## 10 20 30 
+##  2  3  2</code></pre>
+<ul>
+<li>Conversion des facteurs en numériques</li>
+</ul>
+<pre class="r"><code># niveau
+as.numeric(factr)</code></pre>
+<pre><code>## [1] 1 3 2 1 2 2 3</code></pre>
+<pre class="r"><code># conversion d&#39;abord en chaînes de caracètres
+as.numeric(as.character(factr))</code></pre>
+<pre><code>## [1] 10 30 20 10 20 20 30</code></pre>
+<ul>
+<li>Modification des facteurs</li>
+</ul>
+<pre class="r"><code>print(df)</code></pre>
+<pre><code>##     person years
+## R1    Matt    35
+## R2    Kate    29
+## R3 Jacquie    32
+## R4   Simon    35
+## R5    Nita    39</code></pre>
+<pre class="r"><code># invalid
+df$person[1] &lt;- &#39;Matthew&#39;
+
+# conversion d&#39;abord en chaînes de caractères
+df$person &lt;- as.character(df$person)
+df$person[1] &lt;- &#39;Matthew&#39;
+df$person &lt;- as.factor(df$person)   # coerce back to factor if necessary
+levels(df$person)</code></pre>
+<pre><code>## [1] &quot;Jacquie&quot; &quot;Kate&quot;    &quot;Matthew&quot; &quot;Nita&quot;    &quot;Simon&quot;</code></pre>
+</div>
+<div id="valeurs-manquantes" class="section level2">
+<h2><span class="header-section-number">3.8</span> Valeurs manquantes</h2>
+<pre class="r"><code>(x = 1:5)</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>x[8] = 8
+x[3] = NA
+x</code></pre>
+<pre><code>## [1]  1  2 NA  4  5 NA NA  8</code></pre>
+<pre class="r"><code>na.omit(x)</code></pre>
+<pre><code>## [1] 1 2 4 5 8
+## attr(,&quot;na.action&quot;)
+## [1] 3 6 7
+## attr(,&quot;class&quot;)
+## [1] &quot;omit&quot;</code></pre>
+<pre class="r"><code>x[na.omit(x)]</code></pre>
+<pre><code>## [1] 1 2 4 5 8</code></pre>
+<pre class="r"><code>is.na(x)</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE</code></pre>
+<pre class="r"><code>x[!is.na(x)]</code></pre>
+<pre><code>## [1] 1 2 4 5 8</code></pre>
+</div>
+<div id="informations-objets" class="section level2">
+<h2><span class="header-section-number">3.9</span> Informations objets</h2>
+<pre class="r"><code>num=3
+char=&quot;3&quot;
+
+class(bool)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code>class(num)               # numeric is the default data type for number objects</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(as.integer(num))   # integer class exists but is not default</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(char)              # character class</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>class(&#39;237&#39; )            # numbers aren&#39;t always numeric type</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>as.numeric(&#39;237&#39;)        # but can be converted</code></pre>
+<pre><code>## [1] 237</code></pre>
+<pre class="r"><code>as.character(237)        # and vice verse</code></pre>
+<pre><code>## [1] &quot;237&quot;</code></pre>
+<pre class="r"><code># Child-objects are often of different class to parents
+class(df)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>class(df[,2])</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(df[,1])</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+</div>
+</div>
+<div id="structures-et-fonctions" class="section level1">
+<h1><span class="header-section-number">4</span> Structures et fonctions</h1>
+<div id="operations-logiques" class="section level2">
+<h2><span class="header-section-number">4.1</span> Opérations logiques</h2>
+<pre class="r"><code>2 + 2 == 4 </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>3 &lt;= 2 </code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>3 &gt;= 2 </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>&#39;string&#39; == &quot;string&quot;</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>&#39;b&#39; &gt;= &#39;a&#39; </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>3 != 3  </code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>c(4,2,6) == c(4,2,8)</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<pre class="r"><code>TRUE == T </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>TRUE &amp; TRUE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>TRUE | FALSE </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>F | F</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+<div id="structure-ifelse" class="section level2">
+<h2><span class="header-section-number">4.2</span> Structure if/else</h2>
+<pre class="r"><code>x &lt;- 4
+if(x &lt; 5){ 
+  print(&#39;x is less than 5&#39;)
+} else{
+  print(&#39;x is not less than 5&#39;)
+}</code></pre>
+<pre><code>## [1] &quot;x is less than 5&quot;</code></pre>
+<pre class="r"><code>if(T|F) print(&#39;single liners can dispense with curly brackets&#39;)</code></pre>
+<pre><code>## [1] &quot;single liners can dispense with curly brackets&quot;</code></pre>
+<pre class="r"><code>if(T&amp;F) print(&#39;&#39;) else print(&quot;but then &#39;else&#39; only works on the same line&quot;)</code></pre>
+<pre><code>## [1] &quot;but then &#39;else&#39; only works on the same line&quot;</code></pre>
+</div>
+<div id="structure-for" class="section level2">
+<h2><span class="header-section-number">4.3</span> Structure for</h2>
+<pre class="r"><code>for(i in 1:5){
+  print(paste(&#39;number &#39;,i))
+}</code></pre>
+<pre><code>## [1] &quot;number  1&quot;
+## [1] &quot;number  2&quot;
+## [1] &quot;number  3&quot;
+## [1] &quot;number  4&quot;
+## [1] &quot;number  5&quot;</code></pre>
+</div>
+<div id="structure-while" class="section level2">
+<h2><span class="header-section-number">4.4</span> Structure while</h2>
+<pre class="r"><code>i = 10
+while(i &gt; 0){
+  print(paste(&#39;number &#39;,i))
+  i = i - 3
+}</code></pre>
+<pre><code>## [1] &quot;number  10&quot;
+## [1] &quot;number  7&quot;
+## [1] &quot;number  4&quot;
+## [1] &quot;number  1&quot;</code></pre>
+</div>
+<div id="fonctions" class="section level2">
+<h2><span class="header-section-number">4.5</span> Fonctions</h2>
+<ul>
+<li>Création d’une fonction</li>
+</ul>
+<pre class="r"><code>multiply &lt;- function(input1, input2){
+  tot &lt;- input1 * input2
+  return(tot)
+}</code></pre>
+<ul>
+<li>Exécution d’une fonction</li>
+</ul>
+<pre class="r"><code>multiply(3,5)</code></pre>
+<pre><code>## [1] 15</code></pre>
+</div>
+<div id="fonctions-mathematiques" class="section level2">
+<h2><span class="header-section-number">4.6</span> Fonctions mathématiques</h2>
+<pre class="r"><code>seq(-2, 2, by=.2)                 # sequence of equal difference</code></pre>
+<pre><code>##  [1] -2.0 -1.8 -1.6 -1.4 -1.2 -1.0 -0.8 -0.6 -0.4 -0.2  0.0  0.2  0.4  0.6
+## [15]  0.8  1.0  1.2  1.4  1.6  1.8  2.0</code></pre>
+<pre class="r"><code>seq(length=10, from=-5, by=.2)    # with range defined by vector length</code></pre>
+<pre><code>##  [1] -5.0 -4.8 -4.6 -4.4 -4.2 -4.0 -3.8 -3.6 -3.4 -3.2</code></pre>
+<pre class="r"><code>rnorm(20, mean = 0, sd = 1)       # random normal distribution</code></pre>
+<pre><code>##  [1] -0.152014293  1.416021522  1.460272446 -0.649236668  2.115842926
+##  [6] -1.040905659  0.335934381 -0.390249852  0.558688213 -0.490463439
+## [11]  1.016452589 -2.391860723 -0.195362902  0.006082821 -1.319586849
+## [16]  0.495061901 -0.427623509 -0.233551744  0.007046467 -1.528491915</code></pre>
+<pre class="r"><code>runif(20, min=0, max=100)         # array of random numbers</code></pre>
+<pre><code>##  [1]  3.4890003 13.2029387 95.0260280 87.6145088  4.8537133 65.7160610
+##  [7] 75.1150972  4.3729898  4.1879815 25.3452199 16.2334939  3.2775140
+## [13] 36.4450781 26.0808130  0.5808511  0.7422613 86.8877885 99.2013614
+## [19] 52.4558320 53.5432894</code></pre>
+<pre class="r"><code>sample(0:100, 20, replace=TRUE)   # array of random integers</code></pre>
+<pre><code>##  [1]  18  44  37  58  21  63  94  22  97 100  79  91  94  18  57  92  67
+## [18]  79  79  91</code></pre>
+<pre class="r"><code>table(warpbreaks[,2:3])           # array summary stats (powerful summary tool)</code></pre>
+<pre><code>##     tension
+## wool L M H
+##    A 9 9 9
+##    B 9 9 9</code></pre>
+<pre class="r"><code>min(vec)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>max(vec)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>range(vec)</code></pre>
+<pre><code>## [1]  1 10</code></pre>
+<pre class="r"><code>mean(vec)</code></pre>
+<pre><code>## [1] 5.6</code></pre>
+<pre class="r"><code>median(vec)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code>sum(vec)</code></pre>
+<pre><code>## [1] 56</code></pre>
+<pre class="r"><code>prod(vec)</code></pre>
+<pre><code>## [1] 3225600</code></pre>
+<pre class="r"><code>abs(-5)                                # magnitude</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>sd(rnorm(10))                          # standard deviation</code></pre>
+<pre><code>## [1] 1.083175</code></pre>
+<pre class="r"><code>4^2                                    # square</code></pre>
+<pre><code>## [1] 16</code></pre>
+<pre class="r"><code>sqrt(16)                               # square root</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>5%%3                                   # modulo (remainder after subtraction of any multiple)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>6%%2                                   </code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>for(i in 1:100) if(i%%20==0) print(i)  # useful for running an operation every n&#39;th cycle</code></pre>
+<pre><code>## [1] 20
+## [1] 40
+## [1] 60
+## [1] 80
+## [1] 100</code></pre>
+</div>
+</div>
+<div id="import-et-export" class="section level1">
+<h1><span class="header-section-number">5</span> Import et export</h1>
+<pre class="r"><code># df &lt;- read.csv(&#39;example.csv&#39;)
+# write.csv(df, &#39;example.csv&#39;)</code></pre>
+</div>
+<div id="exploration-des-donnees" class="section level1">
+<h1><span class="header-section-number">6</span> Exploration des données</h1>
+<div id="examiner-des-donnees" class="section level2">
+<h2><span class="header-section-number">6.1</span> Examiner des données</h2>
+<ul>
+<li>Examiner les premières ou dernières lignes</li>
+</ul>
+<pre class="r"><code>head(InsectSprays)</code></pre>
+<pre><code>##   count spray
+## 1    10     A
+## 2     7     A
+## 3    20     A
+## 4    14     A
+## 5    14     A
+## 6    12     A</code></pre>
+<pre class="r"><code>tail(InsectSprays, n=3)</code></pre>
+<pre><code>##    count spray
+## 70    26     F
+## 71    24     F
+## 72    13     F</code></pre>
+<ul>
+<li>Résumé statistique</li>
+</ul>
+<pre class="r"><code>summary(InsectSprays)</code></pre>
+<pre><code>##      count       spray 
+##  Min.   : 0.00   A:12  
+##  1st Qu.: 3.00   B:12  
+##  Median : 7.00   C:12  
+##  Mean   : 9.50   D:12  
+##  3rd Qu.:14.25   E:12  
+##  Max.   :26.00   F:12</code></pre>
+<ul>
+<li>Fonction <code>aggregate</code></li>
+</ul>
+<pre class="r"><code>aggregate(InsectSprays$count, by=list(InsectSprays$spray), FUN=mean)</code></pre>
+<pre><code>##   Group.1         x
+## 1       A 14.500000
+## 2       B 15.333333
+## 3       C  2.083333
+## 4       D  4.916667
+## 5       E  3.500000
+## 6       F 16.666667</code></pre>
+<pre class="r"><code>sumInsects &lt;- aggregate(InsectSprays$count, by=list(InsectSprays$spray), FUN=sum)
+names(sumInsects) &lt;- c(&#39;group&#39;, &#39;sum&#39;)
+print(sumInsects)</code></pre>
+<pre><code>##   group sum
+## 1     A 174
+## 2     B 184
+## 3     C  25
+## 4     D  59
+## 5     E  42
+## 6     F 200</code></pre>
+<ul>
+<li>Sous-ensembles avec critères</li>
+</ul>
+<pre class="r"><code>warpbreaks[warpbreaks$wool==&#39;A&#39;,]</code></pre>
+<pre><code>##    breaks wool tension
+## 1      26    A       L
+## 2      30    A       L
+## 3      54    A       L
+## 4      25    A       L
+## 5      70    A       L
+## 6      52    A       L
+## 7      51    A       L
+## 8      26    A       L
+## 9      67    A       L
+## 10     18    A       M
+## 11     21    A       M
+## 12     29    A       M
+## 13     17    A       M
+## 14     12    A       M
+## 15     18    A       M
+## 16     35    A       M
+## 17     30    A       M
+## 18     36    A       M
+## 19     36    A       H
+## 20     21    A       H
+## 21     24    A       H
+## 22     18    A       H
+## 23     10    A       H
+## 24     43    A       H
+## 25     28    A       H
+## 26     15    A       H
+## 27     26    A       H</code></pre>
+<pre class="r"><code>warpbreaks[warpbreaks$tension %in% c(&#39;L&#39;,&#39;M&#39;),]</code></pre>
+<pre><code>##    breaks wool tension
+## 1      26    A       L
+## 2      30    A       L
+## 3      54    A       L
+## 4      25    A       L
+## 5      70    A       L
+## 6      52    A       L
+## 7      51    A       L
+## 8      26    A       L
+## 9      67    A       L
+## 10     18    A       M
+## 11     21    A       M
+## 12     29    A       M
+## 13     17    A       M
+## 14     12    A       M
+## 15     18    A       M
+## 16     35    A       M
+## 17     30    A       M
+## 18     36    A       M
+## 28     27    B       L
+## 29     14    B       L
+## 30     29    B       L
+## 31     19    B       L
+## 32     29    B       L
+## 33     31    B       L
+## 34     41    B       L
+## 35     20    B       L
+## 36     44    B       L
+## 37     42    B       M
+## 38     26    B       M
+## 39     19    B       M
+## 40     16    B       M
+## 41     39    B       M
+## 42     28    B       M
+## 43     21    B       M
+## 44     39    B       M
+## 45     29    B       M</code></pre>
+<ul>
+<li>Concaténer des lignes d’observations</li>
+</ul>
+<pre class="r"><code>(newrow &lt;- data.frame(breaks=42, wool=&#39;B&#39;, tension=&#39;M&#39;))</code></pre>
+<pre><code>##   breaks wool tension
+## 1     42    B       M</code></pre>
+<pre class="r"><code>(warpbreaks &lt;- rbind(warpbreaks, newrow))</code></pre>
+<pre><code>##    breaks wool tension
+## 1      26    A       L
+## 2      30    A       L
+## 3      54    A       L
+## 4      25    A       L
+## 5      70    A       L
+## 6      52    A       L
+## 7      51    A       L
+## 8      26    A       L
+## 9      67    A       L
+## 10     18    A       M
+## 11     21    A       M
+## 12     29    A       M
+## 13     17    A       M
+## 14     12    A       M
+## 15     18    A       M
+## 16     35    A       M
+## 17     30    A       M
+## 18     36    A       M
+## 19     36    A       H
+## 20     21    A       H
+## 21     24    A       H
+## 22     18    A       H
+## 23     10    A       H
+## 24     43    A       H
+## 25     28    A       H
+## 26     15    A       H
+## 27     26    A       H
+## 28     27    B       L
+## 29     14    B       L
+## 30     29    B       L
+## 31     19    B       L
+## 32     29    B       L
+## 33     31    B       L
+## 34     41    B       L
+## 35     20    B       L
+## 36     44    B       L
+## 37     42    B       M
+## 38     26    B       M
+## 39     19    B       M
+## 40     16    B       M
+## 41     39    B       M
+## 42     28    B       M
+## 43     21    B       M
+## 44     39    B       M
+## 45     29    B       M
+## 46     20    B       H
+## 47     21    B       H
+## 48     24    B       H
+## 49     17    B       H
+## 50     13    B       H
+## 51     15    B       H
+## 52     15    B       H
+## 53     16    B       H
+## 54     28    B       H
+## 55     42    B       M</code></pre>
+</div>
+<div id="graphique" class="section level2">
+<h2><span class="header-section-number">6.2</span> Graphique</h2>
+<ul>
+<li>Graphique simple</li>
+</ul>
+<pre class="r"><code>plot(1:10)</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<pre class="r"><code>plot(sort(rnorm(100)), pch=16, cex=0.5)                 # specifying point and size respectively</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-2.png" width="672" /></p>
+<pre class="r"><code>plot(x=1:25, y=25:1, pch=1:25)                          # x &amp; y inputs, and showing the available point symbols</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-3.png" width="672" /></p>
+<pre class="r"><code>plot(sin, -pi, 2*pi)</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-4.png" width="672" /></p>
+<pre class="r"><code>hist(rnorm(1000), breaks=50)</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-5.png" width="672" /></p>
+<pre class="r"><code>barplot(sumInsects$sum, names.arg = sumInsects$group)</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-6.png" width="672" /></p>
+<pre class="r"><code>pie(sumInsects$sum, labels = sumInsects$group)</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-7.png" width="672" /> - Rajouter des éléments dans un graphique</p>
+<pre class="r"><code>x &lt;- sample(0:100, 25, replace=TRUE)
+plot(x, pch=17)
+lines(x, col=&#39;#00FF00&#39;)
+points(x+5, pch=16, col=&#39;red&#39;)</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-59-1.png" width="672" /> - Barplot</p>
+<pre class="r"><code>sumWB &lt;- aggregate(warpbreaks$breaks, by=list(warpbreaks$wool, warpbreaks$tension), FUN=mean)
+names(sumWB) &lt;- c(&#39;wool&#39;,&#39;tension&#39;,&#39;mean_breaks&#39;)
+(data &lt;- cbind(sumWB$mean_breaks[c(1,3,5)], sumWB$mean_breaks[c(2,4,6)]))</code></pre>
+<pre><code>##          [,1]     [,2]
+## [1,] 44.55556 28.22222
+## [2,] 24.00000 30.10000
+## [3,] 24.55556 18.77778</code></pre>
+<pre class="r"><code>barplot(data, names.arg=c(&#39;Group A&#39;,&#39;Group B&#39;), 
+        legend.text=c(&#39;L&#39;,&#39;M&#39;,&#39;H&#39;), args.legend = list(x = &quot;right&quot;))</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<pre class="r"><code>barplot(data, names.arg=c(&#39;Group A&#39;,&#39;Group B&#39;), beside=T,
+        legend.text=c(&#39;L&#39;,&#39;M&#39;,&#39;H&#39;), args.legend = list(x = &quot;topright&quot;))</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-2.png" width="672" /> - Utilisation de symboles</p>
+<pre class="r"><code>(cities &lt;- data.frame(city=c(&#39;London&#39;,&#39;Bristol&#39;,&#39;Manchester&#39;,&#39;Leeds&#39;), 
+                      lon=c(-0.1,-2.6,-2.2,-1.5), lat=c(51.5,51.4,53.5,53.8), pop=c(8,1,2.7,0.8)))</code></pre>
+<pre><code>##         city  lon  lat pop
+## 1     London -0.1 51.5 8.0
+## 2    Bristol -2.6 51.4 1.0
+## 3 Manchester -2.2 53.5 2.7
+## 4      Leeds -1.5 53.8 0.8</code></pre>
+<pre class="r"><code>symbols(x=cities$lon, y=cities$lat, circles=sqrt(cities$pop), inches=0.3, 
+        bg=&#39;red&#39;, fg=NULL, asp=T, xlab=&#39;Longitude&#39;, ylab=&#39;Latitude&#39;)
+abline(h=(seq(51,53,1)), col=&quot;lightgray&quot;, lty=1)
+abline(v=(seq(-4,1,1)), col=&quot;lightgray&quot;, lty=1)
+text(x=cities$lon, y=cities$lat+0.2, labels=cities$city)</code></pre>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+</div>
+</div>
+<div id="utilisation-de-rmd" class="section level1">
+<h1><span class="header-section-number">7</span> Utilisation de rmd</h1>
+<p>Rmarkdown permet de stocker le code R avec une structure de rapport.</p>
+<p>Quelques remarques pratiques:</p>
+<ul>
+<li>Sauvegarder le code d’installations de packages dans un chunk avec <code>eval=FALSE</code></li>
+<li>Regrouper le chargement de library dans un chunk au début du code</li>
+<li>Ne pas afficher des messages ou warnings en précisant: <code>message=FALSE</code> ou <code>warning=FALSE</code></li>
+</ul>
+</div>
+<div id="references" class="section level1">
+<h1><span class="header-section-number">8</span> Références</h1>
+<p>De nombreux codes et les commentaires ont été créés par:</p>
+<pre class="r"><code>## A CRASH COURSE IN [R] PROGRAMMING
+## Robin Edwards (geotheory.co.uk), March 2013</code></pre>
+<p>Certains codes viennent du site <a href="http://www.sthda.com/english/wiki/easy-r-programming-basics">sthda</a>.</p>
+<p></br></p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

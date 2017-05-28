@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Analyse des prix de vente de voitures</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Data Science
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_manipulation.html">
+        <span class="fa fa-table"></span>
+         
+        Manipulation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-calculator"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="5_0_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
+     
+    Blockchain
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analyse des prix de vente de voitures</h1>
+
+</div>
+
+
+<div id="extraction" class="section level1">
+<h1><span class="header-section-number">1</span> Extraction</h1>
+<p>La construction des sites internet évolue en permance, le code d’extraction est à mettre à jour régulièrement. Certains site peuvent bloquer l’accès via l’adresse IP après un certain nombre de visites.</p>
+<p>Le code suivant n’a pas été nettoyé pour une exécution linéaire.</p>
+<p>Les différentes étpaes sont:</p>
+<ul>
+<li>Extraction des marques: pour pouvoir les parcourir toutes</li>
+<li>Extraction des modèles de chacune des marques</li>
+<li>Dans chaque modèle donné, on a les années et la liste de toutes les versions</li>
+</ul>
+<p>Il est possible d’obtenir une fiche technique pour avoir plus d’informations sur les voitures.</p>
+<p>Remarque: les cotes sont définies à une date donnée, pour la base extraction, la date est aux alentours de mai 2016.</p>
+<div id="marques" class="section level2">
+<h2><span class="header-section-number">1.1</span> Marques</h2>
+<pre class="r"><code># construction des marques -------
+## les marques sont copiées à la main dans la liste csv
+marques=gsub(&quot; &quot;,&quot;+&quot;,tolower(as.vector(unlist(read.csv2(&quot;marques.csv&quot;,header=FALSE)))))
+m=as.vector(unlist(read.csv2(&quot;marques.csv&quot;,header=FALSE)))
+
+# téléchargement des marques -------
+## toutes les pages des marques sont téléchargées dans le dossier toutes marques
+for (i in 1:length(marques)){
+  Sys.sleep(4)
+  download.file(paste0(&quot;http://www.lacentrale.fr/cote-voitures-&quot;,marques[i],&quot;----.html&quot;),paste0(&quot;toutes_marques/&quot;,marques[i],&quot;.html&quot;))
+}</code></pre>
+</div>
+<div id="modeles" class="section level2">
+<h2><span class="header-section-number">1.2</span> Modèles</h2>
+<pre class="r"><code># listes des modèles de chaque marque -------
+marques_modeles=list()
+#i=118
+for (i in 1:(length(marques))){
+  marque = htmlTreeParse(paste0(&quot;toutes_marques/&quot;,marques[i],&quot;.html&quot;),useInternal = TRUE,encoding=&quot;utf8&quot;)
+  marque_liens = unlist(xpathApply(marque, &#39;//a&#39;, xmlGetAttr,&quot;href&quot;))
+  
+  marque_liens2=NULL
+  for (k in 1:length(marque_liens)){
+    if (substr(marque_liens[k],1,15)==&quot;/cote-voitures-&quot;){
+      marque_liens2=c(marque_liens2,marque_liens[k])}
+  }
+  
+  marques_modeles[[i]]=unique(marque_liens2)
+}
+
+dput(marques_modeles,&quot;marques_modeles.txt&quot;)
+
+## comptage : juste pour savoir combien de modèles à télécharger
+
+sum_modeles=NULL
+compteur=0
+for (k in 1:(length(marques))){
+  sum_modeles=c(sum_modeles,length(marques_modeles[[k]]))
+  if (length(marques_modeles[[k]])&gt;0){
+    compteur=compteur+1
+  }
+}
+
+## voir les modèles -------
+
+for (k in 1:(length(marques)-1)){
+  if (length(marques_modeles[[k]])&gt;0){
+    for (l in 1:length(marques_modeles[[k]])){
+      print(marques_modeles[[k]][l])
+    }
+  }
+}</code></pre>
+<pre class="r"><code>## créer les répertoires des marques -------
+for (k in 1:(length(marques))){
+  dir.create(paste0(&quot;marques/&quot;,m[k]), showWarnings = TRUE)
+}
+
+marques[20]
+
+## téléchargement des modèles dans dossier marques -------
+for (k in 26:118){ #118
+  for (l in 1:length(marques_modeles[[k]])){
+    download.file(paste0(&quot;http://www.lacentrale.fr&quot;,(marques_modeles[[k]][l])),
+                  paste0(&quot;marques/&quot;,m[k],&quot;/&quot;,marques_modeles[[k]][l]))
+  }
+}
+
+## Listes des versions -------
+head(marques_modeles)
+versions=list()
+for (k in 1:118){ #118
+  version_liens2=NULL
+  for (l in 1:length(marques_modeles[[k]])){
+    modele = htmlTreeParse(paste0(&quot;marques/&quot;,m[k],&quot;/&quot;,marques_modeles[[k]][l]),
+                           useInternal = TRUE,encoding=&quot;utf8&quot;)
+    version_liens = unlist(xpathApply(modele, &#39;//a&#39;, xmlGetAttr,&quot;href&quot;))
+    for (i in 1:length(version_liens)){
+      if (substr(version_liens[i],1,15)==&quot;/cote-voitures-&quot;){
+        version_liens2=c(version_liens2,version_liens[i])}
+    }
+  }
+  versions[[k]]=unique(version_liens2)
+}
+
+dput(versions,&quot;versions.txt&quot;)
+ver=dget(&quot;versions.txt&quot;)
+
+head(versions)
+
+## créer les répertoires des versions -------
+for (k in 1:(length(marques))){
+  dir.create(paste0(&quot;versions/&quot;,m[k]), showWarnings = TRUE)
+}
+
+## téléchargements des versions -------
+## très long 
+for (k in 9:118){ #118
+  for (l in 1:length(versions[[k]])){
+    Sys.sleep(2)
+    download.file(paste0(&quot;http://www.lacentrale.fr&quot;,(versions[[k]][l])),
+                  paste0(&quot;versions/&quot;,m[k],&quot;/&quot;,versions[[k]][l]))
+  }
+}</code></pre>
+</div>
+<div id="cotes" class="section level2">
+<h2><span class="header-section-number">1.3</span> Cotes</h2>
+<pre class="r"><code># construction liste versions -----
+# à cause des redirections, refaire à partir des fichiers téléchargés
+versions2=list()
+for (k in 1:118){ #118
+  versions2[[k]]=list.files(paste0(&quot;versions/&quot;,m[k],&quot;/&quot;))
+}
+k=1
+versions2
+
+# Comptage versions ------
+# avec versions
+nbversions=0
+nb_versions=rep(0,118)
+for (k in 1:118){
+  nbversions=nbversions+(length(versions[[k]]))
+  nb_versions[k]=(length(versions[[k]]))
+}
+sum(nb_versions)
+
+# compte pour versions2
+
+nb_versions2=rep(0,118)
+
+for (k in 1:118){
+  nb_versions2[k]=(length(versions2[[k]]))
+}
+sum(nb_versions2)
+# en parallèle avec les comptages des liens des versions
+versions_stat=data.frame(matrix(c(m,nb_versions2),length(m),2))
+versions_stat$X2=as.numeric(as.character(versions_stat$X2))
+plot(versions_stat)
+versions_stat$p=versions_stat$X2/(sum(versions_stat$X2))
+
+## extration des cotes avec une liste cotes-------
+cotesliste=list()
+for (k in 5:118){ #118
+  cotesk=NULL
+  for (l in 1:length(versions2[[k]])){
+    doc.html=htmlTreeParse(paste0(&quot;versions/&quot;,m[k],&quot;/&quot;,versions2[[k]][l]),
+                           useInternal = TRUE,encoding=&quot;UTF-8&quot;)
+    doc.text = unlist(xpathApply(doc.html, &#39;//script&#39;, xmlValue))[23]
+    x=unlist(regmatches(doc.text, gregexpr(&quot;\\=.*?\\=&quot;, doc.text)))
+    y=NULL
+    for (i in 1:length(x)){
+      if (substr(x[i],2,4)==&quot;new&quot;){
+        y=c(y,gsub(&quot;&#39;&quot;,&quot;&quot;,substr(gsub(&quot;;.*&quot;,&quot;&quot;,x[i]),12,nchar(x[i]))))
+      }
+    }
+    
+    infos=gsub(&quot;.html&quot;,&quot;&quot;,unlist(strsplit(versions2[[k]][l],&quot;-&quot;)))[3:7]
+    
+    if (length(y)==0){
+      cotesk=rbindlist(list(data.table(cotesk),
+                            data.table(matrix(c(infos,versions2[[k]][l],0,0,0,0,
+                                               gsub(&quot;\\D&quot;,&quot;&quot;,substr(x[2],regexpr(&quot;coteBrute:&quot;,x[2]),
+                                                                    regexpr(&quot;ss_categorie:&quot;,x[2]))),0),1,(7+length(infos))))),use.names = FALSE,fill=FALSE)
+    } else {
+      cotesk=rbindlist(list(data.table(cotesk),
+                            data.table(cbind(matrix(rep(infos,length(y)),length(y),length(infos),byrow=T),
+                                            (matrix(unlist(strsplit(y,&quot;,&quot;)),length(y),7,byrow=T))))))
+    }
+  }
+  cotesliste[[k]]=cotesk
+}
+
+dput(cotesliste,&quot;cotesliste.txt&quot;)</code></pre>
+</div>
+<div id="nettoyage" class="section level2">
+<h2><span class="header-section-number">1.4</span> Nettoyage</h2>
+<pre class="r"><code># manipulation en data table des bases -----
+colnames(cotesbind)=c(&quot;marque&quot;,&quot;num&quot;,&quot;vide&quot;,&quot;annee&quot;,&quot;type&quot;,&quot;nom&quot;,&quot;n_portes&quot;,&quot;boite&quot;,&quot;carb&quot;,&quot;puissance&quot;,&quot;cote&quot;,&quot;id&quot;)
+# carb : 1 essence; 2 diesel; boite : 1 auto, 2 mécanique
+
+cotesbind$cote=as.numeric(cotesbind$cote)
+cotesbind$annee=as.numeric(cotesbind$annee)
+cotesbind$puissance=as.numeric(cotesbind$puissance)
+
+hist(cotesbind$puissance,nclass=100)
+table(cotesbind$puissance)
+
+# nettoyage de la base
+cotesbind[cotesbind$puissance&gt;80,]
+
+# cotes propres sans les liens directs
+cotesp=cotesbind[cotesbind$boite!=0,]
+
+voit=cotesp[cotesp$carb==&quot;1&quot;,carb:=&quot;essence&quot;]
+voit=voit[voit$carb==&quot;2&quot;,carb:=&quot;diesel&quot;]
+voit=voit[voit$boite==&quot;1&quot;,boite:=&quot;automatique&quot;]
+voit=voit[voit$boite==&quot;2&quot;,boite:=&quot;mecanique&quot;]
+voit=voit[voit$carb==&quot;3&quot;,carb:=&quot;ess/GPL&quot;]
+voit=voit[voit$carb==&quot;10&quot;,carb:=&quot;ess/bioeth&quot;]
+voit=voit[voit$carb==&quot;8&quot;,carb:=&quot;ess/hybride&quot;]</code></pre>
+<pre class="r"><code>cotes$portes=as.numeric(cotes$portes)
+cotes$puissance=as.numeric(cotes$puissance)
+cotes$cote_brute=as.numeric(cotes$cote_brute)
+names(cotes)=c(&quot;marque&quot;,&quot;version&quot;,&quot;annee&quot;,&quot;type&quot;,&quot;modele&quot;,&quot;portes&quot;,&quot;boite&quot;,&quot;carburant&quot;,&quot;puissance&quot;,&quot;cote_brute&quot;)
+cotes=data.table(do.call(rbind, lapply(data, data.frame, stringsAsFactors=TRUE)))
+save(cotes,file=&quot;../data/argus/cotes_brutes.Rdata&quot;)</code></pre>
+</div>
+</div>
+<div id="exploration" class="section level1">
+<h1><span class="header-section-number">2</span> Exploration</h1>
+<div id="marques-1" class="section level2">
+<h2><span class="header-section-number">2.1</span> Marques</h2>
+<p>Remarque: ce ne sont les nombres de voitures fabriquées, mais les versions disponibles.</p>
+<pre class="r"><code>load(&quot;../data/argus/cotes_brutes.Rdata&quot;)
+
+reorder_size &lt;- function(x) {
+  factor(x, levels = names(sort(table(x))))
+}
+ggplot(data=cotes[cotes$marque %in% names(sort(table(cotes$marque),decreasing=TRUE)[1:30]),],
+       aes(reorder_size(marque),fill=type))+
+  geom_bar()+
+  coord_flip()</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes[cotes$marque %in% names(sort(table(cotes$marque),decreasing=TRUE)[1:30]),],
+       aes(reorder_size(marque),fill=type))+
+  geom_bar(position = &quot;fill&quot;)+
+  coord_flip()</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes[cotes$marque %in% names(sort(table(cotes$marque),decreasing=TRUE)[1:30]),],
+       aes(reorder_size(marque),fill=annee))+
+  geom_bar()+
+  coord_flip()</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes[cotes$marque %in% names(sort(table(cotes$marque),decreasing=TRUE)[1:30]),],
+       aes(reorder_size(marque),fill=annee))+
+  geom_bar(position = &quot;fill&quot;)+
+  coord_flip()</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="evolutions" class="section level2">
+<h2><span class="header-section-number">2.2</span> Evolutions</h2>
+<p>Remarques: les années ici sont les années de commercialisation</p>
+<div id="nombres" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Nombres</h3>
+<pre class="r"><code>ggplot(data=cotes,aes(annee,fill=boite))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="boites-de-vitesse" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Boîtes de vitesse</h3>
+<pre class="r"><code>ggplot(data=cotes,aes(annee,fill=boite))+
+  geom_bar(position = &quot;fill&quot;)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes,aes(annee,fill=type))+
+  geom_bar(position = &quot;fill&quot;)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes,aes(annee,fill=carburant))+
+  geom_bar(position = &quot;fill&quot;)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Evolution des hybrides</p>
+<pre class="r"><code>table(cotes[cotes$carburant==8,]$marque)</code></pre>
+<pre><code>## 
+##       audi        bmw   cadillac     fisker       ford      honda 
+##         20         34          4          6          1         80 
+##   infiniti        kia land+rover      lexus   mercedes mitsubishi 
+##          6          3          4        117         20          1 
+##       opel    peugeot    porsche      smart     toyota volkswagen 
+##          8          2         11         10         87          4 
+##      volvo 
+##          1</code></pre>
+<pre class="r"><code>ggplot(data=cotes[cotes$carburant==8 &amp; cotes$marque %in% names(sort(table(cotes[cotes$carburant==8,]$marque),decreasing=TRUE)[1:10]),],
+       aes(annee,fill=marque))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Voitures sans permis</p>
+<pre class="r"><code>ggplot(data=cotes[cotes$type==&quot;voiture_sans_permis&quot;,],
+       aes(annee,fill=marque))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+</div>
+<div id="prix" class="section level2">
+<h2><span class="header-section-number">2.3</span> Prix</h2>
+<pre class="r"><code>ggplot(data = cotes,aes(cote_brute,fill=type,color=type))+
+  geom_density(alpha=0.2)+
+  xlim(0,40000)</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = cotes[cotes$cote_brute&lt;100000 &amp; is.na(cotes$cote_brute)==FALSE,],
+       aes(reorder(type,cote_brute,FUN=median),cote_brute,fill=type,color=type))+
+  geom_boxplot(alpha=0.2)+ylim(0,30000)+
+  coord_flip()</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = cotes[cotes$cote_brute&lt;200000 &amp; is.na(cotes$cote_brute)==FALSE,],
+       aes(reorder(type,cote_brute,FUN=median),cote_brute,fill=type,color=type))+
+  geom_violin(alpha=0.2)+ylim(0,30000)+
+  coord_flip()+ stat_summary(fun.y=median, geom=&quot;point&quot;, size=2, color=&quot;red&quot;)</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes[cotes$puissance&gt;0 &amp; cotes$puissance&lt;90 &amp; cotes$type %in% c(&quot;berline&quot;,&quot;coupe&quot;,&quot;suv_4x4&quot;),],
+       aes(annee,cote_brute))+
+  geom_jitter(aes(color=type))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))+
+  geom_smooth(aes(color=type))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="comparasion-des-modeles" class="section level2">
+<h2><span class="header-section-number">2.4</span> Comparasion des modèles</h2>
+<pre class="r"><code>ggplot(data=cotes[cotes$puissance&gt;0 &amp; cotes$puissance&lt;90 &amp; cotes$version %in% c(&quot;clio&quot;,&quot;touareg&quot;),],
+       aes(annee,cote_brute))+
+  geom_jitter(aes(color=version))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))+
+  geom_smooth(aes(color=type))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes[cotes$puissance&gt;0 &amp; cotes$puissance&lt;90 &amp; cotes$version %in% c(&quot;clio&quot;,&quot;touareg&quot;),],
+       aes(annee,cote_brute))+
+  geom_jitter(aes(color=version,size=puissance))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))+
+  geom_smooth(aes(color=type))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes[cotes$puissance&gt;0 &amp; cotes$puissance&lt;90 &amp; cotes$version %in% c(&quot;clio&quot;,&quot;touareg&quot;),],
+       aes(annee,cote_brute))+
+  geom_jitter(aes(color=version,shape=type))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=cotes[cotes$puissance&gt;0 &amp; cotes$puissance&lt;90 &amp; cotes$marque %in% c(&quot;bmw&quot;,&quot;renault&quot;),],
+       aes(annee,cote_brute))+
+  geom_jitter(aes(color=marque,shape=type))+
+  theme(axis.text.x = element_text(angle = 90, hjust = 0))</code></pre>
+<p><img src="1_argus_cotes_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

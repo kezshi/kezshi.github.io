@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Analyse en composante principale et décomposition en valeurs singulières</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -162,6 +165,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -193,13 +291,6 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="0_ds_preambule.html">
-        <span class="fa fa-pencil-square-o"></span>
-         
-        Préambule
-      </a>
-    </li>
-    <li>
       <a href="1_0_collecte.html">
         <span class="fa fa-hand-paper-o"></span>
          
@@ -215,7 +306,7 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="3_0_analytics.html">
-        <span class="fa fa-cogs"></span>
+        <span class="fa fa-calculator"></span>
          
         Analyse des données
       </a>
@@ -287,24 +378,69 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Analyse en composante principale et décomposition en valeurs singulières</h1>
 
 </div>
 
 
-<p></br></p>
-<p>Pour avoir une vision globale de Data Science, voici quelques informations intéressantes.</p>
-<ul>
-<li>Compétences Data Science</li>
-<li>Data Science Process</li>
-</ul>
-<div id="data-science-venn-diagram" class="section level1">
-<h1>Data Science Venn Diagram</h1>
-<p>On peut trouver beaucoup de Venn Diagrammes différents pour les compétences data science, voici un exemple:</p>
-<p><img src="http://blog.operasolutions.com/hs-fs/hub/213893/file-730245378-jpg/images/os_signalcentral_what_is_data_science_gp_2014_v1.2_venn_diagram.jpg?t=1487881469000&width=1200&height=1234&name=os_signalcentral_what_is_data_science_gp_2014_v1.2_venn_diagram.jpg" width="600px" /></p>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Une explication intuitive de l’analyse en compostante princiaple est donnée en image dans l’<a href="https://fr.wikipedia.org/wiki/Analyse_en_composantes_principales">article de wikipédia</a> :</p>
+<div class="figure">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/PCA_fish.png/330px-PCA_fish.png" alt="ACP sur un poisson" />
+<p class="caption">ACP sur un poisson</p>
 </div>
-<div id="data-science-process" class="section level1">
-<h1>Data Science Process</h1>
-<p><img src="http://blog.operasolutions.com/hs-fs/hub/213893/file-725863214-jpg/images/os_signalcentral_what_is_data_science_gp_2014_v1.2_the_data_science_process.jpg?t=1487881469000&width=1200&height=1394&name=os_signalcentral_what_is_data_science_gp_2014_v1.2_the_data_science_process.jpg" width="600px" /></p>
+<p>La théorie derrière est liée à la décomposition en valeur singulière illustrée <a href="valeurs_singulières_compression_image.html">ici pour la compressin d’image</a>.</p>
+<p>On va montrer le lien avec avec les différentes de R.</p>
+</div>
+<div id="analyse-en-composantes-principales" class="section level1">
+<h1><span class="header-section-number">2</span> Analyse en composantes principales</h1>
+<p>Avec la fonction <code>pca</code>, on peut faire l’analyse en composantes principales :</p>
+<p>Pour voir ce qu’il y a dans les résultats de l’analyse, on peut afficher les objets :</p>
+<pre><code>## List of 5
+##  $ sdev    : num [1:4] 2.056 0.493 0.28 0.154
+##  $ rotation: num [1:4, 1:4] 0.3614 -0.0845 0.8567 0.3583 -0.6566 ...
+##   ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. ..$ : chr [1:4] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot; &quot;Petal.Length&quot; &quot;Petal.Width&quot;
+##   .. ..$ : chr [1:4] &quot;PC1&quot; &quot;PC2&quot; &quot;PC3&quot; &quot;PC4&quot;
+##  $ center  : Named num [1:4] 5.84 3.06 3.76 1.2
+##   ..- attr(*, &quot;names&quot;)= chr [1:4] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot; &quot;Petal.Length&quot; &quot;Petal.Width&quot;
+##  $ scale   : logi FALSE
+##  $ x       : num [1:150, 1:4] -2.68 -2.71 -2.89 -2.75 -2.73 ...
+##   ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. ..$ : NULL
+##   .. ..$ : chr [1:4] &quot;PC1&quot; &quot;PC2&quot; &quot;PC3&quot; &quot;PC4&quot;
+##  - attr(*, &quot;class&quot;)= chr &quot;prcomp&quot;</code></pre>
+<p>Ainsi, comme on a souvent l’habitude, on peut afficher les données projetées sur les 2 premières directions principales :</p>
+<p><img src="3_1_introduction_PCA_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Il est à noter que les points sont projetés indépendamment de leurs classes. S’il y a des relations particulières entre les caractéristiques des variables et les classes, on pourrait voir que grâce à l’analyse en composantes princiaples, les projections permettent de mieux distinguer les classes sur les 2 premières directions principales :</p>
+<p><img src="3_1_introduction_PCA_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Cela permet ainsi la réduction de dimension. En effet, on peut visuellement distinguer deux frontières selon l’axe 1 pour distinguer les trois classes.</p>
+</div>
+<div id="decomposition-en-valeurs-singulieres" class="section level1">
+<h1><span class="header-section-number">3</span> Décomposition en valeurs singulières</h1>
+<p>Si on réalise une décomposition en valeur singulières sur les données centrées, on verra que les résultats sont équivalents à l’analyse en composantes principales :</p>
+<pre><code>## List of 3
+##  $ d: num [1:4] 25.1 6.01 3.41 1.88
+##  $ u: num [1:150, 1:4] -0.107 -0.108 -0.115 -0.109 -0.109 ...
+##  $ v: num [1:4, 1:4] 0.3614 -0.0845 0.8567 0.3583 -0.6566 ...</code></pre>
+<p>Dans U, on trouve les mêmes projections X :</p>
+<p><img src="3_1_introduction_PCA_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Dans V, on trouve la matrice de rotation :</p>
+<pre><code>##             [,1]        [,2]        [,3]       [,4]
+## [1,]  0.36138659 -0.65658877  0.58202985  0.3154872
+## [2,] -0.08452251 -0.73016143 -0.59791083 -0.3197231
+## [3,]  0.85667061  0.17337266 -0.07623608 -0.4798390
+## [4,]  0.35828920  0.07548102 -0.54583143  0.7536574</code></pre>
+<pre><code>##                      PC1         PC2         PC3        PC4
+## Sepal.Length  0.36138659 -0.65658877  0.58202985  0.3154872
+## Sepal.Width  -0.08452251 -0.73016143 -0.59791083 -0.3197231
+## Petal.Length  0.85667061  0.17337266 -0.07623608 -0.4798390
+## Petal.Width   0.35828920  0.07548102 -0.54583143  0.7536574</code></pre>
+<p>Les écarts-types dans l’ACP sont proportionnels aux valeurs singulières :</p>
+<pre><code>## [1] 12.20656 12.20656 12.20656 12.20656</code></pre>
+<p>Le coefficient de proportionnalité vient du fait que l’estimateur de la variance dans l’ACP est un estimateur non-biaisé, avec le facteur <code>1/(nrow(iris)-1)</code>.</p>
+<pre><code>## [1] 149 149 149 149</code></pre>
 </div>
 
 <div id="disqus_thread"></div>
@@ -333,6 +469,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 

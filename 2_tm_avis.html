@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Analyse des commentaires clients</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Data Science
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="0_ds_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_manipulation.html">
+        <span class="fa fa-table"></span>
+         
+        Manipulation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-cogs"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="5_0_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
+     
+    Blockchain
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analyse des commentaires clients</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Les sites d’avis de consommateurs recueillent des messages précieux venant des clients et peuvent être utilisé pour mieux comprendre les besoins des clients. Les données ont été récupérées sur le site d’opinions assurance, et la base de données comprend les variables suivantes :</p>
+<p>Les données ont été récupérées sur le site d’opinions assurance, et la base de données comprend les variables suivantes :</p>
+<ul>
+<li>Date et heure de l’avis</li>
+<li>Note globale qui est la moyenne des notes selon 4 critères qui sont maintenant récupérées aussi:</li>
+<li>Prix: note sur le prix</li>
+<li>Service: note sur le service client</li>
+<li>Garantie: note sur les garanties</li>
+<li>Satisfaction: note sur la satisfaction générale</li>
+<li>Commentaire: l’avis du client rédigé en français, à noter qu’il y a parfois des fautes d’orthographe, ce qui nécessiterait des nettoyages à la main.</li>
+</ul>
+<p>Différentes analyses sont réalisées sur ces données:</p>
+<ul>
+<li><a href="2_tm_avis.html">Text-mining des commentaires des clients</a></li>
+<li><a href="3_2_avis_reg.html">Prédiction des notes en fonction des commentaires</a></li>
+<li><a href="4_avis_vis.html">Visualisation des notes clients</a></li>
+</ul>
+</div>
+<div id="exploration-des-donnees" class="section level1">
+<h1><span class="header-section-number">2</span> Exploration des données</h1>
+<pre><code>##                 dateheure note.globale
+##    1: 2016-05-30T17:52:37            2
+##    2: 2016-05-25T13:31:18            1
+##    3: 2016-05-25T04:05:51            2
+##    4: 2016-05-23T09:30:43            2
+##    5: 2016-05-16T20:45:44            2
+##   ---                                 
+## 1664: 2008-12-18T13:39:19            3
+## 1665: 2008-12-18T13:29:23            3
+## 1666: 2008-12-17T15:41:17            2
+## 1667: 2008-12-17T11:10:05            3
+## 1668: 2008-12-09T14:51:49            2
+##                                   lien.avis Prix Service Garantie
+##    1: /macif-assurance-auto-avis-76170.html    2       2        2
+##    2: /macif-assurance-auto-avis-76087.html    2       1        2
+##    3: /macif-assurance-auto-avis-76077.html    3       3        2
+##    4: /macif-assurance-auto-avis-76043.html    3       3        3
+##    5: /macif-assurance-auto-avis-75933.html    1       2        4
+##   ---                                                            
+## 1664:  /macif-assurance-auto-avis-1349.html    3       3        3
+## 1665:  /macif-assurance-auto-avis-1345.html    3       4        4
+## 1666:  /macif-assurance-auto-avis-1264.html    2       2        2
+## 1667:  /macif-assurance-auto-avis-1201.html    5       1        5
+## 1668:  /macif-assurance-auto-avis-1141.html    3       1        4
+##       Satisfaction
+##    1:            2
+##    2:            1
+##    3:            2
+##    4:            2
+##    5:            2
+##   ---             
+## 1664:            3
+## 1665:            4
+## 1666:            3
+## 1667:            1
+## 1668:            3
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  commentaire
+##    1:                                                                                                                                                                                                                                                                                                                             assuré depuis 25 ans a la macif je m&#39;aperçois que tout les ans je paie plus chère que l&#39;année précédente malgré la somme additionnel déduite ayant 50% et plus sur mes véhicules de plus ils ont oublier d&#39;attribuer du bonus a ma fille qui est conducteur déclaré depuis prés de 3 ans .
+##    2: J&#39;ai demandé par téléphone à assurer mon véhicule pour une durée de 2 jours, le temps de le récupérer hors département. Ses messieurs d&#39;Agen m&#39;ont dit OK sans pb !!! j&#39;avais trouvé une autre assurance moins chère et donc après ces 2 jours, j&#39;ai basculé ma voiture auprès des autres assureurs et au moment d&#39;en aviser la MACIF ses derniers m&#39;informent qu&#39;ils ne peuvent rien résilier, qu&#39;ils ne font pas de contrat temporaire et que je dois m&#39;&quot;enquiller&quot; 1 an d&#39;assurance .... et la cerise sur le gâteau, ils me traitent quasiment de menteuse, que jamais ils n&#39;auraient pu faire ce genre de contrat.
+##    3:                                                                                                                                                                                                                                                                                                                 J&#39;ai équipé mon habitation d&#39;une alarme performante et normes agrées. Je pensais ainsi bénéficier d&#39;une réduction de franchise pour l&#39;assurance vol. Et bien non la MACIF exige que l&#39;alarme soit reliée à une agence de télésurveillance et fournit même les coordonnées d&#39;un prestataire.BIZNESS!!! 
+##    4:                                                                                                                                                                                                                                                                                                                                                                                                                                                  Assez satisfaite dans l&#39;ensemble sauf au niveau des franchises , aucun courrier qui me précise l&#39;augmentation de la franchise , je l ai découverte sur l&#39;echeancier .
+##    5:                                                                                                                                                                                                                    assurance de plus en plus chère, (d&#39;après ce que j&#39;ai vu sur le net, beaucoup mois chère pour les nouveaux...)\r\nça fait 39 ans que je suis à la Macif donc je suis fidélisé, donc je paye plein pot !!! avec ça, après tout ce temps, aucune indulgence pour le moindre souci. \r\nRemboursement convenable, sauf que chez eux on évite de réparer, on paye à l&#39;argus, car ça revient moins cher.
+##   ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+## 1664:                                                                                                                                                                                                                                                                                                                                                                                                                                      Bonjour,\r\nje suis au maximun des reductions que je puisse avoir\r\nc&#39; est dommage que je n&#39;ai pas d&#39;autres ristournes!aucun gros sinistres depuis 38 ans de conduites !\r\n\r\n
+## 1665:                                                                                                                                                                                                                                                                                                                                                                                                                                      Peut être un peu plus cher, mais beaucoup de sastisfactions lors de problème aussi bien pour la voiture défense et recours ainsi que l&#39;habitation\r\nnous en sommes très contents
+## 1666:                                                                                                                                                                                                                                                                                                                                                                    20ans chez eux ....tant qu&#39;il n&#39;y a pas eu de soucis pas de problemes....\r\npuis en 1994 un gros accident materiel et depuis je traine \r\nils ont meme assurer un vehicule neuf en tiers collision en me signifiant ce tier dans le sas de sortie
+## 1667:                                                                                                                                                                                                                                                                                                                                                                                                  C&#39;est une assurance, tant que tout va bien c&#39;est très bien mais le jour où il vous arrive un pépin alors là tout bascule. 3 accidents dont 1 responsable, 1 50/50 et 1 non responsable et vous voilà mis à la porte. 
+## 1668:                                                                                                                                                                                                                                                                                                            Je suis assuré à la MACIF pour mon véhicule et suite à un changement d&#39;adresse pour mon déménagement j&#39;ai du les contacter 2 fois par téléphone car ils ne l&#39;vaient pas pris en compte alors que j&#39;avais effectué mon changement de domicile sur le site web... le service client n&#39;est pas très au point. 
+##                                                                                          plus
+##    1:                                                          je cherche mais ne trouve pas 
+##    2:                                                                     Il n&#39;y en a pas !!!
+##    3:                                                                          Aucun intérêt 
+##    4:  Les rembourssements sont rapides, et la qualité du services clients est irréprochable.
+##    5:                                                                Remboursement convenable
+##   ---                                                                                        
+## 1664:                                                                                        
+## 1665:                                                                                        
+## 1666:                                                                                        
+## 1667:                                                                                        
+## 1668:                                                                                        
+##                                                                                                                                                                                                                                           moins
+##    1:  l&#39;accueil, le temps d&#39;attente les réponses des conseillers au téléphone la conseillère ma répondu qu&#39;il n&#39;était pas habituer a assuré des véhicules comme la mienne que c&#39;était le motif du prix exorbitant , j&#39;ai une audi a3 sportback
+##    2:                                                                                                                                                              interprétation des &quot;lois&quot; à leur avantage, aucune écoute des sociétaires !!!
+##    3:                                                                                                                                                              Il vaut mieux être cambriolé et remboursé à fond....aux frais de l&#39;adhérent?
+##    4:                                                                                                                                                   Les Franchises sont de plus en plus élévées malgré les nombres d&#39;années de cotisations.
+##    5:                                                                                                                                                             Prix très haut au bout de quelque années de fidélité !\r\nAucune indulgence !
+##   ---                                                                                                                                                                                                                                          
+## 1664:                                                                                                                                                                                                                                          
+## 1665:                                                                                                                                                                                                                                          
+## 1666:                                                                                                                                                                                                                                          
+## 1667:                                                                                                                                                                                                                                          
+## 1668:</code></pre>
+</div>
+<div id="analyse-des-textes" class="section level1">
+<h1><span class="header-section-number">3</span> Analyse des textes</h1>
+<p>Un package R de text-mining <code>library(tm)</code> existe pour l’analyse des textes. Il regroupent des fonctions couramment utilisées pour le nettoyage et exploration des données textuelles. Mais pour cette analyse, je n’ai pas utilisé ce package. Le fait de construire des fonctions à la main permet de mieux comprendre l’algorithme. Les lecteurs curieux pourront l’appliquer pour voir si les résultats sont les mêmes.</p>
+<div id="analyse-du-corpus" class="section level2">
+<h2><span class="header-section-number">3.1</span> Analyse du corpus</h2>
+<pre><code>## &lt;&lt;VCorpus&gt;&gt;
+## Metadata:  corpus specific: 0, document level (indexed): 0
+## Content:  documents: 1
+## 
+## [[1]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 265</code></pre>
+<p><strong>Document-Term Matrice</strong></p>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 1668, terms: 7268)&gt;&gt;
+## Non-/sparse entries: 44471/12078553
+## Sparsity           : 100%
+## Maximal term length: 29
+## Weighting          : term frequency (tf)</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 6, terms: 6)&gt;&gt;
+## Non-/sparse entries: 3/33
+## Sparsity           : 92%
+## Maximal term length: 9
+## Weighting          : term frequency (tf)
+## 
+##      Terms
+## Docs  attribués attribut atypique aubagne aucin aucun
+##   500         0        0        0       0     0     0
+##   501         0        0        0       0     0     0
+##   502         0        0        0       0     0     2
+##   503         0        0        0       0     0     1
+##   504         0        0        0       0     0     0
+##   505         0        0        0       0     0     1</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 1668, terms: 403)&gt;&gt;
+## Non-/sparse entries: 28900/643304
+## Sparsity           : 96%
+## Maximal term length: 14
+## Weighting          : term frequency (tf)</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 1, terms: 20)&gt;&gt;
+## Non-/sparse entries: 1/19
+## Sparsity           : 95%
+## Maximal term length: 10
+## Weighting          : term frequency (tf)
+## 
+##     Terms
+## Docs accident accidents accueil afin agence agences ailleurs ainsi aller
+##    1        0         0       0    0      0       0        0     0     0
+##     Terms
+## Docs alors année années ans apres après assez assistance assurance
+##    1     0     0      0   3     0     0     0          0         0
+##     Terms
+## Docs assurances assure
+##    1          0      0</code></pre>
+<pre><code>## [1] &quot;des&quot;   &quot;est&quot;   &quot;les&quot;   &quot;macif&quot; &quot;pas&quot;   &quot;plus&quot;  &quot;pour&quot;  &quot;que&quot;   &quot;une&quot;</code></pre>
+<p><img src="2_tm_avis_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="tf-idf" class="section level2">
+<h2><span class="header-section-number">3.2</span> TF-IDF</h2>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 1668, terms: 92)&gt;&gt;
+## Non-/sparse entries: 18451/135005
+## Sparsity           : 88%
+## Maximal term length: 14
+## Weighting          : term frequency - inverse document frequency (normalized) (tf-idf)</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 12, terms: 20)&gt;&gt;
+## Non-/sparse entries: 25/215
+## Sparsity           : 90%
+## Maximal term length: 10
+## Weighting          : term frequency - inverse document frequency (normalized) (tf-idf)
+## 
+##     Terms
+## Docs accident alors        ans  assurance assurances    assuré assureur
+##   1         0     0 0.16787959 0.00000000 0.00000000 0.1018688        0
+##   2         0     0 0.00000000 0.02970724 0.00000000 0.0000000        0
+##   3         0     0 0.00000000 0.00000000 0.00000000 0.0000000        0
+##   4         0     0 0.00000000 0.00000000 0.00000000 0.0000000        0
+##   5         0     0 0.04252949 0.04337256 0.00000000 0.0000000        0
+##   6         0     0 0.00000000 0.04614103 0.00000000 0.0000000        0
+##   7         0     0 0.00000000 0.09638348 0.00000000 0.0000000        0
+##   8         0     0 0.08679489 0.00000000 0.00000000 0.0000000        0
+##   9         0     0 0.00000000 0.00000000 0.07488984 0.0000000        0
+##   10        0     0 0.17720623 0.00000000 0.00000000 0.0000000        0
+##   11        0     0 0.05747229 0.05861157 0.00000000 0.0000000        0
+##   12        0     0 0.00000000 0.00000000 0.00000000 0.1935507        0
+##     Terms
+## Docs     aucun       auto       avec avoir       bien bon bonne      bonus
+##   1  0.0000000 0.00000000 0.00000000     0 0.00000000   0     0 0.09837156
+##   2  0.0000000 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##   3  0.0000000 0.00000000 0.00000000     0 0.08368904   0     0 0.00000000
+##   4  0.2159106 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##   5  0.0000000 0.00000000 0.04675163     0 0.00000000   0     0 0.00000000
+##   6  0.0000000 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##   7  0.0000000 0.08306932 0.00000000     0 0.00000000   0     0 0.00000000
+##   8  0.0000000 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##   9  0.0000000 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##   10 0.0000000 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##   11 0.0000000 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##   12 0.1835240 0.00000000 0.00000000     0 0.00000000   0     0 0.00000000
+##     Terms
+## Docs        car cas       cest      cette       cher
+##   1  0.00000000   0 0.00000000 0.00000000 0.00000000
+##   2  0.00000000   0 0.00000000 0.00000000 0.00000000
+##   3  0.00000000   0 0.00000000 0.00000000 0.00000000
+##   4  0.00000000   0 0.00000000 0.00000000 0.00000000
+##   5  0.07297242   0 0.00000000 0.00000000 0.07407807
+##   6  0.07763024   0 0.06717041 0.00000000 0.00000000
+##   7  0.00000000   0 0.00000000 0.00000000 0.00000000
+##   8  0.00000000   0 0.06442876 0.00000000 0.00000000
+##   9  0.00000000   0 0.00000000 0.00000000 0.00000000
+##   10 0.00000000   0 0.00000000 0.00000000 0.00000000
+##   11 0.00000000   0 0.00000000 0.09314907 0.00000000
+##   12 0.00000000   0 0.00000000 0.00000000 0.00000000</code></pre>
+<p><img src="2_tm_avis_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+<div id="ngrammes" class="section level1">
+<h1><span class="header-section-number">4</span> Ngrammes</h1>
+<p><img src="2_tm_avis_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre><code>## # A tibble: 36,182 × 2
+##         bigram     n
+##          &lt;chr&gt; &lt;int&gt;
+## 1     la macif   639
+## 2      je suis   306
+## 3        de la   232
+## 4       en cas   194
+## 5       pas de   185
+## 6       que je   185
+## 7       cas de   184
+## 8  de sinistre   175
+## 9         à la   156
+## 10        a la   150
+## # ... with 36,172 more rows</code></pre>
+<div id="nettoyage-des-donnees-textuelles" class="section level2">
+<h2><span class="header-section-number">4.1</span> Nettoyage des données textuelles</h2>
+<p>Une fonction fait maison pour nettoyer les textes.</p>
+</div>
+<div id="visualisation-des-frequences-des-termes" class="section level2">
+<h2><span class="header-section-number">4.2</span> Visualisation des fréquences des termes</h2>
+<p>On peut utiliser le wordcloud pour visualiser les mots les plus fréquents.</p>
+<p><img src="2_tm_avis_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="table-des-frequences-des-termes" class="section level2">
+<h2><span class="header-section-number">4.3</span> Table des fréquences des termes</h2>
+<p>Pour examiner les fréquences des mots de plus près, on peut afficher la table des fréquences.</p>
+<div id="htmlwidget-05f650aa88d12f662d49" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-05f650aa88d12f662d49">{"x":{"filter":"none","data":[["383","498","645","804","816","825","829","885","943","1404","1414","1671","1770","1773","2170","2896","3130","3184","3310","3686","4334","5178","5265","5281","5554","5747","6025","6087","6093","6379","6514","6672","6801"],["accident","agence","années","assurance","assuré","assurer","assureur","aucune","autrès","client","clients","conseillers","contrat","contrats","depuis","expert","franchise","garanties","habitation","jamais","niveau","qualité","rapide","rapport","remboursement","responsable","service","sinistre","sinistrès","tarifs","toujours","véhicule","voiture"],[162,106,86,797,135,85,155,83,105,199,88,99,149,98,367,92,120,90,83,142,84,127,100,101,204,104,104,324,98,143,153,159,217]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>Terme\u003c/th>\n      <th>Freq\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="prediction-de-la-qualite-en-fonction-des-mots" class="section level2">
+<h2><span class="header-section-number">4.4</span> Prédiction de la qualité en fonction des mots</h2>
+<p>Ainsi, il est possible de prédire la qualité du service en fonction des fréquences de certains mots. En effet, si sur le site-là, les avis textuels des clients sont accompagnés des notes numériques, selon d’autres sources de données, on n’a pas toujours une notation numérique. Ainsi, en faisant, une analyse des textes ou de la voix, on sera capable de donner une note numérique, comme indicateur.</p>
+<p>Cela me fait penser à la détection de spam. Le principe est le même: en fonction de la densité de certains termes, on classifie la caractéristique des textes. Il fera l’objet d’un prochain article.</p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">5</span> Conclusion</h1>
+<p>Grâce à quelques analyses rapides, on peut découvrir les principaux sujets dans les avis clients. De plus, les notes numériques données par les clients peuvent nous aider à définir les termes qui montrent des sentiments positifs, et d’autres qui montrent des négatifs. Parfois, ce sont des mots qui peuvent appaître comme neutres, mais le contexte pourrait leur donner certain sens caché.</p>
+<p>En fonction des objectifs, les pistes d’analyse peuvent être différentes. Si vous avez des idées, n’hésitez pas à partager !</p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

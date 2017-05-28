@@ -281,25 +281,57 @@ div.tocify {
     Accueil
   </a>
 </li>
-<li>
-  <a href="0_preparation.html">
-    <span class="fa fa-table"></span>
-     
-    Préparation
-  </a>
-</li>
-<li>
-  <a href="0_analytics.html">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-flask"></span>
      
-    Analytics
+    Data Science
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_manipulation.html">
+        <span class="fa fa-table"></span>
+         
+        Manipulation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-calculator"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="5_0_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="0_datavis.html">
-    <span class="fa fa-line-chart"></span>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
      
-    Visualisation
+    Blockchain
   </a>
 </li>
 <li>
@@ -307,6 +339,13 @@ div.tocify {
     <span class="fa fa-heartbeat"></span>
      
     Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
   </a>
 </li>
 <li class="dropdown">
@@ -510,32 +549,32 @@ div.tocify {
 <p>On peut construire la matrice de confusion avec la fonction <code>table</code> :</p>
 <pre><code>##     
 ## pred   B   M
-##    B 243   8
-##    M   6 140</code></pre>
+##    B 246  11
+##    M   3 137</code></pre>
 <p>ou utiliser la fonction <code>confusionMatrix</code> qui permet de calculer automatiquement certains caractéristiques :</p>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
 ## Prediction   B   M
-##          B 243   8
-##          M   6 140
+##          B 246  11
+##          M   3 137
 ##                                           
 ##                Accuracy : 0.9647          
 ##                  95% CI : (0.9415, 0.9806)
 ##     No Information Rate : 0.6272          
-##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##     P-Value [Acc &gt; NIR] : &lt; 2e-16         
 ##                                           
-##                   Kappa : 0.9244          
-##  Mcnemar&#39;s Test P-Value : 0.7893          
+##                   Kappa : 0.9238          
+##  Mcnemar&#39;s Test P-Value : 0.06137         
 ##                                           
-##             Sensitivity : 0.9759          
-##             Specificity : 0.9459          
-##          Pos Pred Value : 0.9681          
-##          Neg Pred Value : 0.9589          
+##             Sensitivity : 0.9880          
+##             Specificity : 0.9257          
+##          Pos Pred Value : 0.9572          
+##          Neg Pred Value : 0.9786          
 ##              Prevalence : 0.6272          
-##          Detection Rate : 0.6121          
-##    Detection Prevalence : 0.6322          
-##       Balanced Accuracy : 0.9609          
+##          Detection Rate : 0.6196          
+##    Detection Prevalence : 0.6474          
+##       Balanced Accuracy : 0.9568          
 ##                                           
 ##        &#39;Positive&#39; Class : B               
 ## </code></pre>
@@ -576,25 +615,25 @@ div.tocify {
 ## 
 ##           Reference
 ## Prediction   B   M
-##          B 242   7
-##          M   7 141
+##          B 238   6
+##          M  11 142
 ##                                           
-##                Accuracy : 0.9647          
-##                  95% CI : (0.9415, 0.9806)
+##                Accuracy : 0.9572          
+##                  95% CI : (0.9323, 0.9749)
 ##     No Information Rate : 0.6272          
 ##     P-Value [Acc &gt; NIR] : &lt;2e-16          
 ##                                           
-##                   Kappa : 0.9246          
-##  Mcnemar&#39;s Test P-Value : 1               
+##                   Kappa : 0.9091          
+##  Mcnemar&#39;s Test P-Value : 0.332           
 ##                                           
-##             Sensitivity : 0.9719          
-##             Specificity : 0.9527          
-##          Pos Pred Value : 0.9719          
-##          Neg Pred Value : 0.9527          
+##             Sensitivity : 0.9558          
+##             Specificity : 0.9595          
+##          Pos Pred Value : 0.9754          
+##          Neg Pred Value : 0.9281          
 ##              Prevalence : 0.6272          
-##          Detection Rate : 0.6096          
-##    Detection Prevalence : 0.6272          
-##       Balanced Accuracy : 0.9623          
+##          Detection Rate : 0.5995          
+##    Detection Prevalence : 0.6146          
+##       Balanced Accuracy : 0.9576          
 ##                                           
 ##        &#39;Positive&#39; Class : B               
 ## </code></pre>
@@ -610,43 +649,43 @@ div.tocify {
 ## - sampling method: 10-fold cross validation 
 ## 
 ## - best parameters:
-##  k
-##  9
+##   k
+##  13
 ## 
-## - best performance: 0.02631579 
+## - best performance: 0.02637845 
 ## 
 ## - Detailed performance results:
 ##     k      error dispersion
-## 1   1 0.04213659 0.02215308
-## 2   2 0.03862782 0.02153241
-## 3   3 0.02807018 0.01885908
-## 4   4 0.03859649 0.02453354
-## 5   5 0.03339599 0.02101059
-## 6   6 0.02813283 0.01482859
-## 7   7 0.03161028 0.02154375
-## 8   8 0.02807018 0.02368241
-## 9   9 0.02631579 0.01894953
-## 10 10 0.02985589 0.02344678
-## 11 11 0.03511905 0.02740724
-## 12 12 0.03511905 0.02185333
-## 13 13 0.03157895 0.02309756
-## 14 14 0.03157895 0.02309756
-## 15 15 0.03508772 0.02864900
-## 16 16 0.03508772 0.02742933
-## 17 17 0.03508772 0.02864900
-## 18 18 0.03684211 0.02798476
-## 19 19 0.03508772 0.03094446
-## 20 20 0.04038221 0.02618803
-## 21 21 0.04038221 0.02618803
-## 22 22 0.03687343 0.02670985
-## 23 23 0.04038221 0.02618803
-## 24 24 0.03862782 0.02715203
-## 25 25 0.04213659 0.02638087
-## 26 26 0.04392231 0.02771796
-## 27 27 0.04392231 0.02771796
-## 28 28 0.04392231 0.02771796
-## 29 29 0.04216792 0.02639532
-## 30 30 0.04038221 0.02746289</code></pre>
+## 1   1 0.04746241 0.02872930
+## 2   2 0.04567669 0.02055811
+## 3   3 0.02985589 0.02344678
+## 4   4 0.03511905 0.02478634
+## 5   5 0.03865915 0.01990613
+## 6   6 0.03515038 0.02481156
+## 7   7 0.03690476 0.02256886
+## 8   8 0.03161028 0.02307662
+## 9   9 0.03164160 0.02590018
+## 10 10 0.03515038 0.02339265
+## 11 11 0.03339599 0.02542904
+## 12 12 0.02988722 0.02197662
+## 13 13 0.02637845 0.02229663
+## 14 14 0.02813283 0.02061743
+## 15 15 0.03164160 0.02310899
+## 16 16 0.03518170 0.02347188
+## 17 17 0.03690476 0.02541944
+## 18 18 0.03518170 0.02749765
+## 19 19 0.03693609 0.02679806
+## 20 20 0.04044486 0.02493285
+## 21 21 0.04044486 0.02493285
+## 22 22 0.04219925 0.02771885
+## 23 23 0.04395363 0.02777387
+## 24 24 0.04219925 0.02892631
+## 25 25 0.04219925 0.02892631
+## 26 26 0.04395363 0.02777387
+## 27 27 0.04219925 0.02892631
+## 28 28 0.04223058 0.03017972
+## 29 29 0.04223058 0.03017972
+## 30 30 0.04573935 0.03339206</code></pre>
 <p><img src="3_1_introduction_kNN_files/figure-html/knncross-1.png" width="672" /></p>
 </div>
 <div id="boostrap" class="section level2">
@@ -658,43 +697,43 @@ div.tocify {
 ## - sampling method: bootstrapping 
 ## 
 ## - best parameters:
-##   k
-##  18
+##  k
+##  5
 ## 
-## - best performance: 0.03650283 
+## - best performance: 0.0412202 
 ## 
 ## - Detailed performance results:
 ##     k      error  dispersion
-## 1   1 0.04960789 0.015107817
-## 2   2 0.05348363 0.011109256
-## 3   3 0.05208932 0.008737733
-## 4   4 0.04957252 0.009409546
-## 5   5 0.04610232 0.008329064
-## 6   6 0.04346277 0.012137074
-## 7   7 0.04603357 0.009176791
-## 8   8 0.04518929 0.011854109
-## 9   9 0.04212783 0.012025564
-## 10 10 0.04162343 0.016869806
-## 11 11 0.04207488 0.011680170
-## 12 12 0.03949031 0.012869472
-## 13 13 0.03778166 0.012741881
-## 14 14 0.03863843 0.014347384
-## 15 15 0.03774253 0.015652926
-## 16 16 0.03999183 0.015707999
-## 17 17 0.03867353 0.015721628
-## 18 18 0.03650283 0.013962684
-## 19 19 0.03740534 0.013323598
-## 20 20 0.03869368 0.014909679
-## 21 21 0.03870145 0.016603848
-## 22 22 0.03827971 0.014478321
-## 23 23 0.03867127 0.017811421
-## 24 24 0.03863700 0.017872025
-## 25 25 0.03772459 0.017179507
-## 26 26 0.03912892 0.016219015
-## 27 27 0.03864633 0.017912216
-## 28 28 0.04091349 0.019470388
-## 29 29 0.04132093 0.018204135
-## 30 30 0.04215857 0.018338582</code></pre>
+## 1   1 0.04824109 0.009165837
+## 2   2 0.04443151 0.009234369
+## 3   3 0.04651627 0.017171229
+## 4   4 0.04521999 0.012755747
+## 5   5 0.04122020 0.013319071
+## 6   6 0.04354675 0.013252429
+## 7   7 0.04523713 0.013359710
+## 8   8 0.04486007 0.019203089
+## 9   9 0.04558022 0.016755446
+## 10 10 0.04347606 0.018600730
+## 11 11 0.04473843 0.016165320
+## 12 12 0.04308703 0.013786491
+## 13 13 0.04567232 0.016098120
+## 14 14 0.04401046 0.016837082
+## 15 15 0.04570124 0.016531011
+## 16 16 0.04615404 0.015285687
+## 17 17 0.04478020 0.015134959
+## 18 18 0.04695606 0.012871066
+## 19 19 0.04739466 0.012490814
+## 20 20 0.04824200 0.012420148
+## 21 21 0.04609080 0.013327817
+## 22 22 0.04525653 0.013698172
+## 23 23 0.04567147 0.014048854
+## 24 24 0.04564221 0.013227565
+## 25 25 0.04611951 0.014813559
+## 26 26 0.04740863 0.014636716
+## 27 27 0.04820242 0.015143105
+## 28 28 0.04827799 0.014318341
+## 29 29 0.04956120 0.014195639
+## 30 30 0.05044416 0.014730155</code></pre>
 <p><img src="3_1_introduction_kNN_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 </div>

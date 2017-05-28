@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Géocodage</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -162,6 +165,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -193,13 +291,6 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="0_ds_preambule.html">
-        <span class="fa fa-pencil-square-o"></span>
-         
-        Préambule
-      </a>
-    </li>
-    <li>
       <a href="1_0_collecte.html">
         <span class="fa fa-hand-paper-o"></span>
          
@@ -215,7 +306,7 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="3_0_analytics.html">
-        <span class="fa fa-cogs"></span>
+        <span class="fa fa-calculator"></span>
          
         Analyse des données
       </a>
@@ -287,24 +378,33 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Géocodage</h1>
 
 </div>
 
 
-<p></br></p>
-<p>Pour avoir une vision globale de Data Science, voici quelques informations intéressantes.</p>
-<ul>
-<li>Compétences Data Science</li>
-<li>Data Science Process</li>
-</ul>
-<div id="data-science-venn-diagram" class="section level1">
-<h1>Data Science Venn Diagram</h1>
-<p>On peut trouver beaucoup de Venn Diagrammes différents pour les compétences data science, voici un exemple:</p>
-<p><img src="http://blog.operasolutions.com/hs-fs/hub/213893/file-730245378-jpg/images/os_signalcentral_what_is_data_science_gp_2014_v1.2_venn_diagram.jpg?t=1487881469000&width=1200&height=1234&name=os_signalcentral_what_is_data_science_gp_2014_v1.2_venn_diagram.jpg" width="600px" /></p>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)</code></pre>
+<div id="ban" class="section level1">
+<h1><span class="header-section-number">1</span> BAN</h1>
+<p>Sur le site de <a href="https://adresse.data.gouv.fr/">adresse.gouv.fr</a>, on peut trouver un géocodeur pour les adresses en France.</p>
 </div>
-<div id="data-science-process" class="section level1">
-<h1>Data Science Process</h1>
-<p><img src="http://blog.operasolutions.com/hs-fs/hub/213893/file-725863214-jpg/images/os_signalcentral_what_is_data_science_gp_2014_v1.2_the_data_science_process.jpg?t=1487881469000&width=1200&height=1394&name=os_signalcentral_what_is_data_science_gp_2014_v1.2_the_data_science_process.jpg" width="600px" /></p>
+<div id="geocodeur-de-google" class="section level1">
+<h1><span class="header-section-number">2</span> Géocodeur de Google</h1>
+<pre class="r"><code>library(ggmap)
+library(data.table)
+
+load(&quot;../data/mcdo.Rdata&quot;)
+
+head(dtm)
+dtm[,ad:=paste(dtm$noms,dtm$adresse)]
+
+geocode(paste(dtm$noms,dtm$adresse)[1],output=&#39;latlon&#39;)
+
+for (i in 1:3){
+  latlon=geocode(paste(dtm$noms,dtm$adresse)[i],output=&#39;latlon&#39;)
+  dtm[i,lon:=unlist(latlon)[1]]
+  dtm[i,lat:=unlist(latlon)[2]]
+}</code></pre>
 </div>
 
 <div id="disqus_thread"></div>
@@ -333,6 +433,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 
