@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -409,244 +409,357 @@ div.tocify {
 <li><a href="4_avis_vis.html">Visualisation des notes clients</a></li>
 </ul>
 </div>
-<div id="exploration-des-donnees" class="section level1">
-<h1><span class="header-section-number">2</span> Exploration des données</h1>
-<pre><code>##                 dateheure note.globale
-##    1: 2016-05-30T17:52:37            2
-##    2: 2016-05-25T13:31:18            1
-##    3: 2016-05-25T04:05:51            2
-##    4: 2016-05-23T09:30:43            2
-##    5: 2016-05-16T20:45:44            2
-##   ---                                 
-## 1664: 2008-12-18T13:39:19            3
-## 1665: 2008-12-18T13:29:23            3
-## 1666: 2008-12-17T15:41:17            2
-## 1667: 2008-12-17T11:10:05            3
-## 1668: 2008-12-09T14:51:49            2
-##                                   lien.avis Prix Service Garantie
-##    1: /macif-assurance-auto-avis-76170.html    2       2        2
-##    2: /macif-assurance-auto-avis-76087.html    2       1        2
-##    3: /macif-assurance-auto-avis-76077.html    3       3        2
-##    4: /macif-assurance-auto-avis-76043.html    3       3        3
-##    5: /macif-assurance-auto-avis-75933.html    1       2        4
-##   ---                                                            
-## 1664:  /macif-assurance-auto-avis-1349.html    3       3        3
-## 1665:  /macif-assurance-auto-avis-1345.html    3       4        4
-## 1666:  /macif-assurance-auto-avis-1264.html    2       2        2
-## 1667:  /macif-assurance-auto-avis-1201.html    5       1        5
-## 1668:  /macif-assurance-auto-avis-1141.html    3       1        4
-##       Satisfaction
-##    1:            2
-##    2:            1
-##    3:            2
-##    4:            2
-##    5:            2
-##   ---             
-## 1664:            3
-## 1665:            4
-## 1666:            3
-## 1667:            1
-## 1668:            3
-##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  commentaire
-##    1:                                                                                                                                                                                                                                                                                                                             assuré depuis 25 ans a la macif je m&#39;aperçois que tout les ans je paie plus chère que l&#39;année précédente malgré la somme additionnel déduite ayant 50% et plus sur mes véhicules de plus ils ont oublier d&#39;attribuer du bonus a ma fille qui est conducteur déclaré depuis prés de 3 ans .
-##    2: J&#39;ai demandé par téléphone à assurer mon véhicule pour une durée de 2 jours, le temps de le récupérer hors département. Ses messieurs d&#39;Agen m&#39;ont dit OK sans pb !!! j&#39;avais trouvé une autre assurance moins chère et donc après ces 2 jours, j&#39;ai basculé ma voiture auprès des autres assureurs et au moment d&#39;en aviser la MACIF ses derniers m&#39;informent qu&#39;ils ne peuvent rien résilier, qu&#39;ils ne font pas de contrat temporaire et que je dois m&#39;&quot;enquiller&quot; 1 an d&#39;assurance .... et la cerise sur le gâteau, ils me traitent quasiment de menteuse, que jamais ils n&#39;auraient pu faire ce genre de contrat.
-##    3:                                                                                                                                                                                                                                                                                                                 J&#39;ai équipé mon habitation d&#39;une alarme performante et normes agrées. Je pensais ainsi bénéficier d&#39;une réduction de franchise pour l&#39;assurance vol. Et bien non la MACIF exige que l&#39;alarme soit reliée à une agence de télésurveillance et fournit même les coordonnées d&#39;un prestataire.BIZNESS!!! 
-##    4:                                                                                                                                                                                                                                                                                                                                                                                                                                                  Assez satisfaite dans l&#39;ensemble sauf au niveau des franchises , aucun courrier qui me précise l&#39;augmentation de la franchise , je l ai découverte sur l&#39;echeancier .
-##    5:                                                                                                                                                                                                                    assurance de plus en plus chère, (d&#39;après ce que j&#39;ai vu sur le net, beaucoup mois chère pour les nouveaux...)\r\nça fait 39 ans que je suis à la Macif donc je suis fidélisé, donc je paye plein pot !!! avec ça, après tout ce temps, aucune indulgence pour le moindre souci. \r\nRemboursement convenable, sauf que chez eux on évite de réparer, on paye à l&#39;argus, car ça revient moins cher.
-##   ---                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-## 1664:                                                                                                                                                                                                                                                                                                                                                                                                                                      Bonjour,\r\nje suis au maximun des reductions que je puisse avoir\r\nc&#39; est dommage que je n&#39;ai pas d&#39;autres ristournes!aucun gros sinistres depuis 38 ans de conduites !\r\n\r\n
-## 1665:                                                                                                                                                                                                                                                                                                                                                                                                                                      Peut être un peu plus cher, mais beaucoup de sastisfactions lors de problème aussi bien pour la voiture défense et recours ainsi que l&#39;habitation\r\nnous en sommes très contents
-## 1666:                                                                                                                                                                                                                                                                                                                                                                    20ans chez eux ....tant qu&#39;il n&#39;y a pas eu de soucis pas de problemes....\r\npuis en 1994 un gros accident materiel et depuis je traine \r\nils ont meme assurer un vehicule neuf en tiers collision en me signifiant ce tier dans le sas de sortie
-## 1667:                                                                                                                                                                                                                                                                                                                                                                                                  C&#39;est une assurance, tant que tout va bien c&#39;est très bien mais le jour où il vous arrive un pépin alors là tout bascule. 3 accidents dont 1 responsable, 1 50/50 et 1 non responsable et vous voilà mis à la porte. 
-## 1668:                                                                                                                                                                                                                                                                                                            Je suis assuré à la MACIF pour mon véhicule et suite à un changement d&#39;adresse pour mon déménagement j&#39;ai du les contacter 2 fois par téléphone car ils ne l&#39;vaient pas pris en compte alors que j&#39;avais effectué mon changement de domicile sur le site web... le service client n&#39;est pas très au point. 
-##                                                                                          plus
-##    1:                                                          je cherche mais ne trouve pas 
-##    2:                                                                     Il n&#39;y en a pas !!!
-##    3:                                                                          Aucun intérêt 
-##    4:  Les rembourssements sont rapides, et la qualité du services clients est irréprochable.
-##    5:                                                                Remboursement convenable
-##   ---                                                                                        
-## 1664:                                                                                        
-## 1665:                                                                                        
-## 1666:                                                                                        
-## 1667:                                                                                        
-## 1668:                                                                                        
-##                                                                                                                                                                                                                                           moins
-##    1:  l&#39;accueil, le temps d&#39;attente les réponses des conseillers au téléphone la conseillère ma répondu qu&#39;il n&#39;était pas habituer a assuré des véhicules comme la mienne que c&#39;était le motif du prix exorbitant , j&#39;ai une audi a3 sportback
-##    2:                                                                                                                                                              interprétation des &quot;lois&quot; à leur avantage, aucune écoute des sociétaires !!!
-##    3:                                                                                                                                                              Il vaut mieux être cambriolé et remboursé à fond....aux frais de l&#39;adhérent?
-##    4:                                                                                                                                                   Les Franchises sont de plus en plus élévées malgré les nombres d&#39;années de cotisations.
-##    5:                                                                                                                                                             Prix très haut au bout de quelque années de fidélité !\r\nAucune indulgence !
-##   ---                                                                                                                                                                                                                                          
-## 1664:                                                                                                                                                                                                                                          
-## 1665:                                                                                                                                                                                                                                          
-## 1666:                                                                                                                                                                                                                                          
-## 1667:                                                                                                                                                                                                                                          
-## 1668:</code></pre>
-</div>
-<div id="analyse-des-textes" class="section level1">
-<h1><span class="header-section-number">3</span> Analyse des textes</h1>
-<p>Un package R de text-mining <code>library(tm)</code> existe pour l’analyse des textes. Il regroupent des fonctions couramment utilisées pour le nettoyage et exploration des données textuelles. Mais pour cette analyse, je n’ai pas utilisé ce package. Le fait de construire des fonctions à la main permet de mieux comprendre l’algorithme. Les lecteurs curieux pourront l’appliquer pour voir si les résultats sont les mêmes.</p>
-<div id="analyse-du-corpus" class="section level2">
-<h2><span class="header-section-number">3.1</span> Analyse du corpus</h2>
-</div>
-<div id="tf-idf" class="section level2">
-<h2><span class="header-section-number">3.2</span> TF-IDF</h2>
-<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 1668, terms: 92)&gt;&gt;
-## Non-/sparse entries: 18451/135005
-## Sparsity           : 88%
-## Maximal term length: 14
-## Weighting          : term frequency - inverse document frequency (normalized) (tf-idf)</code></pre>
-</div>
+<div id="notes-et-commentaires" class="section level1">
+<h1><span class="header-section-number">2</span> Notes et commentaires</h1>
+<p>De façon générale, il est difficile de quantifier les commentaires textuels avec un indicateur unique. Une façon de faire est l’analyse de sentiments, qui traduit les sentiments positif ou négatifs (ou d’autres émotions plus complexes) reflétés par les mots. Lorsque les commentaires sont accompgnés des notes numériques, il est possible de prédire la note en fonction du texte.</p>
+<p>Cette base pourrait servir de base d’apprentisssage pour d’autres commentaires qui ne seraient pas notés par les clients, par exemple, les commentaires sur Twitter ou encore les conversations téléphoniques. Ainsi, il est possible de construire un indicateur numérique (de 1 à 5) pour les données textes.</p>
+<p>Pour ce faire, on peut transformer les textes en une matrice (Document-Term Matrix), puis modéliser la note en fonction des densités de certains mots. ou on peut aussi utiliser les tf-idf.</p>
 </div>
 <div id="regression-des-notes" class="section level1">
-<h1><span class="header-section-number">4</span> Régression des notes</h1>
-<p><img src="3_2_avis_reg_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<pre><code>## [1] 0.9085846</code></pre>
-<pre><code>## [1] 0.8477923</code></pre>
+<h1><span class="header-section-number">3</span> Régression des notes</h1>
+<div id="abre-de-regression" class="section level2">
+<h2><span class="header-section-number">3.1</span> Abre de régression</h2>
+<p>On peut utiliser un arbre de régression:</p>
+<p><img src="3_2_avis_reg_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre><code>## [1] 0.8724411</code></pre>
+<pre><code>## [1] 0.8713893</code></pre>
+<p>Et on obtient une erreur type (RMSE) de 0.87.</p>
+<p><img src="3_2_avis_reg_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="glm" class="section level2">
+<h2><span class="header-section-number">3.2</span> GLM</h2>
+<p>On peut également utiliser une régression linéaire généralisée:</p>
 <pre><code>## 
 ## Call:
-## glm(formula = note ~ ., data = data)
+## glm(formula = note ~ ., data = a)
 ## 
 ## Deviance Residuals: 
-##      Min        1Q    Median        3Q       Max  
-## -3.14778  -0.71257   0.05316   0.73888   3.07142  
+##     Min       1Q   Median       3Q      Max  
+## -5.1960  -0.6930  -0.0625   0.6423   4.1461  
 ## 
 ## Coefficients:
-##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)     2.25781    0.10095  22.366  &lt; 2e-16 ***
-## accident       -0.83623    0.70305  -1.189 0.234450    
-## alors          -2.60161    0.86007  -3.025 0.002528 ** 
-## ans            -0.90736    0.67870  -1.337 0.181447    
-## assurance      -0.31605    0.46941  -0.673 0.500856    
-## assurances     -0.00211    0.61224  -0.003 0.997250    
-## assuré          0.76937    0.61655   1.248 0.212267    
-## assureur        0.57022    0.33625   1.696 0.090121 .  
-## aucun           0.12938    0.54228   0.239 0.811456    
-## auto            0.51017    0.57696   0.884 0.376703    
-## avec            1.18445    0.60984   1.942 0.052285 .  
-## avoir          -0.78192    0.82173  -0.952 0.341468    
-## bien            1.62055    0.52860   3.066 0.002208 ** 
-## bon             1.15415    0.40626   2.841 0.004557 ** 
-## bonne           1.31872    0.34690   3.802 0.000149 ***
-## bonus           0.89538    0.64221   1.394 0.163446    
-## car            -0.23309    0.77882  -0.299 0.764762    
-## cas             2.41867    0.61991   3.902 9.96e-05 ***
-## cest            0.81768    0.54070   1.512 0.130672    
-## cette          -0.79328    0.51855  -1.530 0.126260    
-## cher           -1.03015    0.53456  -1.927 0.054146 .  
-## chez            0.13832    0.88631   0.156 0.876004    
-## client         -0.38604    0.45404  -0.850 0.395320    
-## clients        -0.44600    0.65341  -0.683 0.494973    
-## comme          -1.25032    0.69093  -1.810 0.070547 .  
-## conseillers     0.73628    0.67035   1.098 0.272223    
-## contrat        -0.15556    0.71584  -0.217 0.827995    
-## contrats        0.56107    0.72873   0.770 0.441460    
-## dans            0.38059    0.46206   0.824 0.410241    
-## dassurance      0.89994    0.52586   1.711 0.087212 .  
-## depuis          3.04245    0.71182   4.274 2.03e-05 ***
-## des             0.64807    0.56356   1.150 0.250337    
-## donc            0.67127    0.65122   1.031 0.302800    
-## dun             0.21954    0.74001   0.297 0.766760    
-## est             1.68596    0.51681   3.262 0.001129 ** 
-## été             1.15049    0.72626   1.584 0.113368    
-## eux            -3.30534    0.88140  -3.750 0.000183 ***
-## faire           0.15434    0.57645   0.268 0.788934    
-## fait           -0.43451    0.71512  -0.608 0.543532    
-## faut           -0.73656    0.81621  -0.902 0.366977    
-## franchise       0.56632    0.63252   0.895 0.370744    
-## garanties      -1.27637    0.59588  -2.142 0.032347 *  
-## ils            -0.56912    0.71991  -0.791 0.429324    
-## jai             0.65635    0.66936   0.981 0.326959    
-## jamais         -0.30627    0.50825  -0.603 0.546870    
-## lassurance      0.93467    0.60306   1.550 0.121373    
-## les            -0.11886    0.77243  -0.154 0.877729    
-## leur           -1.12731    0.64191  -1.756 0.079254 .  
-## macif           1.33787    0.59794   2.237 0.025397 *  
-## mais           -0.66856    0.57586  -1.161 0.245832    
-## même           -0.63414    0.84042  -0.755 0.450629    
-## mes             0.32610    0.77993   0.418 0.675924    
-## moi             2.29363    0.65395   3.507 0.000465 ***
-## moins           1.34546    0.51488   2.613 0.009056 ** 
-## mon             0.02685    0.65389   0.041 0.967249    
-## nai             3.31355    0.56603   5.854 5.83e-09 ***
-## non            -0.53626    0.60958  -0.880 0.379145    
-## nous           -0.77102    0.60801  -1.268 0.204948    
-## ont             0.63068    0.82512   0.764 0.444773    
-## par             0.21618    0.64087   0.337 0.735912    
-## pas            -1.33676    0.60794  -2.199 0.028033 *  
-## peu             1.64269    0.54354   3.022 0.002550 ** 
-## plus           -1.42306    0.53948  -2.638 0.008426 ** 
-## pour            1.28069    0.70613   1.814 0.069920 .  
-## prix            1.61770    0.48162   3.359 0.000801 ***
-## qualité         1.16502    0.55377   2.104 0.035555 *  
-## quand          -0.63004    0.79973  -0.788 0.430924    
-## que             0.99291    0.67808   1.464 0.143313    
-## qui             1.03183    0.66219   1.558 0.119386    
-## rapide          1.68485    0.47323   3.560 0.000381 ***
-## rapport         2.39036    0.58404   4.093 4.48e-05 ***
-## remboursement   0.95077    0.62527   1.521 0.128568    
-## remboursements  1.11095    0.61252   1.814 0.069909 .  
-## rien           -0.06776    0.61390  -0.110 0.912125    
-## sans            0.34678    0.28459   1.219 0.223205    
-## service        -0.42805    0.54098  -0.791 0.428916    
-## sinistre       -1.12037    0.64287  -1.743 0.081568 .  
-## sinistres       1.21206    0.61648   1.966 0.049464 *  
-## sont            1.63151    0.61915   2.635 0.008494 ** 
-## suis            1.64246    0.55955   2.935 0.003380 ** 
-## sur             1.28084    0.63602   2.014 0.044198 *  
-## tarif           1.61604    0.54803   2.949 0.003237 ** 
-## tarifs          1.75959    0.57694   3.050 0.002327 ** 
-## toujours        2.62020    0.52361   5.004 6.24e-07 ***
-## tous           -0.81049    0.69717  -1.163 0.245191    
-## tout           -1.61032    0.52340  -3.077 0.002129 ** 
-## tres            1.32502    0.37998   3.487 0.000502 ***
-## très            1.59807    0.40089   3.986 7.02e-05 ***
-## trop           -1.17191    0.44010  -2.663 0.007828 ** 
-## une             0.23949    0.63422   0.378 0.705774    
-## véhicule       -0.47935    0.65856  -0.728 0.466795    
-## voiture        -0.66598    0.67554  -0.986 0.324360    
-## vous           -1.60833    0.46898  -3.429 0.000620 ***
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     2.5011875  0.0387221  64.593  &lt; 2e-16 ***
+## accueil         0.6319614  0.1949018   3.242 0.001188 ** 
+## agence          0.6297766  0.2041231   3.085 0.002038 ** 
+## ans             0.5049176  0.2366813   2.133 0.032918 *  
+## assurance      -0.0884350  0.2140051  -0.413 0.679440    
+## assuré          0.3182003  0.2509261   1.268 0.204785    
+## autres          0.0049227  0.2418101   0.020 0.983758    
+## bien            1.5426445  0.2165036   7.125 1.10e-12 ***
+## bon             1.2409229  0.1480957   8.379  &lt; 2e-16 ***
+## bons            0.8603344  0.2211396   3.890 0.000101 ***
+## bonus           0.7092598  0.2048567   3.462 0.000538 ***
+## cas             0.5809129  0.2032552   2.858 0.004270 ** 
+## depuis          1.1776219  0.2572790   4.577 4.76e-06 ***
+## dossier        -0.5850308  0.2784132  -2.101 0.035635 *  
+## lors            0.0204759  0.2533060   0.081 0.935575    
+## matmut          0.6817874  0.1972019   3.457 0.000547 ***
+## nai             2.6845241  0.2081557  12.897  &lt; 2e-16 ***
+## peu             1.1750882  0.1834003   6.407 1.54e-10 ***
+## peut            1.1623439  0.2486628   4.674 2.98e-06 ***
+## plus           -0.5038511  0.2380726  -2.116 0.034333 *  
+## pris            0.5048448  0.3278912   1.540 0.123667    
+## remboursements  0.8435826  0.1840919   4.582 4.64e-06 ***
+## services        0.5381266  0.1983200   2.713 0.006669 ** 
+## sinistre        0.2120911  0.2241042   0.946 0.343966    
+## sinistres       0.3863912  0.1987145   1.944 0.051864 .  
+## tarifs          1.1413838  0.1742884   6.549 6.04e-11 ***
+## toujours        1.5671732  0.2059242   7.610 2.94e-14 ***
+## tout           -0.1629514  0.2457419  -0.663 0.507279    
+## très            1.7574295  0.1549008  11.346  &lt; 2e-16 ***
+## téléphone       0.2574511  0.2574067   1.000 0.317247    
+## être           -0.8672433  0.3238103  -2.678 0.007411 ** 
+## attention      -1.2275172  0.3261453  -3.764 0.000168 ***
+## client         -0.4815143  0.2257866  -2.133 0.032977 *  
+## clients        -0.9256468  0.1986933  -4.659 3.22e-06 ***
+## compte         -0.2183765  0.2710531  -0.806 0.420455    
+## demande        -0.6012812  0.2983231  -2.016 0.043871 *  
+## expert         -1.0643406  0.3484495  -3.055 0.002259 ** 
+## garage          0.1268881  0.3270733   0.388 0.698060    
+## impossible     -1.2418097  0.3015356  -4.118 3.84e-05 ***
+## internet        0.7942260  0.2414301   3.290 0.001006 ** 
+## non            -0.8465663  0.2725358  -3.106 0.001899 ** 
+## cest            0.1644809  0.2271577   0.724 0.469029    
+## changer        -0.0464103  0.2494725  -0.186 0.852421    
+## chez           -0.4172378  0.2547024  -1.638 0.101419    
+## contrat        -0.9357746  0.2362569  -3.961 7.51e-05 ***
+## daccident       0.4760548  0.2458268   1.937 0.052824 .  
+## jamais         -1.0197270  0.2211010  -4.612 4.03e-06 ***
+## là             -0.1990993  0.3819785  -0.521 0.602215    
+## panne           0.5042160  0.2690083   1.874 0.060906 .  
+## passe           0.0982639  0.3472434   0.283 0.777195    
+## prix            1.3807443  0.2029707   6.803 1.08e-11 ***
+## relation        0.2844245  0.2308816   1.232 0.218008    
+## service        -0.0006483  0.2172993  -0.003 0.997619    
+## seul            0.6259720  0.2483735   2.520 0.011739 *  
+## suite           0.4112597  0.2702235   1.522 0.128054    
+## voir           -0.2412122  0.2689545  -0.897 0.369816    
+## élevé          -0.1599163  0.2104667  -0.760 0.447379    
+## après          -0.9137764  0.2781587  -3.285 0.001022 ** 
+## changement     -0.4521890  0.3332565  -1.357 0.174845    
+## contact         0.9003112  0.2097834   4.292 1.79e-05 ***
+## euros          -0.7420314  0.1872147  -3.964 7.43e-05 ***
+## frais          -0.0907268  0.2626585  -0.345 0.729787    
+## jai             1.3832152  0.2491659   5.551 2.89e-08 ***
+## javais         -0.1976480  0.3991359  -0.495 0.620475    
+## voiture         0.1612596  0.2270124   0.710 0.477497    
+## assurée         0.0870071  0.3840907   0.227 0.820795    
+## charge          0.3003704  0.3544530   0.847 0.396778    
+## jen             0.2603762  0.2993203   0.870 0.384377    
+## rien           -0.8352587  0.2365932  -3.530 0.000417 ***
+## tous            0.0811926  0.2398110   0.339 0.734940    
+## ailleurs       -1.3072176  0.2953668  -4.426 9.70e-06 ***
+## comme          -0.4648007  0.2617030  -1.776 0.075748 .  
+## dit            -2.1437470  0.3674113  -5.835 5.53e-09 ***
+## encore         -0.0957073  0.2726707  -0.351 0.725595    
+## mauvais        -1.7356954  0.2264592  -7.664 1.93e-14 ***
+## reçu           -0.0117032  0.3723131  -0.031 0.974924    
+## aucun          -1.8965426  0.2235224  -8.485  &lt; 2e-16 ***
+## aucune         -1.6860153  0.2408142  -7.001 2.67e-12 ***
+## conseillers     0.6090605  0.1921791   3.169 0.001532 ** 
+## courrier       -1.1100393  0.3377202  -3.287 0.001016 ** 
+## demandé        -0.9764470  0.4485123  -2.177 0.029494 *  
+## dune            0.4220863  0.2980546   1.416 0.156761    
+## envoyé         -0.6132429  0.4674635  -1.312 0.189595    
+## fait            0.1683436  0.2547720   0.661 0.508778    
+## jour           -0.0324894  0.2949057  -0.110 0.912277    
+## mail           -0.3650006  0.3570246  -1.022 0.306640    
+## malgré         -0.9998998  0.2692949  -3.713 0.000206 ***
+## manque         -0.3703095  0.2468630  -1.500 0.133625    
+## moins           1.7591882  0.2236533   7.866 3.98e-15 ***
+## nest           -0.4832062  0.2591449  -1.865 0.062259 .  
+## payé           -1.0700396  0.3975692  -2.691 0.007124 ** 
+## personne       -1.6401002  0.2739617  -5.987 2.20e-09 ***
+## personnes       0.1764323  0.3036373   0.581 0.561209    
+## quil           -0.8951113  0.3049006  -2.936 0.003334 ** 
+## rembourser     -1.6707948  0.3036192  -5.503 3.81e-08 ***
+## responsable    -0.9634220  0.2772518  -3.475 0.000513 ***
+## réponse        -0.3865991  0.2924555  -1.322 0.186224    
+## savoir         -1.1432087  0.3918465  -2.917 0.003535 ** 
+## site            0.2328466  0.3395189   0.686 0.492844    
+## sous           -0.9099741  0.3891679  -2.338 0.019390 *  
+## suivi           0.0723910  0.2325429   0.311 0.755577    
+## ça             -0.4143005  0.2906238  -1.426 0.154023    
+## accident       -0.3056157  0.2291886  -1.333 0.182404    
+## bris            0.2851991  0.5397445   0.528 0.597234    
+## glace           0.3299244  0.5423355   0.608 0.542974    
+## rapport         0.9164029  0.1789055   5.122 3.07e-07 ***
+## satisfait       1.2827981  0.1280853  10.015  &lt; 2e-16 ***
+## tarif           0.8135313  0.1825375   4.457 8.39e-06 ***
+## véhicule       -0.3521202  0.2428032  -1.450 0.147021    
+## avoir          -0.6366754  0.2582417  -2.465 0.013699 *  
+## bonjour        -0.0246791  0.3012868  -0.082 0.934718    
+## cotisations    -0.3249773  0.2794973  -1.163 0.244966    
+## dun             0.0705370  0.2739751   0.257 0.796830    
+## mal            -1.2110094  0.2729421  -4.437 9.21e-06 ***
+## mois           -2.1015798  0.2665675  -7.884 3.45e-15 ***
+## moment          0.7370855  0.2698309   2.732 0.006311 ** 
+## pourquoi        0.3059683  0.3288680   0.930 0.352199    
+## remboursé      -0.0050186  0.3013630  -0.017 0.986714    
+## risque         -0.1435515  0.3118104  -0.460 0.645251    
+## tiers           0.1591785  0.3040168   0.524 0.600577    
+## vie             0.3688532  0.3137475   1.176 0.239763    
+## année          -0.7271112  0.2269925  -3.203 0.001362 ** 
+## beaucoup       -0.0885652  0.2188260  -0.405 0.685684    
+## garantie        0.4226224  0.2393037   1.766 0.077413 .  
+## mauvaise       -2.0776448  0.2429833  -8.551  &lt; 2e-16 ***
+## deux           -0.4114174  0.2624437  -1.568 0.116991    
+## devis           0.0563467  0.2463518   0.229 0.819087    
+## donc           -0.1654689  0.2539026  -0.652 0.514606    
+## juste          -0.3395229  0.2922333  -1.162 0.245331    
+## niveau          0.7875658  0.1689180   4.662 3.16e-06 ***
+## pendant        -0.5577641  0.3493400  -1.597 0.110376    
+## rapide          1.9127587  0.1683181  11.364  &lt; 2e-16 ***
+## remboursement  -0.0568180  0.1884877  -0.301 0.763083    
+## soucis          1.1112119  0.2455472   4.525 6.08e-06 ***
+## souscription   -0.1037929  0.3149000  -0.330 0.741703    
+## années          0.2383888  0.2525727   0.944 0.345269    
+## vol            -0.5316384  0.2714056  -1.959 0.050155 .  
+## assureurs       0.4799887  0.2514671   1.909 0.056318 .  
+## besoin          0.1709470  0.2745882   0.623 0.533587    
+## bref           -1.5173137  0.4043319  -3.753 0.000176 ***
+## chaque          1.1638144  0.2779204   4.188 2.84e-05 ***
+## contrats        0.2124271  0.2008423   1.058 0.290222    
+## faire          -0.3792338  0.2585085  -1.467 0.142400    
+## fois           -0.7036153  0.2704563  -2.602 0.009291 ** 
+## lagence         0.5541464  0.2487289   2.228 0.025905 *  
+## maintenant     -0.4274716  0.3533463  -1.210 0.226387    
+## nont           -1.9945031  0.4316045  -4.621 3.86e-06 ***
+## payer          -1.8923131  0.2712810  -6.975 3.21e-12 ***
+## possible       -0.0039884  0.2899253  -0.014 0.989024    
+## surtout        -0.7961659  0.2383042  -3.341 0.000837 ***
+## trop           -0.5048218  0.1654791  -3.051 0.002288 ** 
+## absolument      0.0815568  0.2788743   0.292 0.769948    
+## appel          -0.8687087  0.3843631  -2.260 0.023831 *  
+## dassurance      0.0021616  0.2348172   0.009 0.992655    
+## garanties       0.2790495  0.1953128   1.429 0.153108    
+## prise           0.9689267  0.3482556   2.782 0.005407 ** 
+## quoi           -1.2922835  0.3797068  -3.403 0.000668 ***
+## recommande      0.8145972  0.2191285   3.717 0.000202 ***
+## résilier       -1.5683932  0.3352215  -4.679 2.92e-06 ***
+## vais           -0.5282219  0.2961887  -1.783 0.074547 .  
+## aller          -0.6941136  0.3556753  -1.952 0.051016 .  
+## augmentation   -0.5555494  0.2104466  -2.640 0.008305 ** 
+## autre          -0.0176230  0.2713765  -0.065 0.948223    
+## conducteur      0.3884535  0.2290510   1.696 0.089926 .  
+## cotisation     -0.1580201  0.2672823  -0.591 0.554391    
+## davoir         -0.3969620  0.3115621  -1.274 0.202652    
+## permis          0.3806283  0.3340829   1.139 0.254591    
+## premier        -0.7230762  0.3835039  -1.885 0.059394 .  
+## éviter         -2.4262150  0.2858548  -8.488  &lt; 2e-16 ***
+## ligne          -0.2121074  0.3207644  -0.661 0.508461    
+## mieux           0.9321324  0.2371070   3.931 8.50e-05 ***
+## personnel       0.1702162  0.2401238   0.709 0.478420    
+## peux            1.1220986  0.2674932   4.195 2.75e-05 ***
+## assurances      0.6362852  0.2196076   2.897 0.003770 ** 
+## jours          -0.4924836  0.3107091  -1.585 0.112986    
+## qualité         1.3499451  0.1663048   8.117 5.23e-16 ***
+## toute           1.2647671  0.3149960   4.015 5.98e-05 ***
+## vraiment        0.4054377  0.2194864   1.847 0.064741 .  
+## car            -0.6737746  0.2586423  -2.605 0.009198 ** 
+## fuir           -2.4150357  0.2694768  -8.962  &lt; 2e-16 ***
+## trouvé          0.5828364  0.2853736   2.042 0.041137 *  
+## auto            0.3064940  0.2156140   1.421 0.155199    
+## paye           -0.4609149  0.2857191  -1.613 0.106733    
+## quand          -0.7006042  0.2456757  -2.852 0.004355 ** 
+## vehicule       -0.0827735  0.2420279  -0.342 0.732357    
+## meme           -0.1182275  0.2137424  -0.553 0.580184    
+## passer         -0.5159433  0.4001191  -1.289 0.197258    
+## probleme        1.3574878  0.1827028   7.430 1.16e-13 ***
+## assez          -0.0890673  0.1788057  -0.498 0.618406    
+## assistance      0.5274422  0.2608158   2.022 0.043170 *  
+## efficace        1.6175180  0.2178545   7.425 1.21e-13 ***
+## assurer        -0.1712667  0.2672364  -0.641 0.521612    
+## bonne           1.5890515  0.1568230  10.133  &lt; 2e-16 ***
+## lon            -0.0026950  0.2814073  -0.010 0.992359    
+## pense           0.1471202  0.2695486   0.546 0.585212    
+## difficile      -0.3919867  0.2546032  -1.540 0.123685    
+## faut            0.1725566  0.2531122   0.682 0.495417    
+## quon           -1.5784182  0.3673915  -4.296 1.75e-05 ***
+## compagnie       0.2670609  0.2217282   1.204 0.228439    
+## conseiller      0.4033370  0.2123651   1.899 0.057554 .  
+## documents      -0.2257657  0.3643227  -0.620 0.535476    
+## etre            0.0917267  0.2646673   0.347 0.728918    
+## tres            1.5357244  0.1285636  11.945  &lt; 2e-16 ***
+## trés            0.7884964  0.1535155   5.136 2.85e-07 ***
+## aussi           1.2752682  0.2481992   5.138 2.82e-07 ***
+## cause          -0.8971005  0.3420918  -2.622 0.008742 ** 
+## entre          -0.6658539  0.3448938  -1.931 0.053555 .  
+## trouve          0.2208069  0.2207811   1.000 0.317274    
+## dommage         0.7708884  0.2347967   3.283 0.001029 ** 
+## rapidement      1.7122133  0.2408970   7.108 1.25e-12 ***
+## assureur        0.8144567  0.1909343   4.266 2.01e-05 ***
+## disant         -2.3244688  0.4517378  -5.146 2.71e-07 ***
+## lassurance      0.2630573  0.2023218   1.300 0.193560    
+## lettre         -1.4792075  0.4370047  -3.385 0.000714 ***
+## mont            0.0478540  0.3459468   0.138 0.889984    
+## prendre        -0.9641722  0.2983469  -3.232 0.001234 ** 
+## quils          -1.0571381  0.3496039  -3.024 0.002501 ** 
+## téléphonique    0.2247025  0.2891575   0.777 0.437119    
+## assurés        -0.3661526  0.3182274  -1.151 0.249920    
+## dont            0.1140287  0.3099263   0.368 0.712938    
+## point           0.6493288  0.2802967   2.317 0.020544 *  
+## temps           0.2258363  0.2704346   0.835 0.403686    
+## avis            0.6284626  0.2636077   2.384 0.017137 *  
+## bout           -0.4285383  0.3378335  -1.268 0.204648    
+## concurrence     0.0699263  0.2436204   0.287 0.774095    
+## coup           -0.0979452  0.3619116  -0.271 0.786678    
+## disponibilité   0.8457692  0.1922767   4.399 1.10e-05 ***
+## merci           0.8077705  0.2434896   3.317 0.000911 ***
+## part            0.0758570  0.2741500   0.277 0.782016    
+## problème        1.7589574  0.2077863   8.465  &lt; 2e-16 ***
+## rapidité        2.4032701  0.2057174  11.682  &lt; 2e-16 ***
+## risques        -0.2846245  0.2919805  -0.975 0.329676    
+## alors          -2.2083566  0.3078510  -7.173 7.74e-13 ***
+## assure          0.4716048  0.2593420   1.818 0.069018 .  
+## franchise       0.8210681  0.2021177   4.062 4.89e-05 ***
+## habitation      0.8139841  0.2410606   3.377 0.000736 ***
+## lannée         -0.3584067  0.3398308  -1.055 0.291601    
+## lexpert        -1.1459651  0.3748150  -3.057 0.002237 ** 
+## tant           -0.3338282  0.2734759  -1.221 0.222229    
+## puis           -0.1196927  0.3573297  -0.335 0.737658    
+## contre         -0.1763751  0.2779710  -0.635 0.525761    
+## quelques        1.5196450  0.3181695   4.776 1.81e-06 ***
+## toutes          0.6643551  0.2859069   2.324 0.020159 *  
+## avant           0.0721678  0.3117820   0.231 0.816955    
+## carte          -0.4773600  0.3179243  -1.501 0.133255    
+## dautres         0.4543334  0.2629068   1.728 0.083993 .  
+## dire            0.7823372  0.2274704   3.439 0.000585 ***
+## fin            -0.3909416  0.3854562  -1.014 0.310493    
+## font           -0.4506283  0.2577889  -1.748 0.080481 .  
+## petit           0.3013103  0.2934035   1.027 0.304465    
+## plusieurs       1.0595426  0.2521430   4.202 2.66e-05 ***
+## raison         -0.8191906  0.3173571  -2.581 0.009855 ** 
+## sinon           0.3755400  0.2668474   1.407 0.159358    
+## trouver        -0.5736644  0.3034224  -1.891 0.058696 .  
+## franchises      0.7193269  0.2114532   3.402 0.000672 ***
+## montant        -0.0945078  0.2658798  -0.355 0.722257    
+## résilié        -1.2555545  0.3405037  -3.687 0.000228 ***
+## reste           0.3324204  0.2191720   1.517 0.129366    
+## cher           -0.8644904  0.1962223  -4.406 1.06e-05 ***
+## fais           -0.1012702  0.3736427  -0.271 0.786369    
+## clientèle      -0.0285146  0.2493136  -0.114 0.908944    
+## résiliation    -1.5432308  0.2941916  -5.246 1.58e-07 ***
+## gestion        -0.0653442  0.2810317  -0.233 0.816142    
+## maif            0.5342214  0.2351499   2.272 0.023114 *  
+## nouvelle       -0.6490988  0.3697744  -1.755 0.079218 .  
+## véhicules       0.7616715  0.2906856   2.620 0.008797 ** 
+## problèmes       0.3263885  0.2696189   1.211 0.226090    
+## lorsque        -0.5099055  0.3046498  -1.674 0.094207 .  
+## conseil        -0.3050549  0.2617843  -1.165 0.243924    
+## paiement        0.1314576  0.3148402   0.418 0.676293    
+## pourtant       -1.3583823  0.4104598  -3.309 0.000938 ***
+## chose          -0.7752333  0.3624955  -2.139 0.032488 *  
+## vite           -0.0511134  0.2839936  -0.180 0.857171    
+## date           -0.7459639  0.3815136  -1.955 0.050574 .  
+## viens           0.9559118  0.3420085   2.795 0.005198 ** 
+## gmf             0.1741957  0.1823942   0.955 0.339571    
+## jétais         -0.1942534  0.4737256  -0.410 0.681773    
+## sauf            0.5879968  0.3147700   1.868 0.061784 .  
+## direct          0.0836815  0.2466168   0.339 0.734376    
+## lécoute         2.0275950  0.2178229   9.308  &lt; 2e-16 ***
+## chère          -0.2105975  0.2201043  -0.957 0.338684    
+## semaine        -0.3542173  0.4402197  -0.805 0.421045    
+## dattente        0.2929543  0.3094909   0.947 0.343878    
+## voitures        0.8163659  0.2623469   3.112 0.001864 ** 
+## joindre        -0.0138208  0.2811507  -0.049 0.960794    
+## nouveau         0.7828020  0.3198495   2.447 0.014403 *  
+## disponible      1.0866149  0.2145018   5.066 4.13e-07 ***
+## malus          -1.1481276  0.3025995  -3.794 0.000149 ***
+## aujourdhui     -0.5470134  0.4058996  -1.348 0.177794    
+## axa             0.3452171  0.2030581   1.700 0.089140 .  
+## apres          -0.2322271  0.2299961  -1.010 0.312659    
+## attractif      -0.3471952  0.3237662  -1.072 0.283578    
+## relevé         -1.4726933  0.3850040  -3.825 0.000131 ***
+## prime           0.6274595  0.2546418   2.464 0.013750 *  
+## demander       -0.4686557  0.4047124  -1.158 0.246888    
+## augmente       -0.6643653  0.2710560  -2.451 0.014259 *  
+## macif           1.0013170  0.1745978   5.735 9.99e-09 ***
+## maaf            0.1605092  0.1896749   0.846 0.397440    
+## mma             0.2905094  0.2100685   1.383 0.166713    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 1.166749)
+## (Dispersion parameter for gaussian family taken to be 0.8943429)
 ## 
-##     Null deviance: 2559.1  on 1667  degrees of freedom
-## Residual deviance: 1837.6  on 1575  degrees of freedom
-## AIC: 5083.1
+##     Null deviance: 18799  on 12297  degrees of freedom
+## Residual deviance: 10731  on 11999  degrees of freedom
+## AIC: 33824
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
-<pre><code>## [1] 0.4881088</code></pre>
-<pre><code>## # weights:  95
-## initial  value 12637.038625 
-## final  value 7926.000000 
-## converged</code></pre>
-<pre><code>## [1] 1.846523</code></pre>
-<pre><code>## 
-## Call:
-## svm(formula = note ~ ., data = data)
-## 
-## 
-## Parameters:
-##    SVM-Type:  eps-regression 
-##  SVM-Kernel:  radial 
-##        cost:  1 
-##       gamma:  0.01086957 
-##     epsilon:  0.1 
-## 
-## 
-## Number of Support Vectors:  1511</code></pre>
-<div id="prediction-de-la-qualite-en-fonction-des-mots" class="section level2">
-<h2><span class="header-section-number">4.1</span> Prédiction de la qualité en fonction des mots</h2>
-<p>Ainsi, il est possible de prédire la qualité du service en fonction des fréquences de certains mots. En effet, si sur le site-là, les avis textuels des clients sont accompagnés des notes numériques, selon d’autres sources de données, on n’a pas toujours une notation numérique. Ainsi, en faisant, une analyse des textes ou de la voix, on sera capable de donner une note numérique, comme indicateur.</p>
-<p>Cela me fait penser à la détection de spam. Le principe est le même: en fonction de la densité de certains termes, on classifie la caractéristique des textes. Il fera l’objet d’un prochain article.</p>
+<p>On obtient une erreur type de 0.77</p>
+<p><img src="3_2_avis_reg_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
+<div id="meilleurs-modeles" class="section level2">
+<h2><span class="header-section-number">3.3</span> Meilleurs modèles</h2>
+<p>Pour avoir un meilleur modèle, plusieurs pistes d’amélioration sont possibles:</p>
+<ul>
+<li>Transformation du texte (on peut nettoyer plus les textes, utiliser des ngrammes, cf <a href="2_tm_avis.html">text-mining des commentaires des clients</a>)</li>
+<li>Optimiser les algorithmes (utiliser randomForest, GBM ou d’autres algorithmes, pour cela, il faudrait sans doute réduire le nombre de variables avec une méthode comme Lasso)</li>
+<li>Exploiter les commentaires qui font partie des points positifs et négatifs.</li>
+</ul>
 </div>
-<div id="conclusion" class="section level1">
-<h1><span class="header-section-number">5</span> Conclusion</h1>
-<p>Grâce à quelques analyses rapides, on peut découvrir les principaux sujets dans les avis clients. De plus, les notes numériques données par les clients peuvent nous aider à définir les termes qui montrent des sentiments positifs, et d’autres qui montrent des négatifs. Parfois, ce sont des mots qui peuvent appaître comme neutres, mais le contexte pourrait leur donner certain sens caché.</p>
-<p>En fonction des objectifs, les pistes d’analyse peuvent être différentes. Si vous avez des idées, n’hésitez pas à partager !</p>
 </div>
 
 <div id="disqus_thread"></div>
@@ -698,7 +811,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
