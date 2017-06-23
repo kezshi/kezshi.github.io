@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -193,6 +193,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="0_ds_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
       <a href="1_0_collecte.html">
         <span class="fa fa-hand-paper-o"></span>
          
@@ -200,15 +207,15 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="2_0_manipulation.html">
+      <a href="2_0_transformation.html">
         <span class="fa fa-table"></span>
          
-        Manipulation des données
+        Transformation des données
       </a>
     </li>
     <li>
       <a href="3_0_analytics.html">
-        <span class="fa fa-calculator"></span>
+        <span class="fa fa-cog fa-spin"></span>
          
         Analyse des données
       </a>
@@ -221,7 +228,7 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="0_datavis.html">
+      <a href="5_0_big_data.html">
         <span class="fa fa-database"></span>
          
         Big Data
@@ -285,17 +292,47 @@ $(document).ready(function () {
 
 
 <p></br></p>
-<div id="nouvelle-formation-text-mining-en-assurance" class="section level1">
-<h1>304 (nouvelle formation) Text mining en assurance</h1>
+<div id="text-mining-en-assurance" class="section level1">
+<h1>Text mining en assurance</h1>
 <p>2 jours</p>
-<p>Objectif : apprendre à récupérer, nettoyer et intégrer les données externes publiques (géographiques et démographiques) et des données du marché (automobile et immobilier) pour enrichir les bases de données internes pour les besoins de tarification, de risk management et de marketing.</p>
-<p>À qui s’adresse cette formation ?</p>
-<p>À toute personne souhaitant utiliser des données externes dans les différents domaines d’assurance: produits, marketing, distribution et tarification.</p>
-<p>Pour obtenir quoi ?</p>
-<p>Une meilleure compréhension de la collecte des données externes, et les techniques de scraping. Constituer une base de données pour améliorer la tarification, le marketing ou le risk management. Comment ?</p>
-<p>Les différentes techniques de collecte et de nettoyage de données seront illustrées avec des exemples pratiques, codés sous R. Quels sont les pré-requis ?</p>
+<div id="objectif" class="section level2">
+<h2>Objectif</h2>
+<p>Apprendre à récupérer, nettoyer et intégrer les données textes afin de mieux connaître les besoins clients.</p>
+<p><strong>À qui s’adresse cette formation ?</strong></p>
+<p>À toute personne souhaitant analyser les textes et tirer des conclusions intéressantes.</p>
+<p><strong>Pour obtenir quoi ?</strong></p>
+<p>Compétences de text mining et les cas d’applications.</p>
+<p><strong>Comment ?</strong></p>
+<p>Les différentes techniques de collecte, de nettoyage et d’analyse de données seront illustrées avec des exemples pratiques, codés sous R.</p>
+<p><strong>Quels sont les pré-requis ?</strong></p>
 <p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
-<p>Utilisation des expressions régulières</p>
+</div>
+<div id="programme" class="section level2">
+<h2>Programme</h2>
+<p><strong>Source de données</strong></p>
+<ul>
+<li>Données internes</li>
+<li>Reconnaissance optique de caractères</li>
+<li>Données des sites d’avis</li>
+</ul>
+<p><strong>Nettoyage des données textes</strong></p>
+<ul>
+<li>Manipulation des expressions régulières</li>
+<li>Construction de corpus</li>
+<li>Matrice Documents-termes</li>
+<li>TD IDF</li>
+</ul>
+<p><strong>Machine learning</strong></p>
+<ul>
+<li><a href="3_2_avis_reg.html">Caractérisation des avis par une note et sa prédiction</a></li>
+<li>Segmentation des avis</li>
+</ul>
+<p><strong>Visualisation</strong></p>
+<ul>
+<li>Nuage de mots</li>
+<li><a href="2_tm_avis.html">Fréquence des mots ou bigrammes</a></li>
+</ul>
+</div>
 </div>
 
 <div id="disqus_thread"></div>
@@ -345,7 +382,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
