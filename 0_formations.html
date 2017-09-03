@@ -11,7 +11,7 @@
 
 
 
-<title>Programmes des formations</title>
+<title>Mentoring et formation</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -67,6 +70,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 </head>
 
@@ -160,6 +164,101 @@ $(document).ready(function () {
 <!-- code folding -->
 
 
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -287,21 +386,28 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Programmes des formations</h1>
+<h1 class="title toc-ignore">Mentoring et formation</h1>
 
 </div>
 
 
-<p></br></p>
+<div id="data-science-mentoring" class="section level1">
+<h1>Data Science Mentoring</h1>
+<p>Plusieurs programmes de mentoring sont disponibles:</p>
+<ul>
+<li>Data Science en 5 jours avec l’analyse des prix immobiliers (disponible au mois de novembre)</li>
+<li>1 data visualisation par jour pendant 30 jours (disponible au mois d’octobre)</li>
+<li>Accompagnement de projet Data Science</li>
+</ul>
 <p>Les applications la Data Science sont nombreuses dans le secteur d’assurance ou d’autres secteurs. Si vous avez des besoins spécifiques, n’hésitez pas à me contacter.</p>
+</div>
+<div id="programmes-des-formations" class="section level1">
+<h1>Programmes des formations</h1>
 <p>Toutes Les formations suivantes sont proposées chez <a href="http://www.caritat.fr/">Caritat</a>. Vous pouvez consulter les dates des session sur leur site.</p>
 <div class="figure">
 <img src="images/logo.png" />
 
 </div>
-<p></br> </br></p>
-<div id="formations" class="section level2">
-<h2>Formations</h2>
 <p><strong>Sujets généraux</strong></p>
 <ul>
 <li><a href="f_101_intro_ds.html">101 Introduction à la Data Science</a></li>
@@ -336,10 +442,12 @@ $(document).ready(function () {
 <p>Pour les formations intra, n’hésitez pas à me contacter pour construire un programme adapté à votre entreprise, avec des cas réels.</p>
 <p></br></p>
 </div>
-<div id="calendrier-des-formations-chez-caritat" class="section level2">
-<h2>Calendrier des formations chez Caritat</h2>
+<div id="calendrier-des-formations" class="section level1">
+<h1>Calendrier des formations</h1>
+<div class="conteneur">
 <iframe src="https://calendar.google.com/calendar/embed?title=Formations%20Caritat&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=ugoruv405lhcj121nva62ngd3s%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no">
 </iframe>
+</div>
 <p></br></p>
 </div>
 
@@ -369,6 +477,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 
