@@ -4,14 +4,14 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
 
 
 
-<title></title>
+<title>Actuariat</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -67,6 +67,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="styles.css" type="text/css" />
 
 </head>
 
@@ -193,6 +194,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="0_ds_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
       <a href="1_0_collecte.html">
         <span class="fa fa-hand-paper-o"></span>
          
@@ -200,15 +208,15 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="2_0_manipulation.html">
+      <a href="2_0_transformation.html">
         <span class="fa fa-table"></span>
          
-        Manipulation des données
+        Transformation des données
       </a>
     </li>
     <li>
       <a href="3_0_analytics.html">
-        <span class="fa fa-calculator"></span>
+        <span class="fa fa-cog fa-spin"></span>
          
         Analyse des données
       </a>
@@ -221,7 +229,7 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="0_datavis.html">
+      <a href="5_0_big_data.html">
         <span class="fa fa-database"></span>
          
         Big Data
@@ -280,6 +288,7 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Actuariat</h1>
 
 </div>
 
@@ -339,7 +348,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

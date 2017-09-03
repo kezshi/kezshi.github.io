@@ -11,7 +11,7 @@
 
 
 
-<title>Data Science et assurance</title>
+<title>Analyse des résilisations</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -287,65 +287,70 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data Science et assurance</h1>
+<h1 class="title toc-ignore">Analyse des résilisations</h1>
 
 </div>
 
 
-<p><strong>Durée : 2 jours</strong></p>
+<p><strong>2 jours</strong></p>
 <div id="objectif" class="section level1">
 <h1>Objectif</h1>
-<p><strong>A qui s’adresse cette formation ?</strong></p>
-<p>Aux actuaires ou à toutes personnes qui travaillent avec les données en assurance, banque et finance.</p>
+<p>Apprendre à récupérer, nettoyer et intégrer les données externes publiques (géographiques et démographiques) et des données du marché (automobile et immobilier) pour enrichir les bases de données internes pour les besoins de tarification, de risk management et de marketing.</p>
+<p><strong>À qui s’adresse cette formation ?</strong></p>
+<p>À toute personne souhaitant utiliser des données externes dans les différents domaines d’assurance: produits, marketing, distribution et tarification.</p>
 <p><strong>Pour obtenir quoi ?</strong></p>
-<p>Pour comprendre comment appliquer les algorithmes de machine learning en assurance, pour la tarification, la détection de fraudes, le scoring, etc.</p>
-<p><strong>Comment se déroule la formation ?</strong></p>
-<p>les apports théoriques sont complétés par des exercices pratiques sous R et Rstudio.</p>
+<ul>
+<li>Une meilleure compréhension de la collecte des données externes, et les techniques de scraping.</li>
+<li>Constituer une base de données pour améliorer la tarification, le marketing ou le risk management.</li>
+</ul>
+<p><strong>Comment ?</strong></p>
+<p>Les différentes techniques de collecte et de nettoyage de données seront illustrées avec des exemples pratiques, codés sous R.</p>
 <p><strong>Quels sont les pré-requis ?</strong></p>
-<p>Base de l’assurance.</p>
-<p><strong>Y a-t-il besoin d’ordinateurs ?</strong></p>
-<p>Ordinateur avec R et Rstudio installés</p>
+<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
 </div>
 <div id="programme" class="section level1">
 <h1>Programme</h1>
-<p><strong>Introduction</strong></p>
+<p><strong>Présentation de R et RStudio</strong></p>
 <ul>
-<li>Processus Data Science en assurance</li>
-<li>Objectifs de machine learning en assurance</li>
-<li>Processus de la construction d’un algorithme</li>
+<li>Bases de programmation avec R</li>
+<li>Création de graphiques interactifs</li>
+<li>Création de rapports</li>
 </ul>
-<p><strong>Pratique en assurance</strong></p>
+<p><strong>Manipulation de données géographiques</strong></p>
 <ul>
-<li>Marketing: conversion, acquisition et rétention</li>
-<li>Tarification</li>
-<li>Résilisation: causes et détection</li>
-<li>Sinistres: sévérité, durée de traitements et litiges</li>
-<li>Fraudes: souscription et sinistres</li>
-<li>Innovation produits</li>
+<li>Sources des données géographiques</li>
+<li>Géocodage</li>
+<li>Format des données</li>
 </ul>
-<p><strong>Données externes en assurance</strong></p>
+<p><strong>Cartographie</strong></p>
 <ul>
-<li>Web scraping</li>
-<li>Construction d’une base de l’argus auto</li>
-<li>Utilisation des données météorologiques</li>
-<li>Utilisation des données démographiques et géographiques</li>
+<li>Cartes thématiques</li>
+<li>Cartes avec fonds divers</li>
+<li>Cartes interactives</li>
 </ul>
-<p><strong>Machine learning</strong></p>
+<p><strong>Analyse des données géographiques</strong></p>
 <ul>
-<li>Arbre de classification et de régression</li>
-<li>Gradient boosting</li>
-<li>Forêt aléatoire</li>
-<li>Support Vector Machine</li>
-<li>Régression logistique</li>
-<li>Réseaux de neurones</li>
-<li>Réseaux bayésiens</li>
+<li>Segmentation des données et zoniers</li>
+<li>Utilisation dans la classification et la régression</li>
 </ul>
-<p><strong>Data Visualisation</strong></p>
+<p><strong>Etude de cas</strong></p>
 <ul>
-<li>Tableau de bord</li>
-<li>Outils de visualisation</li>
-<li>Exemples de visualisation</li>
+<li>Etude de densité et de concentration</li>
+<li>Zones inondables et assurés sinistrés</li>
+<li>Géolocation des accidents automobiles</li>
 </ul>
+<!--
+Idées diverses
+informations routes
+informations circulation, trafic
+visualisation des routes avec leaflet, études des segments de routes (situation des accidents auto)
+Classification des quartiers (zoniers) en fonction des entreprises présentes (k means): affaires, tourisme, restaurants, shopping, etc
+
+Etapes pour les données démogrpahiques
+1 données insee par iris, ou code postal
+2 coordonnées lat lon des quartiers avec les centroïdes
+3 interpolation ou régression 
+-->
 </div>
 
 <div id="disqus_thread"></div>

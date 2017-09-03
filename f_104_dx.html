@@ -11,7 +11,7 @@
 
 
 
-<title>Data Science et assurance</title>
+<title>Utilisation des données externes en assurance</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -287,7 +287,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data Science et assurance</h1>
+<h1 class="title toc-ignore">Utilisation des données externes en assurance</h1>
 
 </div>
 
@@ -295,57 +295,78 @@ $(document).ready(function () {
 <p><strong>Durée : 2 jours</strong></p>
 <div id="objectif" class="section level1">
 <h1>Objectif</h1>
+<p>Apprendre à récupérer, nettoyer et intégrer les données externes publiques (géographiques et démographiques) et des données du marché (automobile et immobilier) pour enrichir les bases de données internes pour les besoins de tarification, de risk management et de marketing.</p>
 <p><strong>A qui s’adresse cette formation ?</strong></p>
-<p>Aux actuaires ou à toutes personnes qui travaillent avec les données en assurance, banque et finance.</p>
+<p>À toute personne souhaitant utiliser des données externes dans les différents domaines d’assurance: produits, marketing, distribution et tarification.</p>
 <p><strong>Pour obtenir quoi ?</strong></p>
-<p>Pour comprendre comment appliquer les algorithmes de machine learning en assurance, pour la tarification, la détection de fraudes, le scoring, etc.</p>
+<ul>
+<li>Une meilleure compréhension de la collecte des données externes, et les techniques de scraping.</li>
+<li>Constituer une base de données pour améliorer la tarification, le marketing ou le risk management.</li>
+</ul>
 <p><strong>Comment se déroule la formation ?</strong></p>
-<p>les apports théoriques sont complétés par des exercices pratiques sous R et Rstudio.</p>
+<p>Les différentes techniques de collecte et de nettoyage de données seront illustrées avec des exemples pratiques, codés sous R.</p>
 <p><strong>Quels sont les pré-requis ?</strong></p>
 <p>Base de l’assurance.</p>
 <p><strong>Y a-t-il besoin d’ordinateurs ?</strong></p>
-<p>Ordinateur avec R et Rstudio installés</p>
+<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
 </div>
 <div id="programme" class="section level1">
 <h1>Programme</h1>
-<p><strong>Introduction</strong></p>
+<p><strong>Présentation de R et RStudio</strong></p>
 <ul>
-<li>Processus Data Science en assurance</li>
-<li>Objectifs de machine learning en assurance</li>
-<li>Processus de la construction d’un algorithme</li>
+<li>Bases de programmation avec R</li>
+<li>Création de graphiques interactifs</li>
+<li>Création de rapports (pdf, word ou html)</li>
 </ul>
-<p><strong>Pratique en assurance</strong></p>
+<p><strong>Collecte des données externes</strong></p>
 <ul>
-<li>Marketing: conversion, acquisition et rétention</li>
+<li>Techniques de web-scraping</li>
+<li>Utilisation des API</li>
+<li>Géocodage des adresses</li>
+</ul>
+<p><strong>Nettoyage des bases de données</strong></p>
+<ul>
+<li>Manipulation des données démographiques</li>
+<li>Etude des prix immobiliers</li>
+<li>Cotes des véhicules</li>
+<li>Transformation des données et leur intégration</li>
+</ul>
+<p><strong>Analyse géographique des données</strong></p>
+<ul>
+<li>Cartographique des données géographiques</li>
+<li>Etude de densité et de concentration</li>
+<li>Etude de la répartition des agents généraux</li>
+</ul>
+<p><strong>Algorithmes de machine learning</strong></p>
+<ul>
+<li>Segmentation des données</li>
+<li>Intégration avec les données internes</li>
+</ul>
+<p><strong>Cas en assurance</strong></p>
+<ul>
+<li>Géomarketing</li>
 <li>Tarification</li>
-<li>Résilisation: causes et détection</li>
-<li>Sinistres: sévérité, durée de traitements et litiges</li>
-<li>Fraudes: souscription et sinistres</li>
-<li>Innovation produits</li>
+<li>Résilisation</li>
+<li>Sinistres</li>
+<li>Fraudes</li>
 </ul>
-<p><strong>Données externes en assurance</strong></p>
-<ul>
-<li>Web scraping</li>
-<li>Construction d’une base de l’argus auto</li>
-<li>Utilisation des données météorologiques</li>
-<li>Utilisation des données démographiques et géographiques</li>
-</ul>
-<p><strong>Machine learning</strong></p>
-<ul>
-<li>Arbre de classification et de régression</li>
-<li>Gradient boosting</li>
-<li>Forêt aléatoire</li>
-<li>Support Vector Machine</li>
-<li>Régression logistique</li>
-<li>Réseaux de neurones</li>
-<li>Réseaux bayésiens</li>
-</ul>
-<p><strong>Data Visualisation</strong></p>
-<ul>
-<li>Tableau de bord</li>
-<li>Outils de visualisation</li>
-<li>Exemples de visualisation</li>
-</ul>
+<!--
+Fin du programme
+
+Idées diverses
+informations routes
+informations circulation, trafic
+visualisation des routes avec leaflet, études des segments de routes (situation des accidents auto)
+Classification des quartiers (zoniers) en fonction des entreprises présentes (k means): affaires, tourisme, restaurants, shopping, etc
+
+Etapes pour les données démogrpahiques
+1 données insee par iris, ou code postal
+2 coordonnées lat lon des quartiers avec les centroïdes
+3 interpolation ou régression 
+
+http://datafrance.info/
+https://www.data.gouv.fr/fr/datasets/route-500-572583/
+-->
 </div>
 
 <div id="disqus_thread"></div>

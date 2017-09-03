@@ -1,0 +1,13 @@
+blockquote {
+  font-style: italic
+}
+body {
+	background-image:url('./images/logo_caritat.png');
+	background-repeat:no-repeat;
+	background-position: right top;
+	background-attachment:fixed;
+ }
+@media print
+{
+    * {-webkit-print-color-adjust:exact;}
+}
