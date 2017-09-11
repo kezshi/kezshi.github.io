@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Carte des communes</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Data Science
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="0_ds_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_transformation.html">
+        <span class="fa fa-table"></span>
+         
+        Transformation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-cog fa-spin"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="5_0_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
+     
+    Blockchain
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Carte des communes</h1>
+
+</div>
+
+
+<div id="objectif" class="section level1">
+<h1><span class="header-section-number">1</span> Objectif</h1>
+<ul>
+<li>Créer une carte pour visualiser le nombre d’accidents pour les communes à Grand Paris</li>
+</ul>
+</div>
+<div id="demarche" class="section level1">
+<h1><span class="header-section-number">2</span> Démarche</h1>
+<ul>
+<li>Identifier tous les départements, ainsi que toutes les communes</li>
+<li>Créer la carte</li>
+<li>Représenter le nombre d’accident par des couleurs</li>
+</ul>
+</div>
+<div id="resultat" class="section level1">
+<h1><span class="header-section-number">3</span> Résultat</h1>
+<pre><code>##   [1] &quot;054&quot; &quot;002&quot; &quot;014&quot; &quot;019&quot; &quot;004&quot; &quot;009&quot; &quot;036&quot; &quot;007&quot; &quot;012&quot; &quot;076&quot; &quot;064&quot;
+##  [12] &quot;032&quot; &quot;071&quot; &quot;023&quot; &quot;060&quot; &quot;024&quot; &quot;025&quot; &quot;026&quot; &quot;035&quot; &quot;040&quot; &quot;044&quot; &quot;048&quot;
+##  [23] &quot;049&quot; &quot;020&quot; &quot;050&quot; &quot;051&quot; &quot;062&quot; &quot;063&quot; &quot;033&quot; &quot;047&quot; &quot;072&quot; &quot;077&quot; &quot;022&quot;
+##  [34] &quot;073&quot; &quot;046&quot; &quot;075&quot; &quot;078&quot; &quot;001&quot; &quot;005&quot; &quot;008&quot; &quot;010&quot; &quot;057&quot; &quot;013&quot; &quot;027&quot;
+##  [45] &quot;030&quot; &quot;029&quot; &quot;031&quot; &quot;079&quot; &quot;006&quot; &quot;061&quot; &quot;045&quot; &quot;074&quot; &quot;015&quot; &quot;053&quot; &quot;055&quot;
+##  [56] &quot;039&quot; &quot;066&quot; &quot;070&quot; &quot;059&quot; &quot;056&quot; &quot;017&quot; &quot;018&quot; &quot;069&quot; &quot;028&quot; &quot;011&quot; &quot;037&quot;
+##  [67] &quot;016&quot; &quot;043&quot; &quot;003&quot; &quot;065&quot; &quot;021&quot; &quot;034&quot; &quot;038&quot; &quot;041&quot; &quot;042&quot; &quot;052&quot; &quot;058&quot;
+##  [78] &quot;068&quot; &quot;080&quot; &quot;067&quot; &quot;081&quot; &quot;112&quot; &quot;116&quot; &quot;101&quot; &quot;102&quot; &quot;104&quot; &quot;118&quot; &quot;103&quot;
+##  [89] &quot;110&quot; &quot;111&quot; &quot;105&quot; &quot;113&quot; &quot;106&quot; &quot;114&quot; &quot;107&quot; &quot;115&quot; &quot;108&quot; &quot;117&quot; &quot;109&quot;
+## [100] &quot;119&quot; &quot;120&quot; &quot;645&quot;</code></pre>
+<pre><code>##   [1] &quot;75101&quot; &quot;75102&quot; &quot;75103&quot; &quot;75104&quot; &quot;75105&quot; &quot;75106&quot; &quot;75107&quot; &quot;75108&quot;
+##   [9] &quot;75109&quot; &quot;75110&quot; &quot;75111&quot; &quot;75112&quot; &quot;75113&quot; &quot;75114&quot; &quot;75115&quot; &quot;75116&quot;
+##  [17] &quot;75116&quot; &quot;75117&quot; &quot;75118&quot; &quot;75119&quot; &quot;75120&quot; &quot;92002&quot; &quot;92004&quot; &quot;92007&quot;
+##  [25] &quot;92009&quot; &quot;92012&quot; &quot;92014&quot; &quot;92019&quot; &quot;92019&quot; &quot;92020&quot; &quot;92022&quot; &quot;92023&quot;
+##  [33] &quot;92023&quot; &quot;92024&quot; &quot;92025&quot; &quot;92026&quot; &quot;92032&quot; &quot;92033&quot; &quot;92035&quot; &quot;92036&quot;
+##  [41] &quot;92040&quot; &quot;92044&quot; &quot;92046&quot; &quot;92047&quot; &quot;92048&quot; &quot;92048&quot; &quot;92049&quot; &quot;92050&quot;
+##  [49] &quot;92051&quot; &quot;92060&quot; &quot;92060&quot; &quot;92062&quot; &quot;92063&quot; &quot;92063&quot; &quot;92064&quot; &quot;92071&quot;
+##  [57] &quot;92072&quot; &quot;92073&quot; &quot;92075&quot; &quot;92076&quot; &quot;92077&quot; &quot;92078&quot; &quot;93001&quot; &quot;93005&quot;
+##  [65] &quot;93006&quot; &quot;93007&quot; &quot;93008&quot; &quot;93010&quot; &quot;93013&quot; &quot;93014&quot; &quot;93015&quot; &quot;93027&quot;
+##  [73] &quot;93029&quot; &quot;93030&quot; &quot;93031&quot; &quot;93032&quot; &quot;93033&quot; &quot;93039&quot; &quot;93045&quot; &quot;93046&quot;
+##  [81] &quot;93047&quot; &quot;93048&quot; &quot;93049&quot; &quot;93050&quot; &quot;93051&quot; &quot;93053&quot; &quot;93055&quot; &quot;93057&quot;
+##  [89] &quot;93059&quot; &quot;93061&quot; &quot;93062&quot; &quot;93063&quot; &quot;93064&quot; &quot;93066&quot; &quot;93066&quot; &quot;93070&quot;
+##  [97] &quot;93071&quot; &quot;93072&quot; &quot;93073&quot; &quot;93074&quot; &quot;93077&quot; &quot;93078&quot; &quot;93079&quot; &quot;94001&quot;
+## [105] &quot;94002&quot; &quot;94003&quot; &quot;94004&quot; &quot;94011&quot; &quot;94015&quot; &quot;94016&quot; &quot;94017&quot; &quot;94017&quot;
+## [113] &quot;94018&quot; &quot;94019&quot; &quot;94021&quot; &quot;94022&quot; &quot;94028&quot; &quot;94033&quot; &quot;94034&quot; &quot;94037&quot;
+## [121] &quot;94038&quot; &quot;94041&quot; &quot;94042&quot; &quot;94043&quot; &quot;94044&quot; &quot;94046&quot; &quot;94047&quot; &quot;94048&quot;
+## [129] &quot;94052&quot; &quot;94053&quot; &quot;94054&quot; &quot;94055&quot; &quot;94056&quot; &quot;94058&quot; &quot;94059&quot; &quot;94060&quot;
+## [137] &quot;94065&quot; &quot;94067&quot; &quot;94068&quot; &quot;94068&quot; &quot;94069&quot; &quot;94070&quot; &quot;94071&quot; &quot;94071&quot;
+## [145] &quot;94073&quot; &quot;94074&quot; &quot;94074&quot; &quot;94075&quot; &quot;94076&quot; &quot;94077&quot; &quot;94078&quot; &quot;94079&quot;
+## [153] &quot;94080&quot; &quot;94081&quot;</code></pre>
+<p><img src="40253_geo_carte_com_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<p>Copyright &copy; 2017 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
