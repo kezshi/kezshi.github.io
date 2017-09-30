@@ -11,7 +11,7 @@
 
 
 
-<title>Analyse des résilisations</title>
+<title>Utilisation des données géographiques</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -287,12 +287,20 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Analyse des résilisations</h1>
+<h1 class="title toc-ignore">Utilisation des données géographiques</h1>
 
 </div>
 
 
 <p><strong>2 jours</strong></p>
+<div id="preambule" class="section level1">
+<h1>Préambule</h1>
+<ul>
+<li>Avez-vous des adresses dans votre base? Au lieu de les voir sous forme de texte, il serait intéressant de les afficher sur une carte.</li>
+<li>Utilisez-vous un service de géocodage et chaque adresse géocodée vous est facturée ? Avec cette formation, vous saurez construire un géocodeur et géocoder vos adresses gratuitement.</li>
+<li>L’analyse géographique des données permet de mieux connaître vos clients.</li>
+</ul>
+</div>
 <div id="objectif" class="section level1">
 <h1>Objectif</h1>
 <p>Apprendre à récupérer, nettoyer et intégrer les données externes publiques (géographiques et démographiques) et des données du marché (automobile et immobilier) pour enrichir les bases de données internes pour les besoins de tarification, de risk management et de marketing.</p>
@@ -302,6 +310,7 @@ $(document).ready(function () {
 <ul>
 <li>Une meilleure compréhension de la collecte des données externes, et les techniques de scraping.</li>
 <li>Constituer une base de données pour améliorer la tarification, le marketing ou le risk management.</li>
+<li>Un géocodeur qui permet d’obtenir des informations précisées comme coordonnées GSP des adresses.</li>
 </ul>
 <p><strong>Comment ?</strong></p>
 <p>Les différentes techniques de collecte et de nettoyage de données seront illustrées avec des exemples pratiques, codés sous R.</p>
@@ -337,7 +346,8 @@ $(document).ready(function () {
 <ul>
 <li>Etude de densité et de concentration</li>
 <li>Zones inondables et assurés sinistrés</li>
-<li>Géolocation des accidents automobiles</li>
+<li>Géolocalisation des accidents automobiles</li>
+<li>Construction d’un géocodeur</li>
 </ul>
 <!--
 Idées diverses

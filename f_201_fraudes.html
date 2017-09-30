@@ -11,7 +11,7 @@
 
 
 
-<title>Détection de fraudes</title>
+<title>Machine learning et détection de fraudes</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -162,6 +165,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -287,14 +385,14 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Détection de fraudes</h1>
+<h1 class="title toc-ignore">Machine learning et détection de fraudes</h1>
 
 </div>
 
 
 <p><strong>2 jours</strong></p>
 <div id="objectif" class="section level1">
-<h1>Objectif</h1>
+<h1><span class="header-section-number">1</span> Objectif</h1>
 <p>Comprendre les principes de détection de fraudes, et pratiquer des algorithmes de machine learning sur des cas concrets.</p>
 <p><strong>À qui s’adresse cette formation ?</strong></p>
 <p>À toute personne qui souhaite comprendre les outils et algorithmes de détection de fraudes.</p>
@@ -306,12 +404,20 @@ $(document).ready(function () {
 <li>vous saurez identifier des situations où des données externes peuvent aider</li>
 </ul>
 <p><strong>Comment ?</strong></p>
-<p>Des exemples pratiques animeront.</p>
+<ul>
+<li>Partage des exemples et processus réels mis en place pour la lutte anti-fraude</li>
+<li>Revue des méthologies statistiques</li>
+<li>Cas pratiques concrets
+<ul>
+<li>Manipulation des bases de données</li>
+<li>Construction des algorithmes avec R</li>
+</ul></li>
+</ul>
 <p><strong>Quels sont les pré-requis ?</strong></p>
 <p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés.</p>
 </div>
 <div id="programme" class="section level1">
-<h1>Programme</h1>
+<h1><span class="header-section-number">2</span> Programme</h1>
 <p><strong>Conception des processus</strong></p>
 <ul>
 <li>Type de fraudes</li>
@@ -334,6 +440,31 @@ $(document).ready(function () {
 <li>Détection d’anomalies</li>
 <li>Méthodes non supervisées</li>
 <li>Classification des fraudes</li>
+</ul>
+<p><strong>Cas pratiques</strong></p>
+<ul>
+<li>Détection des anomalies avec des règles déterministes
+<ul>
+<li>Types de véhicules</li>
+<li>Adresses</li>
+</ul></li>
+<li>Classification binaire
+<ul>
+<li>Abre de décision</li>
+<li>SVM</li>
+<li>Régression logistiques</li>
+<li>Autres algorithmes de classification</li>
+</ul></li>
+<li>Détection des abberations
+<ul>
+<li>Détection des valeurs abberantes</li>
+<li>Détection des variables abberantes</li>
+</ul></li>
+<li>Segmentation avec Kmeans
+<ul>
+<li>Normalisation des variables</li>
+<li>Segmentation et détection d’anomalies</li>
+</ul></li>
 </ul>
 <p><strong>Visualisation des résultat</strong></p>
 <ul>
@@ -368,6 +499,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 

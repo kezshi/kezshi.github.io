@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -305,15 +305,15 @@ div.tocify {
       </a>
     </li>
     <li>
-      <a href="2_0_manipulation.html">
+      <a href="2_0_transformation.html">
         <span class="fa fa-table"></span>
          
-        Manipulation des données
+        Transformation des données
       </a>
     </li>
     <li>
       <a href="3_0_analytics.html">
-        <span class="fa fa-cogs"></span>
+        <span class="fa fa-cog fa-spin"></span>
          
         Analyse des données
       </a>
@@ -966,18 +966,16 @@ while(i &gt; 0){
 <pre class="r"><code>seq(length=10, from=-5, by=.2)    # with range defined by vector length</code></pre>
 <pre><code>##  [1] -5.0 -4.8 -4.6 -4.4 -4.2 -4.0 -3.8 -3.6 -3.4 -3.2</code></pre>
 <pre class="r"><code>rnorm(20, mean = 0, sd = 1)       # random normal distribution</code></pre>
-<pre><code>##  [1] -0.152014293  1.416021522  1.460272446 -0.649236668  2.115842926
-##  [6] -1.040905659  0.335934381 -0.390249852  0.558688213 -0.490463439
-## [11]  1.016452589 -2.391860723 -0.195362902  0.006082821 -1.319586849
-## [16]  0.495061901 -0.427623509 -0.233551744  0.007046467 -1.528491915</code></pre>
+<pre><code>##  [1]  2.90752881 -0.06150346  0.59750787  0.53796020  0.02342910
+##  [6]  1.27719012 -0.70744783 -0.68576383 -0.60928258 -0.54205130
+## [11] -0.78362073  1.80793371  0.37868251  0.75887361 -0.04152751
+## [16] -0.05094133  1.90204172 -0.07704529 -0.59175859 -0.02232134</code></pre>
 <pre class="r"><code>runif(20, min=0, max=100)         # array of random numbers</code></pre>
-<pre><code>##  [1]  3.4890003 13.2029387 95.0260280 87.6145088  4.8537133 65.7160610
-##  [7] 75.1150972  4.3729898  4.1879815 25.3452199 16.2334939  3.2775140
-## [13] 36.4450781 26.0808130  0.5808511  0.7422613 86.8877885 99.2013614
-## [19] 52.4558320 53.5432894</code></pre>
+<pre><code>##  [1] 51.880441 46.737522 41.558818 85.679704 94.140834 37.472801 99.323605
+##  [8] 68.909756 45.615026  7.048684 86.735336 38.089206 16.719666  5.763398
+## [15] 20.080022 81.099785 19.033216 68.315382 12.076278 61.455992</code></pre>
 <pre class="r"><code>sample(0:100, 20, replace=TRUE)   # array of random integers</code></pre>
-<pre><code>##  [1]  18  44  37  58  21  63  94  22  97 100  79  91  94  18  57  92  67
-## [18]  79  79  91</code></pre>
+<pre><code>##  [1] 63  4 24 54 71 72 98 88 73 62 65 64 48 58 45 28 58 40 16 76</code></pre>
 <pre class="r"><code>table(warpbreaks[,2:3])           # array summary stats (powerful summary tool)</code></pre>
 <pre><code>##     tension
 ## wool L M H
@@ -1000,7 +998,7 @@ while(i &gt; 0){
 <pre class="r"><code>abs(-5)                                # magnitude</code></pre>
 <pre><code>## [1] 5</code></pre>
 <pre class="r"><code>sd(rnorm(10))                          # standard deviation</code></pre>
-<pre><code>## [1] 1.083175</code></pre>
+<pre><code>## [1] 1.096761</code></pre>
 <pre class="r"><code>4^2                                    # square</code></pre>
 <pre><code>## [1] 16</code></pre>
 <pre class="r"><code>sqrt(16)                               # square root</code></pre>
@@ -1208,30 +1206,90 @@ print(sumInsects)</code></pre>
 ## 54     28    B       H
 ## 55     42    B       M</code></pre>
 </div>
+<div id="valeurs-manquantes-1" class="section level2">
+<h2><span class="header-section-number">6.2</span> Valeurs manquantes</h2>
+<pre class="r"><code>sapply(airquality, function(x) sum(is.na(x)))</code></pre>
+<pre><code>##   Ozone Solar.R    Wind    Temp   Month     Day 
+##      37       7       0       0       0       0</code></pre>
+<pre class="r"><code>library(Hmisc)
+describe(airquality)</code></pre>
+<pre><code>## airquality 
+## 
+##  6  Variables      153  Observations
+## ---------------------------------------------------------------------------
+## Ozone 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##      116       37       67    0.999    42.13    35.28     7.75    11.00 
+##      .25      .50      .75      .90      .95 
+##    18.00    31.50    63.25    87.00   108.50 
+## 
+## lowest :   1   4   6   7   8, highest: 115 118 122 135 168
+## ---------------------------------------------------------------------------
+## Solar.R 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##      146        7      117        1    185.9    102.7    24.25    47.50 
+##      .25      .50      .75      .90      .95 
+##   115.75   205.00   258.75   288.50   311.50 
+## 
+## lowest :   7   8  13  14  19, highest: 320 322 323 332 334
+## ---------------------------------------------------------------------------
+## Wind 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##      153        0       31    0.997    9.958    3.964     4.60     5.82 
+##      .25      .50      .75      .90      .95 
+##     7.40     9.70    11.50    14.90    15.50 
+## 
+## lowest :  1.7  2.3  2.8  3.4  4.0, highest: 16.1 16.6 18.4 20.1 20.7
+## ---------------------------------------------------------------------------
+## Temp 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##      153        0       40    0.999    77.88    10.74     60.2     64.2 
+##      .25      .50      .75      .90      .95 
+##     72.0     79.0     85.0     90.0     92.0 
+## 
+## lowest : 56 57 58 59 61, highest: 92 93 94 96 97
+## ---------------------------------------------------------------------------
+## Month 
+##        n  missing distinct     Info     Mean      Gmd 
+##      153        0        5     0.96    6.993    1.608 
+##                                         
+## Value          5     6     7     8     9
+## Frequency     31    30    31    31    30
+## Proportion 0.203 0.196 0.203 0.203 0.196
+## ---------------------------------------------------------------------------
+## Day 
+##        n  missing distinct     Info     Mean      Gmd      .05      .10 
+##      153        0       31    0.999     15.8    10.26      2.0      4.0 
+##      .25      .50      .75      .90      .95 
+##      8.0     16.0     23.0     28.0     29.4 
+## 
+## lowest :  1  2  3  4  5, highest: 27 28 29 30 31
+## ---------------------------------------------------------------------------</code></pre>
+</div>
 <div id="graphique" class="section level2">
-<h2><span class="header-section-number">6.2</span> Graphique</h2>
+<h2><span class="header-section-number">6.3</span> Graphique</h2>
 <ul>
 <li>Graphique simple</li>
 </ul>
 <pre class="r"><code>plot(1:10)</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
 <pre class="r"><code>plot(sort(rnorm(100)), pch=16, cex=0.5)                 # specifying point and size respectively</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-2.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-2.png" width="672" /></p>
 <pre class="r"><code>plot(x=1:25, y=25:1, pch=1:25)                          # x &amp; y inputs, and showing the available point symbols</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-3.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-3.png" width="672" /></p>
 <pre class="r"><code>plot(sin, -pi, 2*pi)</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-4.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-4.png" width="672" /></p>
 <pre class="r"><code>hist(rnorm(1000), breaks=50)</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-5.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-5.png" width="672" /></p>
 <pre class="r"><code>barplot(sumInsects$sum, names.arg = sumInsects$group)</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-6.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-6.png" width="672" /></p>
 <pre class="r"><code>pie(sumInsects$sum, labels = sumInsects$group)</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-58-7.png" width="672" /> - Rajouter des éléments dans un graphique</p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-7.png" width="672" /> - Rajouter des éléments dans un graphique</p>
 <pre class="r"><code>x &lt;- sample(0:100, 25, replace=TRUE)
 plot(x, pch=17)
 lines(x, col=&#39;#00FF00&#39;)
 points(x+5, pch=16, col=&#39;red&#39;)</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-59-1.png" width="672" /> - Barplot</p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-61-1.png" width="672" /> - Barplot</p>
 <pre class="r"><code>sumWB &lt;- aggregate(warpbreaks$breaks, by=list(warpbreaks$wool, warpbreaks$tension), FUN=mean)
 names(sumWB) &lt;- c(&#39;wool&#39;,&#39;tension&#39;,&#39;mean_breaks&#39;)
 (data &lt;- cbind(sumWB$mean_breaks[c(1,3,5)], sumWB$mean_breaks[c(2,4,6)]))</code></pre>
@@ -1241,10 +1299,10 @@ names(sumWB) &lt;- c(&#39;wool&#39;,&#39;tension&#39;,&#39;mean_breaks&#39;)
 ## [3,] 24.55556 18.77778</code></pre>
 <pre class="r"><code>barplot(data, names.arg=c(&#39;Group A&#39;,&#39;Group B&#39;), 
         legend.text=c(&#39;L&#39;,&#39;M&#39;,&#39;H&#39;), args.legend = list(x = &quot;right&quot;))</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
 <pre class="r"><code>barplot(data, names.arg=c(&#39;Group A&#39;,&#39;Group B&#39;), beside=T,
         legend.text=c(&#39;L&#39;,&#39;M&#39;,&#39;H&#39;), args.legend = list(x = &quot;topright&quot;))</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-60-2.png" width="672" /> - Utilisation de symboles</p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-62-2.png" width="672" /> - Utilisation de symboles</p>
 <pre class="r"><code>(cities &lt;- data.frame(city=c(&#39;London&#39;,&#39;Bristol&#39;,&#39;Manchester&#39;,&#39;Leeds&#39;), 
                       lon=c(-0.1,-2.6,-2.2,-1.5), lat=c(51.5,51.4,53.5,53.8), pop=c(8,1,2.7,0.8)))</code></pre>
 <pre><code>##         city  lon  lat pop
@@ -1257,7 +1315,7 @@ names(sumWB) &lt;- c(&#39;wool&#39;,&#39;tension&#39;,&#39;mean_breaks&#39;)
 abline(h=(seq(51,53,1)), col=&quot;lightgray&quot;, lty=1)
 abline(v=(seq(-4,1,1)), col=&quot;lightgray&quot;, lty=1)
 text(x=cities$lon, y=cities$lat+0.2, labels=cities$city)</code></pre>
-<p><img src="1_bases_R_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p><img src="1_bases_R_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
 </div>
 </div>
 <div id="utilisation-de-rmd" class="section level1">
@@ -1328,7 +1386,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

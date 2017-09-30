@@ -4,14 +4,14 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
 
 
 
-<title></title>
+<title>Big Data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -193,6 +193,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="0_ds_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
       <a href="1_0_collecte.html">
         <span class="fa fa-hand-paper-o"></span>
          
@@ -200,15 +207,15 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="2_0_manipulation.html">
+      <a href="2_0_transformation.html">
         <span class="fa fa-table"></span>
          
-        Manipulation des données
+        Transformation des données
       </a>
     </li>
     <li>
       <a href="3_0_analytics.html">
-        <span class="fa fa-calculator"></span>
+        <span class="fa fa-cog fa-spin"></span>
          
         Analyse des données
       </a>
@@ -221,7 +228,7 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="0_datavis.html">
+      <a href="5_0_big_data.html">
         <span class="fa fa-database"></span>
          
         Big Data
@@ -280,13 +287,37 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Big Data</h1>
 
 </div>
 
 
-<p></br></p>
-<div id="big-data" class="section level1">
-<h1>Big Data</h1>
+<p>Au sens strict du terme, ce n’est pas du Big data, mais aujourd’hui, un fichier csv de 1Go peut être grand à traiter. Cette page pour but de présenter quelques outils pour manipuler les fichiers de grande taille dans R.</p>
+<div id="gestion-memoire-par-r" class="section level1">
+<h1>Gestion mémoire par R</h1>
+<ul>
+<li>Par défaut, les données sont chargées dans la RAM, la taille de la RAM limite la taille des objets chargés dans R</li>
+<li>Possibilité d’utiliser des packages qui stockent les données sur le disque dur</li>
+<li>pour des fichiers de taille inférieure à 10Go, on peut utiliser <code>bigmemory</code> ou <code>ff</code></li>
+<li>Pour des fichiers de taille supérieure à 10 Go, voir <code>Rhipe</code></li>
+</ul>
+</div>
+<div id="import-et-export-des-donnees" class="section level1">
+<h1>Import et export des données</h1>
+<p><code>data.table</code> : avec les fonctions <code>fread</code> et <code>fwrite</code></p>
+</div>
+<div id="manipulation-des-donnees" class="section level1">
+<h1>Manipulation des données</h1>
+<ul>
+<li>Package <code>data.table</code></li>
+<li><code>parallel</code></li>
+</ul>
+</div>
+<div id="ressources" class="section level1">
+<h1>Ressources</h1>
+<ul>
+<li><a href="https://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session">Gestion de la mémoire disponible dans les sessions R</a></li>
+</ul>
 </div>
 
 <div id="disqus_thread"></div>
@@ -312,7 +343,43 @@ $(document).ready(function () {
   ga('send', 'pageview');
 
 </script>
-<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+    <hr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+			<b>Data Science Mentoring</b>
+            <ul class="list-unstyled">
+                <li><a href="./4010_accueil.html">Analyse des prix immobiliers</a></li>
+                <li><a href="40200_intro.html">Visualisation des sinistres auto</a></li>
+                <li><a href="#">Accompagnement de projet</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+			<b>Formations Caritat</b>
+            <ul class="list-unstyled">
+                <li><a href="www.caritat.fr">Site de Caritat</a></li>
+                <li><a href="0_formations.html">Programmes de formation</a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+			<b>Data Science Process</b>
+            <ul class="list-unstyled">
+                <li><a href="1_0_collecte.html">Collecte des données</a></li>
+                <li><a href="2_0_transformation.html">Transformation des données</a></li>
+                <li><a href="3_0_analytics.html">Analyse des données</a></li>
+                <li><a href="4_0_datavis.html">Visualisation des données</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+    <hr>
+    
+
+<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
 
 
 
@@ -336,7 +403,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
