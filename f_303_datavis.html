@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -162,6 +165,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -292,25 +390,44 @@ $(document).ready(function () {
 </div>
 
 
-<p><strong>2 jour</strong></p>
+<div id="informations-pratiques" class="section level1">
+<h1><span class="header-section-number">1</span> Informations pratiques</h1>
+<p>Durée: <strong>2 jours</strong></p>
+<p>Dates:</p>
+<ul>
+<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
+<li>En dehors de ces dates, merci de me contacter.</li>
+</ul>
+<!--
+# Préambule
+
+- Exploration 
+- Analyse
+- Storytelling
+- Communication
+- Rapport
+- Tableau 
+-->
+</div>
 <div id="objectif" class="section level1">
-<h1>Objectif</h1>
-<p>Mieux comprendre les modèles et communiquer les résultats en actuariat avec R</p>
+<h1><span class="header-section-number">2</span> Objectif</h1>
+<p>Mieux comprendre les modèles et communiquer les résultats en assurance avec R</p>
 <p><strong>À qui s’adresse cette formation ?</strong></p>
-<p>À toute personne qui veut utiliser des graphiques avec R pour mieux comprendre l’actuariat, communiquer les résultats, et construire des tableaux de bord.</p>
+<p>À toute personne qui veut utiliser des graphiques avec R pour mieux comprendre les données utilisées en assurance, communiquer les résultats, et construire des tableaux de bord.</p>
 <p><strong>Pour obtenir quoi ?</strong></p>
 <ul>
-<li>Création de graphiques de base pour avoir un mémo afin de créer des graphiques pour tous les types de graphiques nécessaires.</li>
+<li>Techniques d’exploration graphique des bases de données</li>
+<li>Analyse graphique grâce à des algorithmes</li>
 <li>Automatiser la création de graphiques dans un rapport</li>
 <li>Création de tableau de bord</li>
+<li>Communication des résultats et story-telling</li>
+<li>Un ensemble de codes à réutiliser pour différentes bases de données</li>
 </ul>
 <p><strong>Comment ?</strong></p>
 <p>Principe et techniques de visualisation et un mémo pour la création des graphiques avec R</p>
-<p><strong>Quels sont les pré-requis ?</strong></p>
-<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés.</p>
 </div>
 <div id="programme" class="section level1">
-<h1>Programme</h1>
+<h1><span class="header-section-number">3</span> Programme</h1>
 <p><strong>Bases de la data visualisation</strong></p>
 <ul>
 <li>Objectifs et principe de visualisation</li>
@@ -353,7 +470,7 @@ $(document).ready(function () {
 </ul>
 </div>
 <div id="data-science-mentoring" class="section level1">
-<h1>Data Science Mentoring</h1>
+<h1><span class="header-section-number">4</span> Data Science Mentoring</h1>
 <p>Vous pouvez également suivre la formation à distance avec <a href="402_0_datavis_auto.html">Data Science Mentoring: data visualisation des sinistres auto</a></p>
 </div>
 
@@ -383,6 +500,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 
