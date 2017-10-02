@@ -393,24 +393,35 @@ div.tocify {
 <p><strong>2 jours</strong></p>
 <div id="preambule" class="section level1">
 <h1><span class="header-section-number">1</span> Préambule</h1>
-<p>La détection et la gestion des fraudes est un sujet très vaste, il n’est pas seulement un problème de classification binaire. La gestion des anomalies dans les contrats, dans les comportements des clients et des intermédiaires d’assurance passe par trois étapes:</p>
+<p>La détection et la gestion des fraudes peuvent toucher des problématiques très vastes, ce n’est pas seulement un sujet de classification binaire. La gestion des anomalies dans les contrats, dans les comportements des clients et des intermédiaires d’assurance passe par trois étapes:</p>
 <ul>
 <li>Pilotage d’activité et le suivi des indicateurs</li>
 <li>Analyse prédictive des anomalies</li>
 <li>Analyse prescriptive avec les actions correctives</li>
 </ul>
-<p>Ce processus n’est pas réservé aux indemnisations des sinistres, mais doit intervenir au début de la souscription, réalisée par le réseau de distribution, en passant par la direction technique qui gère les produits d’assurance et leur tarification.</p>
+<p>Ce processus n’est pas uniquement réservé aux indemnisations des sinistres, mais doit intervenir au début de la souscription, réalisée par le réseau de distribution, en passant par la direction technique qui gère les produits d’assurance et leur tarification.</p>
 <div class="figure">
 <img src="images/fraude.png" />
 
 </div>
-<p>Pour la partie d’analyse prédictive en particulier, il convient de procéder avec les trois approches suivantes:</p>
+<!--
+
+|                           | Pilotage   | Détection d'anomalies | Analyse prédictive | Partage des données |
+|---------------------------|------------|-----------------------|--------------------|---------------------|
+| Marketing                 |            |                       |                    |                     |
+| Fraudes à la souscription | item1item2 |                       |                    |                     |
+| Tarification              |            |                       |                    |                     |
+| Finance                   |            |                       |                    |                     |
+| Sinistres                 |       <ul><li>item1</li><li>item2</li></ul>      |                       |                    |                     |
+
+-->
+<p>Pour la partie d’analyse prédictive en particulier, il existe trois approches suivantes:</p>
 <ul>
-<li>Détection déterministes avec des données externes de référence</li>
+<li>Détection déterministe avec des données externes de référence</li>
 <li>Apprentissage supervisé avec les données libellées du passé</li>
 <li>Apprentissage non-supervisé pour créer une segmentation robuste</li>
 </ul>
-<p>Dans cette formation, ces trois approches seront illustrées avec des cas pratiques réalisés avec R.</p>
+<p>Dans cette formation, ces trois approches seront illustrées par des cas pratiques réalisés avec R.</p>
 </div>
 <div id="objectif" class="section level1">
 <h1><span class="header-section-number">2</span> Objectif</h1>
