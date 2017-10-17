@@ -11,7 +11,7 @@
 
 
 
-<title>Machine learning et détection de fraudes</title>
+<title>Principe d’automatisation</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -385,134 +385,14 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Machine learning et détection de fraudes</h1>
+<h1 class="title toc-ignore">Principe d’automatisation</h1>
 
 </div>
 
 
-<p><strong>2 jours</strong></p>
-<div id="preambule" class="section level1">
-<h1><span class="header-section-number">1</span> Préambule</h1>
-<p>La détection et la gestion des fraudes peuvent toucher des problématiques très vastes, ce n’est pas seulement un sujet de classification binaire. La gestion des anomalies dans les contrats, dans les comportements des clients et des intermédiaires d’assurance peut passer par trois étapes:</p>
-<ul>
-<li>Pilotage d’activité et le suivi des indicateurs</li>
-<li>Analyse prédictive des anomalies</li>
-<li>Analyse prescriptive avec les actions correctives</li>
-</ul>
-<p>Ce processus n’est pas uniquement réservé aux indemnisations des sinistres, mais doit intervenir au début de la souscription, réalisée par le réseau de distribution, en passant par la direction technique qui gère les produits d’assurance et leur tarification.</p>
 <div class="figure">
-<img src="images/fraude.png" />
+<img src="/Users/kezhanshi/Dropbox/DS/data/images/tempstravail.png" />
 
-</div>
-<!--
-
-|                           | Pilotage   | Détection d'anomalies | Analyse prédictive | Partage des données |
-|---------------------------|------------|-----------------------|--------------------|---------------------|
-| Marketing                 |            |                       |                    |                     |
-| Fraudes à la souscription | item1item2 |                       |                    |                     |
-| Tarification              |            |                       |                    |                     |
-| Finance                   |            |                       |                    |                     |
-| Sinistres                 |       <ul><li>item1</li><li>item2</li></ul>      |                       |                    |                     |
-
--->
-<p>Pour la partie d’analyse prédictive en particulier, il existe trois approches suivantes:</p>
-<ul>
-<li>Détection déterministe avec des données externes de référence</li>
-<li>Apprentissage supervisé avec les données libellées du passé</li>
-<li>Apprentissage non-supervisé pour créer une segmentation robuste</li>
-</ul>
-<p>Dans cette formation, ces trois approches seront illustrées par des cas pratiques réalisés avec R.</p>
-</div>
-<div id="objectif" class="section level1">
-<h1><span class="header-section-number">2</span> Objectif</h1>
-<p>Comprendre les principes de détection de fraudes, et pratiquer des algorithmes de machine learning sur des cas concrets.</p>
-<p><strong>À qui s’adresse cette formation ?</strong></p>
-<p>À toute personne qui souhaite comprendre les outils et algorithmes de détection de fraudes.</p>
-<p><strong>Pour obtenir quoi ?</strong></p>
-<p>A l’issue de cette formation,</p>
-<ul>
-<li>vous aurez une connaissance globale des méthodes de détection de fraudes</li>
-<li>vous saurez appliquer les méthodes afin de construire un projet anti-fraudes</li>
-<li>vous saurez identifier des situations où des données externes peuvent aider</li>
-</ul>
-<p><strong>Comment ?</strong></p>
-<ul>
-<li>Partage des exemples et processus réels mis en place pour la lutte anti-fraude</li>
-<li>Revue des méthologies statistiques</li>
-<li>Cas pratiques concrets
-<ul>
-<li>Manipulation des bases de données</li>
-<li>Construction des algorithmes avec R</li>
-</ul></li>
-</ul>
-<p><strong>Quels sont les pré-requis ?</strong></p>
-<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés.</p>
-</div>
-<div id="programme" class="section level1">
-<h1><span class="header-section-number">3</span> Programme</h1>
-<p><strong>Conception des processus</strong></p>
-<ul>
-<li>Type de fraudes</li>
-<li>Processus anti-fraudes</li>
-</ul>
-<p><strong>Sources de données</strong></p>
-<ul>
-<li>Données internes</li>
-<li>Dark data</li>
-<li>Utilisation des données externes</li>
-</ul>
-<p><strong>Nettoyage des données</strong></p>
-<ul>
-<li>Construction d’indicateurs</li>
-<li>Transformation des données</li>
-<li>Rééchantillonnage en cas de faible fréquence de fraudes</li>
-</ul>
-<p><strong>Méthodes de détection de fraudes</strong></p>
-<ul>
-<li>Règles déterministes</li>
-<li>Détection d’anomalies</li>
-<li>Méthodes non supervisées</li>
-<li>Classification des fraudes</li>
-</ul>
-<p><strong>Cas pratiques</strong></p>
-<ul>
-<li>Détection des anomalies avec des règles déterministes
-<ul>
-<li>Types de véhicules</li>
-<li>Adresses</li>
-</ul></li>
-<li>Classification binaire
-<ul>
-<li>Abre de décision</li>
-<li>SVM</li>
-<li>Régression logistiques</li>
-<li>Autres algorithmes de classification</li>
-</ul></li>
-<li>Détection des abberations
-<ul>
-<li>Détection des valeurs abberantes</li>
-<li>Détection des variables abberantes</li>
-</ul></li>
-<li>Segmentation avec Kmeans
-<ul>
-<li>Normalisation des variables</li>
-<li>Segmentation et détection d’anomalies</li>
-</ul></li>
-</ul>
-<p><strong>Visualisation des résultat</strong></p>
-<ul>
-<li>Tableau de bord</li>
-<li>Outils de surveillance</li>
-</ul>
-</div>
-<div id="informations-pratiques" class="section level1">
-<h1><span class="header-section-number">4</span> Informations pratiques</h1>
-<p>Durée: <strong>2 jours</strong></p>
-<p>Dates:</p>
-<ul>
-<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
-<li>En dehors de ces dates, merci de me contacter.</li>
-</ul>
 </div>
 
 <div id="disqus_thread"></div>
@@ -538,7 +418,11 @@ div.tocify {
   ga('send', 'pageview');
 
 </script>
-<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
+
+    <hr>
+    
+
+<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
 
 
 </div>

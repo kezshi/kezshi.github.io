@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -67,7 +70,6 @@ h6 {
 }
 </style>
 
-<link rel="stylesheet" href="style.css" type="text/css" />
 
 </head>
 
@@ -161,6 +163,101 @@ $(document).ready(function () {
 <!-- code folding -->
 
 
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -294,27 +391,28 @@ $(document).ready(function () {
 
 
 <div id="objectif" class="section level1">
-<h1>Objectif</h1>
+<h1><span class="header-section-number">1</span> Objectif</h1>
 <ul>
 <li>Vous avez vu mon petit projet d’<a href="4_prix_immo.html">analyse des prix immobiliers à Paris</a> et vous souhaitez savoir comment faire?</li>
 <li>Vous voulez découvrir les différentes techniques utilisées en Data Science?</li>
 <li>Vous avez besoin de réaliser un prototype pour un projet d’analyse de données?</li>
 </ul>
-<p>Je vous propose une formation d’introduction à la Data Science, basé sur le projet d’analyse des prix immobilier:</p>
+<p>Je vous propose un programme de mentoring à distance pour découvrir la Data Science, basé sur le projet d’analyse des prix immobilier:</p>
 <ul>
 <li>Cette formation a pour but de démystifier la Data Science en vous proposant un projet à réaliser avec R.</li>
-<li>Cette formation se fait à distance, à votre bureau ou chez vous, vous passerez environ une heure par jour pour réaliser les différents exercices.</li>
+<li>Cette formation se fait à distance, à votre bureau ou chez vous, vous passerez environ 2 h par jour pour réaliser les différents exercices.</li>
 <li>En 5 jours, vous pourrez découvrir un ensemble de techniques, et des pistes pour aller plus loin dans chaque étape.</li>
 <li>Vous pourrez envoyer vos questions à tout moment, et vous recevez une réponse en moins d’une heure.</li>
 <li>Cette formation vous apprend à être autodidacte, et continuer à approfondir les techniques.</li>
 </ul>
-<p>Les techniques en jeu peuvent servir à des secteurs divers. Voici quelques autres exemples où ces mêmes techniques ont été en mise application:</p>
-<ul>
-<li><a href="4_appareils_photos.html">Analyse du marché d’appareils photos</a></li>
-<li><a href="4_courtiers.html">Analyse des agents et courtiers d’assurance</a></li>
-<li><a href="4_prix_auto.html">Analyse des prix de voitures</a></li>
-<li>et d’autres analyes que vous pouvez voir sur ce site.</li>
-</ul>
+<!--
+Les techniques en jeu peuvent servir à des secteurs divers. Voici quelques autres exemples où ces mêmes techniques ont été en mise application:
+
+- [Analyse du marché d'appareils photos](4_appareils_photos.html)
+- [Analyse des agents et courtiers d'assurance](4_courtiers.html)
+- [Analyse des prix de voitures](4_prix_auto.html)
+-  et d'autres analyes que vous pouvez voir sur ce site.
+-->
 <p>Ces techniques peuvent être appliquées dans des exemples divers en assurance</p>
 <ul>
 <li>Marketing: conversion, acquisition et rétention</li>
@@ -326,13 +424,13 @@ $(document).ready(function () {
 </ul>
 </div>
 <div id="deroulement" class="section level1">
-<h1>Déroulement</h1>
+<h1><span class="header-section-number">2</span> Déroulement</h1>
 <p>Pendant 5 jours, vous allez découvrir un projet Data Science avec toutes les étapes de traitements des données avec R.</p>
 <p>Les dispositifs pour un apprentissage efficace sont :</p>
 <ul>
 <li>1h de mentoring par appel vidéo</li>
 <li>2h d’exercice par jour (temps estimé pour la réalisation des exercices de programmation avec R)</li>
-<li>Assistance pour le code</li>
+<li>Assistance pour la programmation</li>
 <li>Réponses à toutes vos questions (téléphone, appel vidéo, mail)</li>
 </ul>
 <p><strong>Supports et exercices</strong></p>
@@ -345,7 +443,7 @@ $(document).ready(function () {
 <p><strong>Envoi des réponses</strong></p>
 <p>Chaque jour avant 20h, les réponses aux questions doivent être envoyés.</p>
 <p><strong>Forum de discussions</strong></p>
-<p>Vous pouvez poser des questions à tout moment, et la question sera traitée en moins de 2heures de 9h à 22h</p>
+<p>Vous pouvez poser des questions à tout moment, et la question sera traitée en moins de 2 heures de 9h à 22h</p>
 <p><strong>Envoi du projet</strong></p>
 <p>Vous devez envoyer le projet finalisé dans un dossier comprenant:</p>
 <ul>
@@ -357,7 +455,7 @@ $(document).ready(function () {
 <p>A la fin de la formation, vous recevrez la correction pour la réalisation du projet.</p>
 </div>
 <div id="programme" class="section level1">
-<h1>Programme</h1>
+<h1><span class="header-section-number">3</span> Programme</h1>
 <ul>
 <li>Jour 1: introduction à R</li>
 <li>Jour 2: webscrapping</li>
@@ -407,7 +505,7 @@ $(document).ready(function () {
 </ul>
 </div>
 <div id="exemples" class="section level1">
-<h1>Exemples</h1>
+<h1><span class="header-section-number">4</span> Exemples</h1>
 <p>Pour mieux comprendre ce que vous allez apprendre une partie des résultats est consultable sur cet article : <a href="4_prix_immo.html">analyse des prix immobiliers</a></p>
 <p>Un autre exemple de prédiction du prix est présenté dans cet article.</p>
 </div>
@@ -437,68 +535,13 @@ $(document).ready(function () {
 </script>
 
     <hr>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3">
-            <ul class="list-unstyled">
-                <li>Title</li>
-                <li><a href="#">One</a></li>
-                <li><a href="#">Two</a></li>
-                <li><a href="#">Three</a></li>
-                <li><a href="#">Four</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-3">
-            <ul class="list-unstyled">
-                <li>Title</li>
-                <li><a href="#">One</a></li>
-                <li><a href="#">Two</a></li>
-                <li><a href="#">Three</a></li>
-                <li><a href="#">Four</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-3">
-            <ul class="list-unstyled">
-                <li>Title</li>
-                <li><a href="#">One</a></li>
-                <li><a href="#">Two</a></li>
-                <li><a href="#">Three</a></li>
-                <li><a href="#">Four</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-3">
-            <ul class="list-unstyled">
-                <li>Title</li>
-                <li><a href="#">One</a></li>
-                <li><a href="#">Two</a></li>
-                <li><a href="#">Three</a></li>
-                <li><a href="#">Four</a></li>
-                </ul>
-        </div>
-    </div>
+    
+
+<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+
 
 </div>
-    <hr>
-    
-    
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <ul class="list-inline">
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Two</a></li>
-                    <li><a href="#">Three</a></li>
-                    <li><a href="#">Four</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-sm-5">
-                <div class="text-right">Copyright &copy; 2017 Site de Kezhan Shi</div>
-            </div>
-        </div>
-    </div>
-
-
+</div>
 
 </div>
 
