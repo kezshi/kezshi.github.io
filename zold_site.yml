@@ -1,0 +1,57 @@
+name: "Data Visualisation en Actuariat"
+navbar:
+  left:
+    - text: "Accueil"
+      icon: fa-home
+      href: index.html
+    - text: "Bases de R"
+      icon: fa-pencil
+      menu:
+        - text: "Bases de R"
+          icon: fa-anchor
+          href: 0_cours_rapide_R.html
+        - text: "Manipulation des données"
+          icon: fa-table
+          href: 0_manipulation.html
+        - text: "Exploration des données"
+          icon: fa-binoculars
+          href: 0_exploration.html
+    - text: "Data Visualisation"
+      icon: fa-pencil
+      menu:
+        - text: "Graphiques de base"
+          icon: fa-bar-chart
+          href: 1_base.html
+        - text: "Graphiques avancés"
+          icon: fa-cogs
+          href: 1_avance.html
+        - text: "Exemples non techniques"
+          icon: fa-industry
+          href: 2_non_technique.html
+        - text: "Notions techniques"
+          icon: fa-flask
+          href: 2_technique.html
+        - text: "Données géographiques"
+          icon: fa-map
+          href: 3_geo.html
+        - text: "Machine learning"
+          icon: fa-rocket
+          href: 4_machine_learning.html
+    - text: "Contact"
+      icon: fa-info
+      menu:
+        - text: "Linkedin"
+          icon: fa-linkedin-square
+          href: https://fr.linkedin.com/in/kezhanshi
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: flatly
+    highlight: textmate
+    self_contained: false
+    code_folding: show
+    include:
+      after_body: footer.html
+exclude: ["data","codes_postaux"]
