@@ -403,6 +403,11 @@ div.tocify {
 <li>Si le nombre de lettres pour une lettre donnée est identique, la différence est de 0. Si le nombre est différent, on prend la valeur absolue de la différence.</li>
 <li>A la fin, on additionne le nombre de différences.</li>
 </ul>
+<p>Par exemple,</p>
+<ul>
+<li>entre “rue” et “avenue”, on a une distance de 5</li>
+<li>entre “boulevard” et “bld”, on a une distance de 6</li>
+</ul>
 </div>
 <div id="correction" class="section level2">
 <h2><span class="header-section-number">1.2</span> Correction</h2>
@@ -424,8 +429,8 @@ div.tocify {
 </ul></li>
 <li>Quelqu’un écrit “rue Viktor Hugo” et on suppose qu’il s’est trompé sur la lettre “k” (si ce cas vous apparait ambigu, vous pouvez toujours imaginer un autre cas où l’ordre est important).
 <ul>
-<li>Si on calcule la distance comme précédent, on aura comme distance par rapport aux données de référence: 0, 2. Du coup, la proche serait “rue Victor Hugo”.</li>
-<li>Pour résoudre le problème, on peut utiliser un autre type de distance: <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein">distance Levenshtein</a>, et on aura 10, 1.</li>
+<li>Si on calcule la distance comme précédent, on aura comme distance par rapport aux données de référence: 2, 1. Du coup, la proche serait “rue Hugo Viktor”.</li>
+<li>Pour résoudre le problème, on peut utiliser un autre type de distance: <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein">distance Levenshtein</a>, et on aura 1, 10.</li>
 </ul></li>
 </ul>
 <p>On voit que selon les cas, on peut choisir le bon type de distance pour mieux traiter nos erreurs.</p>

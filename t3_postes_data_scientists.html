@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Analyse des annonces de postes</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="http://kezshi.github.io">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Data Science
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="0_ds_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
+      <a href="1_0_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="2_0_transformation.html">
+        <span class="fa fa-table"></span>
+         
+        Transformation des données
+      </a>
+    </li>
+    <li>
+      <a href="3_0_analytics.html">
+        <span class="fa fa-cog fa-spin"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="4_0_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="5_0_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="0_blockchain.html">
+    <span class="fa fa-btc"></span>
+     
+    Blockchain
+  </a>
+</li>
+<li>
+  <a href="0_actuariat.html">
+    <span class="fa fa-heartbeat"></span>
+     
+    Actuariat
+  </a>
+</li>
+<li>
+  <a href="0_formations.html">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formations
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-info"></span>
+     
+    Contact
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://fr.linkedin.com/in/kezhanshi">
+        <span class="fa fa-linkedin-square"></span>
+         
+        Linkedin
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analyse des annonces de postes</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<!--
+
+-->
+<div id="pour-les-candidats" class="section level2">
+<h2><span class="header-section-number">1.1</span> Pour les candidats</h2>
+<p>Je me suis mis à la place d’un candidat, et je suis allé sur un site d’annonces de postes, et pour le mot clé “data scientist” à Paris, j’ai trouvé plus de mille annonces récentes. Je me dis dit que ça ne doit pas être facile pour les candidats.</p>
+<p>Que diriez-vous d’un site où vous postez votre CV, et il vous sort les annonces selon la pertience?</p>
+</div>
+<div id="pour-les-rh" class="section level2">
+<h2><span class="header-section-number">1.2</span> Pour les RH</h2>
+<p>Les RH des grandes entreprises peuvent recevoir des milliers de CV pour un poste. Si le tri est fait manuellement, cela peut représenter un travail conséquent. J’ai entendu dire que certains ont des outils automatisés.</p>
+<p>Si vous avez des retours sur ces outils, n’hésitez pas à commenter.</p>
+</div>
+<div id="pour-les-chasseurs-de-tete" class="section level2">
+<h2><span class="header-section-number">1.3</span> Pour les chasseurs de tête</h2>
+<p>Les recruteurs ont à la fois un grand de CV et un grand nombre de postes à pourvoir. Finalement, ce sont eux qui avez le plus besoin.</p>
+<p>Je sais que certains ont des “robots”, qui ne fonctionnent pas toujours très bien d’ailleurs.</p>
+</div>
+<div id="solution-dautomatisation" class="section level2">
+<h2><span class="header-section-number">1.4</span> Solution d’automatisation</h2>
+<p>Dans un tel contexte, il semble évident qu’il faut automatiser le premier tri.</p>
+<p>Dans l’exemple qui suit, je me suis mis dans la peau d’un candidat qui cherche un poste de data scientist…</p>
+</div>
+</div>
+<div id="recuperation-des-donnees" class="section level1">
+<h1><span class="header-section-number">2</span> Récupération des données</h1>
+<p>D’abord, il faut récupérer les annonces. Pour ça, il ne s’agit de copier-coller les textes à la main, mais utiliser la technique de webscraping.</p>
+<p>Pour cet exemple, j’ai récupérer près d’un milier d’annonces.</p>
+</div>
+<div id="analyse-globale" class="section level1">
+<h1><span class="header-section-number">3</span> Analyse globale</h1>
+<p>L’analyse globale des annonces peut être intéressante, cela permet de connaître le marché du travail, et les compétences demandées.</p>
+<div id="competences" class="section level2">
+<h2><span class="header-section-number">3.1</span> Compétences</h2>
+<p>J’ai choisi quelques mots, et compté de nombre d’anonces qui les contiennent. On pourrait trouver des mots clés intéressants à partir de toutes nos annonces. Pour le moment, j’ai sélectionné quelques uns à la main. S’il y a ceratins mots qui vous intéressent, n’hésitez pas à commenter.</p>
+<p><img src="t3_postes_data_scientists_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="segmentation" class="section level2">
+<h2><span class="header-section-number">3.2</span> Segmentation</h2>
+<p>On peut aussi segmenter les annonces, et trouver des différents types de data scientist:</p>
+<ul>
+<li>data scientist big data</li>
+<li>data scientist R&amp;D</li>
+<li>data engineer</li>
+<li>data analyste</li>
+<li>statisticien</li>
+<li>autre type éventuellement</li>
+</ul>
+<p>Pour cela, j’ai besoin de votre aide, dans le lien suivant, vous pouvez rajouter des mots clés, et donner les pondérations correspondantes: <a href="https://docs.google.com/spreadsheets/d/1ceX4gWJLchsmOn62Nfm2Yop8VpEUTULb_wh5bIxzmtg/edit?usp=sharing">lien Google sheet: compétences data science</a></p>
+</div>
+</div>
+<div id="classement-des-annonces" class="section level1">
+<h1><span class="header-section-number">4</span> Classement des annonces</h1>
+<div id="mots-cles-ponderes" class="section level2">
+<h2><span class="header-section-number">4.1</span> Mots clés pondérés</h2>
+<p>Pour un candidat qui souhaite classer les annonces, on peut définir une liste de mots clés avec des pondérations:</p>
+<ul>
+<li>On peut définir une échelle de 1 à 10</li>
+<li>Plus la pondération est forte, plus la compétence est considérée comme importante par le candidat, ou plus le niveau de maîtrise est élevée.</li>
+<li>L’idée après, c’est de calculer la “distance” entre ces critères, et les annonces. Plus les mots pondérés sont présents dans les annonces, plus la “distance” est courte, donc pertinente.</li>
+</ul>
+<p>Pour cet exemple simple, j’ai mis les pondérations à la main, mais il est aussi possible de définir ces pondérations de façon analytique avec le CV.</p>
+<p>Pour les annonces, je n’ai pas mis de pondérations.</p>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Mot.clé
+</th>
+<th style="text-align:right;">
+Pondération
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+hadoop
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+big data
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+scala
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+r
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sas
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+r&amp;d
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+statistique
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ux
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nosql
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+kafka
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+visual
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+crm
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+python
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+java
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+développeur
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+erp
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vba
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="classement" class="section level2">
+<h2><span class="header-section-number">4.2</span> Classement</h2>
+<p>Ainsi, par rapport au listing, on peut l’afficher selon l’ordre décroissant de la distance.</p>
+<div id="htmlwidget-1761ed0088d8f003c217" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1761ed0088d8f003c217">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200","201","202","203","204","205","206","207","208","209","210","211","212","213","214","215","216","217","218","219","220","221","222","223","224","225","226","227","228","229","230","231","232","233","234","235","236","237","238","239","240","241","242","243","244","245","246","247","248","249","250","251","252","253","254","255","256","257","258","259","260","261","262","263","264","265","266","267","268","269","270","271","272","273","274","275","276","277","278","279","280","281","282","283","284","285","286","287","288","289","290","291","292","293","294","295","296","297","298","299","300","301","302","303","304","305","306","307","308","309","310","311","312","313","314","315","316","317","318","319","320","321","322","323","324","325","326","327","328","329","330","331","332","333","334","335","336","337","338","339","340","341","342","343","344","345","346","347","348","349","350","351","352","353","354","355","356","357","358","359","360","361","362","363","364","365","366","367","368","369","370","371","372","373","374","375","376","377","378","379","380","381","382","383","384","385","386","387","388","389","390","391","392","393","394","395","396","397","398","399","400","401","402","403","404","405","406","407","408","409","410","411","412","413","414","415","416","417","418","419","420","421","422","423","424","425","426","427","428","429","430","431","432","433","434","435","436","437","438","439","440","441","442","443","444","445","446","447","448","449","450","451","452","453","454","455","456","457","458","459","460","461","462","463","464","465","466","467","468","469","470","471","472","473","474","475","476","477","478","479","480","481","482","483","484","485","486","487","488","489","490","491","492","493","494","495","496","497","498","499","500","501","502","503","504","505","506","507","508","509","510","511","512","513","514","515","516","517","518","519","520","521","522","523","524","525","526","527","528","529","530","531","532","533","534","535","536","537","538","539","540","541","542","543","544","545","546","547","548","549","550","551","552","553","554","555","556","557","558","559","560","561","562","563","564","565","566","567","568","569","570","571","572","573","574","575","576","577","578","579","580","581","582","583","584","585","586","587","588","589","590","591","592","593","594","595","596","597","598","599","600","601","602","603","604","605","606","607","608","609","610","611","612","613","614","615","616","617","618","619","620","621","622","623","624","625","626","627","628","629","630","631","632","633","634","635","636","637","638","639","640","641","642","643","644","645","646","647","648","649","650","651","652","653","654","655","656","657","658","659","660","661","662","663","664","665","666","667","668","669","670","671","672","673","674","675","676","677","678","679","680","681","682","683","684","685","686","687","688","689","690","691","692","693","694","695","696","697","698","699","700","701","702","703","704","705","706","707","708","709","710","711","712","713","714","715","716","717","718","719","720","721","722","723","724","725","726","727","728","729","730","731","732","733","734","735","736","737","738","739","740","741","742","743","744","745","746","747","748","749","750","751","752","753","754","755","756","757","758","759","760","761","762","763","764","765","766","767","768","769","770","771","772","773","774","775","776","777","778","779","780","781","782","783","784","785","786","787","788","789","790","791","792","793","794","795","796","797","798","799","800","801","802","803","804","805","806","807","808","809","810","811","812","813","814","815","816","817","818","819","820","821","822","823","824","825","826","827","828","829","830","831","832","833","834","835","836","837","838","839","840","841","842","843","844","845","846","847","848","849","850","851","852","853","854","855","856","857","858","859","860","861","862","863","864","865","866","867","868","869","870","871","872","873","874","875","876","877","878","879","880","881","882","883","884","885","886","887","888","889","890","891","892","893","894","895","896","897","898","899","900"],["DATA SCIENTIST JUNIOR H/F","Chargé études statistiques - data scientist (H/F)","Jeune diplômé : Soirée de recrutement #data #cybersecurite #dev et #IA le 3 octobre | Postulez, échangez et rejoignez-nous !","Stage - Data Scientist-(H/F)","Data Scientist / Statisticien Expérimenté –","Data Scientist / Statisticien –","Stage Ingénieur - Data-visualisation de données énergétiques H/F - Stage","Data Scientist","Data Scientist Confirmé","Data Scientist H/F","Data scientist H/F","Consultant Data Scientist- Digital Analytics (H/F)","Consultant Lead Data Scientist (H/F)","Data Scientist H/F","Data Scientist H/F","Data Analyst","Data Scientist RH H/F","Stage : STAGE - Data scientist (H/F)","Data Analyst (H/F)","STAGE - Data scientist (H/F)","Data Analyst (H/F)","Data scientist H/F","STATISTICIEN / DATA SCIENTIST EXPÉRIMENTÉ (H/F)","Jeune diplômé : Data scientist H/F","Data scientist H/F","Développeur Big Data - Innovation - Paris(H/F)","STAGE - Data Scientist &amp; Développement Machine Learning H/F","Stage : STAGE - Data Scientist &amp; Développement Machine Learning H/F","Data Scientist H/F","Stagiaire Data Science H/F","Data Scientist H/F","Lead Data Scientist (H/F) - CDI","Jeune diplômé : Chargé d'études statistiques, spécialisé Data Scientist H/F","Data Scientist junior H/F","Stage Assistant Data Scientist (H/F)","Jeune diplômé : Data Scientist Artificial Intelligence (H/F)","LEAD DATA SCIENTIST - DATALAB SG-(H/F)","Data Scientist Artificial Intelligence (H/F)","Data Scientist Artificial Intelligence (H/F)","Senior Data Science - Technology Transformation","Senior Consultant en Data Analytics - Technology Transformation","Contrat de Professionnalisation - DATA Scientist","Consultant Développeur BIG DATA / Data Engineer","Data Scientist","Consultant Data Scientist H/F","Data Scientist H/F","Data Scientist (H/F)","DATA Scientist (H/F)","Data Analyst H/F","Data scientist H/F","Consultant(e) Data Science","Stage de fin détudes Consultant(e) Data Science","Consultant(e) - Data Analyst","Senior Data Scientist","Data Analyst H/F","Stage Data Scientist (M/F)","Research Scientist-data Analytics","Senior Data Scientist","STAGE - Data Scientist H/F","Data Scientist (Scientifique de(s) données) / Programmeur H/F","Stage : Assistant Data Scientist Risk ALM Treasury, H/F","Professeur·e \"Data Scientist\" ou \"Data Analyst\" - Freelance","DATA SCIENTIST JUNIOR EN ALTERNANCE H/F","Data Analyst H/F","Stage : Stage Data Scientist, H/F","Assistant Data Scientist Risk ALM Treasury H/F","STAGE DATA ANALYST","Stage- Développement d'un Dashboard temps réel orienté Big Data - Rennes","Consultant Concepteur / Développeur Big Data","Ingénieur Big Data H/F-Alternance-IDF","Stagiaire Data Engineer H/F","Ingénieur Data - Data Analytics Team","Chef de Projet - Data Analyst-(H/F)","Chargés de projet (H/F) - POS Analytics","Stage - Data Engineer-(H/F)","Alternant(e) Prévisionniste/Statisticien e-commerce H/F","Alternance - Data Scientist (H/F)","Jeune diplômé : HyperCube - Data Scientist","Data Scientist - Stage","Data Scientist - H/F","stagiaire data-scientist H/F","Consultant Data Analytics (H/F)","Alternance : Alternance - Data Scientist (H/F)","Lead Developpeur Python H/F","Data Scientist Confirmé(e) Fouille de données et Machine Learning","Apprenti(e) Data Scientist H/F","Data Analyst (Sénior)-(H/F)","CDI - Développeur Java BackEnd - Big Data","Analyste Fraude Data miner - CDI","Software Engineer in Machine Learning","Data Scientist (H/F)","GroupM | Data scientist H/F","Chief Data Scientist H/F","Enterprise Analytics Data Science Platform Engineer (H/F)","Jeune diplômé : Chief Data Scientist H/F","Spécialiste Data Visualization - H/F","Stage : Stage - Data Scientist Junior (H/F)","Ingénieur de recherche en informatique - data engineer H/F - H/F","Ingénieur Statisticien (H/F)","Stage : Stage - Data scientist - Analyse de Données - Big Data - 2017 - Paris H/F","Ingénieur Data Science F/H","Datascientist/Machine Learning (H/F)","Manager Data Science H/F","Chef de projet Data Science H/F","Data Scientist","Stage Data Scientist","Data Scientist","Data Scientist at Enterprise Analytics (H/F)","Senior Data Scientist H/F","Consultant Data Scientist (H/F)","Data Scientist - (DataScientist)","Data Scientist H/F","Développeur senior Big Data / Hadoop – Paris F/H","Data Scientist H/F","Développeur Back-end Python","Consultant DataScientist Big Data (H/F)","Jeune diplômé : Data Scientist (h/f)","Digital Data Scientist SM","Data Engineer H/F","Data Analyst Big Data (H/F)","Data Analyst H/F","Chef de projets Data Scientist H/F","DATA ANALYST H/F","Consultant confirmé Data Scientist H/F","Consultant confirmé Data Scientist – H/F","Stagiaire Data Analyst Junior H/F","Stage : Assistant Data Scientist H/F","Data Analyst Junior","Chef de projets Data Scientist – H/F","Stage - Analyste Quantitatif Risque Crédit","Jeune diplômé : \"Data Analyst senior\" F/H","Lead Data Engineer (H/F)","Architecte big data (H/F)","Jeune diplômé : CDI - Analyste Développeur junior Big Data (H/F)","Platform Analytics Manager-(H/F)","Data Scientist – Machine Learning – Artificial Intelligence","Jeune diplômé : Data scientist","Jeune diplômé : Senior Data Scientist","Stage - Assistant(e) Data Analyst - Janvier 2018 : Christian Dior Couture SA","Senior Data Scientist","Data Analytics Engineer","Data Scientist H/F","Machine Learning Engineer","Senior Data Scientist","Data Scientist (H/F)","Stage Data Engineer (H/F)","Spécialiste des produits Big Data (EMEA), Google Cloud","CDI Big Data Analyst","Développeur Python F/H","Développeur Python F/H","Data Scientist H/F","Analyste quantitatif(ve)/Statisticien(ne), Science des données","Data scientist user behaviour H/F","Ingénieurs Data Scientist h/f","Consultant Business Analytics H/F","Alternance - Assistant(e) Data Analyst - Janvier 2018 : Christian Dior Couture SA","Data Scientist - Analyste de Données H/F","Data Architect M/W","Concepteur / développeur expérimenté Back-End Node.JS / Python / Javascript H/F","Consultant Data Scientist confirmé H/F","Développeur Business Intelligence / Big Data H/F","Research Scientist Machine Learning","Alternance - Assistant(e) Data Analyst - Janvier","ALTERNANT DATA SCIENTIST H/F","Consultants data analyst, domaine marketing et médias","Concepteur Développeur Big Data F/H","Software Engineer (Python)","GroupM | Data analyst H/F","Digital - Ingénieur Data Software (F/H)","Ingénieur Data Analyst H/F","Consultant Data Scientist H/F","Ingénieur Data Scientist H/F","Stage Data Scientist (H/F)","Senior Software Engineer","Consultant Data Scientist – H/F","Data Scientist - Analyste de Données H/F","ANALYSTE QUANTITATIF/DATASCIENTIST MODELISATION DES RISQUES H/F-(H/F)","INGENIEUR R&amp;D BIG DATA (H/F)","Stage Data Scientist (H/F)","Full Stack Web Developer Python/AngularJS H/F","Data Scientist","Data Scientist","Senior Data Scientist","Data Scientist - STAGE","Assistant Développeur Data Scientist (H/F)","Data Scientist - Hacked accounts detection (intern)","Data scientist junior H/F(Stage)","Data Scientist - Data Analytics Team","Offre Stage – Data Scientist (H/F)","Data Scientist / Data Engineer (Intern)","Consultant Data Scientist","DEVELOPPEUR BACK-END JAVA PYTHON","V.I.E Analyste Quantitatif – Trading Algorithmique HONG-KONG (H/F)","Stage Développement Python Propulsion (H/F)","Ingénieur R&amp;D « full stack » Python (H/F)","Stage Data Analyst (H/F)","Senior C++ Software Engineer H/F","Développeur Python","MID-LEVEL DATA SCIENTIST (H/F)","Jeune diplômé : Data Scientist H/F","Alternance : APPRENTISSAGE - Data Scientist (H/F)","3D Geometry Software Engineer –","Data Analyst H/F","Analyste Quantitatif- Ingenierie et Etude H/F","Stage data scientist: Optimisation classification de texte","Lead Fullstack Software Engineer (H/F) - CDI","Ingénieur Support Linux - Python H/F","Stage Data Scientist : Localisation de texte dans des images en Deep Learning","Data Software Engineer - Data Analytics Team","Junior FullStack Software Engineer (H/F) - Stage","Assistant(e) data analyst H/F","Data Analyst H/F","Data Analyst H/F","Statisticien","Analyste Quantitatif- Ingenierie et Etude H/F","Jeune diplômé : Developpeur Python H/F","H/F Développeur full-stack python / angular JS","Consultant technique BIG DATA (H/F)","Stage Développeur Python / ERP (H/F)","DEVELOPPEUR PYTHON (H/F)","Consultant Big Data H/F","Jeune diplômé : Data Scientist Supply Chain (H/F)","Artisan développeur Python / Software Craftsman Python-(H/F)","Ingénieur Support Linux - Python H/F","M/F Full-stack developer Python / AngularJS","M/F Developer Back-End Python","Python Developer - DevOps Cloud Feature Team-(H/F)","H/F Développeur Back-End - Python","H/F Développeur Full-stack python / angular js","STAGE: CYBER - Application du Machine Learning sur du trafic réseau chiffré (H/F)","Chargé(e) d'études statistiques Big Data H/F","H/F Développeur back-End - Python","Jeune diplômé : Lead développeur Python/Django | Solution hard &amp; soft optimisation énergétique #IoT","Stage Mise en place de scripts danalyses de données provenant des utilisateurs de lAppareil Photo (Python)","Software Engineer - Applications","Développeur Python","Software Engineer","Lead Software Engineer","Senior Software Engineer","Creative Software Engineer","Senior Software Engineer, Machine Learning","Software Engineer Intern","Tech Lead Big Data H/F","Alternance - DATA ANALYST - H/F","Expert Big Data et Cloud H/F","Software Engineer - Salesforce","Ingénieur BIG DATA (H/F)","Développeur Back End Python H/F","CRM Data Analyst (F/H)","Stagiaire Analyste Quantitatif &amp; Risques - Data - Asset Management H/F","Ingénieur Big Data H/F","Data Engineer (H/F)","Consultant(e)s Junior Data Analytics","Développeur Back-end Python","Assistant Ingénieur Développeur Python H/F","Stage - Analyste Quantitatif &amp; Risques / Data - Asset Management","Développeur Python (H/F)","Développeur Big Data / Hadoop &amp; Spark","Software Engineer, Web","Jeune diplômé : Développeur Back End Python Paris 16e H/F","Jeune diplômé : Doctorant Data Scientist | Solution SaaS secteur de lénergie | 1er CDI","Developpeur Python / RUBY - H/F","Data Analyst (tous niveaux) H/F - CDI","H/F Data Engineer","STAGE - Consultant Big Data (H/F)","DÉVELOPPEUR BACK-END PYTHON (F/H)","Ingénieur développeur python H/F","Développeur Python","DevOps Engineer Big Data H/F","Développeur Python Solr H/F","Jeune diplômé : Developpeur Python / RUBY - H/F","Stage : H/F Dév. full-stack python / angular JS","Jeune diplômé : H/F Développeur Back-End - Python","Stage : H/F Développeur Full-stack python / angular js","Ingénieur Etude et développement AngularJS &amp; Python Nouvelles technologies Web H/F","Développeur Python H/F","DEVELOPPEUR COMMANDO VBA/PYTHON-(H/F)","Ingénieur Etudes et Développement C++/Python (H/F)","Jeune diplômé : Robotopi Paris - Développeur Python / JS H/F","Jeune diplômé : Lead développeur Python/Django | Solution SaaS secteur de lénergie #IoT","Data Analyst Domaine RH (H/F)","Data Scientist","Stagiaire Data Scientist H/F","Research Scientist","Data Scientist/Crantastic Tech Lead R H/F","Consultant Intelligence Artificielle en devenir (H/F)","Big Data Product Specialist (EMEA), Google Cloud","Consultant junior Analytics","Machine Learning &amp; Data Science Internships","Data Scientist H/F","Staff Research Scientist","Ingénieur Data Scientist H/F","H/F Data Scientist - Segmentation multi-variables dans un contexte RTB","CDI - Big Data Architect H/F","Consultant Big Data Engineer H/F","Senior Big Data engineer","H/F Consultant Data Scientist, secteur énergie - 13 Juillet","Consultant Big Data H/F","Ingénieur Architecte Big Data","DATA ANALYST, ORLY-RUNGIS, CDI, H/F","Region Practice Director Analytic Solution Development","CDI - Data Scientist H/F","Consultant Débutant - Data Scientist - Analyse de Données - Big Data - 2017 / 2018 - Paris H/F","Développeur BI/Big Data H/F","Big Data Architect","Architecte Technique Big Data (H/F)","Data Scientist, Ingénieur R&amp;D en Mathématiques Appliquées (H/F)","Senior Software Engineer – Asset Management","Frontend Software Engineer","Architecte Big Data","298115 - CDI - Big Data Architect H/F","Senior Software Engineer - Prediction Services","Spécialistes Big Data Software et Services H/F","Data Engineer Expérimenté H/F","Développeur JAVA Big Data H/F","Ingénieur Big Data H/F CDI Paris Activités informatiques 03/07","Data Analyst (H/F)","Principal Software Engineer","Jeune diplômé : Data Engineer H/F","STAGE - Ingénieur Développement Big Data H/F","Jeune diplômé : Développeur JAVA Big Data H/F","H/F Assistant Gestion de Projets Big Data / RTB","Consultant Big Data H/F","CONSULTANT BIG DATA Engineer – H/F","Think Big Principal Software Engineer","Ingénieur Big Data &amp; Business Intelligence","Data Scientist","Data Analyst / Data Scientist (H/F)","Data Scientist Engineer","Enterprise Analytics Data Scientist (H/F)","Enterprise Analytics Data Scientist (H/F)","Data Engineer Search &amp; Recommandation","Back-End Software Engineer","Software Engineer Internship","Data Analyst (H/F)","Senior Data Scientist","Python Developer H/F","Data Scientist - EXALEAD H/F","Ingénieur Logiciel F/H","Développeur Big Data Senior – NoSQL / Java","Développeur(se)/Intégrateur Big Data H/F","H/F Data scientist - Optimisation de campagnes marketing","Software Engineer - Web","Stage Data Analyst (H/F)","Tech Lead Big Data (H/F)","STAGIAIRE DATA ANALYST SITE &amp; APPS H/F","Ingénieur logiciel H/F","Data scientist","Stagiaire Big Data H/F","Statisticien H/F","Data Scientist (H/F) CDI - Clichy (92)-(H/F)","Analyste Quantitatif","Stage - Marketing Data Analyst (H/F)","Business &amp; Data Analyst (H/F)","Jeune diplômé : LVMH - CDI Ingénieur de Production Big Data &amp; Analytics (H/F)","CONCEPTEUR / DÉVELOPPEUR BIG DATA H/F","Data Engineer – Data Warehouse &amp; Analytics (M/F)","Ingénieur logiciel Stack CAN Autosar (H/F) - Stack CAN Autosar Software Engineer (M/F)","Stagiaire Chargé de Web Analytics H/F","Développeur Big Data","Architecte Big Data-(H/F)","Analyste quantitatif en risque de Crédit","Consultant décisionnel junior – Domaine Business Intelligence et Big Data H/F","Consultant Architecte Big Data","DATA ANALYST PROMOTION H/F","Ingénieur Logiciel C/ C++(H/F) - Engineer software C/C++ (M/F)","Ingénieur Big Data","Analyste quantitatif Credit Modeling H/F","Stage : Stage Assistant Chef de Projet Analytics &amp; Data (H/F)","Développeur Java - BIG DATA","Accenture Operations - Senior Manager Analytics H/F CDI","Data Analyst (H/F)","Python Developer","Python Software Engineer - Engagement &amp; Monetization Team","Consultants en Gestion des Données (Data/Analytics) (H/F) Secteur financier","Stage : Consultant Big Data - secteur des télécoms H/F","Stagiaire Data Analyst Marketing F/H","Jeune diplômé : Responsable Reporting et Analytics Relation Client H/F","Ingénieur Avant-Vente Advanced Analytics &amp; Artificial Intelligence","ARCHITECTE BIG DATA (H/F)","Data Analyst - Intelligent Content (H/F)","Stagiaire Ingénieur Machine Learning et Big Data H/F","Analyste quantitatif - modélisation du risque de crédit (H/F)","Statisticien Junior – Analyse des données (H/F)","Stage : Stage : Consultant Big Data secteur des télécoms H/F","Consultant Web Analytics","BUSINESS ANALYST QUANTITATIF RISQUE DE MARCHÉ H/F","Data Analyst H/F","Analyste quantitatif H/F","Jeune diplômé : Ingénieur Logiciel R&amp;D h/f","LEAD TECHNIQUE BIG DATA(F/H)","Gestionnaire d'applications Big Data - H/F","Consultant Business Intelligence / Big Data (m/w)","Stage Développeur PYTHON (H/F)","Développeur Big Data h/f","Gestionnaire d'applications Big Data H/F","Assistant Analyste Quantitatif H/F","STAGE - Ingénieur R&amp;D (H-F) - Machine Learning dans le domaine Automobile","Software Engineer","Stage - Développeur Web , BigData &amp; Machine Learning sur données financières Equity-(H/F)","Stage - Marketing Data Analyst (H/F)","Stagiaire Marketing Data Analyst H/F","Analyste Quantitatif","Software Engineer - Python H/F","Business &amp; Data Analyst (H/F)","Alternance : Alternance Chargé(e) d'études et analytics H/F (nouveau)","Ingénieur-e Statisticien","Consultant Data Microsoft (BI / Big Data / Analytics) expérimenté","Data Scientist","Data Scientist","Machine Learning Engineer (Morpheo)","Data Scientist - Machine Learning Expert","Data Scientist","Lead Software Engineer - Services","Jeune diplômé : Data Scientist 3W Régie (H/F)","Software Engineer, University Graduate","Software Engineer (AI)","Senior Data Scientist, Ad-Tech","Software Engineer","Software Engineer, PhD University Graduate","Quantitative Analyst/Statistician, Data Science","Senior Software Engineer - Compute","Software Engineer","Consultant Data Analytics H/F","Senior Data Analyst","Data Analyst - Web","Stage Data Scientist H/F","H/F Data Scientist - Algorithme de recommandation","Senior Software Engineer II","Data Scientist 3W Régie H/F","Data Scientist 3W Régie (H/F)","Software Engineer (backend, data mining, algorithms)","Internship - Software Engineer","Développeur Big Data / data scientist (Ingénieur Etudes et Développement Informatique débutant)-(H/F)","Jeune diplômé : Data Analyst - Web","Forward Deployed Software Engineer","Data Analyst - Central Analytics","Forward Deployed Software Engineer, New Grad","HR Data Analyst en contrat d'alternance (H/F)","STAGE SOFTWARE ENGINEER","Developpeur Python (H/F)","Data Analyst H/F","Product Manager Reporting/Analytics, H/F","Marketing Analytics and Insights Lead","Senior Data Analyst - Central Analytics","Data Analyst - Spam &amp; Fraud, H/F","Paris-Saclay - Computational Materials Scientist (H/F)","Ingénieur logiciel vidéo recording &amp; streaming (H/F)","Senior Software Engineer C/C++","Mindshare | Analytics &amp; AdOps Senior Account Manager","DevOps - Expert Python","Senior Data Analyst - Technology Transformation","Développeur Java J2ee/ Machine learning / Elasticsearch /SpringBoot","Data analyst / chef de projet data H/F(CDI)","Software engineer","Skool expert Code/ Data/ AI- Digital Analytics (H/F)","DEVELOPPEUR BIG DATA H/F","Jeune diplômé : Ingénieur Logiciel - C# / .Net Core - Backend","Data Engineer (H/F)","DEVELOPPEUR PYTHON F/H","Software Engineer, Backend","Ingénieur Logiciel - C# / .Net Core - Backend","Ingénieur développement Java/Python","Full Stack Software Engineer","Ingénieur(e) Développement Python/Cloud - H/F","Jeune diplômé : Développeur Python / Data science | Objets connectés (IoT) E Santé","Senior Software Engineer","Lead développeur Symfony Bras droit du CTO Data &amp; Machine Learning (H/F)","Référent/Lead Technique Symfony Intelligence Artificielle &amp; Machine Learning Secteur du voyage (H/F)","Support et expertise Innovation - Intelligence Artificielle-(H/F)","Ingénieur Etudes et Développement Informatique confirmé - Big data-(H/F)","Jeune diplômé : Ingénieur étude et développement Python/DevOps H/F","Ingénieur Fullstack Python / Javascript","INGENIEUR SYSTEMES LINUX PYTHON JUNIOR (H/F)","Data Scientist","Data Scientist – Machine Learning","Data scientist Machine learning","Software Engineer in Test","Développeur Python / C++ H/F","Software Engineer - ML internship","Data Analyst","Software Engineer / 3D Exporter","OSS Software Engineer - Container Ecosystems","Open-Source Python Developer","Software Engineer - Android","Software Engineer in Test / QA Automation Engineer","Data Analyst Intern","ARCHITECTE BIG DATA – Backend/Java 8/Python","Ingénieur DevOps Python Cloud (H/F)","Software Engineer - Intern","Jeune diplômé : Data Scientist / Artificial Intelligence","Développeur Big Data H/F","ALMS - Stage - Traitement du Signal et Machine Learning H/F","Software Engineer Back-End - Internship H/F","Python Tech lead","Peer-to-Peer Software Engineer","Tech Lead Python Web","Architecte Big Data H/F","Data analyst intern","Stage Data &amp; IA Lab - Machine Learning H/F","Big Data Developer","Ingénieur développement Python (F/H)","Développeur Big Data","Ingénieur Développement IHM en C++ / Python H/F","Docker / Software engineer","Consultant(e) Monitoring Analytics DevOps","ANALYSTE QUANTITATIF DES RISQUES (F/H)","Software Developer C / Python","Python Software Engineer, Backend","Software Engineer","Jeune diplômé : Développeur de scripts d'automatisation (Python, Groovy, JavaScript) (H/F)","297823 - Data Software Engineer","Stage en Machine Learning adapté à l’analyse de données radiologiques (H/F)","Stage en Machine Learning adapté à l’analyse de signatures magnétiques (H/F)","Stage en Machine Learning adapté à l’extraction et la caractérisation de bancs de poissons (H/F)","Stage sur le Machine Learning adapté à l’analyse de données (H/F)","Architecte technique Big Data - Datalake (H/F)","Stage en Etude de développement d’un outil de scanner 3D Python (H/F)","Etude de développement d’un outil de métrique et d’Intégration Continue dédié Python, en Django (H/F","EXALEAD - Architecte Logiciel plateforme Big Data H/F","Senior Software Engineer","Embedded Software Engineer (f/m)","Jeune diplômé : Responsable DEVOPS - Systèmes -Réseaux BDD Big Data (H/F)","Ingénieur intégration python","Data Analyst T-SENS","STAGE - Ingénieur Machine Learning (H/F)","INGENIEURS LOGICIELS DATA TECHNOLOGY","Lead développeur python","Ingénieur Logiciel C++ (H/F)","Consultant Python H/F","Data Scientist","Data Ingénieur","CDI Ingénieur de Production Big Data &amp; Analytics (H/F) : Sephora SAS Siège Neuilly","Data Ingénieur (H/F)","Data Ingénieur F/H","Assistant(e) Data Analyst H/F","Data Architecte F/H","Consultant Opération &amp; Big Data (H/F)","Consultant stagiaire Analytics","Architecte Big Data F/H","Consultant Big Data F/H","Software Engineer","Ingénieur Big Data Hadoop","Stage : Stage Conseil : Sécurité et Big Data H/F","ARCHITECTE BIG DATA H/F","Software Engineer Internship","Ingénieur Big Data - CDI - IDF H/F","Big Data Software Engineer","Ingénieur confirmé Java Fullstack / Big Data (H/F)","TECHNICAL LEADER SENIOR HADOOP / BIG DATA-(H/F)","H/F Offre de Thèse CIFRE en Data Science","H/F Chef de Projets Big Data / RTB","Ingénieur confirmé BIG DATA H/F - IDF","Stage Programmation Big Data","Architecte Big Data - Digital Analytics (H/F)","Big Data Presales Consultant","RVP Enterprise Sales - Analytics Cloud (EMEA","H/F Offre de thèse CIFRE en Data Marketing","IT Manager Bi &amp; Big Data H/F","Développeur Big Data - h/f","Session de formation juniors Java JEE, HTML5, Android et Big Data","Expert Big Data / Digital :","Ingénieur Composants Logiciel spécialisé Big Data - Massy (H/F)","Stage en Développement Système d’Information Géographique Big Data dans le domaine de l’environnemen","Ingénieur Cloud / Big Data (H/F)","Consultant Solutions Search/Analytics H/F","Consultant Data Engineer confirmé H/F","Ingénieur(e) Développement Big Data (H/F)","Ingénieur(e) Big Data (H/F)","Ingénieur(e) Java / Big Data expérimenté(e) (H/F)","Ingénieur d’études et Développement JAVA / BIG DATA / HADOOP /SQL","Ingénieur Confirmé Big Data","Stage - Consultant Data Engineer BIG DATA + DevOps","Stagiaire Consultant Big Data Secteur Finances H/F","Consultant Big Data Secteur Finances H/F","Architecte Big Data H/F","Architecte Big Data H/F","Jeune diplômé : Ingénieur confirmé Java Fullstack / Big Data (H/F)","Ingénieur Big Data H/F","Jeune diplômé : Data Engineer H/F","Expert Big Data (H/F)","Jeune diplômé : Consultant Confirmé Big Data (H/F)","Ingénieur DevOps – Solution Big Data (H/F)","Data Scientist","Data Scientist","Data Scientist (H/F)","Jeune diplômé : Data Scientist","Senior Data Scientist","Product Manager - Data Science H/F","Data Scientist (Intern)","Lead Data Engineer","Manager Client Data, Analytics &amp; Business Intelligence(H/F) : Christian Dior Couture SA","Assistant Développeur Logiciel Big Data (H/F)","Data Engineer, (M/F)","Data Analyst Engine","Junior Supply Chain Scientist","Software Engineer - Integrations","Senior JavaScript Software Engineer","Software Engineer - Magento","Stage Consultant SI Data Centric / Big Data (F/H)","Senior Data Scientists H/F - Digiboost","Stage Software engineer Ruby on Rails (M/F)","Software Engineer - Crawler","Manager Client Data, Analytics &amp; Business Intelligence(H/F)","Data Analyst Traffic Quality","10 passionné(e)s de Data ! Pour 10 postes de Data scientists H/F","Ingénieur Études et Développement Big Data / NOSQL (H/F)","Développeur Web Big Data (H/F)","Ingénieur Logiciel RCP (H/F)","Intern Assistant Supply Chain Scientist","Consultant Architecte Big Data (H/F)","Data Scientist (ES)","Data Scientist senior H/F","Big Data Architect, Banking Technology","Consultant BIG DATA H/F","STAGE - RECHERCHE QUANTITATIVE / MACHINE LEARNING H/F","Data Scientist H/F","Ingénieur en développement Java/Android (H/F) - Software Engineer Java/Android (M/F)","ALMS _ Ingénieur Logiciel Electronique H/F","Strategic Account Manager Analytics Wave","DevOps Software Engineer","Full Stack Software Engineer","Senior Software Engineer","Data scientist / Consultant BI expérimenté H/F","Software Engineer (m/f) - Relocation Assistance to Berlin","Stage - Elaboration d'un moteur d'intelligence artificielle (2) - Niort","ARCHITECTE INFRASTRUCTURES BIG DATA / DATALAKE H/F","INGÉNIEUR/CHEF DE PROJET BIG DATA H/F","Architecte Big Data","Full-Stack Software Engineer","Ingénieur Deep/Machine Learning H/F","Big Data Tooling (H/F) Luxembourg - Stage","Audit IT Data Analytics Development Manager (h/f)","Internship: Internship: Pricing Analytics – IT Quant H/F","Ingénieur logiciel linux C/C++ (H/F) - Software Engineer Linux C/C++ (M/F)","Responsable de Centre de Compétences BI, Analytics &amp; Big Data H/F","Business Analyst / Data Scientist (Internship)","Data Analyst","Etat de l'art du Big Data (H/F) - Stage – IDF H/F","Ingénieur Deep/Machine Learning H/F","Consultant en Intelligence Artificielle - Juniors &amp; Expérimentés (H/F)","INGENIEUR R&amp;D BIG DATA (H/F) SI Métier Ingénierie CDI","Consultant technique BIG DATA (H/F) SI Métier Ingénierie CDI","Data Engineer - Concepteur Développeur Big Data(H/F)","DEVELOPPEUR PYTHON (H/F) SI Métier Ingénierie CDI","Concepteur Développeur Java - Big Data (H/F)","Technical Leader Spark &amp; Big Data pour véhicule autonome (H/F)","Alternance - Junior Data Manager (Big Data) H/F","Stagiaire - Consultant Big Data Ministères H/F","Senior iOS software engineer - E&amp;M Team","Software Engineer - Content Team","Ingénieur Logiciel IoT &amp; Big Data H/F","Expert Big Data - Teradata (F/H)","Ingénieur Logiciel H/F","Stagiaire Consultant Analytics Big Data H/F","Software Engineer","DATA / ANALYTICS CONSULTANT","Ingénieur développement logiciel Intelligence Artificielle - TTS Cergy (H/F)","Senior Software Engineer","Ingénieur logiciel radar Rafale (H/F)","Regional Spectroscopy Market Development Scientist (m/f)","Ingénieur Système - Data Analytics H/F","Distributed systems expert / Java software engineer","Machine Learning internship","Ingénieur Algorithmes, Simulations, Performances expérimenté(e) (H/F)","Data Analyst - Business Process (H/F)","Stagiaire chargé d'analyses de données (Data Analytics), Marketing Digital H/F","Expert technique CyberDefence &amp; Big Data - Moyen-Orient","Stage : Stage ou Alternance en Data &amp; Analytics","Data Analyst Big Data","Back-end Software Engineer [NodeJS/CDI]","4 Ingénieurs Logiciel Embarqué Box Internet H/F - CDI","Java Software Engineer","Expert Sécurité Big Data H/F","Product Manager / Responsable Produit – Analytics (H/F)","Ingénieur Logiciel Linux embarqué H / F","Stage - Consultant Big Data pour des grands Ministères H/F","Senior Software Engineer - Back End","Senior Software Engineer - Platform","Etat de l’art du Big Data (H/F) - Stage – IDF","Software Engineer II","Ingénieur Big Data H/F","Stage - Développement Web et Big Data sur le Correspondent Banking-(H/F)","Architecte/Ingénieur Cloud &amp; Big-Data H/F","Consultant BI &amp; BIG DATA H/F","Analyste data mining H/F","Data Scientist","Data Scientist","Visiting Scientist (AI)","DATA SCIENTIST","Data Scientist - Advanced Analytics","Data Scientist (M/F)","Software Engineer (Full Stack - Node.js)","Software Engineer Intern (Full Stack - Node.js)","Senior Data Scientist","Research Scientist (AI)","Data Scientist (H/F)","Ingénieur informatique BigData Data Scientist","EMEA Data Scientist M/W","Full-stack software engineer","Consultant Data Scientist (H/F)","Ingénieur en Analyse de Données (Data Scientist) H/F","Lead Sales Executive, Google Analytics","Data Analyst","IT - Data Analyst Internship in France (m/f)","EMEA Data Scientist H/F","Senior Big Data Engineer","HyperCube - Data Scientist (H/F)","Data Scientist (H/F)","Data Scientist / Artificial Intelligence","Analytics Lead","Directeur(trice) commercial(e), Google Analytics","Ingénieur informatique BigData et Data Scientist F/H","Consultant Data scientist H/F Localisation : Ile-de-France CDI","Ingénieur informatique BigData et Data Scientist F/H","Assistant Data Scientist H/F","Software Engineer - Core API","Senior Server Software Engineer","Data Scientist H/F","Digital Analytics Expert","Internship - Data Analyst Sales Operations","Software Engineer - Analytics","Data Scientist H/F","Chef de projet BI/Analytics (H/F)","Data teacher - Freelance","Embedded Software Engineer (Paris, France)","Ingénieur BIG DATA confirmé (H/F)","Data Analyst","Embedded Software Engineer","Spécialiste traitement de données « data scientist » (H/F)","Analytics Center of Excellence – Data Analyst, Business Intelligence Expert","Data Analyst H/F","Data Scientist Artificial Intelligence (H/F)","Optimization Software Engineer (H/F)","Data Analyst Associate","Stagiaire Data Analyste Marketing","Data Scientist senior H/F","STAGIAIRE DATA SCIENTIST F/H","Data Scientist H/F","Consultant BI/Analytics en VIE (Paris / IDF)","Python Developer (Paris, France)","Stage : Stage- Data Scientist (H/F)","Internship - Central Data Analyst","Data Scientist Business Intelligence F/H","Software Engineer Mobile Application - Internship H/F","Alternance - Ingénieur Développement / Software Engineer","Software Engineer Embedded Application - Internship H/F","Android Software Engineer","Software Engineer Low-Level - Internship H/F","Senior Software Engineer - Transversal Technical Team","Head of Analytics H/F","Senior Software Engineer","Consultant Analytics","Analyste quantitatif H/F","Consultant SAP Analytics H/F","Chef de Projet Analytics Junior (H/F) - Stage","Consultant Sénior Data Scientist - H/F","Intern or PhD in machine learning","Ingénieur Logiciels Embarqués H/F","Analyste Quantitatif Risque de Marché H/F","Extension de la solution « MX.3 for Analytics validation » avec du backtesting pour les modèles FXD","Ingénieur Informatique BigData Data Scientist H/F","Stage Operations Data Analyst (H/F)","Data Scientist Confirmé(e) Fouille de données et Machine Learning PwC Toulouse CDI H/F","STAGIAIRE DATA SCIENTIST F/H","Spécialiste Traitement de Données « Data Scientist » H/F","Stage - Elaboration d'un moteur d'intelligence artificielle - Niort","Sr Software Engineer - Scrum Master","Stage - Ingénieur logiciel Linux","Data engineer - Machine Learning","Stage - Marketing Data Analyst (H/F)","Analyste quantitatif risque de crédit","Ingénieur Informatique Big Data Data Scientist H/F","Software Engineer, Senior - Capsule","Post Doc Nutrition Scientist","Jeune diplômé : Chef de projet Web Analytics H/F","Software Engineer","Senior Data Analyst, Global Supply Analytics","Software Engineer - Payment Tech Team (Internship)","Architecte Big Data H/F","Core / Engine Software engineer","Concepteur Expert : domaine BI/Big data H/F","Analyste quantitatif du risque de contrepartie H/F","Associate Software Engineer","Stage Data scientist","Data Scientist H/F - Pure Player E-Commerce - Paris(93)","DATA ANALYST PRICING H/F","Développeur BI / Big Data (H/F)","Senior Software Engineer","Ingénieur Logiciel et Test H/F","Low level Java Software engineer","Go Software Engineer","CDI Data Analytics Engineer","QA Software Engineer","C Software Engineer","INGENIEUR LOGICIEL EMBARQUE H/G","Chef de projet Web Analytics H/F","INGENIEUR LOGICIEL EMBARQUE H/F","Consultant(e) Digital Analytics","Consultant Visual Analytics (H/F)","Consultant(e) Technique Digital Analytics","Stage Consultant Analytics &amp; Conversion (H/F) Stage","Consultant Digital Analytics (H/F)","Chargé de projet web analytics - Stage (H/F)","Marketing Data Analyst","Analyste quantitatif du risque de contrepartie H/F","Chef de projet Web Analytics &amp; Tag Management (H/F)","Consultant Digital Analytics","Consultant Assurance Big Data (H/F) Île-de-France CDI Publié il y a 6 jours","Analyste quantitatif - modélisation du risque de crédit (H/F) Natixis | Ile-de-France | Permanent","Consultant statisticien validation de modèles IFRS 9 / IRBA","Développeur C/Python Cybersécurité","Ingénieur logiciel embarqué Model Based Design","Analytics Architect H/F","DEVELOPPEUR BIG DATA EXPERIMENTE SCALA /SPARK","Internship Quantitative Analyst - Financial library H/F","Analyste Quantitatif Stress-Test / Provisions","DEVELOPPEUR BACK-END PYTHON","Data Analyst - Product Analytics","HR Intelligence &amp; People Analytics Manager (H/F)","Software Engineer H/F","Software Engineer (Mobile Apps) - Microsoft Engineering Centre","Software engineer developing Java/Eclipse EMF","Junior Software Engineer C++ H/F","Ingénieur Logiciel H/F","Senior Software Engineer - AI / Machine Learning / Data Science","Ingénieur Logiciel DDS H/F","Ingénieur Logiciel Embarqué H/F","INGENIEUR LOGICIEL EMBARQUE SECTEUR DEFENSE H / F","Software Engineer","Jeune diplômé : Consultant Analytics et Conversion (H/F)","Consultant Junior Analytics (H/F)","Jeune diplômé : CDD Post Doc Nutrition Scientist- Palaiseau H/F","Data Analyst (h/f)","Data Analyst - H/F","Software Engineer, Systems","Software Engineer, Android","Internship Quantitative Analyst H/F","Software Engineer, Mobile, iOS","Senior Consultant, Benchmarking Analytics, Paris","Internship Quantitative Analyst - Financial library H/F","Ingénieur Logiciel embarqué temps réel (F/H)","Manager Sales Analytics and Strategy (location Berlin, Frankfurt or Paris)","Ingénieur référent Intelligence Artificielle et Robotic Process Automation H/F","Software Engineer","Java software engineer / core product","Consultant expérimenté Data &amp; Analytics pour lAssurance - H/F","Consultant expérimenté Data &amp; Analytics Secteur Banque H/F","Jeune diplômé : Business developer Agilité ft. Big Data","Consultant senior Customer Analytics - Secteur financier H/F","Data Scientist Sénior F/H","Jeune diplômé : Business developer Startup BIG DATA AGILE","Stage : Stage - Consultant Intelligence Artificielle H/F","Stage Consultant Solution Business Analytics H/F","Consultant Sénior Analytics (H/F)","Assistant Transformation Data Analyst H/F","Global Data and Analytics Manager","Développeur Big Data (H/F)","Senior quantitative analyst - Equity Derivatives H/F","INGENIEUR DEVELOPPEMENT BIG DATA","Analyste quantitatif stress tests","Control Law Embedded Software Engineer M/W","Senior quantitative analyst","150611 – Ingénieur Logiciels Embarqués (H/F)","Junior Analytic Consultant","Data Scientist Sénior F/H","Jeune diplômé : Data Strategist","Data Scientist Senior H/F","Mathématicien Informaticien Big Data H/F","Chef de projet Tracking/ Web Analytics H/F","Développeur Big Data - H/F","Ingénieur d'études et développement IA, Analytics, Big Data H/F","Ingénieur logiciel PHP H/F","Embedded software engineer","Senior Software Engineer","CDI - Data Scientist F/H","DEPENDABILITY SOFTWARE ENGINEER","Analyste quantitatif","Data Analyst H/F","MOA - Analyste Quantitatif Risques H/F","ANALYSTE QUANTITATIF PRODUITS DERIVES H/F-(H/F)","Data Analyst Traineeship H/F","ingénieur logiciel embarqué h/f","Data Analyste PwC Neuilly CDI H/F","Software Engineer NET / C# H/F","Stage - Data Analyst-(H/F)","Software Engineer .NET / C# H/F","Jeune diplômé : Ingénieur Logiciel Embarqué Aéronautique (H/F)","INGENIEUR LOGICIEL EMBARQUE H/F","CDI - Data Scientist F/H","Data Analyst H/F","Ingénieur Logiciel Extream H/F","Développeur Python","Stagiaire Ingénieur Logiciel Procédures Judiciaires H/F","Stage : Web &amp; Data Analyste - Stage","Analytic Consultant (H/F)","Ingénieur logiciel H/F","Ingénieur Logiciel PHP H/F","Ingénieur Logiciel - Systèmes de Navigation H/F","Senior quantitative analyst - Equity Derivatives H/F"],["Banque de France – Paris","Groupe GMF – Asnières-sur-Seine","Bnp Paribas – Paris","Société Générale – Nanterre","NP6 – Paris","NP6 – Paris","Sagemcom – Rueil-Malmaison","Tf1 – Boulogne-Billancourt","Publicis – Paris","Keyrus – Levallois-Perret","Tf1 – Boulogne-Billancourt","Accenture – Paris","Conix – Paris","– Paris","Malakoff Mederic – Paris","CAPFi – Paris","Dassault Systèmes – Vélizy","Dassault Systèmes – Vélizy","Bel Group – Suresnes","Dassault Systemes – Vélizy","Groupe BEL – Suresnes","Crédit Agricole – Paris","Banque de France – Paris","Crédit Agricole – Paris","Caisse Regionale Credit Agricole Ile de France – Paris","AB Tasty – Paris","Dassault Systemes – Vélizy","Dassault Systèmes – Vélizy","Alyotech – Paris","Keyrus Group – Paris","Eurogiciel Groupe – Paris","Chauffeur Privé – Paris","Crédit Agricole – Paris","CGI – Paris","Publicis – Paris","Maaf – Levallois-Perret","Société Générale – Nanterre","MAAF – Levallois-Perret","Groupe GMF – Asnières-sur-Seine","Kpmg – Paris","Kpmg – Paris","VEOLIA ENVIRONNEMENT – Aubervilliers","Aubay – Boulogne-Billancourt","C3 IoT – Paris","Keyrus Group – Paris","Safran – Magny","Dentsu Aegis Network – Paris","Aegis Media – Courbevoie","Aéroports de Paris – Paris","Acoss – Montreuil","Sia Partners – Paris","Sia Partners – Paris","Sia Partners – Paris","Egencia – Courbevoie","Safran – Vélizy","Adomik – Paris","Air Liquide (Global) – Paris","Allianz – Paris","The Kooples – Paris","QuintilesIMS – Paris","Bnp Paribas – Paris","The OpenClassrooms company – Paris","BCA Expertise – Asnières-sur-Seine","Edgar People – Paris","Bnp Paribas – Paris","BNP Paribas – Paris","Tradelab – Paris","CGI – Paris","Groupe AVISIA – Paris","Devoteam – Massy","Société Générale – Fontenay","Deezer – Paris","Société Générale – Nanterre","GfK – Suresnes","Société Générale – France","Carrefour – Boulogne-Billancourt","Allianz France – Paris","BearingPoint – Paris","Mention – Paris","Réseau de Transport d'Electricité – Cergy-Pontoise","Carrefour – Boulogne-Billancourt","Azeo – Boulogne-Billancourt","Allianz – Paris","Orange – Nanterre","PWC – Neuilly","Sodexo – Guyancourt","Société Générale – Nanterre","Accengage – Paris","La Banque Postale – France","Dataiku – Paris","Extia – Paris","GroupM – Paris","Atos – Bezons","SAP – Paris","Atos – Bezons","Air Liquide (Global) – Paris","Younited Credit – Paris","Électricité de France – Palaiseau","La Banque Postale – Paris","Ernst &amp; Young – Paris","Viveris Group – Rungis","Natixis – Cergy-Pontoise","JEMS Group – Neuilly","Groupama – Saint-Denis","CAPFi – Paris","HomeRez – Paris","Kernix – Paris","SAP – Paris","Priceminister – Paris","Conix – Paris","Alti – Paris","Aviva – France","MargOConseil – Paris","CybelAngel – Paris","Rimes Technologies – Paris","Talan – Paris","Servier – Suresnes","Nissan – Montigny","SeLoger – Paris","Groupe HN – Paris","Tf1 – Boulogne-Billancourt","MICROPOLE – Levallois-Perret","BVA France – Boulogne-Billancourt","MICROPOLE – Levallois-Perret","Micropole – Levallois-Perret","Nexity – Paris","Bnp Paribas – Paris","Nexity International – Paris","Micropole – Levallois-Perret","Société Générale – Nanterre","Hudson – Paris","Ercom – Vélizy","Ercom – Vélizy","BPCE – Cergy-Pontoise","Société Générale – Nanterre","ONE2TEAM – Paris","Aubay – Paris","Computer Futures – Paris","LVMH – Paris","Computer Futures Solutions – Paris","Rythm – Paris","CGI – Paris","Rythm – Paris","SlimPay – Paris","NOVENCIA Group – Paris","Manomano – Paris","Google – Paris","TechnipFMC – Paris","QUADRA-e – Paris","QUADRA-e – Paris","Capgemini – Suresnes","Google – Paris","SeLoger – Paris","Sopra steria consulting – Paris","AT Internet – Paris","LVMH – Paris","Capgemini France – Suresnes","Valeo – Saint-Denis","CGI – Paris","Capgemini – Asnières-sur-Seine","RATP – Paris","Philips – Suresnes","Christian Dior Couture – Paris","Segula Technologies Group – Trappes","Axys Consultants – Levallois-Perret","Sentelis – Paris","Criteo – Paris","GroupM – Paris","Air Liquide (Global) – Paris","Safran – Évry","MICROPOLE – Levallois-Perret","Sopra Steria – Cergy-Pontoise","BPCE – Cergy-Pontoise","Alkemics – Paris","Micropole – Levallois-Perret","Annonces parues sur Cadreo – Suresnes","Société Générale – Nanterre","Smile Group – Paris","BRED Banque Populaire – Cergy-Pontoise","CybelAngel – Paris","Datadog – Paris","Artefact – Paris","Datadog – Paris","Tiller Systems – Paris","Voyages SNCF – Paris","Deezer – Paris","Webedia – Levallois-Perret","Deezer – Paris","NEXTPERF – Paris","Cisco Systems – Issy","Groupe AVISIA – Paris","ONE2TEAM – Neuilly","MargOConseil – Paris","Parrot S.A. – Paris","Ercom – Paris","Frichti – Neuilly","Devialet – Paris","Computer Futures Solutions – Paris","Transaction Connect – Paris","Bnp Paribas – Paris","Dassault Systèmes – Vélizy","Coventor – Paris","Canal Plus SA – Issy","Crédit Agricole – Paris","Dhatim – Paris","Chauffeur Privé – Paris","Sogeti High Tech – Paris","Dhatim – Paris","Deezer – Paris","Chauffeur Privé – Paris","SeLoger – Paris","John Paul – Paris","AccorHotels – Paris","CNAMTS – Paris","CA-CIB – Montrouge","Nexton Consulting – Paris","1000mercis Group – Paris","Smile Group – Paris","Smile Group – Paris","Smile Group – Paris","Sogeti – Issy","Carrefour – Évry","Société Générale – Nanterre","– Paris","1000mercis Group – Paris","1000mercis Group – Paris","Société Générale – Nanterre","1000mercis Group – Paris","1000mercis Group – Paris","Airbus – Élancourt","Groupama – Issy","1000mercis Group – Paris","Inteam – Paris","DxO – Boulogne-Billancourt","C3 IoT – Paris","talent.io – Paris","Datadog – Paris","Datadog – Paris","Datadog – Paris","GoPro – Paris","GoPro – Paris","Datadog – Paris","Keyrus – Paris","Électricité de France – Levallois-Perret","Keyrus Group – Paris","Algolia – Paris","Voyages SNCF – Paris","Vidal Associates – Paris","Nokia – Paris","Société Générale – Paris","PMU – Paris","MeilleursAgents.com – Paris","PWC – Neuilly","Peaks – Paris","BNP Paribas – Paris","Société Générale – Paris","Extia – Paris","MargOConseil – Paris","Zenly, Inc. – Paris","Talentup – Paris","Inteam – Paris","Nexton Consulting – Paris","Chauffeur Privé – Paris","1000mercis Group – Paris","Smile Group – Paris","Expectra – Paris","Akka Technologies – Paris","Sunapsis – Paris","Dassault Systemes – Paris","Bk Consulting – Boulogne-Billancourt","Nexton Consulting – Paris","1000mercis – Paris","1000mercis – Paris","1000mercis – Paris","Alan Allman – Paris","NEXTGEN RH – Paris","Société Générale – Nanterre","Eolen – Cergy-Pontoise","Conserto – Paris","Inteam – Paris","Groupe Renault – Le Plessis-Robinson","Experis IT France – Paris","Groupe Pomona – Antony","Criteo – Paris","KEYRUS – Paris","OCTO Technology – Paris","Google – Paris","Avanade – Paris","Criteo – Paris","Sogeti – Issy","Criteo – Paris","Sogeti – Guyancourt","1000mercis Group – Paris","AXA Investment Managers – Paris","Keyrus – Paris","Lokad – Paris","Yélé Consulting – Nanterre","Soft Company – Paris","Constantin Associates – Paris","Bansard International – Orly","Teradata – Paris","Médiamétrie – Levallois-Perret","Ernst &amp; Young – Paris","CAPGEMINI – Paris","AXA Rosenberg – Paris","Groupe Open – Paris","Groupe Saint-Gobain – Aubervilliers","Calypso Technology – Paris","Alkemics – Paris","Velvet Consulting – Paris","AXA – Paris","Criteo – Paris","Atos – Bezons","Capgemini France – Suresnes","Nexton Consulting – Paris","Alturion – Paris","Extia – Paris","Teradata – Antony","Crédit Agricole – Paris","Dassault Systemes – Paris","Nexton Consulting – Paris","1000mercis Group – Paris","Capgemini France – Suresnes","Beezen – Neuilly","Teradata – Antony","Davidson Consulting – Paris","Skylads – Paris","NEURONES – Paris","Capital Fund Management – Paris","SAP – Paris","SAP – Paris","Dailymotion – Paris","Rythm – Paris","Tinyclues – Paris","Van Cleef &amp; Arpels International SAS – Paris","Expedia – Courbevoie","Priceminister – Paris","Dassault Systèmes – Paris","Maten – Paris","MargOConseil – Paris","Orange – Paris","1000mercis Group – Paris","Algolia – Paris","FioulReduc – Paris","NEURONES – Paris","Sarenza – Paris","Orange – Boulogne-Billancourt","GIE DU GROUPE AVIVA FRANCE – Bois-Colombes","Keyrus – Paris","CNAMTS – Paris","Société Générale – Nanterre","Huxley Associates – Paris","Compagnie de Saint-Gobain – Paris","Compagnie de Saint-Gobain – Paris","LVMH – Paris","Banque de France – Paris","Dailymotion – Paris","Parrot S.A. – Paris","Rexel – Paris","MargOConseil – Paris","Société Générale – Nanterre","Crédit Agricole – Paris","CGI – Paris","Groupe AVISIA – Paris","Sarenza – Paris","Parrot S.A. – Paris","MargOConseil – Paris","EY – Paris","Hermès – Paris","MargOConseil – Paris","Accenture – Paris","CLUB MED – Paris","PeopleDoc – Paris","Deezer – Paris","Accenture – Paris","CGI – Paris","RATP – Paris","Meetic – Paris","Microsoft – Issy","Groupe Alliance – Paris","Dentsu Aegis Network – Paris","Générationnel – Paris","Natixis – Cergy-Pontoise","L'Oréal – Cergy-Pontoise","CGI – Paris","EUGENA Consulting – Paris","Acceo Consulting – Paris","Malakoff Mederic – Paris","Crédit Agricole – Paris","SELESCOPE – Paris","expectra – Saint-Denis","Électricité de France – Nanterre","Ingenics – Paris","Smile Group – Paris","BNP Paribas – Paris","ENEDIS – Asnières-sur-Seine","BNP Paribas – Paris","Dassault Systemes – Paris","Shift Technology – Paris","Société Générale – Nanterre","DISTRIB. SANITAIRE CHAUFFAGE – Paris","Saint Gobain Distribution Bâtiment France – Paris","Société Générale – Nanterre","CybelAngel – Paris","Outiz – Paris","TF1 – Boulogne-Billancourt","Inserm – Cergy-Pontoise","Capgemini – Suresnes","La Javaness – Paris","SMART ADSERVER – Paris","Rythm – Paris","L'Oréal – Paris","Clustree – Paris","BlaBlaCar – Paris","Cdiscount – Paris","Google – Paris","Facebook – Paris","Dailymotion – Paris","Aconex – Paris","Google – Paris","Google – Paris","Datadog – Paris","Google – Paris","ai3 – Boulogne-Billancourt","Criteo – Paris","Computer Futures Solutions – Paris","BNP Paribas – Paris","1000mercis Group – Paris","Axway – Paris","CDISCOUNT – Paris","CDISCOUNT – Paris","Botify – Paris","Devialet – Paris","Société Générale – France","Computer Futures – Paris","Palantir Technologies – Paris","Criteo – Paris","Palantir Technologies – Paris","Corporate – Paris","Tradelab – Paris","LEXSI – Paris","vente privee.com – Paris","Dailymotion – Paris","Avanade – Paris","Criteo – Paris","Dailymotion – Paris","Air Liquide (Global) – Paris","Parrot S.A. – Paris","Devialet – Paris","Mindshare – Paris","MargOConseil – Paris","Kpmg – Paris","TREPIA – Paris","Webedia – Levallois-Perret","Beckman Coulter – Paris","Accenture – Paris","Hub one – Paris","Computer Futures – Issy","SKILLINK – Paris","QUADRA-e – Asnières-sur-Seine","Zenly, Inc. – Paris","Computer Futures Solutions – Issy","ELRON Consulting – Paris","MeetingOne – Paris","Thales Group – Paris","Inteam – Paris","Cloudmark – Paris","INTEAM – Paris","INTEAM – Paris","Société Générale – France","Société Générale – France","Devoteam – Levallois-Perret","Sidetrade – Paris","D.FI – Orsay","MargOConseil – Paris","MargOConseil – Paris","MargOConseil – Paris","Dataiku – Paris","KEOLIS – Paris","Algolia – Paris","Aircall.IO, Inc – Paris","Sketchfab – Paris","Datadog – Paris","Datadog – Paris","Algolia – Paris","Dashlane – Paris","Aircall.IO, Inc – Paris","ONE2TEAM – Neuilly","Peaks – Paris","Algolia – Paris","Bnp Paribas – Paris","KLANIK Consulting – Paris","Air Liquide (Global) – Paris","Devialet – Paris","Huxley Associates – Paris","Streamroot – Paris","Huxley Associates – Paris","Sogeti – Issy","Dashlane – Paris","BNP Paribas – Paris","SMART ADSERVER – Paris","Nokia – Paris","Groupe Onepoint – Paris","Matis – Paris","Sqreen – Paris","Orness – Paris","expectra – Paris","Scality, Inc. – Paris","Scality, Inc. – Paris","Talend – Suresnes","Altelios Sas – Suresnes","AXA – Paris","IT Link System – Paris","IT Link System – Paris","IT Link System – Paris","IT Link System – Paris","Natixis – Cergy-Pontoise","IT Link System – Paris","IT Link System – Paris","Dassault Systemes – Paris","Denodo – Paris","Safran – Boulogne-Billancourt","Digiteka – Paris","Matis – Paris","QuintilesIMS – Boulogne-Billancourt","Dassault Systemes – Paris","INFORMATIS-TS – Paris","ACENSI – Paris","IT Link System – Paris","Capgemini – Suresnes","Zenly, Inc. – Paris","Zenika – Paris","LVMH – Paris","ZENIKA – Paris","Zenika – Paris","Société des Auteurs, Compositeurs et Éditeurs de Musique – Neuilly","Zenika – Paris","NEURONES – Paris","Avanade – Paris","Sentelis – Paris","Sentelis – Paris","SMART ADSERVER – Paris","MargOConseil – Paris","CGI – Paris","CGI – Paris","Criteo – Paris","DEVOTEAM – Levallois-Perret","SMART ADSERVER – Paris","BK Consulting – Paris","Société Générale – France","1000mercis Group – Paris","1000mercis Group – Paris","Devoteam – Paris","Groupe Onepoint – Paris","Accenture – Paris","Informatica – Paris","Salesforce – Paris","1000mercis Group – Paris","PMU – Paris","BNP Paribas – Paris","Infotel – Paris","Sogia systeme – Paris","Thales Group – Paris","IT Link System – Paris","Thales Group – Paris","Dassault Systemes – Paris","Capgemini – Neuilly","Thales Group – Paris","Thales Group – Paris","Thales Group – Paris","AMONTECH – Paris","Soft Computing – Paris","Soft Computing – Paris","Capgemini France – Suresnes","Capgemini – Suresnes","NEXTGEN RH – Paris","Atos – Bezons","Bk Consulting – Nanterre","GFI International – Saint-Ouen","Groupe Renault – Guyancourt","IT Link System – Paris","Soft Computing – Paris","Ercom – Vélizy","Teads – Paris","Shift Technology – Paris","Thales Group – Paris","Bnp Paribas – Paris","BNP Paribas – Paris","Dailymotion – Paris","Shift Technology – Paris","Dailymotion – Paris","LVMH – Paris","Voyages SNCF – Paris","Dailymotion – Paris","Criteo – Paris","Lokad – Paris","Algolia – Paris","Dashlane – Paris","Algolia – Paris","Sentelis – Paris","Sopra Steria – Paris","Adomik – Paris","Algolia – Paris","Christian Dior Couture – Paris","Criteo – Paris","Viveris Group – Boulogne-Billancourt","NEURONES – Paris","NEURONES – Paris","NEURONES – Paris","Lokad – Paris","NEURONES – Paris","Shift Technology – Paris","Labinal – Saclay","Emagine Consulting – Paris","Keyrus – Paris","Amundi – Paris","Crédit Agricole – Montrouge","Parrot S.A. – Paris","Air Liquide (Global) – Paris","Salesforce – Paris","Azalead – Paris","Azalead – Paris","Azalead – Paris","Mydral – Paris","Rocket Internet GmbH – Paris","CGI – Paris","Banque de France – Paris","Banque de France – Paris","Huxley Associates – Paris","SMART ADSERVER – Paris","Eurogiciel Groupe – Paris","CGI – Paris","Corporate – Paris","Misys – Paris","Parrot S.A. – Paris","HR Point – Paris","Wabel – Paris","InterQuest Group – Levallois-Perret","Devoteam – Levallois-Perret","Alyotech – Paris","Accenture – Paris","SMILE – Paris","SMILE – Paris","Natixis – Paris","SMILE – Paris","Natixis – Paris","Renault – Paris","Groupe Pierre &amp; Vacances – Paris","SOPRA STERIA – Paris","Deezer – Paris","Deezer – Paris","VIVERIS – Paris","Atos – Nanterre","Valeo – Bobigny","Atos – Bezons","Microsoft – Issy","Business &amp; Decision – Paris","Thales Group – Paris","Microsoft – Issy","Thales Group – Paris","Agilent Technologies – Les Ulis","Alyotech – Paris","Orchestra Networks – Paris","Gemalto – Meudon","Thales Group – Paris","Renault – Boulogne-Billancourt","Blizzard Entertainment – Versailles","Airbus – Élancourt","BearingPoint – Paris","Experis IT France – Paris","Cubyn – Paris","Sagemcom – Rueil-Malmaison","Finance active – Paris","Alan Allman – Issy","Ercom – Vélizy","Elsys Design – Rueil-Malmaison","SOPRA STERIA – Paris","SugarCRM – Paris","SugarCRM – Paris","Devoteam – Levallois-Perret","Axway – Nanterre","Alturion – Paris","Société Générale – France","Safran – Issy","Mydral – Paris","Bouygues Telecom – Asnières-sur-Seine","Tinyclues – Paris","ManpowerGroup – Paris","Facebook – Paris","Renault – Boulogne-Billancourt","McKinsey &amp; Company – Paris","Dailymotion – Paris","La Belle Assiette – Paris","La Belle Assiette – Paris","Tinyclues – Paris","Facebook – Paris","Astek – Paris","RATP – Noisy","Ubisoft – Montreuil","Tinyclues – Paris","Accenture – Paris","Safran Group – Paris","Google – Paris","Glovo – Paris","Procter &amp; Gamble – Paris","Ubisoft – Montreuil","happn – Paris","Bearing Point – Paris","Ubisoft – Montreuil","BNP Paribas – Paris","Fifty Five – Paris","Google – Paris","RATP – Paris","Aubay – Paris","RATP – Paris","BNP Paribas – Paris","Algolia – Paris","Dashlane – Paris","BNP Paribas – Paris","Fifty Five – Paris","Criteo – Paris","Algolia – Paris","Safran Group – Moissy-Cramayel","L'Oreal – Paris","The OpenClassrooms company – Paris","Appareo Systems – Paris","Voyages SNCF – Paris","Fifty-Five – Paris","Appareo Systems – Paris","SNCF – Paris","Criteo – Paris","Mediacom – Paris","Covea – Paris","Frichti – Neuilly","Fifty-Five – Paris","OuiCar – Paris","Safran Group – Magny","Vinci Energies – Sénart","scalian – Paris","Keyrus Group – Paris","Nuxeo – Paris","Groupe Saint-Gobain – Paris","Criteo – Paris","Disneyland Paris – Marne-la-Vallée","Devialet – Paris","FIS – Paris","Devialet – Paris","Dashlane – Paris","Devialet – Paris","FactSet Research Systems – Paris","NetBooster – Paris","FactSet Research Systems – Paris","Avanade – Paris","Soft Company – Paris","Accenture – Paris","Chauffeur Privé – Paris","MICROPOLE – Paris","Lokad – Paris","Safran Group – Paris","Dexia – Paris","MUREX – Paris","RATP – Noisy","Frichti – Neuilly","PWC – Paris","VINCI – Saint-Quentin-en-Yvelines","Sncf Cadres – Paris","CGI – Paris","Seagate Technology – Paris","Capital Fund Management – Paris","Capital Fund Management – Paris","Saint-Gobain Performance Plastics – Paris","BNP Paribas – Paris","RATP – Noisy","Qualcomm – Paris","Dannon – Palaiseau","Nexton Consulting – Paris","EDF Trading – Paris","Criteo – Paris","Deezer – Paris","CGI – Paris","Zenly, Inc. – Paris","CGI – Paris","Crédit Agricole – Paris","Calypso Technology – Paris","RATP – Noisy","Easy partner – Paris","Sarenza – Paris","Aubay – Paris","Docusign – Paris","GE – Garches","Sqreen – Paris","Sqreen – Paris","General Electric – Puteaux","Aircall.IO, Inc – Paris","Sqreen – Paris","Mediane systeme – Paris","Nexton Consulting – Paris","ALTELIOS TECHNOLOGY – Paris","AT Internet – Paris","Accenture – Paris","AT Internet – Paris","Altima° – Paris","Accenture – Paris","Corporate – Paris","Richemont Holding France – Paris","CA-CIB – Montrouge","Bouygues Telecom – Paris","Groupe AVISIA – Paris","Aubay – Paris","Natixis – Paris","Huxley Associates – Issy","Alter solution – Paris","Alter solution – Paris","BNP Paribas – Paris","Alter solution – Paris","Finastra – Paris","BNP Paribas – Paris","Alter solution – Paris","Criteo – Paris","Ubisoft – Montreuil","Misys – Paris","Microsoft – Issy","Thales – Vélizy","Devialet – Paris","VIVERIS – Paris","SugarCRM – Paris","VIVERIS – Paris","VIVERIS – Paris","Elsys Design – Paris","Sage – Paris","Altima° – Paris","Bel Group – Suresnes","DANONE – Palaiseau","Ubisoft – Montreuil","SERVIER – Paris","Zenly, Inc. – Paris","Zenly, Inc. – Paris","Misys – Paris","Zenly, Inc. – Paris","Gartner – Paris","Misys – Paris","IT Link System – Paris","HERE Technologies – Courbevoie","Groupama – Neuilly","Trimble Navigation – Fontenay","Orchestra Networks – Paris","EY – Paris","EY – Paris","Job4 – Paris","EY – Paris","Casino – Vitry","Job4 – Paris","Sopra Steria – Paris","Business At Work Paris – Paris","Bel Group – Suresnes","BNP Paribas – Puteaux","Havas Media – Paris","ManpowerGroup – Paris","Crédit Agricole – Paris","Hardis – Paris","BNP Paribas – Paris","Valeo – Créteil","BNP Paribas – Paris","Vertexi – Cergy-Pontoise","Nielsen – Cergy","Groupe Casino – Vitry","Bnp Paribas – Paris","Groupe Casino – Vitry","SOPRA STERIA – Paris","Groupe Pierre &amp; Vacances – Paris","SOPRA STERIA – Paris","SOPRA STERIA – Paris","Capgemini – Suresnes","Segula Technologies Group – Nanterre","SugarCRM – Paris","Casino – Vitry","Ikos Consulting – Levallois-Perret","VO2 Finance – Paris","Générationnel – Paris","Hesperie Conseil – Paris","Société Générale – Nanterre","JOBMANIA – Paris","QUARTZ INGENIERIE – Paris","PwC – Paris","Ivalua – Orsay","Société Générale – Nanterre","Ivalua – Orsay","Alten – Boulogne-Billancourt","STUDIEL – Saclay","Groupe Casino – Vitry","Prisma Media – Gennevilliers","Capgemini France – Suresnes","Davidson Consulting – Paris","SOPRA STERIA – Paris","Schneider Electric – Rueil-Malmaison","Nielsen – Cergy","NAVAL GROUP – Paris","Capgemini France – Suresnes","Safran – Éragny","CA-CIB – Montrouge"],[10,16,16,18,18,18,18,20,20,20,20,20,20,20,20,20,20,20,20,20,20,22,22,22,22,22,22,22,24,24,24,24,24,26,26,26,26,26,26,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,32,32,32,32,32,32,32,32,32,32,32,32,32,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,46,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,54,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Titre<\/th>\n      <th>Entreprise<\/th>\n      <th>score<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">5</span> Conclusion</h1>
+<p>Que pensez-vous de cet exemple ?</p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<p>Copyright &copy; 2016 Kezhan SHI</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
