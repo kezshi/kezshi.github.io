@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Text-mining en assurance</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -162,6 +165,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -287,35 +385,55 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Text-mining en assurance</h1>
 
 </div>
 
 
-<p></br></p>
-<div id="text-mining-en-assurance" class="section level1">
-<h1>Text mining en assurance</h1>
-<p>2 jours</p>
-<div id="objectif" class="section level2">
-<h2>Objectif</h2>
-<p>Apprendre à récupérer, nettoyer et intégrer les données textes afin de mieux connaître les besoins clients.</p>
+<p><strong>2 jours</strong></p>
+<div id="preambule" class="section level1">
+<h1><span class="header-section-number">1</span> Préambule</h1>
+<p>Avez-vous des données textuelles (adresse, marque de véhicule, commentaires clients) qui ne sont pas de bonne qualité et rencontrez-vous des difficultés quant à l’exploitation de ces données? Certains essaient de corriger à la main: “bld” et “blvd”, c’est pareil que “boulevard”. Mais avez-vous oublié d’autres écritures potentielles comme “boulvd” ou “bd” ?</p>
+<p>Savez-vous qu’il y a des <a href="https://kezshi.github.io/t3_correction_fautes_orthographe">techniques plus efficaces</a>?</p>
+<p>Plus généralement, les données textes sont souvent décrites comme du Dark Data dans les entreprises, car elles ne sont pas suffisamment exploitées et ne sont parfois simplement pas du tout exploitées. Pourtant ces données textuelles peuvent contenir des informations précieuses, qui peuvent améliorer la prise de décision.</p>
+</div>
+<div id="objectif" class="section level1">
+<h1><span class="header-section-number">2</span> Objectif</h1>
+<ul>
+<li>Apprendre à extrare des informations à partir des documents html</li>
+<li>Apprendre à corriger et segmenter les textes</li>
+<li>Apprendre à nettoyer et intégrer les données textes</li>
+</ul>
 <p><strong>À qui s’adresse cette formation ?</strong></p>
-<p>À toute personne souhaitant analyser les textes et tirer des conclusions intéressantes.</p>
+<ul>
+<li>À toute personne souhaitant analyser les textes et tirer des conclusions intéressantes, en particulier, on peut citer quelques exemples de directions:</li>
+<li>Marketing pour la connaissance des clients</li>
+<li>Actuariat pour l’amélioration de la qualité des données</li>
+<li>Indemnisation pour la détection des fraudes</li>
+<li>RH pour l’analyse des CV</li>
+</ul>
 <p><strong>Pour obtenir quoi ?</strong></p>
-<p>Compétences de text mining et les cas d’applications.</p>
+<ul>
+<li>Compétences de text mining et les cas d’applications.</li>
+<li>Extraction d’informations des données textuelles</li>
+<li>Construction d’indicateurs basés sur les textes</li>
+</ul>
 <p><strong>Comment ?</strong></p>
 <p>Les différentes techniques de collecte, de nettoyage et d’analyse de données seront illustrées avec des exemples pratiques, codés sous R.</p>
 <p><strong>Quels sont les pré-requis ?</strong></p>
 <p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
 </div>
-<div id="programme" class="section level2">
-<h2>Programme</h2>
+<div id="programme" class="section level1">
+<h1><span class="header-section-number">3</span> Programme</h1>
 <p><strong>Source de données</strong></p>
 <ul>
 <li>Données internes</li>
 <li>Reconnaissance optique de caractères</li>
 <li>Données des sites d’avis</li>
+<li>Manipulation des documents html</li>
+<li>Technique de webscraping</li>
 </ul>
-<p><strong>Nettoyage des données textes</strong></p>
+<p><strong>Transformation des données textes</strong></p>
 <ul>
 <li>Manipulation des chaînes de caractères</li>
 <li>Manipulation des expressions régulières</li>
@@ -323,18 +441,42 @@ $(document).ready(function () {
 <li>Matrice Documents-termes</li>
 <li>TD IDF</li>
 </ul>
+<p><strong>Nettoyage des données textuelles</strong></p>
+<ul>
+<li>Distance entre les chaînes de caractères et <a href="https://kezshi.github.io/t3_correction_fautes_orthographe">correction de fautes d’orthographe</a></li>
+<li>Principe de géocodage</li>
+<li>Détection d’anomalies</li>
+</ul>
 <p><strong>Machine learning</strong></p>
 <ul>
+<li>Clusterint des chaînes de caractères</li>
 <li>Classification de spams</li>
 <li><a href="3_2_avis_reg.html">Caractérisation des avis par une note et sa prédiction</a></li>
 <li>Segmentation des avis</li>
 </ul>
 <p><strong>Visualisation</strong></p>
 <ul>
+<li>Tableau de bord</li>
 <li>Nuage de mots</li>
 <li><a href="2_tm_avis.html">Fréquence des mots ou bigrammes</a></li>
 </ul>
+<p><strong>Cas d’application</strong></p>
+<ul>
+<li>Webscraping</li>
+<li>Analyse des avis clients</li>
+<li><a href="https://kezshi.github.io/t3_postes_data_scientists">Analyse des CV et des annonces de postes</a></li>
+<li>Correction des fautes d’orthographe</li>
+<li>Géocodage</li>
+</ul>
 </div>
+<div id="informations-pratiques" class="section level1">
+<h1><span class="header-section-number">4</span> Informations pratiques</h1>
+<p>Durée: <strong>2 jours</strong></p>
+<p>Dates:</p>
+<ul>
+<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
+<li>En dehors de ces dates, merci de me contacter.</li>
+</ul>
 </div>
 
 <div id="disqus_thread"></div>
@@ -363,6 +505,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 
