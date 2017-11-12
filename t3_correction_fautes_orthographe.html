@@ -429,7 +429,7 @@ div.tocify {
 </ul></li>
 <li>Quelqu’un écrit “rue Viktor Hugo” et on suppose qu’il s’est trompé sur la lettre “k” (si ce cas vous apparait ambigu, vous pouvez toujours imaginer un autre cas où l’ordre est important).
 <ul>
-<li>Si on calcule la distance comme précédent, on aura comme distance par rapport aux données de référence: 2, 1. Du coup, la proche serait “rue Hugo Viktor”.</li>
+<li>Si on calcule la distance comme précédent, on aura comme distance par rapport aux données de référence: 2, 0. Du coup, la proche serait “rue Hugo Viktor”, ce qui n’est pas ce qu’on souhaitait.</li>
 <li>Pour résoudre le problème, on peut utiliser un autre type de distance: <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein">distance Levenshtein</a>, et on aura 1, 10.</li>
 </ul></li>
 </ul>
@@ -439,10 +439,162 @@ div.tocify {
 <div id="clustering" class="section level1">
 <h1><span class="header-section-number">2</span> Clustering</h1>
 <p>Si on n’a pas des données de référence, on peut faire une segmentation des mots.</p>
-<p><img src="t3_correction_fautes_orthographe_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="t3_correction_fautes_orthographe_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="extraction-du-code-postal" class="section level1">
+<h1><span class="header-section-number">3</span> Extraction du code postal</h1>
+<p>Un autre exemple de manipulation des adresses est l’extraction des codes postaux. On a un ensemble d’adresses avec numéro de rue, nom de rue, code postal et ville dans une même chaîne de caractères. Si on veut extraire le code postal à la main, la tâche peut s’avérer très consommatrice de temps.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+noms
+</th>
+<th style="text-align:left;">
+adresse
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+McDonald’s AMBERIEU
+</td>
+<td style="text-align:left;">
+Rue Alexandre Bérard 01500 AMBERIEU EN BUGEY
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s BELLEY
+</td>
+<td style="text-align:left;">
+Rond-point RN504 01300 BELLEY
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s BEYNOST
+</td>
+<td style="text-align:left;">
+ZAC des Baterses 01700 BEYNOST
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s BOURG EN BRESSE
+</td>
+<td style="text-align:left;">
+8-10 Avenue des Sports 01000 BOURG EN BRESSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s CHATILLON EN MICHAILLE
+</td>
+<td style="text-align:left;">
+Avenue De Lattre de Tassigny 01200 CHATILLON EN MICHAILLE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s FERNEY VOLTAIRE
+</td>
+<td style="text-align:left;">
+Route de Meyrin 01210 FERNEY VOLTAIRE
+</td>
+</tr>
+</tbody>
+</table>
+<p></br> On peut utiliser R pour le faire automatiquement.</p>
+</br>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+noms
+</th>
+<th style="text-align:left;">
+adresse
+</th>
+<th style="text-align:left;">
+cp
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+McDonald’s AMBERIEU
+</td>
+<td style="text-align:left;">
+Rue Alexandre Bérard 01500 AMBERIEU EN BUGEY
+</td>
+<td style="text-align:left;">
+01500
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s BELLEY
+</td>
+<td style="text-align:left;">
+Rond-point RN504 01300 BELLEY
+</td>
+<td style="text-align:left;">
+01300
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s BEYNOST
+</td>
+<td style="text-align:left;">
+ZAC des Baterses 01700 BEYNOST
+</td>
+<td style="text-align:left;">
+01700
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s BOURG EN BRESSE
+</td>
+<td style="text-align:left;">
+8-10 Avenue des Sports 01000 BOURG EN BRESSE
+</td>
+<td style="text-align:left;">
+01000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s CHATILLON EN MICHAILLE
+</td>
+<td style="text-align:left;">
+Avenue De Lattre de Tassigny 01200 CHATILLON EN MICHAILLE
+</td>
+<td style="text-align:left;">
+01200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDonald’s FERNEY VOLTAIRE
+</td>
+<td style="text-align:left;">
+Route de Meyrin 01210 FERNEY VOLTAIRE
+</td>
+<td style="text-align:left;">
+01210
+</td>
+</tr>
+</tbody>
+</table>
+<p></br> Aussi, il est possible de séparer tous les éléments de l’adresse.</p>
 </div>
 <div id="outils" class="section level1">
-<h1><span class="header-section-number">3</span> Outils</h1>
+<h1><span class="header-section-number">4</span> Outils</h1>
 <ul>
 <li>R avec ses packages</li>
 <li><a href="http://openrefine.org/">OpenRefine</a></li>
@@ -469,11 +621,11 @@ div.tocify {
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-79158649-2', 'auto');
+  ga('create', 'UA-79158649-1', 'auto');
   ga('send', 'pageview');
 
 </script>
-<p>Copyright &copy; 2016 Kezhan SHI</p>
+<p>Copyright &copy; 2016 Blog de Kezhan Shi</p>
 
 
 </div>
