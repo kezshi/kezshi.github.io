@@ -1,0 +1,55 @@
+name: "Blog de Kezhan SHI: Actuaire et Data Scientist"
+navbar:
+  left:
+    - text: "Accueil"
+      icon: fa-home
+      href: http://kezshi.github.io
+    - text: "Data Science"
+      icon: fa-flask
+      menu:
+        - text: "Préambule"
+          icon: fa-pencil-square-o
+          href: 0_ds_preambule.html
+        - text: "Collecte des données"
+          icon: fa-hand-paper-o
+          href: 1_0_collecte.html
+        - text: "Transformation des données"
+          icon: fa-table
+          href: 2_0_transformation.html
+        - text: "Analyse des données"
+          icon: fa-cog fa-spin
+          href: 3_0_analytics.html
+        - text: "Visualisation des données"
+          icon: fa-line-chart
+          href: 4_0_datavis.html
+        - text: "Big Data"
+          icon: fa-database
+          href: 5_0_big_data.html
+    - text: "Blockchain"
+      icon: fa-btc
+      href: 0_blockchain.html
+    - text: "Actuariat"
+      icon: fa-heartbeat
+      href: 0_actuariat.html
+    - text: "Formations"
+      icon: fa-graduation-cap
+      href: 0_formations.html
+    - text: "Contact"
+      icon: fa-info
+      menu:
+        - text: "Linkedin"
+          icon: fa-linkedin-square
+          href: https://fr.linkedin.com/in/kezhanshi
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: flatly
+    highlight: textmate
+    self_contained: true
+    include:
+      in_header: header1.html
+      after_body: footer.html
+    css: styles.css
+output_dir: "../kezshi.github.io"
