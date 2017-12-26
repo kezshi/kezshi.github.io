@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Analyse des avis clients</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +19,12 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -32,10 +35,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -164,6 +169,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -289,16 +389,22 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Analyse des avis clients</h1>
 
 </div>
 
 
-<p></br></p>
-<div id="analyse-des-avis-clients" class="section level1">
-<h1>Analyse des avis clients</h1>
-<p>2 jours</p>
-<div id="objectif" class="section level2">
-<h2>Objectif</h2>
+<div id="informations-pratiques" class="section level1">
+<h1><span class="header-section-number">1</span> Informations pratiques</h1>
+<p>Durée: <strong>2 jours</strong></p>
+<p>Dates:</p>
+<ul>
+<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
+<li>En dehors de ces dates, merci de me contacter.</li>
+</ul>
+</div>
+<div id="objectif" class="section level1">
+<h1><span class="header-section-number">2</span> Objectif</h1>
 <p>Apprendre à récupérer, nettoyer et analyser des commentaires clients, accompagnés des notes numériques.</p>
 <p><strong>À qui s’adresse cette formation ?</strong></p>
 <p>À toute personne souhaitant utiliser des données externes dans les différents domaines d’assurance: produits, marketing, distribution et tarification.</p>
@@ -308,6 +414,9 @@ $(document).ready(function () {
 <p>Les différentes techniques de collecte et de nettoyage de données seront illustrées avec des exemples pratiques, codés sous R.</p>
 <p><strong>Quels sont les pré-requis ?</strong></p>
 <p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
+</div>
+<div id="programme" class="section level1">
+<h1><span class="header-section-number">3</span> Programme</h1>
 <p><strong>Présentation de R et RStudio</strong></p>
 <ul>
 <li>Bases de programmation avec R</li>
@@ -333,9 +442,8 @@ $(document).ready(function () {
 <li>Evolution temporelle des notes</li>
 <li><a href="4_avis_vis.html">Visualisation des notes des assureurs</a></li>
 </ul>
-</div>
 <div id="exemples-de-resultats" class="section level2">
-<h2>Exemples de résultats</h2>
+<h2><span class="header-section-number">3.1</span> Exemples de résultats</h2>
 <p>Positionnement des assureurs auto en terme de prix et de garantie</p>
 <div class="figure">
 <img src="images/positionnement.png" />
@@ -374,6 +482,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2017 Site de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 

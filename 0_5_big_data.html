@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -35,10 +35,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -413,8 +415,14 @@ div.tocify {
 <li><code>parallel</code></li>
 </ul>
 </div>
+<div id="calcul-parallelise" class="section level1">
+<h1><span class="header-section-number">4</span> Calcul parallélisé</h1>
+</div>
+<div id="analyse-de-performance-du-code" class="section level1">
+<h1><span class="header-section-number">5</span> Analyse de performance du code</h1>
+</div>
 <div id="ressources" class="section level1">
-<h1><span class="header-section-number">4</span> Ressources</h1>
+<h1><span class="header-section-number">6</span> Ressources</h1>
 <ul>
 <li><a href="https://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session">Gestion de la mémoire disponible dans les sessions R</a></li>
 </ul>

@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -35,10 +35,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -393,8 +395,28 @@ div.tocify {
 
 
 <p>Les domaines de la data science sont nombreux. Les différents cas traités sont organisés sur les métiers. Les liens seront disponibles au fur et à mesure.</p>
+<div id="fonctions-support" class="section level1">
+<h1><span class="header-section-number">1</span> Fonctions support</h1>
+<ul>
+<li>Gestion des données</li>
+<li>Pilotage d’activité</li>
+<li>Comportement clients (conversion, résiliation)</li>
+<li>Gestion des fraudes</li>
+<li>Analyse des indicateurs financiers</li>
+<li>Automatisation des opérations</li>
+<li>RH</li>
+</ul>
+</div>
+<div id="analyse-des-comportements-clients" class="section level1">
+<h1><span class="header-section-number">2</span> Analyse des comportements clients</h1>
+<ul>
+<li>Text mining</li>
+<li>Prédiction de la résiliation</li>
+<li>Valeur client</li>
+</ul>
+</div>
 <div id="assurance" class="section level1">
-<h1><span class="header-section-number">1</span> Assurance</h1>
+<h1><span class="header-section-number">3</span> Assurance</h1>
 <ul>
 <li>Analyse des sinistres automobiles</li>
 <li><a href="405_3_visualisation.html">Analyse des jurisprudence pour la protection juridique</a></li>
@@ -404,14 +426,14 @@ div.tocify {
 </ul>
 </div>
 <div id="data-journalisme" class="section level1">
-<h1><span class="header-section-number">2</span> Data journalisme</h1>
+<h1><span class="header-section-number">4</span> Data journalisme</h1>
 <ul>
 <li>Sondage des présidentielles</li>
 <li>Elections présidentielles</li>
 </ul>
 </div>
 <div id="analyse-du-marche" class="section level1">
-<h1><span class="header-section-number">3</span> Analyse du marché</h1>
+<h1><span class="header-section-number">5</span> Analyse du marché</h1>
 <ul>
 <li>Immobilier
 <ul>
@@ -433,18 +455,18 @@ div.tocify {
 </ul>
 </div>
 <div id="rh" class="section level1">
-<h1><span class="header-section-number">4</span> RH</h1>
+<h1><span class="header-section-number">6</span> RH</h1>
 <ul>
 <li>Analyse des CV</li>
 <li>Analyse des annonces de postes</li>
 </ul>
 </div>
 <div id="blockchain" class="section level1">
-<h1><span class="header-section-number">5</span> Blockchain</h1>
+<h1><span class="header-section-number">7</span> Blockchain</h1>
 <p>Vous souhaitez découvrir les mystères du bitcoin et le principe de fonctionne d’une blockchain, je propose une <a href="f_901_blockchain.html">Formation Blockchain</a></p>
 </div>
 <div id="actuariat" class="section level1">
-<h1><span class="header-section-number">6</span> Actuariat</h1>
+<h1><span class="header-section-number">8</span> Actuariat</h1>
 <p>Quelques articles concernant la modélisation des sinistres en actuariat</p>
 <ul>
 <li><a href="actuariat/sinistre_graves_par_tranche.html">Analyse de la sinistralité</a></li>

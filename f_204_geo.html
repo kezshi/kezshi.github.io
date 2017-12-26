@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -35,10 +35,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -403,9 +405,9 @@ div.tocify {
 </div>
 <div id="preambule" class="section level1">
 <h1><span class="header-section-number">2</span> Préambule</h1>
+<p>Avez-vous des adresses à géocoder, et que vous utilisez un service de géocodage qui vous facture pour chaque adresse géocodée? Avec cette formation, vous allez comprendre le principe de géocodage, et vous saurez construire un géocodeur et géocoder vos toutes vos adresses gratuitement. Suite aux comparaisons, le géocodeur construit est plus rapide que celui de Google (car il géocode adresse par adresse en utilisant un API) et plus performant (car plus adapté pour les adresses en France).</p>
 <ul>
 <li>Avez-vous des adresses dans votre base? Au lieu de les voir sous forme de texte, il serait intéressant de les afficher sur une carte.</li>
-<li>Utilisez-vous un service de géocodage et chaque adresse géocodée vous est facturée ? Avec cette formation, vous saurez construire un géocodeur et géocoder vos adresses gratuitement.</li>
 <li>L’analyse géographique des données permet de mieux connaître vos clients.</li>
 </ul>
 </div>
@@ -450,12 +452,18 @@ div.tocify {
 <li>Segmentation des données et zoniers</li>
 <li>Utilisation dans la classification et la régression</li>
 </ul>
+<p><strong>Construction d’un géocodeur</strong></p>
+<ul>
+<li>Principe de géocodage</li>
+<li>Programmation d’un géocodeur</li>
+<li>Déploiement de la solution</li>
+</ul>
 <p><strong>Etude de cas</strong></p>
 <ul>
 <li>Etude de densité et de concentration</li>
 <li>Zones inondables et assurés sinistrés</li>
-<li>Géolocalisation des accidents automobiles</li>
-<li>Construction d’un géocodeur</li>
+<li><a href="#">Géolocalisation des accidents automobiles</a></li>
+<li>Etude des courtiers et agents</li>
 </ul>
 <!--
 Idées diverses
