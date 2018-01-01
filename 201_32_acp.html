@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Analyse en composante principale</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="site_libs/d3-4.2.6/d3-color.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-array.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-collection.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-format.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-dispatch.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-ease.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-interpolate.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-selection.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-scale.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-timer.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-transition.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-drag.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-path.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-shape.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-axis.v1.min.js"></script>
+<script src="site_libs/d3-4.2.6/d3-legend.min.js"></script>
+<script src="site_libs/d3-zoom-patched-0/d3-zoom-patched.min.js"></script>
+<link href="site_libs/d3.lasso-plugin-1.0.0/lasso.css" rel="stylesheet" />
+<script src="site_libs/d3.lasso-plugin-1.0.0/lasso.js"></script>
+<link href="site_libs/scatterD3-0.7/scatterD3.css" rel="stylesheet" />
+<script src="site_libs/scatterD3-0.7/scatterD3-utils.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-setup.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-axes.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-dots.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-arrows.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-labels.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-lines.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-ellipses.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-legend.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-lasso.js"></script>
+<script src="site_libs/scatterD3-0.7/scatterD3-exports.js"></script>
+<script src="site_libs/scatterD3-binding-0.8.1/scatterD3.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="201_0_lutte_anti_fraude.html">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-suitcase"></span>
+     
+    Conception
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_10_strategie_lutte_fraudes.html">
+        <span class="fa fa-rocket"></span>
+         
+        Stratégies
+      </a>
+    </li>
+    <li>
+      <a href="201_11_intelligence_artificielle.html">
+        <span class="fa fa-magic"></span>
+         
+        Intelligence artificielle
+      </a>
+    </li>
+    <li>
+      <a href="201_12_processus.html">
+        <span class="fa fa-wrench"></span>
+         
+        Processus
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-database"></span>
+     
+    Data management
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_13_construction_indicateurs.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Construction d'indicateurs
+      </a>
+    </li>
+    <li>
+      <a href="201_21_exploration.html">
+        <span class="fa fa-cubes"></span>
+         
+        Exploration des données
+      </a>
+    </li>
+    <li>
+      <a href="201_22_normalisation.html">
+        <span class="fa fa-table"></span>
+         
+        Transformation des données
+      </a>
+    </li>
+    <li>
+      <a href="201_23_detection_deterministe.html">
+        <span class="fa fa-times-circle"></span>
+         
+        Détection déterministe
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Machine learning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_31_classification.html">Classification</a>
+    </li>
+    <li>
+      <a href="201_32_acp.html">Analyse en composantes principales</a>
+    </li>
+    <li>
+      <a href="201_33_outliers.html">Détection d'anomalies</a>
+    </li>
+    <li>
+      <a href="201_34_segmentation.html">Segmentation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-level-up"></span>
+     
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_41_global.html">
+        <span class="fa fa-list"></span>
+         
+        Reporting global
+      </a>
+    </li>
+    <li>
+      <a href="201_42_individuel.html">
+        <span class="fa fa-tablet"></span>
+         
+        Reporting individuel
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-sign-out"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analyse en composante principale</h1>
+
+</div>
+
+
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">
+Informations
+</h3>
+</div>
+<div class="panel-body">
+Il s’agit d’un extrait de la formation. Cette formation peut se faire en présentiel ou à distance. Pour en savoir plus, merci de me contacter.
+</div>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Dans cette partie, vous allez apprendre les éléments essentiels de l’analyse en composantes principales</p>
+<ul>
+<li>théorie et signification</li>
+<li>pratique et interprétation des résultats</li>
+<li>visualisation des résultats</li>
+</ul>
+</div>
+<div id="construction-de-lacp" class="section level1">
+<h1><span class="header-section-number">2</span> Construction de l’ACP</h1>
+<p>Contribution des composantes principales</p>
+<p><img src="201_32_acp_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Visualisation basique des résultats</p>
+<p><img src="201_32_acp_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="201_32_acp_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+</div>
+<div id="meilleure-visualisation" class="section level1">
+<h1><span class="header-section-number">3</span> Meilleure visualisation</h1>
+<p><img src="201_32_acp_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="visualisation-interactive" class="section level1">
+<h1><span class="header-section-number">4</span> Visualisation interactive</h1>
+<p>Avec cette visualisation interactive, vous pouvez</p>
+<ul>
+<li>zoomer pour mieux distinguer certains points d’observation proches</li>
+<li>déplacer le plan pour mieux situer les points</li>
+<li>visualisation des informations du point en passant le pointeur de souris au-dessus</li>
+<li>cliquer sur le point pour avoir le reporting de l’observation (par souci de simplification pour la formation, un seul reporting individuel est créé, donc vous tomberez sur l’observation 8 en cliquant sur n’importe quel point.)</li>
+</ul>
+<div id="htmlwidget-8ba579850adce4d1dced" style="width:672px;height:480px;" class="scatterD3 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8ba579850adce4d1dced">{"x":{"data":{"x":[1.91654441071647,-0.478969043168464,3.84994002852584,4.58635462507926,-0.532582725828565,-1.24401468382002,1.8655723405913,-2.05274581557566,-1.64160232906592,-4.27035491619986,-1.45812570575014,-2.45801879338154,-3.98585375168068,0.635548111999441,-0.105139367369428,2.10733901681904,4.38516959713624,1.43513384319522,-1.03693242657998,-1.16205529929675,2.64175230724891,6.22034987374624,11.2068586952544,-0.246726518767324,2.64516663058332,-0.421023225591345,-3.6902969313529,-2.89889922397151,-1.89120646883091,-2.38305389821779,-2.31492362079149,-3.49728834930186,0.0431181624505251,1.02672767217257,-0.687373856395848,-1.9290768094478,0.267400290095956,-2.11822911587663,-2.58032417188609,0.159799601032325,-0.884016238419509,-1.59380601173167,1.48003830166865,1.44349461938219,8.46625487294028,1.27430265101956,0.0883328204732394,2.06385942213462,-0.779502399912085,-0.317800010197705,3.94631968211904,-2.09011369407174,-4.57634292141616,-2.66121725687651,-2.56750877722932,-2.98126645766851,-3.6922971570371,-1.60902489622846,-3.65438547736154,-3.9420581838432,-4.27817363873347,-3.98062591719795,-3.02066491745993,-2.05617610326764,3.88664356538243,4.65744894741952,4.26221125532325,4.77331057664879,0.0267025713303372,-3.54107003820149,-3.75831192601087,-3.58567452153769,-3.61919556830705,-3.05794626203854,-6.20567708487034,-5.08488059632352,-5.32716287799285,-4.5538508537157,-5.07993286944489,-5.49909393511945,-2.96466247355675,-1.73086642745215,-1.76546649482839,-2.31730281804091,-1.87513629109096,1.60721497659542,0.0132284176389723,2.28927145009547,-0.422158012355918,0.291428446888309,0.0640373427577754,0.164336582087341,-1.69108175370215,-0.242702906989335,-1.69793404372066,0.448105367518085,1.2156313915499,6.35250201238748,5.85154391843787,2.32251430652543,0.811445620887195,0.920741723861563,1.31748730460457,-1.92839712978287,0.889998577178701,-1.9284629653682,0.168381309703138,-0.155437007050556,-1.12355516564751,-0.916737350490842,-1.86139124243404,1.37662764777989,-0.0160958162048319,-1.61380439787401,-1.66672156546456,0.0867997899151898,-2.34308231810804,-2.13774869787801,-3.00751580221032,-3.53397727244286,-2.86003991900853,-3.026901623202,-3.02777776390215,-2.21375803886704,-2.05473371072355,-1.5463284022841,-1.19576435492217,-0.0685239933569219,-1.40523658465845,0.676133682426723,0.380979682324325,7.61143937184355,6.89593615534844,8.71798002723617,7.27732309181787,8.9935774827393,9.12098720488026,2.57962065799342,4.71158612049167,1.18901569263873,7.99587893423688,5.43772934777762,7.36099054197169,6.73528484069953,5.46331087603576,6.15246516373717,11.6992085721475,8.58344776820058,-0.123174559367129,-0.604918424504959,-3.55904544755532,-2.3796995192521,-1.1494351095411,-3.21288848323807,-4.08436114583726,-2.8928161607346,3.6177456149023,5.91361800212303,4.92235011204547,4.70821430437043,3.40906561443929,6.83247699355281,-0.828742079410916,-2.43224105046876,3.30715203649308,-0.564402567845903,4.83209260794398,1.08803241005871,-1.50233232562957,-1.17852844505397,-0.58702649459848,0.660411073461175,0.0941773391281016,-2.40493910135551,0.170366568945267,-2.01163614269071,-1.43164952563206,-2.630083169491,-2.37416293653617,-0.593756275195262,0.170861860183259,4.06363778726724,2.08419427494509,2.18011750134006,1.71664844670481,0.961164647882221,5.32163582909705,0.751284147427514,-0.576896329987369,-1.60024702517836,-1.23919971331177,-2.0360717627381,-2.31785835342968,-1.75060273061831,-3.13438575656245,-3.07560421941354,-3.85662297129415,-3.61009957350784,-3.47412609436631,-3.93600071299742,-3.12444240381841,-3.60553719010968,-1.84117960840651,-1.20474644337992,-2.96428770387688,-2.28769124764929,-3.1069686198968,-3.23082965729554],"y":[1.3675937347189,-7.56812953092564,-6.42436107284182,3.09661814239232,-1.8453949019577,-3.77637345030737,-2.48950433213231,-2.30917939147836,-0.253110904419087,2.42197481550302,6.30783765010704,1.25074591047407,-1.64110320274077,0.635882733924517,0.251497417065371,-0.592505776176266,2.25205749183263,-1.8976123392169,3.2864352879895,-8.57586100905956,-1.66402288826183,1.47034321357513,2.7494597693641,4.85181137828752,4.38875825700879,7.15101409045209,-2.48792562029244,-0.163168933287814,-1.49425675021107,-1.37483559858287,1.1953431731104,0.579463400833836,-0.365464338132492,-0.0657182670921898,-1.11532501210281,-0.62886840127847,3.41089180537329,4.49358915062836,4.92602691926702,3.82729568730246,3.46752706724484,4.40420532801956,4.34661292456765,2.28561356215124,2.30664268811508,-0.931956402828975,-2.80374946390321,3.42879014207481,1.60845655776242,1.11175357882004,4.65016999508206,3.051010306421,1.74117749836519,2.45793492887244,2.83388966654066,3.05973570547966,3.0347445984625,4.23141186228007,4.08771926742289,3.9473945651359,3.66520470284213,2.91830538152619,4.60490543188484,4.83882240401571,4.99923267080578,4.74319025661097,5.50808792125072,4.42983117743036,5.49398909133738,3.07615549085041,3.77314952229322,3.06563714813951,2.73326480867807,3.1673107065776,-1.15129695414127,-1.81693632771414,-2.02244154761133,-2.20713411815575,-2.42364024799352,-0.722987089069577,-3.42186421838969,-3.27960545017005,-2.61839431242967,-3.57909270588339,-3.64607928123312,-4.63007346380134,-1.54316254200099,-1.45594222013748,-3.34303140336411,-1.36117516884798,-3.4699345041983,-2.66582793491643,3.03155198677382,1.05715656216699,2.61284740053869,2.3548452699574,3.23053890027379,-0.734650501774454,-6.20703656098628,-1.35296113815916,-7.8893177103961,-7.27001626761331,-6.49775738874994,-5.03748715073863,-5.75936407820673,-4.97094708403382,-1.31448455543256,-2.38908014108553,-2.64167547788915,-1.06100889082141,-1.57682486506729,-6.20408670871523,-5.2523223532182,-3.22510421108547,-4.07660254452354,-4.46475647582118,-4.36462054098461,-1.80924420584949,-1.36632408740514,-2.37224428583827,0.159205805740317,-1.55930948486889,-2.88961826424903,-2.20296283235205,-4.04944922989349,-4.73210306921221,-7.371680235236,-7.70709535433125,-6.61368165470108,-7.94756523890892,-8.75330292330493,-1.86498728988671,-3.09726507371422,-2.7123252372215,-2.7776924531735,-3.30407552805946,-2.76144011332016,-2.13924129574822,-2.59589353290874,1.00753565310934,-0.426570020687261,-0.978953671234507,0.533004531735535,1.06461912910646,1.67254782745897,-0.977116972227048,-0.465027922767432,-4.60305411219096,-3.42366735243514,-0.777233623881428,-1.33654196477883,-1.95377554719516,0.672280517333499,-2.66864206668403,-1.95234395689615,-1.60432458165238,4.89936109460552,5.42092287771104,4.54196627863887,4.24739586588548,4.83050079047989,5.59246368291087,2.65939200544779,0.758579988475161,1.2447664372079,1.21082102049084,4.10149265067024,4.35188085705476,3.00062739202182,3.22553051882731,3.55676668712555,-1.82365976846199,1.55262916243199,-1.10007048797642,-1.28964040824322,-0.284340237502248,-2.15251680767197,1.32140623425213,2.74437686403064,1.40497075807276,-0.807180687144032,1.31853318680094,0.394006120216117,-0.185151297118924,-2.76153621872571,-0.597476389190129,1.8314117112291,2.39893678705041,2.90528441543311,1.88579019786647,2.4852175269517,2.47680249346561,2.29304562714236,3.38013564378644,2.36143207085997,1.2281448860166,0.585342560410041,1.33798939424399,1.14738895300224,0.703454543744955,-0.183529763975676,-0.150810491996908,0.887167434545128,0.9658434541223,2.74686550830794,2.74881390990208,1.8460957240117,2.27161357749569],"col_var":["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"],"symbol_var":["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"],"url_var":["201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html","201_42_individuel.html"],"key_var":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208],"tooltip_text":["Observation <strong> 1 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 2 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 3 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 4 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 5 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 6 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 7 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 8 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 9 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 10 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 11 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 12 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 13 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 14 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 15 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 16 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 17 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 18 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 19 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 20 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 21 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 22 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 23 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 24 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 25 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 26 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 27 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 28 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 29 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 30 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 31 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 32 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 33 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 34 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 35 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 36 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 37 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 38 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 39 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 40 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 41 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 42 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 43 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 44 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 45 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 46 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 47 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 48 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 49 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 50 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 51 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 52 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 53 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 54 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 55 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 56 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 57 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 58 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 59 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 60 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 61 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 62 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 63 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 64 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 65 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 66 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 67 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 68 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 69 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 70 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 71 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 72 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 73 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 74 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 75 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 76 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 77 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 78 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 79 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 80 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 81 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 82 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 83 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 84 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 85 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 86 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 87 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 88 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 89 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 90 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 91 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 92 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 93 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 94 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 95 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 96 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 97 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 98 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 99 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 100 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 101 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 102 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 103 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 104 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 105 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 106 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 107 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 108 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 109 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 110 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 111 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 112 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 113 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 114 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 115 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 116 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 117 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 118 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 119 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 120 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 121 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 122 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 123 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 124 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 125 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 126 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 127 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 128 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 129 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 130 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 131 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 132 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 133 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 134 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 135 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 136 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 137 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 138 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 139 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 140 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 141 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 142 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 143 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 144 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 145 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 146 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 147 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 148 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 149 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 150 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 151 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 152 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 153 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 154 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 155 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 156 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 157 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 158 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 159 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 160 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 161 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 162 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 163 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 164 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 165 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 166 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 167 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 168 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 169 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 170 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 171 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 172 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 173 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 174 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 175 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 176 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 177 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 178 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 179 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 180 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 181 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 182 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 183 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 184 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 185 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 186 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 187 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 188 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 189 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 190 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 191 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 192 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 193 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 194 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 195 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 196 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 197 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 198 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 199 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 200 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 201 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 202 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 203 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 204 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 205 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 206 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 207 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 208 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations"]},"settings":{"x_log":false,"y_log":false,"labels_size":10,"labels_positions":null,"point_size":64,"point_opacity":1,"hover_size":1,"hover_opacity":null,"xlab":"pca.PC1","ylab":"pca.PC2","has_labels":false,"col_lab":"class","col_continuous":false,"colors":null,"ellipses":false,"ellipses_data":[],"symbol_lab":"class","size_range":[10,300],"size_lab":"NULL","opacity_lab":"NULL","unit_circle":false,"has_color_var":true,"has_symbol_var":true,"has_size_var":false,"has_opacity_var":false,"has_url_var":true,"has_legend":true,"has_tooltips":true,"tooltip_text":["Observation <strong> 1 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 2 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 3 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 4 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 5 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 6 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 7 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 8 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 9 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 10 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 11 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 12 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 13 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 14 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 15 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 16 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 17 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 18 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 19 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 20 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 21 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 22 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 23 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 24 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 25 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 26 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 27 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 28 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 29 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 30 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 31 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 32 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 33 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 34 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 35 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 36 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 37 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 38 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 39 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 40 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 41 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 42 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 43 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 44 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 45 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 46 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 47 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 48 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 49 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 50 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 51 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 52 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 53 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 54 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 55 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 56 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 57 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 58 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 59 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 60 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 61 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 62 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 63 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 64 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 65 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 66 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 67 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 68 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 69 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 70 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 71 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 72 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 73 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 74 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 75 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 76 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 77 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 78 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 79 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 80 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 81 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 82 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 83 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 84 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 85 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 86 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 87 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 88 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 89 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 90 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 91 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 92 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 93 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 94 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 95 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 96 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 97 <\/strong><br /> avec la classe  1 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 98 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 99 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 100 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 101 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 102 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 103 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 104 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 105 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 106 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 107 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 108 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 109 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 110 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 111 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 112 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 113 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 114 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 115 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 116 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 117 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 118 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 119 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 120 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 121 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 122 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 123 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 124 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 125 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 126 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 127 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 128 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 129 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 130 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 131 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 132 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 133 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 134 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 135 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 136 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 137 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 138 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 139 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 140 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 141 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 142 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 143 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 144 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 145 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 146 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 147 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 148 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 149 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 150 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 151 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 152 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 153 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 154 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 155 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 156 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 157 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 158 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 159 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 160 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 161 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 162 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 163 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 164 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 165 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 166 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 167 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 168 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 169 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 170 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 171 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 172 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 173 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 174 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 175 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 176 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 177 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 178 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 179 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 180 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 181 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 182 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 183 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 184 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 185 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 186 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 187 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 188 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 189 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 190 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 191 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 192 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 193 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 194 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 195 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 196 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 197 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 198 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 199 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 200 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 201 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 202 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 203 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 204 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 205 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 206 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 207 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations","Observation <strong> 208 <\/strong><br /> avec la classe  0 <br /> Cliquer pour avoir plus d'informations"],"has_custom_tooltips":true,"click_callback":null,"zoom_callback":null,"fixed":false,"legend_width":150,"left_margin":30,"html_id":"scatterD3-QIRYIFJA","xlim":null,"ylim":null,"x_categorical":false,"y_categorical":false,"menu":true,"lasso":false,"lasso_callback":null,"dom_id_reset_zoom":"scatterD3-reset-zoom","dom_id_svg_export":"scatterD3-svg-export","dom_id_lasso_toggle":"scatterD3-lasso-toggle","transitions":false,"axes_font_size":"100%","legend_font_size":"100%","caption":null,"lines":{"slope":[0,null],"intercept":[0,0],"stroke_dasharray":[5,5]},"hashes":[]}},"evals":[],"jsHooks":[]}</script>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<style>
+/* Notwendiges Zeug für Dropdowns */
+.tabset-dropdown > .nav-tabs {
+	display: inline-block;
+	max-height: 500px;
+	min-height: 44px;
+	overflow-y: auto;
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+    content: "";
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	content: "&#xe258;";
+	border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	content: "";
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+
+.tabset-dropdown > .nav-tabs > li.active {
+	display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+	border: none;
+	display: inline-block;
+	border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	display: block;
+	float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+	display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+	$('.tabset-dropdown > .nav-tabs > li').click(function () {
+		$(this).parent().toggleClass('nav-tabs-open')
+	});
+}); 
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

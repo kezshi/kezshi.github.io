@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Visualisation des proportions</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<link href="site_libs/sequences-0.1/sequences.css" rel="stylesheet" />
+<script src="site_libs/sunburst-binding-1.0.2/sunburst.js"></script>
+<script src="site_libs/d3-3.5.5/d3.min.js"></script>
+<link href="site_libs/d3tree2-0.1/d3tree2.css" rel="stylesheet" />
+<script src="site_libs/d3tree2-binding-0.1/d3tree2.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 54px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+
+.section h2 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h3 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h4 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h5 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+.section h6 {
+  padding-top: 59px;
+  margin-top: -59px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="402_0.html">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li>
+  <a href="402_1_import.html">
+    <span class="fa fa-hand-paper-o"></span>
+     
+    Import
+  </a>
+</li>
+<li>
+  <a href="402_2_transformation.html">
+    <span class="fa fa-table"></span>
+     
+    Transformation
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-picture-o"></span>
+     
+    Data visualisation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="402_3_0presentation.html">
+        <span class="fa fa-shopping-cart"></span>
+         
+        Types de graphiques
+      </a>
+    </li>
+    <li>
+      <a href="402_3_1proportion.html">
+        <span class="fa fa-pie-chart"></span>
+         
+        Propotions
+      </a>
+    </li>
+    <li>
+      <a href="402_3_2comparaison.html">
+        <span class="fa fa-bar-chart"></span>
+         
+        Comparaison
+      </a>
+    </li>
+    <li>
+      <a href="402_3_3evolution.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Evolution
+      </a>
+    </li>
+    <li>
+      <a href="402_3_4distribution.html">
+        <span class="fa fa-area-chart"></span>
+         
+        Distribution
+      </a>
+    </li>
+    <li>
+      <a href="402_3_5cartographie.html">
+        <span class="fa fa-map"></span>
+         
+        Cartographie
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Visualisation des proportions</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Dans un premier temps, on va créer des graphiques pour représenter les proportions des différentes modalités des variables.</p>
+</div>
+<div id="barres-empilees" class="section level1">
+<h1><span class="header-section-number">2</span> Barres empilées</h1>
+<p>On va prendre l’exemple des catégories de routes (dans la base <code>lieux</code>), pour visualiser le nombre d’accidents en fonction des différentes catégories de routes.</p>
+<div id="transformation-des-donnees" class="section level2">
+<h2><span class="header-section-number">2.1</span> Transformation des données</h2>
+<p>On peut d’abord calculer le nombre d’accidents par type de routes.</p>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["catrc"],"name":[1],"type":["chr"],"align":["left"]},{"label":["value"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Départementale","2":"103308"},{"1":"Nationale","2":"20392"},{"1":"Autre","2":"4263"},{"1":"Voie communale","2":"162954"},{"1":"Stationnement","2":"2078"},{"1":"Autoroute","2":"23265"},{"1":"Hors voie pub","2":"594"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="creation-des-barres" class="section level2">
+<h2><span class="header-section-number">2.2</span> Création des barres</h2>
+<p>Puis on peut utiliser <code>ggplot2</code> pour créer une barre empilée.</p>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>On constate que les catégories sont classées par défaut dans l’ordre alphabétique. On peut modifier l’ordre pour que ce soit dans l’ordre du nombre d’accidents. Au passage, on peut aussi améliorer les différents titres.</p>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+</div>
+<div id="camembert" class="section level1">
+<h1><span class="header-section-number">3</span> Camembert</h1>
+<p>Le camembert est très souvent utilisé pour représenter les proportions d’une variable selon les modalités présentes.</p>
+<div id="transformation-du-systeme-de-coordonnees" class="section level2">
+<h2><span class="header-section-number">3.1</span> Transformation du système de coordonnées</h2>
+<p>Pour avoir le camembert, il suffit de changer de système de coordonnées:</p>
+<ul>
+<li>dans le cas des barres empilées, on utilise le système cartésien: l’axis y représente le nombre d’accident</li>
+<li>dans le cas du camembert, on doit représente les proportions avec l’angle de rotation.</li>
+</ul>
+<p>Pour faciliter l’affichage du pourcentage, on va d’abord calculer les pourcentages dans la table des données.</p>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["catrc"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["value"],"name":[2],"type":["int"],"align":["right"]},{"label":["perc"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Départementale","2":"103308","3":"0.326042909"},{"1":"Nationale","2":"20392","3":"0.064357717"},{"1":"Autre","2":"4263","3":"0.013454146"},{"1":"Voie communale","2":"162954","3":"0.514287337"},{"1":"Stationnement","2":"2078","3":"0.006558226"},{"1":"Autoroute","2":"23265","3":"0.073424984"},{"1":"Hors voie pub","2":"594","3":"0.001874680"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="creation-du-camembert" class="section level2">
+<h2><span class="header-section-number">3.2</span> Création du camembert</h2>
+<p>A partir des barres empilées, il suffit de changer le système des coordonnées en <code>coord_polar</code> pour créer un camembert.</p>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="afficher-pourcentages" class="section level2">
+<h2><span class="header-section-number">3.3</span> Afficher pourcentages</h2>
+<p>Pour faciliter la lecture, on peut afficher les pourcentages de chaque part.</p>
+<p>On peut utiliser <code>geom_text</code>. Comme on voit dans le camembert suivant, les textes se chevauchent.</p>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Pour résoudre le problème, on peut utiliser le package <code>ggrepel</code>.</p>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+</div>
+<div id="sunburst" class="section level1">
+<h1><span class="header-section-number">4</span> Sunburst</h1>
+<p>Dans un camembert comme montre l’exemple précédent, on ne peut pas afficher plusieurs variables. Si veut afficher les sous-catégories d’une catégorie donnée, on peut utiliser un sunburst.</p>
+<p>Dans l’exemple suivant, on choisit de représenter le situation de l’accident, avec la variable <code>situ</code> dans la base <code>lieux</code>.</p>
+<div class="sunburst html-widget" id="htmlwidget-4696d612b3b2766f8fed" style="width:672px;height:480px; position:relative;">
+<div>
+<div class="sunburst-main">
+<div class="sunburst-sequence"></div>
+<div class="sunburst-chart">
+<div class="sunburst-explanation" style="visibility:hidden;"></div>
+</div>
+</div>
+<div class="sunburst-sidebar">
+<input type="checkbox" class="sunburst-togglelegend">Legend</input>
+<div class="sunburst-legend" style="visibility:hidden;"></div>
+</div>
+</div>
+</div>
+<script type="application/json" data-for="htmlwidget-4696d612b3b2766f8fed">{"x":{"data":{"children":[{"name":"Départementale","children":[{"name":"Chaussée","size":85337,"colname":"X2"},{"name":"Accotement","size":11706,"colname":"X2"},{"name":"Trottoir","size":1584,"colname":"X2"},{"name":"Inconnu","size":3944,"colname":"X2"},{"name":"Bande AU","size":187,"colname":"X2"},{"name":"Piste cycle","size":385,"colname":"X2"},{"name":"NA","size":165,"colname":"X2"}],"colname":"X1"},{"name":"Nationale","children":[{"name":"Chaussée","size":17856,"colname":"X2"},{"name":"Bande AU","size":329,"colname":"X2"},{"name":"Trottoir","size":164,"colname":"X2"},{"name":"Accotement","size":1326,"colname":"X2"},{"name":"Inconnu","size":644,"colname":"X2"},{"name":"Piste cycle","size":56,"colname":"X2"},{"name":"NA","size":17,"colname":"X2"}],"colname":"X1"},{"name":"Autre","children":[{"name":"Chaussée","size":3367,"colname":"X2"},{"name":"Trottoir","size":194,"colname":"X2"},{"name":"Inconnu","size":492,"colname":"X2"},{"name":"Accotement","size":117,"colname":"X2"},{"name":"Bande AU","size":7,"colname":"X2"},{"name":"Piste cycle","size":82,"colname":"X2"},{"name":"NA","size":4,"colname":"X2"}],"colname":"X1"},{"name":"Voie communale","children":[{"name":"Chaussée","size":145765,"colname":"X2"},{"name":"Accotement","size":2885,"colname":"X2"},{"name":"Inconnu","size":8803,"colname":"X2"},{"name":"Trottoir","size":3506,"colname":"X2"},{"name":"NA","size":339,"colname":"X2"},{"name":"Piste cycle","size":1476,"colname":"X2"},{"name":"Bande AU","size":180,"colname":"X2"}],"colname":"X1"},{"name":"Stationnement","children":[{"name":"Inconnu","size":562,"colname":"X2"},{"name":"Chaussée","size":1427,"colname":"X2"},{"name":"Accotement","size":33,"colname":"X2"},{"name":"Trottoir","size":49,"colname":"X2"},{"name":"Piste cycle","size":3,"colname":"X2"},{"name":"NA","size":2,"colname":"X2"},{"name":"Bande AU","size":2,"colname":"X2"}],"colname":"X1"},{"name":"Autoroute","children":[{"name":"Chaussée","size":19986,"colname":"X2"},{"name":"Bande AU","size":1291,"colname":"X2"},{"name":"Inconnu","size":604,"colname":"X2"},{"name":"Accotement","size":1365,"colname":"X2"},{"name":"NA","size":10,"colname":"X2"},{"name":"Trottoir","size":8,"colname":"X2"},{"name":"Piste cycle","size":1,"colname":"X2"}],"colname":"X1"},{"name":"Hors voie pub","children":[{"name":"Chaussée","size":386,"colname":"X2"},{"name":"Accotement","size":16,"colname":"X2"},{"name":"Inconnu","size":169,"colname":"X2"},{"name":"Trottoir","size":13,"colname":"X2"},{"name":"Piste cycle","size":7,"colname":"X2"},{"name":"NA","size":2,"colname":"X2"},{"name":"Bande AU","size":1,"colname":"X2"}],"colname":"X1"}],"name":"root"},"options":{"legendOrder":null,"colors":null,"valueField":"size","percent":true,"count":false,"explanation":null,"breadcrumb":[],"legend":{"w":200,"h":20},"sortFunction":null}},"evals":[],"jsHooks":[]}</script>
+<div id="transformation-des-donnees-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Transformation des données</h2>
+<p>Pour la réalisation du sunburst précédent, on doit d’abord combiner plusieurs bases de données.</p>
+<p>Ensuite, on doit regrouper les données en comptant le nombre d’occurrences pour les caractéristiques qu’on souhaite étudier:</p>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["label"],"name":[1],"type":["chr"],"align":["left"]},{"label":["N"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Départementale-Chaussée","2":"85337"},{"1":"Nationale-Chaussée","2":"17856"},{"1":"Autre-Chaussée","2":"3367"},{"1":"Départementale-Accotement","2":"11706"},{"1":"Départementale-Trottoir","2":"1584"},{"1":"Voie communale-Chaussée","2":"145765"},{"1":"Départementale-Inconnu","2":"3944"},{"1":"Départementale-Bande AU","2":"187"},{"1":"Voie communale-Accotement","2":"2885"},{"1":"Nationale-Bande AU","2":"329"},{"1":"Départementale-Piste cycle","2":"385"},{"1":"Autre-Trottoir","2":"194"},{"1":"Nationale-Trottoir","2":"164"},{"1":"Voie communale-Inconnu","2":"8803"},{"1":"Stationnement-Inconnu","2":"562"},{"1":"Stationnement-Chaussée","2":"1427"},{"1":"Autre-Inconnu","2":"492"},{"1":"Voie communale-Trottoir","2":"3506"},{"1":"Nationale-Accotement","2":"1326"},{"1":"Départementale-NA","2":"165"},{"1":"Voie communale-NA","2":"339"},{"1":"Nationale-Inconnu","2":"644"},{"1":"Autoroute-Chaussée","2":"19986"},{"1":"Autoroute-Bande AU","2":"1291"},{"1":"Hors voie pub-Chaussée","2":"386"},{"1":"Hors voie pub-Accotement","2":"16"},{"1":"Stationnement-Accotement","2":"33"},{"1":"Autre-Accotement","2":"117"},{"1":"Voie communale-Piste cycle","2":"1476"},{"1":"Autre-Bande AU","2":"7"},{"1":"Stationnement-Trottoir","2":"49"},{"1":"Hors voie pub-Inconnu","2":"169"},{"1":"Autoroute-Inconnu","2":"604"},{"1":"Autre-Piste cycle","2":"82"},{"1":"Autoroute-Accotement","2":"1365"},{"1":"Nationale-Piste cycle","2":"56"},{"1":"Hors voie pub-Trottoir","2":"13"},{"1":"Hors voie pub-Piste cycle","2":"7"},{"1":"Voie communale-Bande AU","2":"180"},{"1":"Autoroute-NA","2":"10"},{"1":"Stationnement-Piste cycle","2":"3"},{"1":"Autoroute-Trottoir","2":"8"},{"1":"Hors voie pub-NA","2":"2"},{"1":"Nationale-NA","2":"17"},{"1":"Hors voie pub-Bande AU","2":"1"},{"1":"Autre-NA","2":"4"},{"1":"Autoroute-Piste cycle","2":"1"},{"1":"Stationnement-NA","2":"2"},{"1":"Stationnement-Bande AU","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="sunburst-d3.js" class="section level2">
+<h2><span class="header-section-number">4.2</span> Sunburst (D3.js)</h2>
+<p>On peut utiliser le sunburst de la librairerie D3.js.</p>
+</div>
+<div id="remarque" class="section level2">
+<h2><span class="header-section-number">4.3</span> Remarque</h2>
+<p>En explorant le sunburst, on peut se poser la question suivante: on peut arriver à visualiser et afficher le sous pourcentage des sous-catégories (situation de l’accident) en fonction d’une catégorie (type de route); mais on n’arrive pas à visualiser la différences des proportions des situations de l’accident en fonction des types de voie.</p>
+<p>Pour cela, on va utiliser les graphiques qui permettent de faire des comparaisons, dans la partie suivante.</p>
+</div>
+</div>
+<div id="treemap" class="section level1">
+<h1><span class="header-section-number">5</span> Treemap</h1>
+<div id="transformation-de-donnees" class="section level2">
+<h2><span class="header-section-number">5.1</span> Transformation de données</h2>
+<p>Dans un treemap, on peut souvent représenter une variable avec la couleur des rectangles.</p>
+<p>Dans l’exemple, on va utiliser la couleur pour représenter la gravité des accidents.</p>
+</div>
+<div id="creation-de-treemap" class="section level2">
+<h2><span class="header-section-number">5.2</span> Création de treemap</h2>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="treemap-interactif" class="section level2">
+<h2><span class="header-section-number">5.3</span> Treemap interactif</h2>
+<div id="htmlwidget-3a386b55dd2d7e6e90a7" style="width:672px;height:480px;" class="d3tree2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3a386b55dd2d7e6e90a7">{"x":{"data":{"name":"Lieux des accidents","id":1,"size":null,"children":[{"name":"Autoroute","color":"#006837","h":0.827090991888806,"id":2,"size":22957,"stdErr":22957,"vColor":3.15354740342651,"vColorValue":3.15354740342651,"vSize":22957,"w":0.0885137453416751,"x0":0.911486254658325,"y0":0.172909008111194,"children":[{"name":"Accotement","color":"#148E4A","h":0.114100151209298,"id":3,"size":1334,"stdErr":1334,"vColor":0.84977050604617,"vColorValue":0.84977050604617,"vSize":1334,"w":0.0372836552844315,"x0":0.911486254658325,"y0":0.172909008111194,"children":[{"name":"Hors int","color":"#148E4A","h":0.114100151209298,"id":4,"size":1334,"stdErr":1334,"vColor":0.84977050604617,"vColorValue":0.84977050604617,"vSize":1334,"w":0.0372836552844315,"x0":0.911486254658325,"y0":0.172909008111194}]},{"name":"Bande AU","color":"#66BD63","h":0.0795526422506724,"id":5,"size":1278,"stdErr":1278,"vColor":0.601472883544476,"vColorValue":0.601472883544476,"vSize":1278,"w":0.0512300900572436,"x0":0.948769909942756,"y0":0.207456517069819,"children":[{"name":"Hors int","color":"#66BD63","h":0.0795526422506724,"id":6,"size":1278,"stdErr":1278,"vColor":0.601472883544476,"vColorValue":0.601472883544476,"vSize":1278,"w":0.0512300900572436,"x0":0.948769909942756,"y0":0.207456517069819}]},{"name":"Chaussée","color":"#006837","h":0.712990840679508,"id":7,"size":19790,"stdErr":19790,"vColor":1.25941883904632,"vColorValue":1.25941883904632,"vSize":19790,"w":0.0885137453416751,"x0":0.911486254658325,"y0":0.287009159320492,"children":[{"name":"Autre int","color":"#1A9850","h":0.00709748335593044,"id":8,"size":197,"stdErr":197,"vColor":0.806765999954346,"vColorValue":0.806765999954346,"vSize":197,"w":0.0885137453416751,"x0":0.911486254658325,"y0":0.287009159320492},{"name":"Hors int","color":"#99D368","h":0.705893357323578,"id":9,"size":19593,"stdErr":19593,"vColor":0.45265283909197,"vColorValue":0.45265283909197,"vSize":19593,"w":0.0885137453416751,"x0":0.911486254658325,"y0":0.294106642676422}]},{"name":"Inconnu","color":"#99D368","h":0.0345475089586254,"id":10,"size":555,"stdErr":555,"vColor":0.442885174789546,"vColorValue":0.442885174789546,"vSize":555,"w":0.0512300900572436,"x0":0.948769909942756,"y0":0.172909008111194,"children":[{"name":"Hors int","color":"#99D368","h":0.0345475089586254,"id":11,"size":555,"stdErr":555,"vColor":0.442885174789546,"vColorValue":0.442885174789546,"vSize":555,"w":0.0512300900572436,"x0":0.948769909942756,"y0":0.172909008111194}]}]},{"name":"Autre","color":"#006837","h":0.172909008111194,"id":12,"size":3959,"stdErr":3959,"vColor":3.0511417400655,"vColorValue":3.0511417400655,"vSize":3959,"w":0.0730157846432244,"x0":0.885690367966985,"y0":0,"children":[{"name":"Accotement","color":"#40AA59","h":0.0293495462113468,"id":13,"size":113,"stdErr":113,"vColor":0.708575551820473,"vColorValue":0.708575551820473,"vSize":113,"w":0.0122779518819708,"x0":0.946428200728239,"y0":0,"children":[{"name":"Hors int","color":"#40AA59","h":0.0293495462113468,"id":14,"size":113,"stdErr":113,"vColor":0.708575551820473,"vColorValue":0.708575551820473,"vSize":113,"w":0.0122779518819708,"x0":0.946428200728239,"y0":0}]},{"name":"Chaussée","color":"#006837","h":0.143559461899847,"id":15,"size":3287,"stdErr":3287,"vColor":1.54828367868701,"vColorValue":1.54828367868701,"vSize":3287,"w":0.0730157846432244,"x0":0.885690367966985,"y0":0.0293495462113469,"children":[{"name":"Autre int","color":"#B5DF73","h":0.0199157635005567,"id":16,"size":111,"stdErr":111,"vColor":0.351884578237675,"vColorValue":0.351884578237675,"vSize":111,"w":0.0177735791565743,"x0":0.940932573453635,"y0":0.0293495462113469},{"name":"Giratoire","color":"#C4E67D","h":0.0199157635005567,"id":17,"size":159,"stdErr":159,"vColor":0.290253588318732,"vColorValue":0.290253588318732,"vSize":159,"w":0.0254594512242822,"x0":0.915473122229353,"y0":0.0293495462113469},{"name":"Hors int","color":"#B0DD70","h":0.12364369839929,"id":18,"size":2517,"stdErr":2517,"vColor":0.370065002920478,"vColorValue":0.370065002920478,"vSize":2517,"w":0.0649172483034249,"x0":0.885690367966985,"y0":0.0492653097119037},{"name":"int T","color":"#C4E67D","h":0.0199157635005567,"id":19,"size":186,"stdErr":186,"vColor":0.284928069696644,"vColorValue":0.284928069696644,"vSize":186,"w":0.0297827542623679,"x0":0.885690367966985,"y0":0.0293495462113469},{"name":"int X","color":"#CEEA84","h":0.12364369839929,"id":20,"size":314,"stdErr":314,"vColor":0.251152439513479,"vColorValue":0.251152439513479,"vSize":314,"w":0.00809853633979953,"x0":0.95060761627041,"y0":0.0492653097119036}]},{"name":"Inconnu","color":"#92D067","h":0.0293495462113469,"id":21,"size":392,"stdErr":392,"vColor":0.460451784307866,"vColorValue":0.460451784307866,"vSize":392,"w":0.0425925410418809,"x0":0.885690367966985,"y0":0,"children":[{"name":"Hors int","color":"#92D067","h":0.0293495462113469,"id":22,"size":392,"stdErr":392,"vColor":0.460451784307866,"vColorValue":0.460451784307866,"vSize":392,"w":0.0425925410418809,"x0":0.885690367966985,"y0":0}]},{"name":"Trottoir","color":"#BAE177","h":0.0293495462113469,"id":23,"size":167,"stdErr":167,"vColor":0.333830725250154,"vColorValue":0.333830725250154,"vSize":167,"w":0.0181452917193727,"x0":0.928282909008866,"y0":0,"children":[{"name":"Hors int","color":"#BAE177","h":0.0293495462113469,"id":24,"size":167,"stdErr":167,"vColor":0.333830725250154,"vColorValue":0.333830725250154,"vSize":167,"w":0.0181452917193728,"x0":0.928282909008866,"y0":0}]}]},{"name":"Départementale","color":"#006837","h":0.827090991888806,"id":25,"size":102363,"stdErr":102363,"vColor":10.3147187861927,"vColorValue":10.3147187861927,"vSize":102363,"w":0.394674065183164,"x0":0.516812189475161,"y0":0.172909008111194,"children":[{"name":"Accotement","color":"#006837","h":0.137699019018288,"id":26,"size":11440,"stdErr":11440,"vColor":1.5669291745221,"vColorValue":1.5669291745221,"vSize":11440,"w":0.264937877343938,"x0":0.516812189475161,"y0":0.172909008111194,"children":[{"name":"Giratoire","color":"#4FB15D","h":0.137699019018288,"id":27,"size":159,"stdErr":159,"vColor":0.671425898403926,"vColorValue":0.671425898403926,"vSize":159,"w":0.00368226595259495,"x0":0.778067800866504,"y0":0.172909008111194},{"name":"Hors int","color":"#0F8445","h":0.137699019018288,"id":28,"size":11281,"stdErr":11281,"vColor":0.89550327611817,"vColorValue":0.89550327611817,"vSize":11281,"w":0.261255611391343,"x0":0.516812189475161,"y0":0.172909008111194}]},{"name":"Bande AU","color":"#86CB66","h":0.0343688401556203,"id":29,"size":166,"stdErr":166,"vColor":0.502155300175303,"vColorValue":0.502155300175303,"vSize":166,"w":0.015402530806662,"x0":0.896083723851663,"y0":0.172909008111194,"children":[{"name":"Hors int","color":"#86CB66","h":0.0343688401556203,"id":30,"size":166,"stdErr":166,"vColor":0.502155300175303,"vColorValue":0.502155300175303,"vSize":166,"w":0.015402530806662,"x0":0.896083723851663,"y0":0.172909008111194}]},{"name":"Chaussée","color":"#006837","h":0.689391972870518,"id":31,"size":85321,"stdErr":85321,"vColor":5.01863889631438,"vColorValue":5.01863889631438,"vSize":85321,"w":0.394674065183164,"x0":0.516812189475161,"y0":0.310608027129482,"children":[{"name":"Autre int","color":"#40AA59","h":0.0684181149190469,"id":32,"size":1313,"stdErr":1313,"vColor":0.717410814976666,"vColorValue":0.717410814976666,"vSize":1313,"w":0.0611987421897687,"x0":0.850287512468556,"y0":0.395336020167083},{"name":"Giratoire","color":"#B0DD70","h":0.175396325070458,"id":33,"size":3366,"stdErr":3366,"vColor":0.36036225835551,"vColorValue":0.36036225835551,"vSize":3366,"w":0.0611987421897687,"x0":0.850287512468556,"y0":0.46375413508613},{"name":"Hors int","color":"#30A355","h":0.603097245884021,"id":34,"size":63067,"stdErr":63067,"vColor":0.759552628700715,"vColorValue":0.759552628700715,"vSize":63067,"w":0.333475322993395,"x0":0.516812189475161,"y0":0.396902754115979},{"name":"int multi","color":"#BAE177","h":0.0450526206546421,"id":35,"size":310,"stdErr":310,"vColor":0.322085359120626,"vColorValue":0.322085359120626,"vSize":310,"w":0.0219427224456551,"x0":0.88954353221267,"y0":0.350283399512441},{"name":"int T","color":"#99D368","h":0.360849539843412,"id":36,"size":6925,"stdErr":6925,"vColor":0.459461357936486,"vColorValue":0.459461357936486,"vSize":6925,"w":0.0611987421897687,"x0":0.850287512468556,"y0":0.639150460156588},{"name":"int X","color":"#66BD63","h":0.0862947269864969,"id":37,"size":9024,"stdErr":9024,"vColor":0.600231482899616,"vColorValue":0.600231482899616,"vSize":9024,"w":0.333475322993395,"x0":0.516812189475161,"y0":0.310608027129482},{"name":"int Y","color":"#7FC865","h":0.0847279930376011,"id":38,"size":1043,"stdErr":1043,"vColor":0.528469451836298,"vColorValue":0.528469451836298,"vSize":1043,"w":0.0392560197441136,"x0":0.850287512468556,"y0":0.310608027129482},{"name":"Passage à niveau","color":"#006837","h":0.0171490620556379,"id":39,"size":118,"stdErr":118,"vColor":1,"vColorValue":1,"vSize":118,"w":0.0219427224456552,"x0":0.88954353221267,"y0":0.310608027129482},{"name":"Place","color":"#C9E881","h":0.0225263103273211,"id":40,"size":155,"stdErr":155,"vColor":0.271065542488467,"vColorValue":0.271065542488467,"vSize":155,"w":0.0219427224456551,"x0":0.88954353221267,"y0":0.32775708918512}]},{"name":"Inconnu","color":"#006837","h":0.137699019018288,"id":41,"size":3755,"stdErr":3755,"vColor":2.12918741332909,"vColorValue":2.12918741332909,"vSize":3755,"w":0.0869616896351825,"x0":0.781750066819099,"y0":0.172909008111194,"children":[{"name":"Giratoire","color":"#B5DF73","h":0.0574939440477547,"id":42,"size":281,"stdErr":281,"vColor":0.349144674529918,"vColorValue":0.349144674529918,"vSize":281,"w":0.0155859433087824,"x0":0.853125813145499,"y0":0.172909008111194},{"name":"Hors int","color":"#40AA59","h":0.11607464354624,"id":43,"size":2598,"stdErr":2598,"vColor":0.704127512736247,"vColorValue":0.704127512736247,"vSize":2598,"w":0.0713757463264001,"x0":0.781750066819099,"y0":0.194533383583242},{"name":"int T","color":"#86CB66","h":0.0802050749705334,"id":44,"size":392,"stdErr":392,"vColor":0.507580147767816,"vColorValue":0.507580147767816,"vSize":392,"w":0.0155859433087824,"x0":0.853125813145499,"y0":0.230402952158949},{"name":"int X","color":"#72C264","h":0.0216243754720478,"id":45,"size":484,"stdErr":484,"vColor":0.568335078295113,"vColorValue":0.568335078295113,"vSize":484,"w":0.0713757463264001,"x0":0.781750066819099,"y0":0.172909008111194}]},{"name":"Piste cycle","color":"#99D368","h":0.0343688401556204,"id":46,"size":295,"stdErr":295,"vColor":0.459579441231019,"vColorValue":0.459579441231019,"vSize":295,"w":0.0273719673973812,"x0":0.868711756454282,"y0":0.172909008111194,"children":[{"name":"Hors int","color":"#99D368","h":0.0343688401556204,"id":47,"size":295,"stdErr":295,"vColor":0.459579441231019,"vColorValue":0.459579441231019,"vSize":295,"w":0.0273719673973812,"x0":0.868711756454282,"y0":0.172909008111194}]},{"name":"Trottoir","color":"#5EB961","h":0.103330178862668,"id":48,"size":1386,"stdErr":1386,"vColor":0.638228560620817,"vColorValue":0.638228560620817,"vSize":1386,"w":0.0427744982040432,"x0":0.868711756454282,"y0":0.207277848266814,"children":[{"name":"Hors int","color":"#5EB961","h":0.103330178862668,"id":49,"size":1386,"stdErr":1386,"vColor":0.638228560620817,"vColorValue":0.638228560620817,"vSize":1386,"w":0.0427744982040432,"x0":0.868711756454282,"y0":0.207277848266814}]}]},{"name":"Hors voie pub","color":"#56B55F","h":0.0383813206928376,"id":50,"size":497,"stdErr":497,"vColor":0.647010411189238,"vColorValue":0.647010411189238,"vSize":497,"w":0.0412938473897902,"x0":0.95870615261021,"y0":0,"children":[{"name":"Chaussée","color":"#BFE47A","h":0.0383813206928376,"id":51,"size":343,"stdErr":343,"vColor":0.302792151150481,"vColorValue":0.302792151150481,"vSize":343,"w":0.0284985707337989,"x0":0.95870615261021,"y0":0,"children":[{"name":"Hors int","color":"#BFE47A","h":0.0383813206928376,"id":52,"size":343,"stdErr":343,"vColor":0.302792151150481,"vColorValue":0.302792151150481,"vSize":343,"w":0.0284985707337988,"x0":0.95870615261021,"y0":0}]},{"name":"Inconnu","color":"#B5DF73","h":0.0383813206928376,"id":53,"size":154,"stdErr":154,"vColor":0.344218260038756,"vColorValue":0.344218260038756,"vSize":154,"w":0.0127952766559913,"x0":0.987204723344009,"y0":0,"children":[{"name":"Hors int","color":"#B5DF73","h":0.0383813206928376,"id":54,"size":154,"stdErr":154,"vColor":0.344218260038756,"vColorValue":0.344218260038756,"vSize":154,"w":0.0127952766559913,"x0":0.987204723344009,"y0":0}]}]},{"name":"Nationale","color":"#006837","h":0.172909008111194,"id":55,"size":20001,"stdErr":20001,"vColor":6.06050127615158,"vColorValue":6.06050127615158,"vSize":20001,"w":0.368878178491824,"x0":0.516812189475161,"y0":0,"children":[{"name":"Accotement","color":"#219B51","h":0.0993911269252302,"id":56,"size":1260,"stdErr":1260,"vColor":0.799723259645686,"vColorValue":0.799723259645686,"vSize":1260,"w":0.0404270270113533,"x0":0.845263340955632,"y0":0.0735178811859639,"children":[{"name":"Hors int","color":"#219B51","h":0.0993911269252301,"id":57,"size":1260,"stdErr":1260,"vColor":0.799723259645686,"vColorValue":0.799723259645686,"vSize":1260,"w":0.0404270270113533,"x0":0.845263340955632,"y0":0.073517881185964}]},{"name":"Bande AU","color":"#56B55F","h":0.0630265955660785,"id":58,"size":322,"stdErr":322,"vColor":0.642080988621296,"vColorValue":0.642080988621296,"vSize":322,"w":0.0162922436766656,"x0":0.86939812429032,"y0":0.0104912856198855,"children":[{"name":"Hors int","color":"#56B55F","h":0.0630265955660785,"id":59,"size":322,"stdErr":322,"vColor":0.642080988621296,"vColorValue":0.642080988621296,"vSize":322,"w":0.0162922436766656,"x0":0.86939812429032,"y0":0.0104912856198855}]},{"name":"Chaussée","color":"#006837","h":0.172909008111194,"id":60,"size":17809,"stdErr":17809,"vColor":3.31072485222725,"vColorValue":3.31072485222725,"vSize":17809,"w":0.328451151480471,"x0":0.516812189475161,"y0":0,"children":[{"name":"Autre int","color":"#5EB961","h":0.0349858842090084,"id":61,"size":303,"stdErr":303,"vColor":0.626949174537376,"vColorValue":0.626949174537376,"vSize":303,"w":0.0276184084658916,"x0":0.806132960362836,"y0":0.0267878717375906},{"name":"Giratoire","color":"#B0DD70","h":0.061773755946599,"id":62,"size":531,"stdErr":531,"vColor":0.378132148459297,"vColorValue":0.378132148459297,"vSize":531,"w":0.0274119156923149,"x0":0.778721044670521,"y0":0},{"name":"Hors int","color":"#56B55F","h":0.172909008111194,"id":63,"size":14201,"stdErr":14201,"vColor":0.649659603168318,"vColorValue":0.649659603168318,"vSize":14201,"w":0.26190885519536,"x0":0.516812189475161,"y0":0},{"name":"int multi","color":"#BAE177","h":0.061773755946599,"id":64,"size":223,"stdErr":223,"vColor":0.321864261072139,"vColorValue":0.321864261072139,"vSize":223,"w":0.0115119721269043,"x0":0.833751368828728,"y0":0},{"name":"int T","color":"#99D368","h":0.111135252164595,"id":65,"size":1018,"stdErr":1018,"vColor":0.445362261651533,"vColorValue":0.445362261651533,"vSize":1018,"w":0.0292108915990698,"x0":0.816052449356562,"y0":0.061773755946599},{"name":"int X","color":"#8CCD67","h":0.111135252164595,"id":66,"size":1301,"stdErr":1301,"vColor":0.490866738572822,"vColorValue":0.490866738572822,"vSize":1301,"w":0.037331404686041,"x0":0.778721044670521,"y0":0.061773755946599},{"name":"int Y","color":"#ABDB6D","h":0.0267878717375906,"id":67,"size":232,"stdErr":232,"vColor":0.39789066476577,"vColorValue":0.39789066476577,"vSize":232,"w":0.0276184084658916,"x0":0.806132960362836,"y0":0}]},{"name":"Inconnu","color":"#5EB961","h":0.0630265955660786,"id":68,"size":477,"stdErr":477,"vColor":0.637432461393404,"vColorValue":0.637432461393404,"vSize":477,"w":0.0241347833346878,"x0":0.845263340955632,"y0":0.0104912856198854,"children":[{"name":"Hors int","color":"#5EB961","h":0.0630265955660785,"id":69,"size":477,"stdErr":477,"vColor":0.637432461393404,"vColorValue":0.637432461393404,"vSize":477,"w":0.0241347833346878,"x0":0.845263340955632,"y0":0.0104912856198855}]},{"name":"Trottoir","color":"#4FB15D","h":0.0104912856198853,"id":70,"size":133,"stdErr":133,"vColor":0.670539714263938,"vColorValue":0.670539714263938,"vSize":133,"w":0.0404270270113533,"x0":0.845263340955632,"y0":0,"children":[{"name":"Hors int","color":"#4FB15D","h":0.0104912856198853,"id":71,"size":133,"stdErr":133,"vColor":0.670539714263938,"vColorValue":0.670539714263938,"vSize":133,"w":0.0404270270113533,"x0":0.845263340955632,"y0":0}]}]},{"name":"Stationnement","color":"#0A7B41","h":0.134527687418356,"id":72,"size":1742,"stdErr":1742,"vColor":0.933977696758391,"vColorValue":0.933977696758391,"vSize":1742,"w":0.0412938473897902,"x0":0.95870615261021,"y0":0.0383813206928376,"children":[{"name":"Chaussée","color":"#56B55F","h":0.0992354066203146,"id":73,"size":1285,"stdErr":1285,"vColor":0.641073725136493,"vColorValue":0.641073725136493,"vSize":1285,"w":0.0412938473897902,"x0":0.95870615261021,"y0":0.0736736014908794,"children":[{"name":"Autre int","color":"#ABDB6D","h":0.0104255096449358,"id":74,"size":135,"stdErr":135,"vColor":0.386475448272012,"vColorValue":0.386475448272012,"vSize":135,"w":0.0412938473897902,"x0":0.95870615261021,"y0":0.0736736014908794},{"name":"Hors int","color":"#CEEA84","h":0.0888098969753789,"id":75,"size":1150,"stdErr":1150,"vColor":0.254598276864481,"vColorValue":0.254598276864481,"vSize":1150,"w":0.0412938473897902,"x0":0.95870615261021,"y0":0.0840991111358152}]},{"name":"Inconnu","color":"#C4E67D","h":0.0352922807980418,"id":76,"size":457,"stdErr":457,"vColor":0.292903971621898,"vColorValue":0.292903971621898,"vSize":457,"w":0.0412938473897902,"x0":0.95870615261021,"y0":0.0383813206928376,"children":[{"name":"Hors int","color":"#C4E67D","h":0.0352922807980418,"id":77,"size":457,"stdErr":457,"vColor":0.292903971621898,"vColorValue":0.292903971621898,"vSize":457,"w":0.0412938473897902,"x0":0.95870615261021,"y0":0.0383813206928376}]}]},{"name":"Voie communale","color":"#56B55F","h":0.0946142386970955,"id":78,"size":287,"stdErr":287,"vColor":0.644741189144282,"vColorValue":0.644741189144282,"vSize":287,"w":0.00967329142452012,"x0":0.507138898050641,"y0":0.00622926043595783,"children":[{"name":"Accotement","color":"#56B55F","h":0.100843499133053,"id":79,"size":2687,"stdErr":2687,"vColor":0.659523829792589,"vColorValue":0.659523829792589,"vSize":2687,"w":0.0849705900458764,"x0":0.377576793877099,"y0":0,"children":[{"name":"Hors int","color":"#56B55F","h":0.100843499133053,"id":80,"size":2687,"stdErr":2687,"vColor":0.659523829792589,"vColorValue":0.659523829792589,"vSize":2687,"w":0.0849705900458764,"x0":0.377576793877099,"y0":0}]},{"name":"Bande AU","color":"#DCF090","h":0.00622926043595783,"id":81,"size":106,"stdErr":106,"vColor":0.199975935930133,"vColorValue":0.199975935930133,"vSize":106,"w":0.054264805552186,"x0":0.462547383922975,"y0":0,"children":[{"name":"Hors int","color":"#DCF090","h":0.00622926043595783,"id":82,"size":106,"stdErr":106,"vColor":0.199975935930133,"vColorValue":0.199975935930133,"vSize":106,"w":0.054264805552186,"x0":0.462547383922975,"y0":0}]},{"name":"Chaussée","color":"#006837","h":0.899156500866947,"id":83,"size":145720,"stdErr":145720,"vColor":1.92321356845182,"vColorValue":1.92321356845182,"vSize":145720,"w":0.516812189475161,"x0":0,"y0":0.100843499133053,"children":[{"name":"Autre int","color":"#BAE177","h":0.106080920730943,"id":84,"size":1474,"stdErr":1474,"vColor":0.329932950723739,"vColorValue":0.329932950723739,"vSize":1474,"w":0.0443107475895636,"x0":0.472501441885598,"y0":0.111350835921871},{"name":"Giratoire","color":"#D9EF8B","h":0.190935213383503,"id":85,"size":3865,"stdErr":3865,"vColor":0.201588917415242,"vColorValue":0.201588917415242,"vSize":3865,"w":0.0645523922853991,"x0":0.404175363195024,"y0":0.217431756652814},{"name":"Hors int","color":"#D9EF8B","h":0.703625605170308,"id":86,"size":89179,"stdErr":89179,"vColor":0.216156065555129,"vColorValue":0.216156065555129,"vSize":89179,"w":0.404175363195024,"x0":0,"y0":0.296374394829692},{"name":"int multi","color":"#F7FBB4","h":0.114294996504923,"id":87,"size":4037,"stdErr":4037,"vColor":0.0424068575104325,"vColorValue":0.0424068575104325,"vSize":4037,"w":0.112636826280138,"x0":0.404175363195024,"y0":0.408366970036318},{"name":"int T","color":"#E0F295","h":0.477338033458759,"id":88,"size":16860,"stdErr":16860,"vColor":0.176292330968539,"vColorValue":0.176292330968539,"vSize":16860,"w":0.112636826280138,"x0":0.404175363195024,"y0":0.522661966541241},{"name":"int X","color":"#DCF090","h":0.195530895696639,"id":89,"size":24782,"stdErr":24782,"vColor":0.184626593824898,"vColorValue":0.184626593824898,"vSize":24782,"w":0.404175363195024,"x0":0,"y0":0.100843499133053},{"name":"int Y","color":"#ECF7A4","h":0.190935213383503,"id":90,"size":2879,"stdErr":2879,"vColor":0.117532381082956,"vColorValue":0.117532381082956,"vSize":2879,"w":0.0480844339947384,"x0":0.468727755480423,"y0":0.217431756652814},{"name":"Passage à niveau","color":"#66BD63","h":0.010507336788818,"id":91,"size":146,"stdErr":146,"vColor":0.6159470519018,"vColorValue":0.6159470519018,"vSize":146,"w":0.0443107475895636,"x0":0.472501441885598,"y0":0.100843499133053},{"name":"Place","color":"#FBFDB9","h":0.116588257519761,"id":92,"size":2498,"stdErr":2498,"vColor":0.0387304194690854,"vColorValue":0.0387304194690854,"vSize":2498,"w":0.0683260786905739,"x0":0.404175363195024,"y0":0.100843499133053}]},{"name":"Inconnu","color":"#006837","h":0.100843499133053,"id":93,"size":8684,"stdErr":8684,"vColor":1.10297564382584,"vColorValue":1.10297564382584,"vSize":8684,"w":0.274612803855002,"x0":0,"y0":0,"children":[{"name":"Giratoire","color":"#DCF090","h":0.0610346812934696,"id":94,"size":443,"stdErr":443,"vColor":0.198985304555164,"vColorValue":0.198985304555164,"vSize":443,"w":0.023145998433587,"x0":0.236001307596716,"y0":0.0398088178395837},{"name":"Hors int","color":"#CEEA84","h":0.100843499133053,"id":95,"size":3789,"stdErr":3789,"vColor":0.241652014130993,"vColorValue":0.241652014130993,"vSize":3789,"w":0.119818967504215,"x0":0,"y0":0},{"name":"int multi","color":"#F7FBB4","h":0.0610346812934696,"id":96,"size":296,"stdErr":296,"vColor":0.0504451021596033,"vColorValue":0.0504451021596033,"vSize":296,"w":0.0154654978246992,"x0":0.259147306030303,"y0":0.0398088178395837},{"name":"int T","color":"#DCF090","h":0.100843499133053,"id":97,"size":1728,"stdErr":1728,"vColor":0.191265698185207,"vColorValue":0.191265698185207,"vSize":1728,"w":0.0546442797168866,"x0":0.181357027879829,"y0":0},{"name":"int X","color":"#D9EF8B","h":0.100843499133053,"id":98,"size":1946,"stdErr":1946,"vColor":0.2088134964543,"vColorValue":0.2088134964543,"vSize":1946,"w":0.0615380603756142,"x0":0.119818967504215,"y0":0},{"name":"int Y","color":"#E4F39A","h":0.0398088178395837,"id":99,"size":283,"stdErr":283,"vColor":0.158142328065334,"vColorValue":0.158142328065334,"vSize":283,"w":0.0226702353549689,"x0":0.236001307596716,"y0":0},{"name":"Place","color":"#F7FBB4","h":0.0398088178395837,"id":100,"size":199,"stdErr":199,"vColor":0.0536717002752434,"vColorValue":0.0536717002752434,"vSize":199,"w":0.0159412609033173,"x0":0.258671542951685,"y0":0}]},{"name":"int T","color":"#BAE177","h":0.0421972911262307,"id":101,"size":128,"stdErr":128,"vColor":0.323559145840567,"vColorValue":0.323559145840567,"vSize":128,"w":0.00967329142452012,"x0":0.507138898050641,"y0":0.00622926043595783},{"name":"int X","color":"#BAE177","h":0.0524169475708647,"id":102,"size":159,"stdErr":159,"vColor":0.321182043303715,"vColorValue":0.321182043303715,"vSize":159,"w":0.00967329142452012,"x0":0.507138898050641,"y0":0.0484265515621886},{"name":"Piste cycle","color":"#E4F39A","h":0.0946142386970955,"id":103,"size":1323,"stdErr":1323,"vColor":0.157339806060207,"vColorValue":0.157339806060207,"vSize":1323,"w":0.0445915141276659,"x0":0.462547383922975,"y0":0.00622926043595783,"children":[{"name":"Hors int","color":"#ECF7A4","h":0.0740179418378638,"id":104,"size":1035,"stdErr":1035,"vColor":0.116077807393901,"vColorValue":0.116077807393901,"vSize":1035,"w":0.0445915141276659,"x0":0.462547383922975,"y0":0.0268255572951895},{"name":"int T","color":"#F7FBB4","h":0.0205962968592317,"id":105,"size":155,"stdErr":155,"vColor":0.0412619986663064,"vColorValue":0.0412619986663064,"vSize":155,"w":0.0239989051728757,"x0":0.462547383922975,"y0":0.00622926043595783},{"name":"int X","color":"#FFFFBF","h":0.0205962968592317,"id":106,"size":133,"stdErr":133,"vColor":0,"vColorValue":0,"vSize":133,"w":0.0205926089547901,"x0":0.486546289095851,"y0":0.00622926043595783}]},{"name":"Trottoir","color":"#1A9850","h":0.100843499133053,"id":107,"size":3256,"stdErr":3256,"vColor":0.801326310258006,"vColorValue":0.801326310258006,"vSize":3256,"w":0.102963990022097,"x0":0.274612803855002,"y0":0,"children":[{"name":"Hors int","color":"#BAE177","h":0.100843499133053,"id":108,"size":2840,"stdErr":2840,"vColor":0.329186708908697,"vColorValue":0.329186708908697,"vSize":2840,"w":0.0898088856458091,"x0":0.274612803855002,"y0":0},{"name":"int T","color":"#CEEA84","h":0.0550275824596228,"id":109,"size":227,"stdErr":227,"vColor":0.245998537478212,"vColorValue":0.245998537478212,"vSize":227,"w":0.0131551043762875,"x0":0.364421689500811,"y0":0.0458159166734305},{"name":"int X","color":"#D3EC87","h":0.0458159166734304,"id":110,"size":189,"stdErr":189,"vColor":0.226141063871097,"vColorValue":0.226141063871097,"vSize":189,"w":0.0131551043762875,"x0":0.364421689500811,"y0":0}]}]}]},"meta":{"type":"value","vSize":"N","vColor":"gravite","stdErr":"N","algorithm":"pivotSize","vpCoorX":[0.0281214848143982,0.971878515185602],"vpCoorY":[0.171685039370079,0.910314960629921],"aspRatio":1.78879815790035,"range":[0,1],"mapping":[null,null,null],"draw":true},"legend":null,"options":{"celltext":"name","id":"id","valueField":"size","clickAction":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="graphiques-a-pictogramme" class="section level1">
+<h1><span class="header-section-number">6</span> Graphiques à pictogramme</h1>
+<ul>
+<li>Pour des présentations ludiques, on peut représenter les données avec des symboles.</li>
+</ul>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="402_3_1proportion_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="boucle-dexploration" class="section level1">
+<h1><span class="header-section-number">7</span> Boucle d’exploration</h1>
+<p>Comme on a un certain nombre de variables dans la base, afin de mieux connaître, on peut créer une boucle pour afficher le même type de graphique.</p>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<p>Copyright &copy; 2017 Blog de Kezhan Shi</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

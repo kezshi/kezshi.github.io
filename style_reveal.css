@@ -1,0 +1,16 @@
+.slide {
+    height: 700px;
+    overflow: auto;
+}
+
+.title{
+  font-weight: bold !important;
+}
+
+.subtitle{
+  font-size: 120% !important;
+}
+
+.author{
+  font-size: 80% !important;
+}

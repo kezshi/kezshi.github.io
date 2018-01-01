@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Stratégies de lutte anti-fraude</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="201_0_lutte_anti_fraude.html">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-suitcase"></span>
+     
+    Conception
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_10_strategie_lutte_fraudes.html">
+        <span class="fa fa-rocket"></span>
+         
+        Stratégies
+      </a>
+    </li>
+    <li>
+      <a href="201_11_intelligence_artificielle.html">
+        <span class="fa fa-magic"></span>
+         
+        Intelligence artificielle
+      </a>
+    </li>
+    <li>
+      <a href="201_12_processus.html">
+        <span class="fa fa-wrench"></span>
+         
+        Processus
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-database"></span>
+     
+    Data management
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_13_construction_indicateurs.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Construction d'indicateurs
+      </a>
+    </li>
+    <li>
+      <a href="201_21_exploration.html">
+        <span class="fa fa-cubes"></span>
+         
+        Exploration des données
+      </a>
+    </li>
+    <li>
+      <a href="201_22_normalisation.html">
+        <span class="fa fa-table"></span>
+         
+        Transformation des données
+      </a>
+    </li>
+    <li>
+      <a href="201_23_detection_deterministe.html">
+        <span class="fa fa-times-circle"></span>
+         
+        Détection déterministe
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Machine learning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_31_classification.html">Classification</a>
+    </li>
+    <li>
+      <a href="201_32_acp.html">Analyse en composantes principales</a>
+    </li>
+    <li>
+      <a href="201_33_outliers.html">Détection d'anomalies</a>
+    </li>
+    <li>
+      <a href="201_34_segmentation.html">Segmentation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-level-up"></span>
+     
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="201_41_global.html">
+        <span class="fa fa-list"></span>
+         
+        Reporting global
+      </a>
+    </li>
+    <li>
+      <a href="201_42_individuel.html">
+        <span class="fa fa-tablet"></span>
+         
+        Reporting individuel
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-sign-out"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Stratégies de lutte anti-fraude</h1>
+
+</div>
+
+
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">
+Informations
+</h3>
+</div>
+<div class="panel-body">
+Il s’agit d’un extrait de la formation. Cette formation peut se faire en présentiel ou à distance. Pour en savoir plus, merci de me contacter.
+</div>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Quand on parle de data science appliquée à la détection de fraudes, on pense très souvent à la classification binaire: un algorithme super intelligent serait capable de détecter les dossiers frauduleux. Ainsi, les statisticiens cherchent souvent à développer un algorithme sophistiqué pour construire un tel modèle de prédiction. Le résultat livré aux gestionnaires est en principe simple: pour chaque dossier étudié, un scoring qui représente la probabilité qu’un dossier puisse être frauduleux serait donné par le modèle. Le résultat délivré paraît simple: un seul scoring pour résumer la probabilité de fraude.</p>
+<p>Cependant, ces résultats ne sont pas toujours efficaces dans la réalité de la lutte anti-fraude. En effet, de manière très concrète, les gestionnaires doivent étudier le dossier pour comprendre quels sont les éléments qui ne sont pas en règle et constituer ainsi des preuves de la fraude.</p>
+<p>Cela met en évidence un aspect que les data scienstists peuvent négliger: la collaboration avec les gestionnaires et les contrôleurs. Si le modèle n’arrive pas à expliquer pourquoi un dossier est considéré comme frauduleux, c’est un algorithme inutile.</p>
+</div>
+<div id="premiere-piste-de-reflexion" class="section level1">
+<h1><span class="header-section-number">2</span> Première piste de réflexion</h1>
+<p>Dans un premier temps, on va suivre la piste de réflexion suivante:</p>
+<ul>
+<li>Qu’est-ce qu’une fraude? Qu’est-ce qu’un fraudeur?</li>
+<li>Comment lutter contre les fraudes?</li>
+<li>Pourquoi lutter contre les fraudes?</li>
+</ul>
+<p>En effet, en pratique, une approche systémique partant de la définition de la fraude pour trouver les fraudeurs, puis les montants à récupérer est souvent utilisée.</p>
+<div id="definir-les-fraudes" class="section level2">
+<h2><span class="header-section-number">2.1</span> Définir les fraudes</h2>
+<p>Discussions sur des cas de fraudes rencontrées</p>
+<!--
+
+https://www.lelynx.fr/assurance-auto/couverture/contrat/exclusion/fraude/courante/
+
+Vol de voitures
+
+- La « tous risques du pauvre ». L’assuré simule le vol de son automobile à la suite d’un accident responsable. L’objectif étant de faire jouer la garantie vol de son contrat pour percevoir une indemnité des dommages matériels ;
+- La « revente à l’assureur ». Le propriétaire d’un véhicule en mauvais état le fait disparaître afin d’obtenir un remboursement ;
+- Le « vol à l’étranger ». L’assuré prétend la subtilisation de la voiture à l’étranger alors qu’elle a été revendue ;
+- Le déplacement du véhicule pour faire croire à un vol et faire prendre en charge le contenu, à la suite d’un « vol à la roulotte ».
+
+Les fraudes courantes en RC et dommages
+
+- La déclaration d’un sinistre antérieur à la date d’effet du contrat ;
+- La présentation de factures de complaisance pour faire prendre en charge l’entretien du véhicule et des dommages non couverts ;
+- La simulation d’un accident de responsabilité ou d’un accident de parking pour faire prendre en charge les dommages non couverts ;
+- La déclaration de dommages résultant d’un événement autre que le sinistre déclaré.
+
+https://www.lesfurets.com/assurance/guide/que-risque-t-on-en-cas-de-fraude-a-lassurance-auto-et-habitation
+
+Fraudes assurances : cas pratiques
+
+- Les déclarations de faux sinistres : c’est la fraude à l’assurance la plus fréquente. Par exemple, l’assuré malhonnête effectue une fausse déclaration de cambriolage à l’assurance pour être indemnisé en conséquence. Sur les 45 000 déclarations d’incendie de véhicules qui sont enregistrées chaque année, 10 % relèveraient de la fraude.
+- Une fausse déclaration dans le cadre d’un constat à l’amiable : elle consiste généralement à désigner un autre conducteur que celui qui était effectivement aux commandes.
+- Une fausse facture adressée aux assurances pour obtenir le versement d’indemnités à la suite d’un soi-disant sinistre (par exemple, dans le cadre d’une assurance habitation, une fausse facture de rénovation d’un bâtiment après une tempête).
+
+Comment faire une fausse assurance voiture ?
+
+- les fausses déclarations lors de la souscription du contrat, visant à obtenir le niveau de risque le plus bas possible afin de profiter d’une bonne prime d’assurance ;
+- la non-communication d’un changement de situation entraînant une modification du changement de risque du conducteur ;
+- le fait d’assurer à son propre nom un véhicule conduit par son enfant, dans le but d’éviter une surprime.
+
+http://minute-auto.fr/pages/presse/etude-fraude-assurance-auto
+
+- On apprend par exemple qu’ils sont une majorité à ne pas déclarer les petits sinistres.
+- 55% font ainsi vœu de silence sur les légers dégâts afin d’échapper au malus. Dans le même ordre d’idées, 
+- 11% mentent quant au stationnement exact de leur véhicule et 
+- 8% ont même avoué avoir déclaré un autre conducteur responsable dans le cadre d’un accident seul !
+
+- D’ailleurs, déclarer une autre personne comme conducteur principal n’est pas une pratique isolée. 
+- On compte 39% de jeunes conducteurs qui se dédouanent de toute responsabilité en déclarant un de leur parent comme conducteur principal. 
+- Cela étant, les conducteurs expérimentés ne montrent pas non plus un bon exemple puisque dans le panel entier, 42% ont omis de laisser leurs coordonnées après avoir causé un impact...
+
+- Cela étant, le sinistre peut parfois intervenir pile au bon moment pour que les automobilistes appliquent d’autres combines. 
+- On compte un bon tiers d’entre eux (32%) qui déclarent d’autres objets volés en cas de véhicule fauché et plus d’un tiers (38%) qui, lors d’un accrochage bénin, déclarent des sinistres plus importants. 
+- La statistique la plus parlante reste cependant la suivante : 13% ont déjà simulé un accident sur un parking pour que l’assurance rembourse des dommages plus importants survenus au cours d’un autre contact !
+
+-->
+<p><strong>Constats</strong></p>
+<ul>
+<li>Types de fraudes
+<ul>
+<li>Fraudes à la souscription</li>
+<li>Fraudes à l’indemnisation</li>
+</ul></li>
+<li>Types de fraudeurs
+<ul>
+<li>Assurés</li>
+<li>Intermédiaires d’assurances</li>
+<li>Professionnels et partenaires</li>
+</ul></li>
+<li>Modes opératoires divers</li>
+<li>Natures de fraudes
+<ul>
+<li>Tentatives (parfois les fraudeurs eux-mêmes ne savent pas s’ils vont vraiment frauder)</li>
+<li>Fraude avérée (notion juridique avec jusqu’à 5 ans d’emprisonnement et une amende pouvant aller jusqu’à 1 875 000€)</li>
+<li>Anomalies</li>
+<li>Cas ambigus (remboursement systématique des factures de lunettes au seuil de remboursement)</li>
+</ul></li>
+</ul>
+<p><strong>Conclusions</strong></p>
+<p>La diversité des fraudes fait qu’on n’arrive pas à bien définir les caractéristiques des fraudes ou des fraudeurs. Il est illusoire de penser qu’un seul type de modèle permettrait de détecter tous les cas de fraude.</p>
+</div>
+<div id="definir-les-moyens-de-detection" class="section level2">
+<h2><span class="header-section-number">2.2</span> Définir les moyens de détection</h2>
+<p>Situation actuelle des entreprises</p>
+<ul>
+<li>Découvrir un cas de fraude par hasard</li>
+<li>Utiliser les connaissances des gestionnaires en examinant les dossiers</li>
+<li>Contrôle aléatoire (ou ciblé) des dossiers de sinistres</li>
+</ul>
+<p>Propositions machine learning</p>
+<p>En effet, si un seul modèle pour détecter tous les cas de fraude ne peut exister, nous pouvons cependant construire pour un type de fraude donné un modèle donné. Et ce modèle pourra aussi nous donner l’estimation du coût de la fraude.</p>
+<ul>
+<li>Détection binaire</li>
+<li>Estimation des coûts</li>
+</ul>
+<p>Cependant on doit aussi prendre en compte les frais dépensés pour la gestion et la lutte anti-fraude.</p>
+<p><strong>Conclusion</strong></p>
+<p>Un modèle de scoring ne semble pas suffisant pour la lutte anti-fraude car on doit prendre en compte d’autres postes de coûts.</p>
+</div>
+<div id="definir-les-objectifs" class="section level2">
+<h2><span class="header-section-number">2.3</span> Définir les objectifs</h2>
+<ul>
+<li>Mettre en place des actions de lutte anti-fraude</li>
+<li>Récupérer l’argent</li>
+<li>Calculer la rentabilité ou sanctionner les fraudes</li>
+<li>Prioriser</li>
+</ul>
+<p>On se rend compte que les objectifs definis autour de la notion de récupérer l’argent ne sont pas robustes, car les fraudeurs auront déjà effectués plusieurs fraudes s’ils n’y a pas eu de détection avant. En effet, un élément important est le temps de réaction. Plus on agit tôt, moins les fraudeurs ont le temps de commettre l’infraction.</p>
+<p><strong>Conclusion</strong></p>
+<p>Récupérer l’argent des fraudes après coup, est sans doute trop tard et n’est pas un objectif efficace pour la lutte anti-fraude.</p>
+</div>
+<div id="conclusions-de-la-premiere-piste" class="section level2">
+<h2><span class="header-section-number">2.4</span> Conclusions de la première piste</h2>
+<p>Nous voyons que la première piste de réflexion n’est pas suffisante: - Il y a un problème de définition des fraudes ou des fraudeurs. - Sur les moyens utilisés, le modèle de scoring n’est pas satisfaisant. Un modèle utile devrait pouvoir expliquer les variables qui ont mis en évidence les fraudes. Aussi, un modèle utile devrait quantifier les impacts financiers. - Sur la définition des objectitfs, il y a un problème de temporalité, car on doit agir plus vite que les fraudeurs</p>
+</div>
+</div>
+<div id="seconde-piste-de-reflexion" class="section level1">
+<h1><span class="header-section-number">3</span> Seconde piste de réflexion</h1>
+<p>Comme pour beaucoup de projets,il est important de se poser la question sur les objectifs. Très souvent on se rend compte que la première question qui vient en tête n’est pas forcément la bonne. Mais malheureusement, on cherche souvent à résoudre la première question qu’on s’est posé, plutôt que de chercher à changer de question.</p>
+<p>On parle souvent de “think out of the box”. Dans certains contextes, je pense qu’il peut s’agir de savoir changer de questions.</p>
+<p>Inspirée par le livre de Simon Sinek, <a href="https://startwithwhy.com">Start With Why</a>, dans la deuxième partie, nous allons considérer la piste de réflexion suivante: pourquoi, comment et quoi.</p>
+<p>La seconde piste de réflexion est détaillée lors de la formation.</p>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">
+Informations
+</h3>
+</div>
+<div class="panel-body">
+Il s’agit d’un extrait de la formation. Cette formation peut se faire en présentiel ou à distance. Pour en savoir plus, merci de me contacter.
+</div>
+</div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<style>
+/* Notwendiges Zeug für Dropdowns */
+.tabset-dropdown > .nav-tabs {
+	display: inline-block;
+	max-height: 500px;
+	min-height: 44px;
+	overflow-y: auto;
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+    content: "";
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	content: "&#xe258;";
+	border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	content: "";
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+
+.tabset-dropdown > .nav-tabs > li.active {
+	display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+	border: none;
+	display: inline-block;
+	border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	display: block;
+	float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+	display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+	$('.tabset-dropdown > .nav-tabs > li').click(function () {
+		$(this).parent().toggleClass('nav-tabs-open')
+	});
+}); 
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
