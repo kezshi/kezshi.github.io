@@ -416,6 +416,7 @@ div.tocify {
 <li>Lien local absolu: dans le cas où les donnée sont toujours stockées dans le même répertoire sur un serveur, on peut utiliser un lien aboslu.</li>
 <li>Lien local relatif: dans le cas où les données dans un dossier peut être déplacé, et que le script d’analyse est dans ce même dossier, il est alors préférable d’utiliser un lien relatif.</li>
 </ul>
+<p>On peut afficher les premières lignes:</p>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Num_Acc"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["an"],"name":[2],"type":["int"],"align":["right"]},{"label":["mois"],"name":[3],"type":["int"],"align":["right"]},{"label":["jour"],"name":[4],"type":["int"],"align":["right"]},{"label":["hrmn"],"name":[5],"type":["int"],"align":["right"]},{"label":["lum"],"name":[6],"type":["int"],"align":["right"]},{"label":["agg"],"name":[7],"type":["int"],"align":["right"]},{"label":["int"],"name":[8],"type":["int"],"align":["right"]},{"label":["atm"],"name":[9],"type":["int"],"align":["right"]},{"label":["col"],"name":[10],"type":["int"],"align":["right"]},{"label":["com"],"name":[11],"type":["int"],"align":["right"]},{"label":["adr"],"name":[12],"type":["chr"],"align":["left"]},{"label":["gps"],"name":[13],"type":["chr"],"align":["left"]},{"label":["lat"],"name":[14],"type":["int"],"align":["right"]},{"label":["long"],"name":[15],"type":["int"],"align":["right"]},{"label":["dep"],"name":[16],"type":["int"],"align":["right"]}],"data":[{"1":"9.955423e-313","2":"15","3":"1","4":"20","5":"1515","6":"1","7":"2","8":"1","9":"1","10":"3","11":"52","12":"54 RUE GHESQUIERE","13":"M","14":"0","15":"0","16":"590"},{"1":"9.955423e-313","2":"15","3":"6","4":"6","5":"2045","6":"1","7":"2","8":"1","9":"1","10":"1","11":"670","12":"25, rue anatole france","13":"M","14":"5054878","15":"291778","16":"590"},{"1":"9.955423e-313","2":"15","3":"7","4":"8","5":"745","6":"1","7":"2","8":"1","9":"1","10":"2","11":"11","12":"RUE NATIOANLE","13":"M","14":"0","15":"0","16":"590"},{"1":"9.955423e-313","2":"15","3":"7","4":"22","5":"1945","6":"1","7":"2","8":"1","9":"1","10":"1","11":"477","12":"rue Camille Desmoulins","13":"M","14":"0","15":"0","16":"590"},{"1":"9.955423e-313","2":"15","3":"11","4":"13","5":"1415","6":"1","7":"2","8":"1","9":"1","10":"6","11":"52","12":"113, rue Ghesqui\\xe8re","13":"M","14":"0","15":"0","16":"590"},{"1":"9.955423e-313","2":"15","3":"1","4":"28","5":"2015","6":"3","7":"2","8":"1","9":"1","10":"3","11":"257","12":"7 r du Pont de Pierres","13":"M","14":"5060813","15":"286792","16":"590"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -686,6 +687,7 @@ div.tocify {
 ## 
 ## lowest :  10  20  30  40  50, highest: 971 972 973 974 976
 ## ---------------------------------------------------------------------------</code></pre>
+<p>Selon les besoins on peut utiliser ces différentes fonctions pour voir les types de variables, les exemples de valeurs, les résumés statistiques, les valeurs manquantes, les quantiles, etc.</p>
 <p>On peut aussi créer une boucle pour les quatre bases.</p>
 </div>
 </div>
@@ -694,34 +696,42 @@ div.tocify {
 <p>Il est important d’analyser les valeurs manquantes dans les données.</p>
 <div id="visualisation-simple" class="section level3 tabset">
 <h3><span class="header-section-number">3.2.1</span> Visualisation simple</h3>
-<p>On peut créer une visualisation pour représenter les valeurs manquantes.</p>
-<div id="lieux" class="section level4">
-<h4><span class="header-section-number">3.2.1.1</span> Lieux</h4>
+<p>On peut créer une visualisation pour représenter les valeurs manquantes. Comme les bases sont grandes, on affiche uniquement les 1000 premières lignes.</p>
+<div id="caracteristiques" class="section level4">
+<h4><span class="header-section-number">3.2.1.1</span> caracteristiques</h4>
 <p><img src="402_1_import_files/figure-html/unnamed-chunk-12-1.png" width="672" />NULL</p>
 </div>
+<div id="vehicules" class="section level4">
+<h4><span class="header-section-number">3.2.1.2</span> vehicules</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-12-2.png" width="672" />NULL</p>
+</div>
 <div id="usagers" class="section level4">
-<h4><span class="header-section-number">3.2.1.2</span> Usagers</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-13-1.png" width="672" />NULL</p>
+<h4><span class="header-section-number">3.2.1.3</span> usagers</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-12-3.png" width="672" />NULL</p>
+</div>
+<div id="lieux" class="section level4">
+<h4><span class="header-section-number">3.2.1.4</span> lieux</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-12-4.png" width="672" />NULL</p>
 </div>
 </div>
 <div id="visualisation-avec-type" class="section level3 tabset">
 <h3><span class="header-section-number">3.2.2</span> Visualisation avec type</h3>
-<p>On peut créer une visualisation pour mieux se rendre compte de la structure des données et les valeurs manquantes.</p>
-<div id="caracteristiques" class="section level4">
+<p>On peut créer une visualisation pour mieux se rendre compte de la structure des données et les valeurs manquantes. Avec les différentes couleurs, cela rend l’exploration plus visuelle.</p>
+<div id="caracteristiques-1" class="section level4">
 <h4><span class="header-section-number">3.2.2.1</span> caracteristiques</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
-<div id="vehicules" class="section level4">
+<div id="vehicules-1" class="section level4">
 <h4><span class="header-section-number">3.2.2.2</span> vehicules</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
 </div>
 <div id="usagers-1" class="section level4">
 <h4><span class="header-section-number">3.2.2.3</span> usagers</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-3.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-13-3.png" width="672" /></p>
 </div>
 <div id="lieux-1" class="section level4">
 <h4><span class="header-section-number">3.2.2.4</span> lieux</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-4.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-13-4.png" width="672" /></p>
 </div>
 </div>
 </div>
@@ -730,21 +740,21 @@ div.tocify {
 <p>Dans les graphique précedents, on a réduit le nombre de ligne exploré, si on veut une statistique exacte des valeurs manquantes, on peut compter les nombres de valeurs manquates par variable.</p>
 <div id="comptage-simple" class="section level3 tabset">
 <h3><span class="header-section-number">3.3.1</span> Comptage simple</h3>
-<div id="caracteristiques-1" class="section level4">
+<div id="caracteristiques-2" class="section level4">
 <h4><span class="header-section-number">3.3.1.1</span> caracteristiques</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
-<div id="vehicules-1" class="section level4">
+<div id="vehicules-2" class="section level4">
 <h4><span class="header-section-number">3.3.1.2</span> vehicules</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
 </div>
 <div id="usagers-2" class="section level4">
 <h4><span class="header-section-number">3.3.1.3</span> usagers</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-3.png" width="672" /></p>
 </div>
 <div id="lieux-2" class="section level4">
 <h4><span class="header-section-number">3.3.1.4</span> lieux</h4>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-4.png" width="672" /></p>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-4.png" width="672" /></p>
 </div>
 </div>
 <div id="comptage-croise" class="section level3">
