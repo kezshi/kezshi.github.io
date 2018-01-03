@@ -352,7 +352,12 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="index.html">
+    <span class="fa fa-sign-out"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -687,22 +692,63 @@ div.tocify {
 <div id="valeurs-manquantes" class="section level2">
 <h2><span class="header-section-number">3.2</span> Valeurs manquantes</h2>
 <p>Il est important d’analyser les valeurs manquantes dans les données.</p>
+<div id="visualisation-simple" class="section level3 tabset">
+<h3><span class="header-section-number">3.2.1</span> Visualisation simple</h3>
 <p>On peut créer une visualisation pour représenter les valeurs manquantes.</p>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<pre><code>## NULL</code></pre>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
-<pre><code>## NULL</code></pre>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-11-3.png" width="672" /></p>
-<pre><code>## NULL</code></pre>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-11-4.png" width="672" /></p>
-<pre><code>## NULL</code></pre>
+<div id="lieux" class="section level4">
+<h4><span class="header-section-number">3.2.1.1</span> Lieux</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-12-1.png" width="672" />NULL</p>
+</div>
+<div id="usagers" class="section level4">
+<h4><span class="header-section-number">3.2.1.2</span> Usagers</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-13-1.png" width="672" />NULL</p>
+</div>
+</div>
+<div id="visualisation-avec-type" class="section level3 tabset">
+<h3><span class="header-section-number">3.2.2</span> Visualisation avec type</h3>
 <p>On peut créer une visualisation pour mieux se rendre compte de la structure des données et les valeurs manquantes.</p>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="402_1_import_files/figure-html/unnamed-chunk-12-2.png" width="672" /><img src="402_1_import_files/figure-html/unnamed-chunk-12-3.png" width="672" /><img src="402_1_import_files/figure-html/unnamed-chunk-12-4.png" width="672" /></p>
+<div id="caracteristiques" class="section level4">
+<h4><span class="header-section-number">3.2.2.1</span> caracteristiques</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="vehicules" class="section level4">
+<h4><span class="header-section-number">3.2.2.2</span> vehicules</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+</div>
+<div id="usagers-1" class="section level4">
+<h4><span class="header-section-number">3.2.2.3</span> usagers</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-3.png" width="672" /></p>
+</div>
+<div id="lieux-1" class="section level4">
+<h4><span class="header-section-number">3.2.2.4</span> lieux</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-15-4.png" width="672" /></p>
+</div>
+</div>
 </div>
 <div id="comptage-des-valeurs-manquantes" class="section level2">
 <h2><span class="header-section-number">3.3</span> Comptage des valeurs manquantes</h2>
 <p>Dans les graphique précedents, on a réduit le nombre de ligne exploré, si on veut une statistique exacte des valeurs manquantes, on peut compter les nombres de valeurs manquates par variable.</p>
-<p><img src="402_1_import_files/figure-html/unnamed-chunk-14-1.png" width="672" /><img src="402_1_import_files/figure-html/unnamed-chunk-14-2.png" width="672" /><img src="402_1_import_files/figure-html/unnamed-chunk-14-3.png" width="672" /><img src="402_1_import_files/figure-html/unnamed-chunk-14-4.png" width="672" /></p>
+<div id="comptage-simple" class="section level3 tabset">
+<h3><span class="header-section-number">3.3.1</span> Comptage simple</h3>
+<div id="caracteristiques-1" class="section level4">
+<h4><span class="header-section-number">3.3.1.1</span> caracteristiques</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="vehicules-1" class="section level4">
+<h4><span class="header-section-number">3.3.1.2</span> vehicules</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+</div>
+<div id="usagers-2" class="section level4">
+<h4><span class="header-section-number">3.3.1.3</span> usagers</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
+</div>
+<div id="lieux-2" class="section level4">
+<h4><span class="header-section-number">3.3.1.4</span> lieux</h4>
+<p><img src="402_1_import_files/figure-html/unnamed-chunk-17-4.png" width="672" /></p>
+</div>
+</div>
+<div id="comptage-croise" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Comptage croisé</h3>
 <p>On peut aussi créer un tableau de valeurs.</p>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -714,6 +760,7 @@ div.tocify {
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["senc"],"name":[1],"type":["int"],"align":["right"]},{"label":["variable"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n_missing"],"name":[3],"type":["int"],"align":["right"]},{"label":["percent"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"obs","3":"302","4":"0.05786205"},{"1":"0","2":"obsm","3":"298","4":"0.05709567"},{"1":"0","2":"manv","3":"94","4":"0.01801004"},{"1":"0","2":"choc","3":"60","4":"0.01149577"},{"1":"0","2":"Num_Acc","3":"0","4":"0.00000000"},{"1":"0","2":"catv","3":"0","4":"0.00000000"},{"1":"0","2":"occutc","3":"0","4":"0.00000000"},{"1":"0","2":"num_veh","3":"0","4":"0.00000000"},{"1":"1","2":"manv","3":"90","4":"0.64776162"},{"1":"1","2":"obs","3":"87","4":"0.62616957"},{"1":"1","2":"choc","3":"84","4":"0.60457752"},{"1":"1","2":"obsm","3":"47","4":"0.33827551"},{"1":"1","2":"Num_Acc","3":"0","4":"0.00000000"},{"1":"1","2":"catv","3":"0","4":"0.00000000"},{"1":"1","2":"occutc","3":"0","4":"0.00000000"},{"1":"1","2":"num_veh","3":"0","4":"0.00000000"},{"1":"2","2":"obs","3":"8","4":"0.35195777"},{"1":"2","2":"obsm","3":"8","4":"0.35195777"},{"1":"2","2":"choc","3":"5","4":"0.21997360"},{"1":"2","2":"manv","3":"4","4":"0.17597888"},{"1":"2","2":"Num_Acc","3":"0","4":"0.00000000"},{"1":"2","2":"catv","3":"0","4":"0.00000000"},{"1":"2","2":"occutc","3":"0","4":"0.00000000"},{"1":"2","2":"num_veh","3":"0","4":"0.00000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
+</div>
 </div>
 </div>
 </div>
