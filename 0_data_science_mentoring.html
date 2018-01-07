@@ -19,9 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -169,101 +166,6 @@ $(document).ready(function () {
 
 
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
-
-
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -394,12 +296,23 @@ div.tocify {
 </div>
 
 
-<p>Toutes Les formations suivantes sont proposées chez <a href="http://www.caritat.fr/">Caritat</a>. Vous pouvez consulter les dates des session sur leur site.</p>
+<div id="catalogue" class="section level1">
+<h1><span class="header-section-number">1</span> Catalogue</h1>
 <ul>
-<li><a href="4010_accueil.html">Data Science en 5 jours avec l’analyse des prix immobiliers</a></li>
+<li><a href="4010_accueil.html">Introduction à la Data Science avec l’analyse des prix immobiliers</a></li>
 <li><a href="402_0.html">Analyse et visualisation des sinistres automobiles</a></li>
+<li><a href="201_0_lutte_anti_fraude.html">Data science et la lutte anti-fraude</a></li>
+<li><a href="202_0_analyse_resilisations.html">Analyse de résiliations</a></li>
 </ul>
 <p>Les applications la Data Science sont nombreuses dans le secteur d’assurance ou d’autres secteurs. Si vous avez des besoins spécifiques, n’hésitez pas à me contacter.</p>
+</div>
+<div id="calendrier-des-formations" class="section level1">
+<h1><span class="header-section-number">2</span> Calendrier des formations</h1>
+<p><img src="images/logo.png" /> </br></p>
+<iframe src="https://calendar.google.com/calendar/embed?title=Sessions%20de%20formation%20chez%20Caritat&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=ugoruv405lhcj121nva62ngd3s%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis" style="border-width:0" width="100%" height="600" frameborder="0" scrolling="no">
+</iframe>
+<p></br></p>
+</div>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -431,8 +344,6 @@ div.tocify {
 <p>Copyright &copy; 2017 Site de Kezhan Shi</p>
 
 
-</div>
-</div>
 
 </div>
 

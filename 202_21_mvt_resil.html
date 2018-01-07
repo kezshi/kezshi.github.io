@@ -11,17 +11,19 @@
 
 
 
-<title>Programmes de formations</title>
+<title>Analyse des mouvements de résiliations</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -70,7 +72,6 @@ h6 {
 }
 </style>
 
-<link rel="stylesheet" href="styles.css" type="text/css" />
 
 </head>
 
@@ -102,34 +103,34 @@ button.code-folding-btn:focus {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 60px;
+  padding-top: 61px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 66px;
+  margin-top: -66px;
 }
 
 .section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 66px;
+  margin-top: -66px;
 }
 .section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 66px;
+  margin-top: -66px;
 }
 .section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 66px;
+  margin-top: -66px;
 }
 .section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 66px;
+  margin-top: -66px;
 }
 .section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 66px;
+  margin-top: -66px;
 }
 </style>
 
@@ -181,107 +182,82 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
-    <span class="fa fa-home"></span>
-     
-    Accueil
-  </a>
+  <a href="202_0_analyse_resilisations.html">Accueil</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-flask"></span>
-     
-    Data Science
+    Conception
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="0_0_preambule.html">
-        <span class="fa fa-pencil-square-o"></span>
-         
-        Préambule
-      </a>
+      <a href="202_11_objectifs.html">Objectifs</a>
     </li>
     <li>
-      <a href="0_1_collecte.html">
-        <span class="fa fa-hand-paper-o"></span>
-         
-        Collecte des données
-      </a>
-    </li>
-    <li>
-      <a href="0_2_transformation.html">
-        <span class="fa fa-table"></span>
-         
-        Transformation des données
-      </a>
-    </li>
-    <li>
-      <a href="0_3_analytics.html">
-        <span class="fa fa-cog fa-spin"></span>
-         
-        Analyse des données
-      </a>
-    </li>
-    <li>
-      <a href="0_4_datavis.html">
-        <span class="fa fa-line-chart"></span>
-         
-        Visualisation des données
-      </a>
-    </li>
-    <li>
-      <a href="0_5_big_data.html">
-        <span class="fa fa-database"></span>
-         
-        Big Data
-      </a>
+      <a href="202_12_processus.html">Processus</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="0_metiers.html">
-    <span class="fa fa-industry"></span>
-     
-    Métiers
-  </a>
-</li>
-<li>
-  <a href="0_techniques.html">
-    <span class="fa fa-wrench"></span>
-     
-    Techniques
-  </a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-graduation-cap"></span>
-     
-    Formation
+    Mouvements
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="0_formations.html">
-        <span class="fa fa-users"></span>
-         
-        Formation en présentiel
-      </a>
+      <a href="202_20_mvt.html">Etudes des mouvements</a>
     </li>
     <li>
-      <a href="0_data_science_mentoring.html">
-        <span class="fa fa-video-camera"></span>
-         
-        e-Mentoring
-      </a>
+      <a href="202_21_mvt_resil.html">Mouvements de résiliations</a>
+    </li>
+    <li>
+      <a href="202_23_surv.html">Analyse de durée</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Machine learning
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="202_30_exploration.html">Exploration</a>
+    </li>
+    <li>
+      <a href="202_31_classification.html">Classification</a>
+    </li>
+    <li>
+      <a href="202_32_classification2.html">Classification 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="202_41_global.html">Reporting global</a>
+    </li>
+    <li>
+      <a href="202_42_individuel.html">Reporting individuel</a>
     </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="index.html">
+    <span class="fa fa-sign-out"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -291,54 +267,65 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Programmes de formations</h1>
+<h1 class="title toc-ignore">Analyse des mouvements de résiliations</h1>
 
 </div>
 
 
-<p>Toutes Les formations suivantes sont proposées chez <a href="http://www.caritat.fr/">Caritat</a>. Vous pouvez consulter les dates des session sur leur site.</p>
-<div id="programmes-des-formations" class="section level1">
-<h1><span class="header-section-number">1</span> Programmes des formations</h1>
-<p><strong>Sujets généraux</strong></p>
-<ul>
-<li><a href="f_101_intro_ds.html">101 Introduction à la Data Science</a></li>
-<li><a href="f_102_ds_assurance.html">102 Data science et assurance</a></li>
-<li><a href="f_103_ds_r.html">103 Data Science avec R pour les nuls</a></li>
-<li><a href="f_104_dx.html">104 Utilisation des données externes en assurance</a></li>
-<li><a href="f_105_dsm.html">105 Data Science pour les managers</a></li>
-<li>111 Data Science avec Python</li>
-</ul>
-<p><strong>Thèmes spécifiques</strong></p>
-<ul>
-<li><a href="f_201_fraudes.html">201 Détection de fraudes</a></li>
-<li><a href="f_202_resiliations.html">202 Analyse des résiliations</a></li>
-<li><a href="">203 Segmentation clients</a></li>
-<li><a href="f_204_geo.html">204 Utilisation des données géographiques</a></li>
-<li><a href="f_205_avis.html">205 Analyse des avis clients</a></li>
-<li><a href="f_206_accidents_auto.html">206 Analyse et visualisation des sinistres automobiles</a></li>
-</ul>
-<p><strong>Sujets techniques</strong></p>
-<ul>
-<li>301 Machine Learning avec R</li>
-<li><a href="f_302_mlvis.html">302 Explication visuelle de machine learning</a></li>
-<li><a href="f_303_datavis.html">303 Data visualisation en assurance</a></li>
-<li><a href="f_304_tm.html">304 Text mining en assurance</a></li>
-<li><a href="1_web_scraping.html">306 Web-scraping</a></li>
-</ul>
-<p><strong>Blockchain et Bitcoin</strong></p>
-<ul>
-<li><a href="f_901_blockchain.html">901 Bitcoins et blockchain pour les nuls</a></li>
-<li>902 Bitcoins et blockchain, le jeu</li>
-</ul>
-<p>Pour les formations intra, n’hésitez pas à me contacter pour construire un programme adapté à votre entreprise, avec des cas réels.</p>
-<p></br></p>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">
+Informations
+</h3>
 </div>
-<div id="calendrier-des-formations" class="section level1">
-<h1><span class="header-section-number">2</span> Calendrier des formations</h1>
-<p><img src="images/logo.png" /> </br></p>
-<iframe src="https://calendar.google.com/calendar/embed?title=Sessions%20de%20formation%20chez%20Caritat&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=ugoruv405lhcj121nva62ngd3s%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis" style="border-width:0" width="100%" height="600" frameborder="0" scrolling="no">
-</iframe>
-<p></br></p>
+<div class="panel-body">
+Il s’agit d’un extrait de la formation. Cette formation peut se faire en présentiel ou à distance. Pour en savoir plus, merci de me contacter.
+</div>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+</div>
+<div id="mouvements-des-primes" class="section level1">
+<h1><span class="header-section-number">2</span> Mouvements des primes</h1>
+<div id="donnees" class="section level2">
+<h2><span class="header-section-number">2.1</span> Données</h2>
+</div>
+<div id="visualisation" class="section level2 tabset">
+<h2><span class="header-section-number">2.2</span> Visualisation</h2>
+<div id="barres" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Barres</h3>
+<p><img src="202_21_mvt_resil_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="surfaces" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Surfaces</h3>
+<p><img src="202_21_mvt_resil_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="lignes" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Lignes</h3>
+<p>Les différents niveaux des lignes affichées sont les revenus annuels (non cumulés).</p>
+<p><img src="202_21_mvt_resil_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="mouvements-des-contrats" class="section level1">
+<h1><span class="header-section-number">3</span> Mouvements des contrats</h1>
+<p><img src="202_21_mvt_resil_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="taux-de-retention" class="section level1">
+<h1><span class="header-section-number">4</span> Taux de rétention</h1>
+<p>On peut calculer le taux de rétention par année (de développement)</p>
+<div id="par-souscription" class="section level2">
+<h2><span class="header-section-number">4.1</span> Par souscription</h2>
+<p><img src="202_21_mvt_resil_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="par-developpement" class="section level2">
+<h2><span class="header-section-number">4.2</span> Par développement</h2>
+<p><img src="202_21_mvt_resil_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="retention-successive" class="section level2">
+<h2><span class="header-section-number">4.3</span> Rétention successive</h2>
+<p><img src="202_21_mvt_resil_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
 </div>
 
 <div id="disqus_thread"></div>
@@ -360,15 +347,73 @@ $(document).ready(function () {
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-79158649-1', 'auto');
+  ga('create', 'UA-79158649-2', 'auto');
   ga('send', 'pageview');
 
 </script>
+<style>
+/* Notwendiges Zeug für Dropdowns */
+.tabset-dropdown > .nav-tabs {
+	display: inline-block;
+	max-height: 500px;
+	min-height: 44px;
+	overflow-y: auto;
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
 
-    <hr>
-    
+.tabset-dropdown > .nav-tabs > li.active:before {
+    content: "";
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
 
-<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	content: "&#xe258;";
+	border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	content: "";
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+}
+
+
+.tabset-dropdown > .nav-tabs > li.active {
+	display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+	border: none;
+	display: inline-block;
+	border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	display: block;
+	float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+	display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+	$('.tabset-dropdown > .nav-tabs > li').click(function () {
+		$(this).parent().toggleClass('nav-tabs-open')
+	});
+}); 
+</script>
 
 
 
