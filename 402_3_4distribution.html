@@ -378,6 +378,8 @@ div.tocify {
 </div>
 <div id="distribution-en-fonction-des-heures" class="section level1">
 <h1><span class="header-section-number">2</span> Distribution en fonction des heures</h1>
+<div id="au-cours-dune-journee" class="section level2">
+<h2><span class="header-section-number">2.1</span> Au cours d’une journée</h2>
 <p>Précédemment, on a visualiser l’évolution au cours du temps grâce à un graphique à lignes. La hauteur de la ligne représente la moyenne des accidents à une heure donnée.</p>
 <p>Ce qui serait intéressant aussi, c’est de voir la distribution des points à une heure donnée. Pour cela, on va créer un graphique à boîtes à moustaches.</p>
 <ul>
@@ -385,16 +387,47 @@ div.tocify {
 <li>On peut enlever des points aberrants (en fonction de l’heure)</li>
 <li>On peut maintenant créer un graphique à boîtes à moustache.</li>
 </ul>
-<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
+</div>
+<div id="comparaison-des-jours-de-la-semaine" class="section level2">
+<h2><span class="header-section-number">2.2</span> Comparaison des jours de la semaine</h2>
+<p>Comme précédemment, on peut voir les distributions en fonction des jours de la semaine:</p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+</div>
+</div>
+<div id="distribution-au-cours-de-la-journee" class="section level1">
+<h1><span class="header-section-number">3</span> Distribution au cours de la journée</h1>
+<p>On peut voir la distribution du nombre d’accidents au cours d’une journée. Dans la partie évolution, on a déjà compté le nombre d’accidents en fonction des heures, cela revient à faire un histogramme. On peut créer une densité de distribution, et on peut aussi faire des comparaisons de ces densités.</p>
+<div id="jours-de-la-semaine" class="section level2">
+<h2><span class="header-section-number">3.1</span> Jours de la semaine</h2>
+<p>Pour créer les distributions en fonction des jours de la semaine, on doit</p>
+<ul>
+<li>nettoyer comme précédent les données en fonction de la variable heure</li>
+<li>créer un graphique avec <code>geom_density</code> avec la couleur qui représente les jours de la semaine.</li>
+</ul>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+</div>
+<div id="comparaisons-entre-departements" class="section level2">
+<h2><span class="header-section-number">3.2</span> Comparaisons entre départements</h2>
+<p>On peut aussi comparer la distribution entre plusieurs départements</p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p>Puis, on peut aussi comparer les départements en fonction des jours de la semaine, à l’aide de <code>facet</code> sur les jours de la semaine.</p>
+<p>Ainsi on voit la différents entre les départements pour chaque jour de la semaine.</p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<p>On peut aussi représenter les départements à l’aide de <code>facet</code>. De cette façon, on voit mieux la différence dans la distribtion pour les différents jours de la semaine, pour un département donné.</p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+</div>
 </div>
 <div id="densite-des-ages" class="section level1">
-<h1><span class="header-section-number">3</span> Densité des âges</h1>
+<h1><span class="header-section-number">4</span> Densité des âges</h1>
 <p>On peut représenter la distribution du nombre d’accident en fonction de l’âge.</p>
-<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
 <p>Afin de mieux comparer la différence des niveaux de gravité, on peut les afficher en différentes couleurs.</p>
-<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
 <p>Si on souhaite avoir la différence entre les catégories d’usagers:</p>
-<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<p>On créer utiliser <code>facet</code> pour distinguer les différentes distributions.</p>
+<p><img src="402_3_4distribution_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 </div>
 
 <div id="disqus_thread"></div>

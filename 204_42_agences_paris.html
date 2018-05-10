@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Analyse géographique des agences d’assurance et de mutuelle</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-0.7.7/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="site_libs/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="site_libs/leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="site_libs/leaflet-binding-1.1.0.9000/leaflet.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 41px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+
+.section h2 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h3 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h4 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h5 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+.section h6 {
+  padding-top: 46px;
+  margin-top: -46px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="204_0_geo.html">Accueil</a>
+</li>
+<li>
+  <a href="204_10_geomatique.html">Géomatique</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Cartographie
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="204_20_cartographie.html">Présentation</a>
+    </li>
+    <li>
+      <a href="204_22_choroplethe.html">Carte choroplèthe</a>
+    </li>
+    <li>
+      <a href="204_23_cartogramme.html">Cartogramme</a>
+    </li>
+    <li>
+      <a href="204_24_gps.html">Coordonnées GPS</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Géocodage
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="204_30_geocodage.html">Présentation</a>
+    </li>
+    <li>
+      <a href="204_31_API.html">API</a>
+    </li>
+    <li>
+      <a href="204_32_principes.html">Principes de construction</a>
+    </li>
+    <li>
+      <a href="204_33_shiny_geocodeur.html">Application shiny</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="204_40_geomarketing.html">Géomarketing</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="0_formations.html">
+    <span class="fa fa-sign-out"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analyse géographique des agences d’assurance et de mutuelle</h1>
+
+</div>
+
+
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title">
+Informations
+</h3>
+</div>
+<div class="panel-body">
+Il s’agit d’un extrait de la formation. Cette formation peut se faire en présentiel ou à distance. Pour en savoir plus, merci de me contacter.
+</div>
+</div>
+<div id="visualisation-geographique" class="section level1">
+<h1><span class="header-section-number">1</span> Visualisation géographique</h1>
+<p>Géolocalisation des intermédiaires d’assurance à Paris.</p>
+<div id="leaflet" class="section level2">
+<h2><span class="header-section-number">1.1</span> Leaflet</h2>
+<div id="htmlwidget-a306415c9811851efcc5" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a306415c9811851efcc5">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircleMarkers","args":[[48.8683162,48.8838947,48.877082,48.8929813,48.8510714,48.8677279,48.8873872,48.8791503,48.8835742,48.8269544,48.8552757,48.8386068,48.826506,48.8748207,48.8521822,48.8825699,48.8785488,48.8662564,48.8426043,48.8273229,48.8645388,48.8500111,48.8525088,48.8462425,48.8509902,48.8785003,48.8448807,48.886731,48.8685758,48.8276124,48.8385579,48.8473223,48.8481061,48.8711411,48.8344656,48.8516676,48.8755769,48.8617131,48.8432781,48.8806558,48.8574738,48.8574738,48.8884453,48.8416332,48.8432689,48.8621992,48.8761967,48.8536581,48.8840761,48.8532807,48.844179,48.8523487,48.8632171,48.8706166,48.8355618,48.8742333,48.8197354,48.8556363,48.8685554,48.8389584,48.8409541,48.8385731,48.8394814,48.8660838,48.8268394,48.8687534,48.8769562,48.8700547,48.8747019,48.877377,48.8568749,48.8467754,48.8487139,48.8496989,48.8813851,48.8790784,48.8766711,48.8433075,48.8487183,48.8730302,48.8781663,48.8599661,48.8727767,48.8562751,48.8520749,48.8661614,48.8791395,48.8720687,48.8467227,48.880778,48.8517761,48.8836453,48.8318396,48.8845353,48.8749567,48.8669533,48.8749403,48.8745682,48.8730302,48.8771914,48.8548695,48.8402847,48.850327,48.8750753,48.8742333,48.8507668,48.8462557,48.8790356,48.8316088,48.8452797,48.8731156,48.8707162,48.8707162,48.8561345,48.8746307,48.8722978,48.8686314,48.8865087,48.8510452,48.8769126,48.8474095,48.8702536,48.8524526,48.8612468,48.837088,48.8425869,48.8777462,48.8567265,48.8351724,48.8807052,48.8769562,48.8798326,48.8505606,48.8439778,48.8790784,48.8670273,48.8291296,48.8659095,48.8444906,48.8740939,48.8821908,48.8763434,48.8700924,48.8424935,48.8463027,48.823017,48.8804942,48.8416679,48.886272,48.8806343,48.8346451,48.8759449,48.8753194,48.8756686,48.8928054,48.8943656,48.8374856,48.8846692,48.8496109,48.8884738,48.8795333,48.8422976,48.8722327,48.8659837,48.8278571,48.8552609,48.8814148,48.8797433,48.8806343,48.8257344,48.8369525,48.8719251,48.8529354,48.8421616,48.8889194,48.8773418,48.8341741,48.8219471,48.8515425,48.8480058,48.8500546,48.8433775,48.8433775,48.8633364,48.8590007,48.8731428,48.8621563,48.8499733,48.8743159,48.8737818,48.8765965,48.891155,48.8521334,48.8513143,48.8754362,48.8388621,48.8690789,48.8502861,48.855717,48.8746598,48.8462425,48.8304526,48.8271884,48.8648113,48.8600872,48.8775075,48.8397477,48.8598901,48.877175,48.8709292,48.845744,48.8509902,48.8928696,48.8588576,48.8629233,48.8466309,48.8467227,48.8805341,48.8818927,48.8681999,48.8505403,48.8372881,48.8409964,48.8385579,48.8740003,48.879016,48.8452449,48.8864169,48.8842125,48.8710306,48.8329812,48.886272,48.8645388,48.8434307,48.8495579,48.8686575,48.867933,48.8860823,48.8581356,48.8420832,48.88776,48.8310835,48.8759023,48.8521334,48.877377,48.837608,48.8581187,48.8555795,48.8250738,48.8688716,48.8552526,48.8799741,48.8398625,48.84644,48.8478182,48.877309,48.8575299,48.8707162,48.8675313,48.8338091,48.8668868,48.8595574,48.8609877,48.876234,48.8482987,48.8482987,48.8604018,48.8459744,48.8466639,48.867933,48.8276608,48.8576082,48.8739161,48.8872347,48.8727418,48.8479083,48.8799276,48.8551723,48.8438366,48.8822029,48.8495492,48.8452449,48.8942149,48.8854939,48.8504088,48.8623047,48.8747039,48.8854939,48.8231943,48.8314408,48.863107,48.8645669,48.8906553,48.8753335,48.8910385,48.8444506,48.8500393,48.8588368,48.8812257,48.8659837,48.8639839,48.8526255,48.888806,48.8793124,48.8540183,48.8321057,48.8844847,48.8333527,48.8886216,48.8615448,48.8797433,48.8842125,48.8654477,48.8527752,48.8869558,48.8766926,48.8864199,48.8565871,48.8477958,48.8412877,48.8935099,48.8490738,48.8507956,48.8793385,48.8436246,48.8855439,48.8548695,48.8587724,48.8838458,48.8886814,48.8413496,48.8541923,48.838934,48.8401917,48.8536296,48.8396541,48.8835467,48.8648892,48.8564892,48.8378238,48.8495346,48.8903413,48.8755193],[2.2916314,2.2884812,2.3386391,2.3283671,2.3918098,2.3041533,2.3199874,2.3633411,2.3050287,2.3697099,2.3956822,2.2587824,2.3118149,2.3177524,2.2742184,2.3133264,2.3462468,2.3968494,2.3162805,2.3702641,2.3927586,2.3951916,2.3662088,2.2994985,2.2931094,2.3459649,2.3187824,2.3188988,2.2873296,2.3698479,2.2939099,2.2968704,2.4056121,2.3264606,2.3266001,2.2646809,2.2951317,2.3395983,2.3200189,2.3357345,2.2757316,2.2757316,2.3202057,2.2586955,2.3068386,2.3582611,2.3158448,2.309018,2.3146451,2.3105949,2.2857316,2.3887864,2.2752226,2.4001476,2.2942276,2.3077818,2.3456387,2.2694579,2.3486129,2.2818459,2.3081865,2.3076467,2.2850886,2.3277776,2.3469593,2.282457,2.33286,2.2829049,2.2798662,2.2921658,2.3812629,2.3522085,2.2969191,2.2898189,2.3264592,2.3270862,2.4039106,2.2881339,2.3756168,2.3269897,2.2892412,2.2978097,2.3944355,2.4052276,2.2683261,2.2835739,2.3252729,2.3609036,2.3831726,2.2967075,2.2996453,2.395028,2.3669094,2.3303672,2.2927493,2.3017542,2.3397136,2.3464957,2.3269897,2.3183083,2.3298157,2.3126221,2.2650183,2.3285766,2.3077818,2.3257214,2.3047249,2.3860967,2.3687199,2.3518724,2.3165914,2.3090319,2.3090319,2.2749497,2.3352558,2.3279534,2.3726997,2.3281552,2.2731105,2.3364084,2.4012898,2.3397341,2.3712448,2.3051714,2.3085312,2.3020301,2.344067,2.281983,2.3426987,2.3488546,2.33286,2.3355789,2.3113954,2.3726145,2.3270862,2.3476435,2.3571275,2.3031831,2.3083815,2.3157391,2.2914818,2.3465897,2.3408912,2.3161663,2.3950861,2.3469358,2.3418853,2.3254674,2.3173453,2.3150755,2.3275197,2.3468575,2.2870128,2.3215763,2.3440322,2.3445377,2.3475769,2.3144502,2.3918515,2.3207222,2.3251456,2.3086169,2.336864,2.3971508,2.3155177,2.410608,2.3876124,2.286917,2.3150755,2.3455656,2.289245,2.3130376,2.37039,2.2927665,2.3752855,2.335831,2.2981141,2.3659229,2.3814491,2.3099022,2.3942794,2.3246272,2.3246272,2.360888,2.3723172,2.3408396,2.3409548,2.2689172,2.3557545,2.3351008,2.3745624,2.327348,2.4039094,2.2914432,2.2911057,2.3905942,2.3568807,2.3279692,2.3789846,2.3247874,2.2994985,2.3725266,2.3514186,2.3966948,2.3099444,2.316107,2.3002012,2.2723092,2.3116844,2.2961456,2.3521959,2.2931094,2.3406405,2.3802368,2.3603642,2.3733035,2.3831726,2.3738302,2.2975817,2.3955309,2.394829,2.2800252,2.3068829,2.2939099,2.3155467,2.3157278,2.40326,2.304557,2.3148861,2.3058394,2.3550897,2.3173453,2.3927586,2.3226071,2.3945295,2.2953912,2.337085,2.383577,2.282859,2.3242473,2.334573,2.3188958,2.3304893,2.4039094,2.2921658,2.2629236,2.2839689,2.3635789,2.3212804,2.3955868,2.2942345,2.3324712,2.4011103,2.3997941,2.3705291,2.3351764,2.2801609,2.3090319,2.2898659,2.3248296,2.3977879,2.2801501,2.3050405,2.2897387,2.2679692,2.2679692,2.342878,2.3096291,2.3750446,2.337085,2.3326916,2.3035089,2.3369784,2.3128551,2.4050624,2.3241096,2.3631331,2.3245736,2.2961481,2.3143589,2.3957794,2.40326,2.3191769,2.3163761,2.2729341,2.3848421,2.3183385,2.3163761,2.3619536,2.3255684,2.4040292,2.3338196,2.3248367,2.3911735,2.3601396,2.3118994,2.347756,2.3019503,2.3461055,2.3971508,2.3508668,2.388279,2.3402412,2.3196479,2.3774362,2.2931559,2.3071484,2.3549384,2.3824447,2.3049366,2.286917,2.3148861,2.3552151,2.3642195,2.2942727,2.4001512,2.3253138,2.3825731,2.2922133,2.308306,2.3288834,2.2649138,2.3805843,2.3017351,2.4052378,2.3053122,2.3298157,2.3711634,2.3809773,2.3166724,2.301912,2.2919187,2.3071597,2.2634311,2.3517849,2.266669,2.3185701,2.3459212,2.3855512,2.2872259,2.3901529,2.326152,2.3023908],7,null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":false,"color":["#FF0000","#AAFF00","#AAFF00","#AAFF00","#AAFF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF0000","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#FF0000","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FF0000","#FF0000","#FF0000","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#FF0000","#AAFF00","#AAFF00","#AAFF00","#AAFF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF0000","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#00FFAA","#FF0000","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#00AAFF","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#0000FF","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#AA00FF","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF00AA","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FFAA00","#FF0000","#FF0000","#FF0000","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00","#00FF00"],"fillOpacity":1,"dashArray":null},null,null,["","aviva","aviva","aviva","aviva","axa","axa","axa","axa","axa","axa","axa","axa","axa","gan","gan","gan","gan","gan","generali","generali","generali","generali","generali","mma","mma","mma","mma","mma","mma","mma","mma","swisslife","swisslife","swisslife","swisslife","swisslife","swisslife","swisslife","swisslife","","allianz","allianz","allianz","allianz","allianz","allianz","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","gan","gan","gan","gan","gan","gan","gan","gan","gan","gan","","generali","generali","generali","generali","generali","generali","generali","generali","","","","","","","","","","","","","","","","","","","","","","","","","","","","macif","macif","macif","macif","macif","macif","macif","macif","macif","macif","","","","","","","","","","","mma","mma","mma","mma","mma","mma","mma","mma","mma","mma","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","swisslife","swisslife","swisslife","swisslife","swisslife","","","","","","","","","","","","","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","allianz","","","","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa","axa"],null,null,null,null]}],"limits":{"lat":[48.8197354,48.8943656],"lng":[2.2586955,2.410608]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

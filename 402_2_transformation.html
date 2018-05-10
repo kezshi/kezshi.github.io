@@ -381,11 +381,12 @@ div.tocify {
 <p>Avant d’analyser les données, il est important de s’assurer de la bonne qualité des données.</p>
 <div id="valeurs-aberrantes" class="section level2">
 <h2><span class="header-section-number">2.1</span> Valeurs aberrantes</h2>
-<p>Dans un premier temps, on doit corriger des valeurs aberrantes. L’exemple ci-dessous traite du cas des variables GPS (<code>lat</code> et <code>long</code>). En effet, dans certains cas, on a zéro comme valeur, or on sait que ce ne sont pas les coordonnées GSP en France. C’est sans doute des valeurs enregistrés par défaut.</p>
+<p>Dans un premier temps, on doit corriger des valeurs aberrantes. L’exemple ci-dessous traite du cas des variables GPS (<code>lat</code> et <code>long</code>). En effet, dans certains cas, on a zéro comme valeur, or on sait que ce ne sont pas les coordonnées GSP en France. Ce sont sans doute des valeurs enregistrés par défaut.</p>
 </div>
 <div id="valeurs-manquantes" class="section level2">
 <h2><span class="header-section-number">2.2</span> Valeurs manquantes</h2>
 <p>Si nécessaire, on peut supprimer les valeurs manquantes dans une base de données.</p>
+<p>On peut utiliser la fonction <code>complete.cases</code> pour détecter si aucune valeur ne manque pour une observation donnée. Si elle est le cas, on peut garder cette observation.</p>
 </div>
 </div>
 <div id="types-de-variables" class="section level1">
