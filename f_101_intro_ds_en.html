@@ -11,7 +11,7 @@
 
 
 
-<title>Data Science Mentoring</title>
+<title>Introduction to Data Science</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -166,6 +169,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -298,48 +396,76 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data Science Mentoring</h1>
+<h1 class="title toc-ignore">Introduction to Data Science</h1>
 
 </div>
 
 
-<div id="modalites-de-learning" class="section level1">
-<h1><span class="header-section-number">1</span> Modalités d’e-learning</h1>
-<div id="introduction" class="section level2">
-<h2><span class="header-section-number">1.1</span> Introduction</h2>
-<p>La data science est un sujet technique. Si les formations en présentiel permettent d’apprendre les principes, les formations en e-learning permettent de maîtriser la programmation via la pratique. De plus, j’ai constaté que le niveau des stagiaires pour les formations en présentiel est très hétérogène. Certains vont plus vite que d’autres. Ainsi, il n’est pas possible d’adopter un rythme qui convienne à tout le monde. Avec une plateforme d’e-learning, vous pourrez alors suivre les cours à votre rythme.</p>
+<div id="objective" class="section level1">
+<h1><span class="header-section-number">1</span> Objective</h1>
+<p>The Introduction to Data Science class will survey the foundational topics in data science, namely:</p>
+<p>Data Manipulation Data Analysis with Statistics and Machine Learning Data Communication with Information Visualization Data at Scale – Working with Big Data The class will focus on breadth and present the topics briefly instead of focusing on a single topic in depth. This will give you the opportunity to sample and apply the basic techniques of data science.</p>
+<p><strong>À qui s’adresse cette formation ?</strong></p>
+<p>À toute personne susceptible d’intervenir dans l’élaboration et la mise en oeuvre d’une stratégie Big Data, et ce dans les domaines : produits, marketing, distribution et tarification. Ainsi qu’à toute personne désireuse de se familiariser avec ce sujet en devenir.</p>
+<p><strong>Pour obtenir quoi ?</strong></p>
+<p>Une compréhension globale de la problématique Big Data et des outils disponibles à ce jour nécessaires à son traitement.</p>
+<p><strong>Comment ?</strong></p>
+<p>Des exemples pratiques animeront chaque étape du processus de traitement du Big Data, et complèteront la définition et les perspectives de ce nouveau métier.</p>
+<p><strong>Quels sont les pré-requis ?</strong></p>
+<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
 </div>
-<div id="contenus" class="section level2">
-<h2><span class="header-section-number">1.2</span> Contenus</h2>
-<p>Avec la table de matière, vous pouvez voir tout le parcours de la formation. Plusieurs types de contenus sont disponibles:</p>
+<div id="programme" class="section level1">
+<h1><span class="header-section-number">2</span> Programme</h1>
+<p><strong>Data Strategies</strong></p>
 <ul>
-<li>Contenu informatif, qui peut être suivi d’un quizz</li>
-<li>Questions avec code à écrire. La réponse est disponible après la question, par défaut en mode “caché”. Il est conseillé de chercher la réponse avant d’afficher la réponse.</li>
-<li>Quizz</li>
+<li>Approches stratégiques : produits, distribution, clients</li>
+<li>Exemples de décisions fondées sur les données</li>
+<li>Changement de paradigme et compétences en Data Science</li>
+<li>Panorama des entreprises spécialisées dans le Big Data</li>
+<li>Assurance connectée : stratégies, et exemples</li>
+<li>Réglementation autour des données personnelles</li>
+</ul>
+<p><strong>Collecte et nettoyage des données</strong></p>
+<ul>
+<li>Importance d’acquisition des données</li>
+<li>Sources de données publiques et propriétaires : web, réseaux sociaux, objets connectés, etc.</li>
+<li>Utilisation des données publiques en entreprise</li>
+<li>Outils de collecte et de nettoyage</li>
+<li>Nature des données non-structurées, et leur manipulation</li>
+<li>Cas pratiques : web scraping</li>
+</ul>
+<p><strong>Analyse des données</strong></p>
+<ul>
+<li>Différents types d’analyses et exemples</li>
+<li>Extraction de caractéristiques</li>
+<li>Algorithmes d’apprentissage automatique et validation</li>
+<li>Cas pratique : plusieurs cas d’applications de machine learning</li>
+<li>Text mining</li>
+</ul>
+<p><strong>Big data et passage à l’échelle</strong></p>
+<ul>
+<li>Contexte actuel du Big Data et impact sur différents secteurs</li>
+<li>Besoin et nécessité des technologies Big Data</li>
+<li>Cas pratique : Big data en assurance ?</li>
+<li>Types de bases de données</li>
+<li>Stockage parallélisés et distribués</li>
+</ul>
+<p><strong>Visualisation des données et outils de production</strong></p>
+<ul>
+<li>Principes de visualisation</li>
+<li>Outils de visualisation</li>
+<li>Cas pratique : visualisation avec R</li>
+<li>R et ses nombreux packages pour la data science</li>
 </ul>
 </div>
-<div id="questions-et-commentaires" class="section level2">
-<h2><span class="header-section-number">1.3</span> Questions et commentaires</h2>
-<p>Vous pouvez poser des questions, dont les réponses seront apportées en moins de 24h.</p>
-</div>
-</div>
-<div id="catalogue" class="section level1">
-<h1><span class="header-section-number">2</span> Catalogue</h1>
+<div id="informations-pratiques" class="section level1">
+<h1><span class="header-section-number">3</span> Informations pratiques</h1>
+<p>Durée: <strong>2 jours</strong></p>
+<p>Dates:</p>
 <ul>
-<li><a href="4010_accueil.html">Introduction à la Data Science avec l’analyse des prix immobiliers</a></li>
-<li><a href="402_0.html">Analyse et visualisation des sinistres automobiles</a></li>
-<li><a href="201_0_lutte_anti_fraude.html">Data science et la lutte anti-fraude</a></li>
-<li><a href="202_0_analyse_resilisations.html">Analyse de résiliations</a></li>
-<li>Thèmses à la demande</li>
+<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
+<li>En dehors de ces dates, merci de me contacter.</li>
 </ul>
-<p>Les applications la Data Science sont nombreuses dans le secteur d’assurance ou d’autres secteurs. Si vous avez des besoins spécifiques, n’hésitez pas à me contacter.</p>
-</div>
-<div id="calendrier-des-formations" class="section level1">
-<h1><span class="header-section-number">3</span> Calendrier des formations</h1>
-<p><img src="images/logo.png" /> </br></p>
-<iframe src="https://calendar.google.com/calendar/embed?title=Sessions%20de%20formation%20chez%20Caritat&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=ugoruv405lhcj121nva62ngd3s%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis" style="border-width:0" width="100%" height="600" frameborder="0" scrolling="no">
-</iframe>
-<p></br></p>
 </div>
 
 <div id="disqus_thread"></div>
@@ -372,6 +498,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2017 Site de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 
