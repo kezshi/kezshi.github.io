@@ -11,7 +11,7 @@
 
 
 
-<title>Catalogue de formations</title>
+<title>Analyse des textes avec l’intelligence artificielle</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -166,6 +169,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -298,66 +396,83 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Catalogue de formations</h1>
+<h1 class="title toc-ignore">Analyse des textes avec l’intelligence artificielle</h1>
 
 </div>
 
 
-<!--
-# Programmes des formations
--->
-<p><strong>Sujets généraux</strong></p>
+<p><strong>1 jour</strong></p>
+<div id="objectif" class="section level1">
+<h1><span class="header-section-number">1</span> Objectif</h1>
 <ul>
-<li><a href="f_101_intro_ds.html">101 Introduction à la Data Science</a></li>
-<li><a href="f_102_ds_assurance.html">102 Data science et assurance</a></li>
-<li><a href="f_103_ds_r.html">103 Data Science avec R pour les nuls</a></li>
-<li><a href="f_104_dx.html">104 Utilisation des données externes en assurance</a></li>
-<li><a href="f_105_dsm.html">105 Data Science pour les managers</a></li>
-<li>111 Data Science avec Python</li>
+<li>Utiliser la puissance de l’intelligence artificielle pour exploiter les données textuelles</li>
+<li>Identifier les cas d’usage et définir l’approche stratégique</li>
+<li>Exploiter les documents scannés avec l’OCR et améliorer la qualité des données</li>
 </ul>
-<p><strong>Thèmes spécifiques</strong></p>
+</div>
+<div id="publics-concernes" class="section level1">
+<h1><span class="header-section-number">2</span> Publics concernés</h1>
 <ul>
-<li><a href="f_201_fraudes.html">201 Détection de fraudes</a></li>
-<li><a href="f_201argus_fraudes.html">201 (Argus) Lutte contre la fraude et data-science</a></li>
-<li><a href="f_201elearning_fraudes.html">201 (e-learning) Détection de fraude</a></li>
-<li><a href="f_202_resiliations.html">202 Analyse des résiliations</a></li>
-<li><a href="f_203_marketing.html">203 Marketing, valeur client, et data science</a></li>
-<li><a href="f_204_geo.html">204 Utilisation des données géographiques</a></li>
-<li><a href="f_205_avis.html">205 Analyse des avis clients</a></li>
-<li><a href="f_206_accidents_auto.html">206 Analyse et visualisation des sinistres automobiles</a></li>
-<li><a href="f_207_qualite_donnees.html">207 Qualité des données et data science</a></li>
+<li>Direction Générale ; Direction de la Stratégie ; Direction innovation ; Direction Digitale ; Direction marketing ; Direction développement ; Direction des partenariats ; Direction des réseaux; Actuaires;</li>
+<li>Compagnie d’assurance ; Bancassurance ; Société de réassurance ; Mutuelle ; Cabinet de conseil et d’actuariat ; Société d’assistance ; Tout acteur du secteur de l’assurance</li>
 </ul>
-<p><strong>Sujets techniques</strong></p>
+</div>
+<div id="programme" class="section level1">
+<h1><span class="header-section-number">3</span> Programme</h1>
+<p><strong>Manipulation et analyse des données textuelles</strong></p>
 <ul>
-<li><a href="f_301_ml.html">301 Fondamentaux du machine learning</a></li>
-<li><a href="f_302_mlvis.html">302 Explication visuelle de machine learning</a></li>
-<li><a href="f_303_datavis.html">303 Data visualisation en assurance</a></li>
-<li><a href="f_304_tm.html">304 Text mining en assurance</a></li>
-<li>306 Web-scraping <a href="1_web_scraping.html">article introductif</a></li>
+<li>Manipulation des chaînes de caractères et des expressions régulières</li>
+<li>Utilisation des techniques de text-mining</li>
+<li>Utilisation des différentes techniques du NLP (Natural Language Processing)</li>
 </ul>
-<p><strong>Blockchain et Bitcoin</strong></p>
+<p><strong>Collecte des données textuelles</strong></p>
 <ul>
-<li><a href="f_901_blockchain.html">901 Bitcoins et blockchain pour les nuls</a></li>
-<li>902 Bitcoins et blockchain, le jeu</li>
+<li>Webscraping et mainpulation des données html</li>
+<li>Documents scannés et OCR</li>
+<li>Données des sites d’avis clients</li>
+<li>Analyse des Emails et les méta-données</li>
 </ul>
-<p>Pour les formations intra, n’hésitez pas à me contacter pour construire un programme adapté à votre entreprise, avec des cas réels.</p>
-<p></br></p>
-<!--
-# Calendrier des formations
-
-<center>
-![](images/logo.png) ![](images/logos/argus.png)
-
-</center>
-
-</br>
-
-<iframe src="https://calendar.google.com/calendar/embed?title=Sessions%20de%20formation&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=ugoruv405lhcj121nva62ngd3s%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis" style="border-width:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
-
-
-</br>
-
--->
+<p><strong>Techniques de Reconnaissance Optique de Caractères ou OCR</strong></p>
+<ul>
+<li>Principe de l’OCR</li>
+<li>Cas d’utilisation: facture, devis, relevé d’information, RIB, carte d’identité</li>
+<li>Présentation des technologies et mise en place</li>
+</ul>
+<p><strong>Utilisation en assurance</strong></p>
+<ul>
+<li>Automatisation du processus de souscription des contrats</li>
+<li>Amélioration de la qualité des données</li>
+<li>Meilleure connaissance clients</li>
+<li>Exploitation des documents et contrôle de la souscription et de l’indemnisation</li>
+<li>Automatisation des échanges et chatbot</li>
+</ul>
+<p><strong>Cas d’usage</strong></p>
+<ul>
+<li>Correction de fautes d’orthographe</li>
+<li>Analyse des avis clients</li>
+<li>Exploitation des adresses des clients et géocodage</li>
+<li>Détection de spams</li>
+<li>Construction de chatbot</li>
+<li>Webscraping</li>
+<li><a href="https://kezshi.github.io/t3_postes_data_scientists">Analyse des CV et des annonces de postes</a></li>
+</ul>
+</div>
+<div id="informations-pratiques" class="section level1">
+<h1><span class="header-section-number">4</span> Informations pratiques</h1>
+<p><strong>Pour obtenir quoi ?</strong></p>
+<ul>
+<li>Compétences de text mining et les cas d’applications.</li>
+<li>Extraction d’informations des données textuelles</li>
+<li>Construction d’indicateurs basés sur les textes</li>
+</ul>
+<p><strong>Comment ?</strong></p>
+<ul>
+<li>Explication des théories de l’intelligence artificielle dans l’analyse des textes</li>
+<li>Les différentes techniques de collecte, de nettoyage et d’analyse de données seront illustrées avec des exemples pratiques, codés sous R.</li>
+</ul>
+<p><strong>Quels sont les pré-requis ?</strong></p>
+<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés.</p>
+</div>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -389,6 +504,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2017 Site de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 
