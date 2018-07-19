@@ -11,7 +11,7 @@
 
 
 
-<title>Catalogue de formations</title>
+<title>Data Science: : assurer la qualité de ses données</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -166,6 +169,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -298,69 +396,143 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Catalogue de formations</h1>
+<h1 class="title toc-ignore">Data Science: : assurer la qualité de ses données</h1>
+<h3 class="subtitle"><em>Bénéfices et impacts de la data-science dans les dispositifs de contrôle de la qualité des données</em></h3>
 
 </div>
 
 
+<p>Durée: <strong>1 jour</strong></p>
+<div id="objectifs-de-la-formation" class="section level1">
+<h1><span class="header-section-number">1</span> Objectifs de la formation</h1>
+<ul>
+<li>Connaître les exigences de Solvabilité 2 sur la qualité des données</li>
+<li>Comprendre comment la data-science augmente l’efficience d’un dispositif de maîtrise de la qualité des données</li>
+<li>Apprendre à mettre en place des algorithmes d’évaluation de qualité des données, et construire des indicateurs de qualité avec des cas pratiques</li>
+<li>Automatiser la détection et la correction des anomalies dans les données</li>
+</ul>
+</div>
+<div id="programme" class="section level1">
+<h1><span class="header-section-number">2</span> Programme</h1>
+<p><strong>Évaluer les risques et les enjeux financiers et réglementaires liés à la qualité des données</strong></p>
+<ul>
+<li>Traduire les exigences de Solvabilité 2 en matière de gouvernance de la qualité des données</li>
+<li>Appréhender les risques et les coûts d’une mauvaise qualité des données</li>
+<li>Définir une donnée de bonne qualité : pertinence, intégrité, disponibilité, auditabilité, traçabilité, conformité et sécurité</li>
+</ul>
+<p><strong>Appliquer les principes de la détection des anomalies pour identifier les incohérences</strong></p>
+<ul>
+<li>Comprendre la différence entre l’approche exploratoire descriptive et l’approche décisionnelle globale et prédictive</li>
+<li>Définir les types d’anomalies : erreurs de saisie, fautes d’orthographe, erreurs intentionnelles, défaillance du système</li>
+<li>Explorer des exemples concrets d’anomalies: adresse mal saisie menant à des contrats en déshérence ou impact de la qualité des données sur la production des rapports QRT et répercussions (solvabilité &amp; sanctions)</li>
+<li>S’approprier les bonnes pratiques d’organisation et de pré-traitement des données : organisation de fichiers, de données, classification</li>
+</ul>
+<p><strong>Comment intégrer la data-science dans les projets d’analyse et de contrôle de la qualité des données</strong></p>
+<ul>
+<li>Comprendre les fonctions et cas d’usage de la data-science dans la gestion de la qualité de la donnée</li>
+<li>Les techniques au service de l’exploration des données : webscraping, text-mining, machine learning, analyse des séries temporelles</li>
+<li>Sélectionner et adapter la technique de data-science de traitement en fonction de la problématique à modéliser</li>
+<li>Détecter des valeurs aberrantes avec les méthodes de clustering</li>
+<li>Calculer un score de qualité avec les méthodes de classification</li>
+</ul>
+<p><strong>Mettre en œuvre l’automatisation de la détection et la correction d’anomalies</strong></p>
+<ul>
+<li>Savoir industrialiser les méthodes sélectionnées en tenant compte des contraintes temps réel</li>
+<li>Mettre en place des indicateurs clés et des tableaux de bords pour évaluer la qualité</li>
+<li>Cas pratique d’automatisation de l’exécution des contrôles &amp; visualisation des résultats</li>
+</ul>
+</div>
+<div id="publics-concernes" class="section level1">
+<h1><span class="header-section-number">3</span> Publics concernés</h1>
+<ul>
+<li><p>Direction des risques ; Actuaire ; Responsable conformité ; Risk manager ; Responsable du contrôle interne ; Auditeur interne ; Contrôleur interne ; Direction des Systèmes d’Information (DSI) ; Auditeur IT ; Data-Scientist ; Responsable de la qualité des données ; Chief data officer (CDO) et plus largement toute personne partie prenante et / ou garante d’un projet de qualité de données et / ou gérant des bases de données</p></li>
+<li><p>Société d’assurance et de réassurance, mutuelle et institution de prévoyance</p></li>
+</ul>
 <!--
-# Programmes des formations
+erreur d'inattention, ou fraude
+
+
+http://www.institut.capgemini.fr/formation-dqm-mdm-la-qualite-des-donnees-capgemini-institut_p207
+
+Les méthodologies (frameworks) liées à l’approche qualité
+
+Les principes méthodologiques.
+TDQM, TIQM.
+Les techniques d’amélioration de la qualité
+
+Le profilage (profiling).
+La standardisation.
+Le nettoyage (cleansing).
+Le rapprochement (matching).
+L’enrichissement.
+La décomposition (parsing).
+La surveillance (monitoring).
+L’élimination du bruit.
+Exemples concrets.
+
+
+
+fichiers
+noms des variables
+organisation sur le réseau
+
+
+Anomalies CRM : calculer l’écart
+Distance textes
+Catégories saisies: probabilité de cohérence
+Séries temporelles
+
+Segmentation
+quand il y a plusieurs anomalies, on peut sommer les impacts financiers
+parfois, on n’a pas les impacts, alors, on peut segmenter
+
+
+Par type de risque
+Impact financier tarifaire
+impact financier sinistralité
+Risque de réputation
+Risque de sanction ou risque réglementaire
+réglementation
+sinistralité
+données de référence
+
+
+Par type de produits
+
+Types d'anomalies
+Données portefeuilles
+Mouvements et évolution temporelles
+Transactions
+Numériques
+catégoriques
+séries temporelles
+scores de vraisemblance
+enrichissement des données
+
+Types d'automisation
+Vérification (cyclo, activité, semi autonome), textuelles (images); clients doublons
+Textes: bigramme, clients doublons, adresses
+Numériques
+Evolution des nombres de longues séries
+Règles multiples (nombre de variables et croisements)
+Catégoriques croisés (menuisier fonctionnaire)
+Règles de calculs déterministes (CRM, age)
+segmentation (réduction de dimension, projection)
+- vérification d'activité
+
+
+
 -->
-<p><strong>Sujets généraux</strong></p>
-<ul>
-<li><a href="f_101_intro_ds.html">101 Introduction à la Data Science</a></li>
-<li><a href="f_102_ds_assurance.html">102 Data science et assurance</a></li>
-<li><a href="f_103_ds_r.html">103 Data Science avec R pour les nuls</a></li>
-<li><a href="f_104_dx.html">104 Utilisation des données externes en assurance</a></li>
-<li><a href="f_105_dsm.html">105 Data Science pour les managers</a></li>
-<li><a href="f_106_tm_ia.html">106 Analyse des textes avec l’intelligence artificielle</a></li>
-<li>107 Utilisation de l’intelligence artificielle en assurance</li>
-<li>111 Data Science avec Python</li>
-<li>120 Chatbot et automatisation des échanges</li>
-<li><a href="f_901_blockchain.html">901 Bitcoins et blockchain pour les nuls</a></li>
-</ul>
-<p><strong>Thèmes spécifiques</strong></p>
-<ul>
-<li><a href="f_201_fraudes.html">201 Détection de fraudes</a></li>
-<li><a href="f_201argus_fraudes.html">201a Lutte contre la fraude et data-science</a></li>
-<li><a href="f_201elearning_fraudes.html">201 (e-learning) Détection de fraude</a></li>
-<li><a href="f_202_resiliations.html">202 Analyse des résiliations</a></li>
-<li><a href="f_203_marketing.html">203 Marketing, valeur client, et data science</a></li>
-<li><a href="f_204_geo.html">204 Utilisation des données géographiques</a></li>
-<li><a href="f_205_avis.html">205 Analyse des avis clients</a></li>
-<li><a href="f_206_accidents_auto.html">206 Analyse et visualisation des sinistres automobiles</a></li>
-<li><a href="f_207_qualite_donnees.html">207 Qualité des données et data science</a></li>
-<li><a href="f_207a_qualite_donnees.html">207a Data Science: : assurer la qualité de ses données</a></li>
-</ul>
-<p><strong>Sujets techniques</strong></p>
-<ul>
-<li><a href="f_301_ml.html">301 Fondamentaux du machine learning</a></li>
-<li><a href="f_302_mlvis.html">302 Explication visuelle de machine learning</a></li>
-<li><a href="f_303_datavis.html">303 Data visualisation en assurance</a></li>
-<li><a href="f_304_tm.html">304 Text mining en assurance</a></li>
-<li>306 Web-scraping <a href="1_web_scraping.html">article introductif</a></li>
-</ul>
-<p>Pour les formations intra, n’hésitez pas à me contacter pour construire un programme adapté à votre entreprise, avec des cas réels.</p>
+</div>
+<div id="informations-pratiques" class="section level1">
+<h1><span class="header-section-number">4</span> Informations pratiques</h1>
+<p>Durée: <strong>1 jour</strong></p>
+<p><strong>Quels sont les pré-requis ?</strong></p>
+<p>Aucun.</p>
 <center>
 <p><a type="button" class="btn btn-primary" href="mailto:shikezhan@gmail.com">Contacter le formateur par mail</a></p>
 </center>
-<p></br></p>
-<!--
-# Calendrier des formations
-
-<center>
-![](images/logo.png) ![](images/logos/argus.png)
-
-</center>
-
-</br>
-
-<iframe src="https://calendar.google.com/calendar/embed?title=Sessions%20de%20formation&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=ugoruv405lhcj121nva62ngd3s%40group.calendar.google.com&amp;color=%236B3304&amp;ctz=Europe%2FParis" style="border-width:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
-
-
-</br>
-
--->
+</div>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -392,6 +564,8 @@ $(document).ready(function () {
 <p>Copyright &copy; 2017 Site de Kezhan Shi</p>
 
 
+</div>
+</div>
 
 </div>
 
