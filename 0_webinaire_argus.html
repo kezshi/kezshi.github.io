@@ -317,7 +317,151 @@ $(document).ready(function () {
 <iframe width="650" height="410" src="https://www.youtube.com/embed/L3aQ7pdK0HE?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
 </iframe>
 </center>
-<p>N’hésitez pas poser vos questions.</p>
+<p>J’ai rédigé les réponses aux questions que vous avez posées. N’hésitez pas poser d’autres questions dans le fil de discussion en bas.</p>
+<p><strong>Comment jugez-vous qu’un modèle est trop compliqué pour être appliqué en production ? (question d’un data scientist)</strong></p>
+<p>Plusieurs contraintes doivent être prises en compte:</p>
+<ul>
+<li>temps d’exécution: la valeur raisonnable dépend de chaque situation: pour la tarification par exemple, il faudrait que ce soit presque instantané quand un client demande un devis. Pour la détection de fraude, ça devient variable, et ça dépend aussi de la disponibilité des gestionnaires pour traiter les dossiers (ou pour certains cas, il est possible d’automatiser les alertes).</li>
+<li>explicabilité du modèle: là aussi, le niveau d’explicabilité est différent. Pour la tarification, on n’a pas besoin forcément d’être explicite; mais pour la fraude, il faut donner des preuves factuelles.</li>
+</ul>
+<p><strong>Les techniques d’audit reposent habituellement sur des sondages. Ne faut-il pas désormais passer à des revues complètes de portefeuilles ou bases de données ? (question d’un directeur audit interne)</strong></p>
+<p>Selon mon expérience, le fait que l’audit, ou le contrôle se basent sur des sondages, c’est parce qu’on n’a pas le temps de faire pour toute le portefeuille. Ainsi, si on arrive à automatiser le processus de contrôle, ou d’audit, on peut en effet passer à des revues complètes.</p>
+<p>En pratique, il faudrait examiner chaque point d’audit et de contrôle, et automatiser par la suite. Selon les points de contrôles, le processus d’automatisation est plus ou moins complexe.</p>
+<p>L’un des points d’audit qui nécessite des techniques, c’est le contrôle des documents, plusieurs techniques peuvent être utiles</p>
+<ul>
+<li>OCR: si le document de base est un document scanné</li>
+<li>Analyse des textes: plusieurs techniques peuvent être utilisés, et certaines ont été discutés précédemment.</li>
+</ul>
+<p>Si vous avez des points d’audit plus précis, on pourra en parler.</p>
+<p><strong>Le problème de “boîte noire” a-t-il un impact sur l’aspect métier en assurance ? (question d’un étudiant data scientist)</strong></p>
+<p>Par “boîte noire”, on veut souvent dire la difficulté à expliquer les résultats. Évidemment, de façon générale, si on n’arrive pas à expliquer les résultats, dans certaines situations, les résultats sont inutilisables, comme par exemple en détection de fraude.</p>
+<p>Mais j’ai aussi remarqué qu’on dit parfois qu’un algorithme est une boîte noire, non pas parce qu’on ne sait pas expliquer les résultats, mais on ne connaît pas le principe.</p>
+<p>On peut prendre un exemple simple: la division euclidienne. Presque tout le monde sait comment faire la division euclidienne à la main. Mais avec la calculatrice, c’est plus rapide. Ainsi, personne ne dira que la calculatrice est une boîte noire pour la division euclidienne.</p>
+<p>En revanche, quand il s’agit du calcul de la racine carrée, certains n’ont aucune idée comment ça peut être fait à la main. Ainsi, la calculatrice paraît comme une boîte noire pour ces personnes. Si vous ne savez pas, il est tout à fait possible de faire le calcul d’une racine carrée à la main. Vous pouvez chercher des informations grâce à un moteur de recherche. Un autre exemple, c’est le calcul des logarithmes à la main.</p>
+<p>Pour revenir aux algorithmes de machine learning, le principe de tous les algorithmes est connu, et établi par des chercheurs. Si vous ne connaissez pas comment fonctionnent des algorithmes, il ne faut pas pour autant dire que c’est une boîte noire quand vous les utilisez (un peu comme vous utiliserez une calculatrice pour les racines carrées).</p>
+<p>Les calculs complexes effectués par les modèles sur les données sont vus comme une boîte noire car on n’a pas une relation simple entre les données d’entrée, et résultats de sortie. Dans ce cas, un simple arbre de décision peut être vu comme une boîte noire, et encore plus pour une Forêt aléatoire. Cependant, il faut pas oublier que le principe de calcul est simple, et tous les calculs sont effectués sont auditables en théorie.</p>
+<p>Ce sont de simples règles dans un arbre de décision, et une forêt aléatoire, c’est un ensemble d’arbres de décision, construite sur des échantillons de données et de variables explicatives (au lieu de prendre la totalité pour un arbre simple).</p>
+<p>Parfois encore, certains utilisent le terme de “boîte noire” pour dire qu’ils n’ont pas confiance dans les résultats qui sont produits par ces algorithmes. Là aussi, il y a une différence entre expliquer les résultats de façon explicite, et valider les résultats. Pour ce dernier on peut utiliser la validation croisée.</p>
+<p>Pour l’interprétabilité des résultats en sortie des algorithmes, je vous invite à lire cet article : <a href="https://arxiv.org/abs/1602.04938">“Why Should I Trust You?”: Explaining the Predictions of Any Classifier</a>, à l’origine de <em>Local Interpretable Model-agnostic Explanations</em> ou LIME.</p>
+<p><strong>Est-ce que la data science a tendance à complexifier les modèles ? (question d’un manager connaissance client en assurance)</strong></p>
+<p>La data science est un outil. Comme tous les outils, ils font ce qu’on leur demandent. Ainsi, la question pourrait plus être: est-ce que les gens ont tendance à utiliser la data science pour complexer les modèles.</p>
+<p>J’ai tendance à dire: ceux qui ne connaissent pas bien le principe d’utilisation des outils, et les objectifs des modèles ont tendance à complexité des modèles, qui devient alors une sorte de bouclier en cas de questions.</p>
+<p>Et les dialogues deviennent:</p>
+<ul>
+<li>Pouvez-vous expliquer vos modèles?</li>
+<li>Ah vous savez, c’est très compliqué.</li>
+<li>…</li>
+</ul>
+<p>En pratique, je pense qu’il faut penser la solution partir de la problématique:</p>
+<ul>
+<li>On doit identifier le fond du problème (par exemple, pour la connaissance clients, pourquoi vous souhaitez mieux connaître vos clients ? pour mieux leur proposer des produits nouveaux, ou améliorer l’efficacité d’une campagne marketing, ou mieux détecter le potentiel de résiliation ? Selon la question posée, les solutions peuvent être complètement différentes.)</li>
+<li>On doit simplifier au maximum le problème initial (on parle aujourd’hui beaucoup de la notion de “valeur client”. Beaucoup de problématiques de connaissance client peuvent faire partie des composantes de cette valeur.)</li>
+<li>On doit diviser un problème complexe en un ensemble de petits problèmes plus simples (La notion de “valeur client” est complexe. Pour cela , on doit calculer les composantes séparément: probabilité de résiliation, élasticité prix, multi-équipement, parrainage, etc.)</li>
+</ul>
+<p>Maintenant, pour construire la solution, il faut aussi faire au plus simple. La décision d’investir dans une solution plus complexe dépendra du ROI. Pour reprendre l’exemple de la valeur client, si on veut justement prendre en compte la résiliation de façon globale, on n’a pas besoin de modèle individualisé. Le modèle est simple, mais pas suffisamment précis pour optimiser les gains au niveau individuel.</p>
+<p><strong>Quelle est la principale différence entre le data mining et la data science ? Comment savez-vous qu’un assuré a fraudé dans le domaine des assurances? (question d’un étudiant data scientist)</strong></p>
+<p>En ce moment, il y a beaucoup de débats sur les définitions sur beaucoup de termes: data mining, machine learning, data science, intelligence artificielle, modèle prédictif, big data.</p>
+<p>Il y a une réponse vue sur internet que j’aime bien:</p>
+<ul>
+<li>Data science: analyse des données vue par les statisticiens de la Silicon Valley</li>
+<li>Machine learning: analyses des données vue par les praticiens de l’intelligence artificielle</li>
+<li>Data-mining: analyses des des données vue par les gestionnaires des bases de données</li>
+<li>Statistique appliquée: analyses des données vue par les statisticiens</li>
+<li>Mathématiques appliquées: analyses des données vue par les mathématiciens</li>
+<li>Infographie: analyses des données vue par les marketeurs</li>
+<li>Data journalisme: analyses des données vue par les journalistes</li>
+<li>Econométrie: analyses des données vue par les économistes</li>
+<li>Bioinformatique: analyses des données vue par les biologistes</li>
+</ul>
+<p>Pour la deuxième question, c’est une question qui une importance opérationnelle primordiale. En effet, avec l’analyse des données, on peut seulement avoir des soupçons de fraude, et ensuite, c’est la travail des juristes et des avocats pour savoir si l’assuré a vraiment fraudé.</p>
+<p><strong>Pour la comparaison de modèles, quels sont les indicateurs les plus pertinents et les plus utilisés ? (question d’un alternant chez Allianz)</strong></p>
+<p>A mon avis, il faudrait choisir l’indicateur en fonction du problème à résoudre. Ensuite cet indicateur pourra ainsi aider à fine-tuner les modèles.</p>
+<p>Les indicateurs ne sont donc pas là pour comparer les modèles, mais pour comparer les résultats en sortie des modèles. Les modèles sont donc optimisés pour ces indicateurs.</p>
+<p><strong>Dans un projet de data science comme dans tous les projets, les enjeux de ressources (humaines) comme de délai sont essentiels. Quel est pour vous le dimensionnement d’un équipe Data, en listant notamment les compétences nécessaires, ainsi que le temps de mise en œuvre (du moment où l’on pose la problématique jusqu’à la livraison d’un outil opérationnel), ou a minima d’un poc ? (question d’un directeur technique en assurances)</strong></p>
+<p>Je n’ai pas beaucoup d’expériences dans la gestion de gros projets, ou la gestion d’un nombre de personnes. Mais je peux vous répondre selon mes expériences à plusieurs points importants.</p>
+<p>De façon générale, il faudrait définir le nombre de personnes à partir des problématiques, donc tout dépend des projets. ça a l’air évident, mais cela veut dire qu’on connaît bien les problématiques et les solutions potentielles à explorer.</p>
+<center>
+<img src="https://imgs.xkcd.com/comics/tasks_2x.png" width="220" />
+</center>
+<p>Concernant les compétences, il y a beaucoup de discussions sur internet, globalement, je résumerais en trois :</p>
+<ul>
+<li>manipulation et gestion des bases de données (collecte, stockage)</li>
+<li>construction des algorithmes avec une bonne connaissance des théories</li>
+<li>connaissance métier</li>
+</ul>
+<p>Pour revenir au nombre de personne, si une personne a les trois compétence, il peut gérer un projet à lui seul:</p>
+<ul>
+<li>poser la bonne question métier</li>
+<li>chercher les données nécessaires</li>
+<li>résoudre le problème et donner les interprétations et conclusions pertinentes</li>
+</ul>
+<p>Pour la gestion du projet plus concrètement,</p>
+<ul>
+<li>je ne suis pas fan de la notion de POC. Pour revenir à l’image xkcd, quand on dit “faire un POC”, c’est comme si on ne sait pas du tout si un projet pourrait apporter une solution viable, alors qu’on devrait le savoir dès le départ.</li>
+<li>je suis plus MVP (Produit minimum viable ou <em>Minimum Viable Product</em>). On doit d’abord réfléchir à la solution à partir de la problématique concrète, et proposer d’abord une solution très simple. Puis, au fur et à mesure, on utilise des techniques plus sophistiquées pour des résultats de plus en plus performants.</li>
+</ul>
+<p><strong>Dans le cas des algorithmes de machine learning non supervisés, quelle sont les métriques que vous utilisez pour mesurer la performance/pertinence de vos résultats, en particulier en détection de fraudes ?! (question d’un data scientist)</strong></p>
+<p>Il y a un mélange de plusieurs notions:</p>
+<ul>
+<li>pour un apprentissage non supervisé, les résultats sont produits grâce à une métrique. Donc la notion de pertinence d’un algorithme d’apprentissage non supervisé est intrinsèque à la métrique choisie.</li>
+<li>les fraudes sont complexes, les métriques choisies dépendent du type de fraude, ou de la fraude étudiée.</li>
+<li>Selon ce qu’on veut étudier on choisit une métrique en fonction.</li>
+</ul>
+<p><strong>Existe-t-il des techniques de machines learning ou deep learning qui remplacent le calcul stochastique classique des IBNR ? (question d’un data scientist senior)</strong></p>
+<p>Comme tous les outils, des techniques de machine learning ou de deep learning résolvent des problèmes spécifiques et adaptés.</p>
+<p>Ainsi je commencerai par identifier les problèmes:</p>
+<ul>
+<li>Quelles sont vos données?</li>
+<li>Quelles valeurs cherchez-vous à estimer?</li>
+</ul>
+<p>Si vous avez juste un triangle de sinistres, à mon avis, vous ne pourrez pas utiliser des méthodes de machine learning.</p>
+<p>ça fait penser à des situations que j’avais rencontrées en tant qu’actuaire: avec 5 points, on essayait de trouver une “bonne méthode” pour calibrer une loi statistique.</p>
+<p>L’équivalent de “j’ai trouvé une méthode deep learning pour les calculs d’IBNR” serait “j’ai trouvé une méthode infaillible pour estimer la moyenne d’une série de 5 nombres”.</p>
+<p>De façon générale, on dirait qu’il y a le symptôme: quand on a un marteau, tous les problèmes ressemblent à des clous.</p>
+<p><strong>Auriez-vous des liens vers de la documentation claire pour débutant dans le domaine de la classification supervisée ? Notamment des bibliothèques pour Python et l’explication du processus (question d’un data scientist dans le secteur des média)</strong></p>
+<p>J’ai tapé dans un moteur de recherche “beginner python classification” (oui, il vaut mieux taper en anglais, si vous le faites en anglais, vous pouvez sans doute trouver des articles en français, mais sans doute moins. Et l’anglais ne devrait pas être une barrière dans ce domaine) et j’ai trouvé: <a href="https://www.kaggle.com/ibadia/easy-python-tutorial-basic-for-beginner" class="uri">https://www.kaggle.com/ibadia/easy-python-tutorial-basic-for-beginner</a></p>
+<p>Sinon il faudrait être plus précis:</p>
+<ul>
+<li>Débutant en algèbre linéaire : alors il ne faut pas parler de machine learning</li>
+<li>Débutant en machine learning : il faut pas parler de classification supervisée (c’est juste une question de vocabulaire, mais ça peut avoir son importance. L’apprentissage supervisé et l’apprentissage non supervisé sont deux catégories d’algorithmes de machine learning. Et un algorithme de classification, qui correspond à un modèle prédictif construit à partir des données libellées qui ont au moins deux classes, est un algorithme d’apprentissage supervisé.</li>
+<li>Débutant en programmation : il faudrait apprendre les bases d’algorithmique avant de se lancer dans l’apprentissage de machine learning</li>
+<li>Débutant en python: il faudrait alors déjà connaître les bases de python avant de parler d’algorithme</li>
+</ul>
+<p><strong>Pour une première tentative d’application, quelle est l’outil que vous suggéreriez à un débutant, ayant un budget limité ? (question d’un analyste senior en assurances)</strong></p>
+<p>Tout dépend de ce que vous connaissez déjà. Et il y a beaucoup de choses dans vos questions:</p>
+<ul>
+<li>application: quelle application souhaitez-vous faire ? c’est pour un projet d’entreprise, ou juste un exemple ? Si c’est juste un exemple, il y a des exemples simples pour un grand nombre d’algorithmes simples: arbre de décision, régression linéaire, classification naïve bayésienne, etc. Et il suffira de rechercher sur internet.</li>
+<li>outil: si vous ne connaissez pas déjà un outil de programmation, vous pouvez utiliser Excel, pour une première tentative. Sinon R est simple pour débuter.</li>
+<li>budget limité: pour un projet d’entreprise, ou pour l’apprentissage personnel, il y a beaucoup de ressources qui sont libres d’accès sur internet.</li>
+</ul>
+<p><strong>Comment peut-on donner une explication du modèle dans les techniques black box tel que SVM/ Réseaux de neurones …? (question d’un data scientist)</strong></p>
+<p>La notion de “boîte noire” a été précédemment expliquée.</p>
+<ul>
+<li>S’il s’agit de la compréhension du principe, le SVM ou le réseau de neurones ne sont pas des boîtes noires.</li>
+<li>Pour l’interprétabilité des résultats issus de ces algorithmes, c’est assez simple à comprendre, surtout en faible dimension.</li>
+</ul>
+<p>De façon intuitive et simpliste:</p>
+<ul>
+<li>SVM: construire une droite pour séparer des points de plusieurs catégories</li>
+<li>Réseau de neurones: construires plusieurs couches de régresseurs logistiques</li>
+</ul>
+<p><strong>Comment justifiez-vous de la qualité de vos modèles dans un domaine qui ne supporte pas les risques ? (question d’un stagiaire data scientist en télécommunications)</strong></p>
+<p>Il faudrait préciser la nature du risque avant. S’il n’y a pas du tout de risque, pour moi, il n’y a pas besoin de modèle. Je travaille dans l’assurance, et c’est un métier de gestion de risques. Donc les risques sont partout, et on essaie de les maîtriser à plusieurs niveaux.</p>
+<p>Je ne vois pas vous êtes en télécommunications, je n’arrive pas à imaginer un exemple concret.</p>
+<p><strong>A votre avis, pourquoi le comportement humain est-il si difficile à prédire ? (question d’un ingénieur data)</strong></p>
+<p>Parce que l’homme est un être sensible, et complexe, qui, en plus, vit dans un monde complexe, rempli d’autres hommes, complexes.</p>
+<p>Avant d’aller plus loin, il faudrait définir un peu plus spécifiquement le terme “comportement humain”.</p>
+<p>De façon générale, il faudrait analyser les questions de prédiction selon les angles suivants</p>
+<ul>
+<li>Données: a-t-on les données pertinentes pour la variable à prédire ?</li>
+<li>Modèles: est-ce que le modèle est assez pertinent ?</li>
+</ul>
+<!--En pratique, le comportement humain est souvent dans les variables explicatives. Ce sont donc des constats, qui permettent de prédire d’autres variables: par exemple, l’élasticité prix permet de donner des tarifs adéquats, et le comportement humain permet de prédire des suspicions de fraudes.-->
+<p><strong>D’après votre expérience, quel est le meilleur modèle pour détecter de la fraude (en non supervisé) , les nouveaux cas de fraudes ? (question d’un étudiant data scientist)</strong></p>
+<p>Les fraudes sont de plusieurs types, donc pour chaque type de fraude, les modèles sont différents.</p>
+<p>Et selon les données disponibles, les approches sont différentes ainsi que les modèles.</p>
+<p>De façon générale, on ne doit pas forcément poser la question selon cet angle: quel est le meilleur modèle? A mon avis, la question qui a beaucoup plus de valeur, et aidera pour tous problèmes, c’est: quel est précisément mon problème, qu’est-ce que je cherche à faire. Ensuite, je teste un ensemble de modèles.</p>
+<p>La question : quel est le meilleur modèle ? n’est pas un point de départ, mais plutôt une conclusion suite à des tests.</p>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
