@@ -459,7 +459,7 @@ Que ce soit avec la data science, ou d’autres outils, ou encore d’autres pro
 <li>classification: précision et rappel, F-score, AUC</li>
 <li>régression: erreur-type (RMSE ou <em>Root Mean Squared Error</em>), erreur absolue moyenne (MAE ou <em>Mean Absolute Error</em>), log loss</li>
 </ul>
-<p>Mais il est important de relier ces indicateurs à la réalité opérationnelle. Par exemple, pour la détection de fraudes, on peut dire que c’est un problème de classification, et utiliser l’AUC pour mesurer la performance des modèles. Cependant si on ne peut pas traiter l’ensemble des cas frauduleux, il serait plus pertinent de fixer un seuil de dossiers, et calculer le taux de précision pour les dossiers sélectionnés. Toutefois les dossiers n’ont pas tous le même impact financier, alors on devrait plutôt prendre en compte l’impact financier. Ainsi, on peut aussi utiliser la somme des gains financiers pour mesurer la performance de ce problème de classification.</p>
+<p>Mais il est important de relier ces indicateurs à la réalité opérationnelle. Par exemple, pour la détection de fraudes, on peut dire que c’est un problème de classification, et utiliser l’AUC pour mesurer la performance des modèles. Cependant si on ne peut pas traiter l’ensemble des cas frauduleux, il serait plus pertinent de fixer un seuil pour le nombre dossiers, et calculer le taux de précision pour les dossiers sélectionnés. Toutefois les dossiers n’ont pas tous le même impact financier, alors on devrait plutôt prendre en compte l’impact financier. Ainsi, on peut utiliser la somme des gains financiers pour mesurer la performance de ce problème de classification.</p>
 <p><strong>Dans un projet de data science comme dans tous les projets, les enjeux de ressources (humaines) comme de délai sont essentiels. Quel est pour vous le dimensionnement d’un équipe Data, en listant notamment les compétences nécessaires, ainsi que le temps de mise en œuvre (du moment où l’on pose la problématique jusqu’à la livraison d’un outil opérationnel), ou a minima d’un poc ? (question d’un directeur technique en assurances)</strong></p>
 <p>Je n’ai pas beaucoup d’expériences dans la gestion de gros projets, ou dans la gestion d’un nombre importants de personnes. Mais je peux vous répondre selon mon expérience à plusieurs points importants.</p>
 <p>De façon générale, il faudrait définir le nombre de personnes à partir des problématiques, donc tout dépend des projets. Cela a l’air évident, mais cela veut dire qu’on connaît bien les problématiques et les solutions potentielles à explorer.</p>
@@ -538,11 +538,17 @@ De façon générale, on dirait qu’il y a le symptôme: quand on a un marteau,
 <p>De façon générale, on ne doit pas forcément poser la question selon cet angle: quel est le meilleur modèle? A mon avis, la question qui a beaucoup plus de valeur c’est: quel est précisément mon problème, qu’est-ce que je cherche à faire? Ensuite, je teste un ensemble de modèles.</p>
 <p>On peut citer quelques exemples de détection de fraudes avec des algorithmes d’apprentissage non-supervisé, qui nécessitent des techniques complexes et différentes:</p>
 <ul>
-<li>Détection de profils atypiques de clients</li>
+<li>Détection de profils atypiques de clients
+<ul>
 <li>Si on a des indicateurs numériques, on peut utiliser k-means.</li>
 <li>Dans certains cas, on peut utiliser k-medians pour être moins sensible aux anomalies statistiques.</li>
 <li>Si les données sont catégoriques, on peut utiliser k-modes</li>
-<li>Détection des anomalies dans les documents ou des documents atypiques (la situation peut être complexe, comme montrée dans l’exemple discuté pendant le webinaire) - On peut faire des regroupements hiérarchiques des textes - On peut faire des prédictions de topics ou de tags</li>
+</ul></li>
+<li>Détection des anomalies dans les documents ou des documents atypiques (la situation peut être complexe, comme montrée dans l’exemple discuté pendant le webinaire)
+<ul>
+<li>On peut faire des regroupements hiérarchiques des textes</li>
+<li>On peut faire des prédictions de topics ou de tags</li>
+</ul></li>
 <li>Clustering des signatures, et détection des falsifications</li>
 </ul>
 </div>
