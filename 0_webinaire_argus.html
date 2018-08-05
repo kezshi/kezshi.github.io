@@ -337,8 +337,8 @@ $(document).ready(function () {
 <li>Automatisation des opérations de souscription, d’indemnisation, de contrôle et d’audit.</li>
 </ul>
 <p><strong>Quelles sont les applications du text-mining dans votre domaine ?</strong></p>
-<p>Comme montré dans l’exemple pendant le webinaire, on peut transformer les textes en une matrice de caractéristiques (feature engineering), on peut alors appliquer des algorithmes classiques.</p>
-<p>Plus généralement, on peut parler du NLP (<em>Natural Language Processing</em>), et on peut citer les problèmes de <em>text classification</em>, qui nous permettent d’analyser plusieurs documents envoyés par les clients et de les classifier automatiquement, et d’extraire les données pertinentes dans ces documents.</p>
+<p>Comme montré dans l’exemple pendant le webinaire, on peut transformer les textes en une matrice de caractéristiques (feature engineering), et on peut alors appliquer des algorithmes classiques.</p>
+<p>Plus généralement, on peut parler du NLP (<em>Natural Language Processing</em>), et on peut citer les techniques de <em>text classification</em>, qui nous permettent d’analyser plusieurs documents envoyés par les clients et de les classifier automatiquement, et d’extraire les données pertinentes dans ces documents.</p>
 <p>L’utilisation de chatbots peut également se révéler intéressante, car elle permet d’automatiser également la partie relationnelle du métier.</p>
 <!--
 
@@ -383,8 +383,9 @@ Les modèles de prédiction se compare généralement avec une métrique ou un s
 <li>augmenter le nombre de cas frauduleux détectés: au lieu d’avoir des gestionnaires qui travaillent manuellement sur des échantillons de dossiers, on peut automatiser la détection à tous les dossiers</li>
 <li>automatiser le processus de correction et de sanctions: quand le nombre de cas frauduleux devient trop important, on peut automatiser le traitement de certains dossiers</li>
 </ul>
-<p>Concrètement, on peut prendre l’exemple de détection signatures falsifiées. En théorie, la détection n’est pas difficile en soi. On peut le faire manuellement: il suffit de sortir les documents dont le signataire est le même, ensuite, le gestionnaire va regarder et analyser les signatures de tous les documents. Parfois, il va trouver des signatures falsifiées (des imitations), parfois, il peut trouver des signatures qui sont exactement les mêmes (ce qui veut dire qu’elle sont été copiées collées).</p>
+<p>Concrètement, on peut prendre l’exemple de la détection de signatures falsifiées. En théorie, la détection n’est pas difficile en soi. On peut le faire manuellement: il suffit de sortir les documents dont le signataire est le même, ensuite, le gestionnaire va regarder et analyser les signatures de tous les documents. Parfois, il va trouver des signatures falsifiées (des imitations), parfois, il peut trouver des signatures qui sont exactement les mêmes (ce qui veut dire qu’elle sont été copiées collées).</p>
 <p>Le gestionnaire peut le faire pour quelques dossiers, mais pas pour des milliers, voire des millions de documents. Etant donné que le nombre de cas frauduleux est faible, le ROI serait négatif. Maintenant, si un algorithme est construit pour faire ce travail, il est alors possible de trouver tous les cas frauduleux.</p>
+<p>Ces progrès sont similaires aux changements qui ont eu lieu avec l’automatisation de la chaîne de production en construction automobile; aujourd’hui, avec les techniques de stockage de données, et les méthodes de machine learning ou de deep learning, il devient possible d’automatiser certains processus (comme la gestion des fraudes) en assurance qui étaient réalisés auparavant par les gestionnaires. On peut ainsi avoir un processus industrialisé qui comporte moins d’erreurs humaines, plus d’efficacité et de précision, avec un coût final moindre.</p>
 <p><strong>Comment jugez-vous qu’un modèle est trop compliqué pour être appliqué en production ? (question d’un data scientist)</strong></p>
 <p>Plusieurs contraintes doivent être prises en compte:</p>
 <ul>
@@ -456,14 +457,16 @@ Que ce soit avec la data science, ou d’autres outils, ou encore d’autres pro
 <p>On peut citer les indicateurs les plus fréquents, selon les types de problèmes:</p>
 <ul>
 <li>classification: précision et rappel, F-score, AUC</li>
-<li>régression: erreur-type (RMSE ou <em>Root Mean Squared Error</em>), erreur absolue moyenne (MAE ou <em>Mean Absolute Error</em>), log loss.</li>
+<li>régression: erreur-type (RMSE ou <em>Root Mean Squared Error</em>), erreur absolue moyenne (MAE ou <em>Mean Absolute Error</em>), log loss</li>
 </ul>
+<p>Mais il est important de relier ces indicateurs à la réalité opérationnelle. Par exemple, pour la détection de fraudes, on peut dire que c’est un problème de classification, et utiliser l’AUC pour mesurer la performance des modèles. Cependant si on ne peut pas traiter l’ensemble des cas frauduleux, il serait plus pertinent de fixer un seuil de dossiers, et calculer le taux de précision pour les dossiers sélectionnés. Toutefois les dossiers n’ont pas tous le même impact financier, alors on devrait plutôt prendre en compte l’impact financier. Ainsi, on peut aussi utiliser la somme des gains financiers pour mesurer la performance de ce problème de classification.</p>
 <p><strong>Dans un projet de data science comme dans tous les projets, les enjeux de ressources (humaines) comme de délai sont essentiels. Quel est pour vous le dimensionnement d’un équipe Data, en listant notamment les compétences nécessaires, ainsi que le temps de mise en œuvre (du moment où l’on pose la problématique jusqu’à la livraison d’un outil opérationnel), ou a minima d’un poc ? (question d’un directeur technique en assurances)</strong></p>
 <p>Je n’ai pas beaucoup d’expériences dans la gestion de gros projets, ou dans la gestion d’un nombre importants de personnes. Mais je peux vous répondre selon mon expérience à plusieurs points importants.</p>
 <p>De façon générale, il faudrait définir le nombre de personnes à partir des problématiques, donc tout dépend des projets. Cela a l’air évident, mais cela veut dire qu’on connaît bien les problématiques et les solutions potentielles à explorer.</p>
 <center>
 <img src="https://imgs.xkcd.com/comics/tasks_2x.png" width="220" />
 </center>
+<p>Source de l’image: <a href="https://imgs.xkcd.com/comics/tasks_2x.png" class="uri">https://imgs.xkcd.com/comics/tasks_2x.png</a></p>
 <p>Concernant les compétences, il y a beaucoup de discussions sur internet à ce sujet, globalement, je les résumerais autour de trois axes :</p>
 <ul>
 <li>manipulation et gestion des bases de données (collecte, stockage)</li>
@@ -516,7 +519,7 @@ De façon générale, on dirait qu’il y a le symptôme: quand on a un marteau,
 <p>De façon intuitive et simpliste:</p>
 <ul>
 <li>SVM: construire un hyperplan pour séparer des points de plusieurs catégories (en utilisant des kernels, c’est possible de traiter des problèmes non-linéaires), et en dimension 2, on construit une droite.</li>
-<li>Réseau de neurones: construires plusieurs couches de régresseurs logistiques, donc pour le réseau de neurones le plus simple est une régression logistique.</li>
+<li>Réseau de neurones: construire plusieurs couches de régresseurs logistiques, donc pour le réseau de neurones le plus simple est une régression logistique.</li>
 </ul>
 <p><strong>Comment justifiez-vous de la qualité de vos modèles dans un domaine qui ne supporte pas les risques ? (question d’un stagiaire data scientist en télécommunications)</strong></p>
 <p>Il faudrait préciser la nature du risque avant. S’il n’y a pas du tout de risque, pour moi, il n’y a pas besoin de modèle. Je travaille dans l’assurance, et c’est un métier de gestion de risques. Donc les risques sont partout, et on essaie de les maîtriser à plusieurs niveaux.</p>
