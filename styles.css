@@ -1,3 +1,37 @@
-blockquote {
-  font-style: italic
+#header .pull-right {
+  display: none;
 }
+
+.pull-right {
+    float: left!important;
+}
+
+
+.code-folding-btn[aria-expanded="false"] span {
+  display: none;
+}
+
+
+.code-folding-btn[aria-expanded="true"] span {
+  display: none;
+}
+
+.code-folding-btn[aria-expanded="false"]:after{
+  content:"Afficher la solution";
+}
+
+.code-folding-btn[aria-expanded="true"]:before{
+  content:"Cacher la solution";
+}
+
+
+
+table, th, td {
+   border: 1px solid black!important;
+}
+
+table {
+    border-collapse: collapse!important;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
