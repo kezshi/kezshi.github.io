@@ -22,8 +22,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -93,6 +94,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -155,14 +159,74 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -318,8 +382,8 @@ $(document).ready(function () {
 </iframe>
 </center>
 <p>J’ai rédigé les réponses aux questions que vous avez posées. N’hésitez pas poser d’autres questions dans le fil de discussion en bas.</p>
-<div id="questions-reponses" class="section level1">
-<h1><span class="header-section-number">1</span> Questions réponses</h1>
+<div id="questions-reponses" class="section level2">
+<h2>Questions réponses</h2>
 <p><strong>Selon vous, quel est le sujet de data science qui intéresse particulièrement les assureurs en ce moment ?</strong></p>
 <p>Globalement, la data science intervient comme un outil de support au métier de l’assurance. En ce sens, la data science ne devrait pas créer des sujets intéressants pour les assureurs, mais ce sont plutôt les sujets qui préoccupent les assureurs qu’on essaie de traiter avec la data science.</p>
 <p>Voici quelques sujets d’actualités :</p>
@@ -415,7 +479,7 @@ Les modèles de prédiction se compare généralement avec une métrique ou un s
 <p>Les calculs complexes effectués par les modèles sur les données sont vus comme une boîte noire car on n’a pas une relation simple entre les données d’entrée, et les résultats de sortie. Dans ce cas, un simple arbre de décision peut être vu comme une boîte noire, et encore plus pour une Forêt aléatoire. Cependant, il ne faut pas oublier que le principe de calcul est simple, et tous les calculs effectués sont auditables en théorie.</p>
 <p>Pourtant ce sont de simples règles qui sont utilisées dans un arbre de décision, et pour une forêt aléatoire, c’est un ensemble d’arbres de décision, construit sur des échantillons de données et de variables explicatives (au lieu de prendre la totalité pour un arbre simple) qui est utilisé.</p>
 <p>Parfois encore, certains utilisent le terme de “boîte noire” pour dire qu’ils n’ont pas confiance dans les résultats qui sont produits par ces algorithmes. Là aussi, il y a une différence entre expliquer les résultats de façon explicite, et valider les résultats. Pour ce dernier on peut utiliser la validation croisée.</p>
-<p>Pour l’interprétabilité des résultats en sortie des algorithmes, je vous invite à lire cet article : <a href="https://arxiv.org/abs/1602.04938">“Why Should I Trust You?”: Explaining the Predictions of Any Classifier</a>, à l’origine de <em>Local Interpretable Model-agnostic Explanations</em> ou LIME.</p>
+<p>Pour l’interprétabilité des résultats en sortie des algorithmes, je vous invite à lire cet article: <a href="https://arxiv.org/abs/1602.04938">“Why Should I Trust You?”: Explaining the Predictions of Any Classifier</a>, à l’origine de <em>Local Interpretable Model-agnostic Explanations</em> ou LIME.</p>
 <p><strong>Est-ce que la data science a tendance à complexifier les modèles ? (question d’un manager connaissance client en assurance)</strong></p>
 <p>La data science est un outil. Comme tous les outils, ils font ce qu’on leur demandent. Ainsi, la question pourrait plus être: est-ce que les gens ont tendance à utiliser la data science pour complexer les modèles?</p>
 <p>J’aurais tendance à dire que ceux qui ne connaissent pas bien le principe d’utilisation des outils, et les objectifs des modèles ont tendance à complexifier des modèles, ce qui devient alors une sorte de bouclier en cas de questions.</p>
