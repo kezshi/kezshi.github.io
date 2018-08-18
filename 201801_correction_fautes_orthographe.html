@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Correction des fautes d’orthographe</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +19,14 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="images/logo/favicon.ico">
@@ -71,7 +76,7 @@ h6 {
 }
 </style>
 
-<link rel="stylesheet" href="styles.css" type="text/css" />
+<link rel="stylesheet" href="style_articles.css" type="text/css" />
 
 </head>
 
@@ -230,6 +235,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -362,38 +462,66 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">Correction des fautes d’orthographe</h1>
 
 </div>
 
 
-<p></br></p>
-<div id="articles" class="section level2">
-<h2>Articles</h2>
+<p>Les data scientists doivent passer plus de 80% de leur temps à nettoyer leurs données. Les causes de la mauvaise qualité des données sont multiples. Quand la saisie est libre, les erreurs d’orthographe sont fréquentes. La correction de ces erreurs peut être chronophage. Le premier réflexe est souvent de repérer les erreurs commises et de les corriger à la main. Si pour une petite quantité d’erreurs, il semble rapide de corriger à la main, il n’est pas viable de le faire pour une grande quantité de données. Ainsi, il est souvent préférable d’adopter une solution automatisée dès que possible.</p>
+<p><img src="images/tempstravail.png" alt="Drawing" style="width: 500px;"/></p>
+<div id="principe" class="section level1">
+<h1><span class="header-section-number">1</span> Principe</h1>
+<div id="distance-des-mots" class="section level2">
+<h2><span class="header-section-number">1.1</span> Distance des mots</h2>
+<p>Prenons l’exemple des adresses non normalisées: on peut écrire “bld” pour “boulevard”. On peut repérer tous les “bld” et les corriger à la main. Mais le problème, c’est que certains écrivent “blvd” par exemple. Puis pour “avenue”, on peut trouver “av”, “ave”, “aven”, “avenu” et d’autres erreurs grossières.</p>
+<p>On peut calculer la distance entre deux mots. Une façon de calculer la distance peut être la suivante:</p>
 <ul>
-<li><a href="201801_distance_phonetique.html">201808 Distance phonétique des adresses saisies</a></li>
-<li><a href="20180807_eaux_acp.html">201808 Analyse des eaux minérales: eaux du robinet vs eaux en bouteille</a></li>
-<li><a href="securite_routiere.html">201808 Tableau de bord: sécurité routière</a></li>
-<li><a href="0_webinaire_argus.html">201807 Webinar ave l’Argus de l’Assurance: Data science et assurance</a></li>
-<li><a href="402_0.html">201805 Programme e-mentoring: Visualisation des accidents automobiles</a></li>
-<li><a href="201801_correction_fautes_orthographe.html">201801 Correction automatisée des fautes d’orthographe dans la saisie des adresses</a></li>
-<li>Anciens articles en cours de mise à jour et d’indexation</li>
+<li>On compte le nombre de lettres dans chaque mot.</li>
+<li>Si le nombre de lettres pour un mot donné est identique, la différence est de 0. Si le nombre est différent, on prend la valeur absolue de la différence.</li>
+<li>A la fin, on additionne le nombre de différences.</li>
+</ul>
+<p>Par exemple,</p>
+<ul>
+<li>entre “rue” et “avenue”, on a une distance de 5</li>
+<li>entre “boulevard” et “bld”, on a une distance de 6</li>
 </ul>
 </div>
-<div id="mini-bio" class="section level2">
-<h2>Mini bio</h2>
-<p>Kezhan SHI: membre certifié de l’Institut des actuaires français. Il est diplômé de l’École Centrale Paris et titulaire d’un master en actuariat de l’Université Paris Dauphine. Il a travaillé en tant qu’actuaire chez CCR, Prim’Act et Direct Assurance, avant de rejoindre Allianz en 2017, au titre de Manager Data Scientist.</p>
-<p><strong>Actuellement</strong></p>
+<div id="correction" class="section level2">
+<h2><span class="header-section-number">1.2</span> Correction</h2>
+<p>Pour automatiser la correction, on peut procéder aux étapes suivantes:</p>
 <ul>
-<li>Manager Data scientist chez Allianz</li>
-<li>Enseignant à l’ISUP: cours de data visualisation</li>
-<li>Formateur indépendant chez <strong>Caritat</strong> et <strong>Argus de l’Assurance Formation</strong>
+<li>On doit d’abord avoir les types de voies normalisées, par exemple “avenue, rue, boulevard”.</li>
+<li>Pour chaque type de voie observé, on peut calculer la distance avec les types normalisés. Pour “av”, on aura donc “4, 5, 7”.</li>
+<li>On prend le minimum, et ici, on obtient bien “avenue”.</li>
+</ul>
+</div>
+<div id="types-de-distance" class="section level2">
+<h2><span class="header-section-number">1.3</span> Types de distance</h2>
+<p>Imaginons le cas suivant:</p>
 <ul>
-<li>Plus de 500 heures de formations données</li>
-<li>Plus de 300 stagiaires formés</li>
-<li>Plus de 25 entreprises participantes</li>
+<li>Dans ma base, j’ai deux rues
+<ul>
+<li>“rue Victor Hugo” et</li>
+<li>“rue Hugo Viktor”</li>
 </ul></li>
-<li>Formation à distance : Data Science Mentoring</li>
+<li>Quelqu’un écrit “rue Viktor Hugo” et on suppose qu’il s’est trompé sur la lettre “k” (si ce cas vous apparait ambigu, vous pouvez toujours imaginer un autre cas où l’ordre est important).
+<ul>
+<li>Si on calcule la distance comme précédent, on aura comme distance par rapport aux données de référence: 2, 0. Du coup, la proche serait “rue Hugo Viktor”, ce qui n’est pas ce qu’on souhaitait.</li>
+<li>Pour résoudre le problème, on peut utiliser un autre type de distance: <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein">distance Levenshtein</a>, et on aura 1, 10.</li>
+</ul></li>
 </ul>
+<p>On voit que selon les cas, on peut choisir le bon type de distance pour mieux traiter nos erreurs.</p>
+</div>
+</div>
+<div id="clustering" class="section level1">
+<h1><span class="header-section-number">2</span> Clustering</h1>
+<p>Si on n’a pas des données de référence, on peut faire une segmentation des mots.</p>
+<p><img src="201801_correction_fautes_orthographe_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">3</span> Conclusion</h1>
+<p>Quand on doit retrouver les adresses normalisées à partir des adresses librement saisies, au lieu de repérer des caractéristiques à corriger à la main, on peut calculer les distance de façon globale, et choisir la référence en fonction des distances.</p>
+<p>Cette méthode peut également être utilisée dans le géocodage des adresses.</p>
 </div>
 
 <div id="disqus_thread"></div>
@@ -426,6 +554,8 @@ $(document).ready(function () {
 <a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
 
 
+</div>
+</div>
 
 </div>
 
