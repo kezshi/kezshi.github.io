@@ -25,8 +25,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -96,6 +97,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -158,14 +162,74 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -403,18 +467,25 @@ div.tocify {
 
 <div id="objectif" class="section level1">
 <h1><span class="header-section-number">1</span> Objectif</h1>
-<p>Obtenir une compréhension globale de la problématique Big Data et des outils disponibles à son traitement.</p>
-<p><strong>À qui s’adresse cette formation ?</strong></p>
+<p>A l’heure où le secteur de l’assurance brasse de gros volumes de données, associés aux algorithmes de plus en plus sophistiqués, la data science transforme les métiers et bouscule les fondamentaux de l’assurance. Cette formation permet de comprendre comment la data science se décline aujourd’hui dans la chaîne de valeur assurance : création de produits individualisés, prévention des risques, indemnisation des sinistres, lutte contre la fraude.</p>
+<ul>
+<li>Démystification de la data science</li>
+<li>Introduction à des cas d’usage concrets en entreprise</li>
+<li>Processus d’un projet data science</li>
+</ul>
+<p><strong>Points forts</strong></p>
+<ul>
+<li>Retours d’expériences</li>
+<li>Discussion autour des cas d’usage concrets</li>
+<li>Astuces et bonnes pratiques concernant l’utilisation des modèles dans une entreprise d’assurance</li>
+</ul>
+</div>
+<div id="public-concerne" class="section level1">
+<h1><span class="header-section-number">2</span> Public concerné</h1>
 <p>À toute personne susceptible d’intervenir dans l’élaboration et la mise en oeuvre d’une stratégie Big Data, et ce dans les domaines : produits, marketing, distribution et tarification. Ainsi qu’à toute personne désireuse de se familiariser avec ce sujet en devenir.</p>
-<p><strong>Pour obtenir quoi ?</strong></p>
-<p>Une compréhension globale de la problématique Big Data et des outils disponibles à ce jour nécessaires à son traitement.</p>
-<p><strong>Comment ?</strong></p>
-<p>Des exemples pratiques animeront chaque étape du processus de traitement du Big Data, et complèteront la définition et les perspectives de ce nouveau métier.</p>
-<p><strong>Quels sont les pré-requis ?</strong></p>
-<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
 </div>
 <div id="programme" class="section level1">
-<h1><span class="header-section-number">2</span> Programme</h1>
+<h1><span class="header-section-number">3</span> Programme</h1>
 <p><strong>Stratégies d’entreprise</strong></p>
 <ul>
 <li>Approches stratégiques : produits, distribution, clients</li>
@@ -458,13 +529,30 @@ div.tocify {
 </ul>
 </div>
 <div id="informations-pratiques" class="section level1">
-<h1><span class="header-section-number">3</span> Informations pratiques</h1>
+<h1><span class="header-section-number">4</span> Informations pratiques</h1>
 <p>Durée: <strong>2 jours</strong></p>
-<p>Dates:</p>
-<ul>
-<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
-<li>En dehors de ces dates, merci de me contacter.</li>
-</ul>
+<p><strong>Pour obtenir quoi ?</strong></p>
+<p>Une compréhension globale de la problématique Big Data et des outils disponibles à ce jour nécessaires à son traitement.</p>
+<p><strong>Comment ?</strong></p>
+<p>Des exemples pratiques animeront chaque étape du processus de traitement du Big Data, et complèteront la définition et les perspectives de ce nouveau métier.</p>
+<p><strong>Quels sont les pré-requis ?</strong></p>
+<p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
+<center>
+<p><a type="button" class="btn btn-primary" href="mailto:shikezhan@gmail.com">Contacter le formateur par mail</a></p>
+</center>
+<!--
+
+The Introduction to Data Science class will survey the foundational topics in data science, namely:
+
+Data Manipulation
+Data Analysis with Statistics and Machine Learning
+Data Communication with Information Visualization
+Data at Scale -- Working with Big Data
+The class will focus on breadth and present the topics briefly instead of focusing on a single topic in depth. This will give you the opportunity to sample and apply the basic techniques of data science.
+
+
+
+-->
 </div>
 
 <div id="disqus_thread"></div>
@@ -494,7 +582,7 @@ div.tocify {
     <hr>
     
 
-<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+<a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
 
 
 </div>

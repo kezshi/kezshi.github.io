@@ -22,8 +22,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -93,6 +94,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -155,14 +159,74 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -305,6 +369,15 @@ $(document).ready(function () {
 <p></br></p>
 <div id="analyse-des-donnees" class="section level1">
 <h1>Analyse des données</h1>
+<p>Les formes d’analyse qu’on peut faire les données sont nombreuses, on peut citer: analyse exploratoire, analyse descriptive, analyse inférentielle et analyse prédictive.</p>
+<p>En particulier, l’analyse prédictive suscite particulièrement l’intérêt des entreprises. Et machine leraning, est une forme particulière qui permet de réaliser des prédictions.</p>
+</div>
+<div id="machine-learning" class="section level1">
+<h1>Machine learning</h1>
+<p>Contrairement à d’autres termes comme <em>big data</em> ou intelligence artificielle, le terme <em>machine learning</em> est assez bien défini par son sens litéral: c’est la machine qui apprend. Et j’ajouterai: c’est une machine qui sait apprendre, qui apprend, et qui applique ce qu’elle aura appris.</p>
+</div>
+<div id="exemples" class="section level1">
+<h1>Exemples</h1>
 <p>Articles concernant les algorithmes de machine learning, des exemples d’application, des explications</p>
 <p><strong>Algorithmes pour les débutants</strong></p>
 <ul>
@@ -377,7 +450,7 @@ $(document).ready(function () {
     <hr>
     
 
-<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+<a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
 
 
 

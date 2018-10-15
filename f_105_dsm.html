@@ -25,8 +25,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -96,6 +97,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -158,14 +162,74 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -401,15 +465,21 @@ div.tocify {
 </div>
 
 
-<p><strong>Durée : 2 jours</strong></p>
 <div id="objectif" class="section level1">
 <h1><span class="header-section-number">1</span> Objectif</h1>
+<p>A l’heure où les techniques de data science, et d’intelligence artificielle sont de plus en plus utilisées en assurance, les mangers doivent comprendre les principes, et identifier les cas d’usage. Cette formation permet de donner les principes pour les managers afin qu’ils puissent gérer les équipes de data scientist et des projets.</p>
 <ul>
-<li>Une meilleure compréhen sion des enjeux de la data science pour l’assurance</li>
+<li>Une meilleure compréhension des enjeux de la data science pour l’assurance</li>
 <li>Une meilleure compréhension des outils pour gérer un projet</li>
 <li>Vision schématique des étapes de traitements des données</li>
 <li>Des outils adaptés pour les problématiques des entreprises</li>
 <li>Un aperçu des techniques data science pour traiter les données de A à Z</li>
+</ul>
+<p><strong>Points forts</strong></p>
+<ul>
+<li>Retour d’expériences sur des applications concrètes</li>
+<li>Processus de traitement des données</li>
+<li>Astuces et bonnes pratiques concernant l’utilisation des modèles dans une entreprise d’assurance</li>
 </ul>
 </div>
 <div id="publics-concernes" class="section level1">
@@ -443,9 +513,9 @@ div.tocify {
 <ul>
 <li>Marketing</li>
 <li>Tarification</li>
-<li>Résilisation</li>
-<li>Sinistres</li>
-<li>Fraudes</li>
+<li>Aanlyse de résilisation</li>
+<li>Analyse et prédiction de sinistres</li>
+<li>Détection de fraudes</li>
 </ul>
 <p>D’autres cas pratiques orientés techniques seront aussi présentés</p>
 <p><strong>Techniques data science</strong></p>
@@ -475,11 +545,9 @@ div.tocify {
 <p>Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
 <p><strong>Durée et dates</strong></p>
 <p>Durée: <strong>2 jours</strong></p>
-<p>Dates:</p>
-<ul>
-<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
-<li>En dehors de ces dates, merci de me contacter.</li>
-</ul>
+<center>
+<p><a type="button" class="btn btn-primary" href="mailto:shikezhan@gmail.com">Contacter le formateur par mail</a></p>
+</center>
 <!--
 Fin du programme
 
@@ -526,7 +594,7 @@ https://www.data.gouv.fr/fr/datasets/route-500-572583/
     <hr>
     
 
-<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+<a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
 
 
 </div>

@@ -11,7 +11,7 @@
 
 
 
-<title>Text-mining en assurance</title>
+<title>Analyse de réseaux et détection de fraude</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -460,98 +460,61 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Text-mining en assurance</h1>
+<h1 class="title toc-ignore">Analyse de réseaux et détection de fraude</h1>
 
 </div>
 
 
-<p><strong>2 jours</strong></p>
-<div id="preambule" class="section level1">
-<h1><span class="header-section-number">1</span> Préambule</h1>
-<p>Avez-vous des données textuelles (adresse, marque de véhicule, commentaires clients) qui ne sont pas de bonne qualité et rencontrez-vous des difficultés quant à l’exploitation de ces données? Certains essaient de corriger à la main: “bld” et “blvd”, c’est pareil que “boulevard”. Mais avez-vous oublié d’autres écritures potentielles comme “boulvd” ou “bd” ?</p>
-<p>Savez-vous qu’il y a des <a href="https://kezshi.github.io/t3_correction_fautes_orthographe">techniques plus efficaces</a>?</p>
-<p>Plus généralement, les données textes sont souvent décrites comme du Dark Data dans les entreprises, car elles ne sont pas suffisamment exploitées et ne sont parfois simplement pas du tout exploitées. Pourtant ces données textuelles peuvent contenir des informations précieuses, qui peuvent améliorer la prise de décision.</p>
-</div>
 <div id="objectif" class="section level1">
-<h1><span class="header-section-number">2</span> Objectif</h1>
+<h1><span class="header-section-number">1</span> Objectif</h1>
+<p>Analyse de réseaux (<em>network analysis</em> en anglais) ou fouille de graphes (<em>graph mining</em> en anglais) permet d’analyser les relations complexes des différentes entités au sein d’un système ou d’une communauté. En particulier, en assurance, elle permet d’analyser les relations entre assurés, professionnels internvenant pour l’indemnisation, intermédiaires d’assurance, et autres assureurs. Cette formation permet de vous initier à l’analyse de réseaux, et d’apprendre la mise en place des algorithmes afin de détecter des fraudes.</p>
 <p>A l’issue de cette formation, vous allez apprendre à</p>
 <ul>
-<li>extraire des informations à partir des documents html</li>
-<li>corriger et segmenter les textes</li>
-<li>nettoyer et intégrer les données textes</li>
+<li>identifier les cas d’usage de fouilles de graphes</li>
+<li>apprendre à analyser les réseaux</li>
+<li>comprendre la détection de fraudes à l’aide de l’analyse des réseaux</li>
 </ul>
 <p><strong>Points forts</strong></p>
 <ul>
-<li>Retour d’expériences sur des applications concrètes</li>
-<li>Manipulation des bases de données utilisées en assurance</li>
+<li>Solution innovante dans la détection de fraudes</li>
+<li>Mise en place des algorithmes avec R</li>
 </ul>
 </div>
-<div id="public" class="section level1">
-<h1><span class="header-section-number">3</span> Public</h1>
+<div id="publics-concernes" class="section level1">
+<h1><span class="header-section-number">2</span> Publics concernés</h1>
 <ul>
-<li>À toute personne souhaitant analyser les textes et tirer des conclusions intéressantes, en particulier, on peut citer quelques exemples de directions:</li>
-<li>Marketing pour la connaissance des clients</li>
-<li>Actuariat pour l’amélioration de la qualité des données</li>
-<li>Indemnisation pour la détection des fraudes</li>
+<li><p>Responsable des risques opérationnels ; Responsable Fraude ; Direction techniques ; Gestionnaire, et plus largement toute personne impliquée dans la lutte contre la fraude cherchant à mieux comprendre les applications de la data-science à la lutte contre la fraude et à les intégrer dans son métier. Toute personne impliquée dans un dispositif de lutte contre la fraude.</p></li>
+<li><p>Compagnies d’assurance, mutuelles, institutions de prévoyance, sociétés de bancassurance, sociétés de courtage, sociétés d’assistance</p></li>
 </ul>
 </div>
 <div id="programme" class="section level1">
-<h1><span class="header-section-number">4</span> Programme</h1>
-<p><strong>Source de données</strong></p>
+<h1><span class="header-section-number">3</span> Programme</h1>
+<p><strong>Introduction à l’analyse de réseaux</strong></p>
 <ul>
-<li>Données internes</li>
-<li>Reconnaissance optique de caractères</li>
-<li>Données des sites d’avis</li>
-<li>Manipulation des documents html</li>
-<li>Technique de webscraping</li>
+<li>Structure d’un graphe</li>
+<li>Degré et transivité</li>
+<li>Connecitivité</li>
+<li>Graphses aléatoires</li>
+<li>Visualisation des graphes</li>
 </ul>
-<p><strong>Transformation des données textes</strong></p>
+<p><strong>Détection de communauté</strong></p>
 <ul>
-<li>Manipulation des chaînes de caractères</li>
-<li>Manipulation des expressions régulières</li>
-<li>Construction de corpus</li>
-<li>Matrice Documents-termes</li>
-<li>TD IDF</li>
+<li>Homophilie</li>
+<li>Clustering</li>
+<li>Visualisation des communautés</li>
 </ul>
-<p><strong>Nettoyage des données textuelles</strong></p>
+<p><strong>Problèmes de classification</strong></p>
 <ul>
-<li>Distance entre les chaînes de caractères et <a href="https://kezshi.github.io/t3_correction_fautes_orthographe">correction de fautes d’orthographe</a></li>
-<li>Principe de géocodage</li>
-<li>Détection d’anomalies</li>
-</ul>
-<p><strong>Machine learning</strong></p>
-<ul>
-<li>Clusterint des chaînes de caractères</li>
-<li>Classification de spams</li>
-<li><a href="3_2_avis_reg.html">Caractérisation des avis par une note et sa prédiction</a></li>
-<li>Segmentation des avis</li>
-</ul>
-<p><strong>Visualisation</strong></p>
-<ul>
-<li>Tableau de bord</li>
-<li>Nuage de mots</li>
-<li><a href="2_tm_avis.html">Fréquence des mots ou bigrammes</a></li>
-</ul>
-<p><strong>Cas d’application</strong></p>
-<ul>
-<li>Webscraping</li>
-<li>Analyse des avis clients</li>
-<li>Correction des fautes d’orthographe</li>
-<li>Géocodage</li>
-<li>Analyse du NPS</li>
+<li>Classification des cas frauduleux</li>
+<li>Construction de modèles</li>
+<li>Evaluation de modèles</li>
 </ul>
 </div>
 <div id="informations-pratiques" class="section level1">
-<h1><span class="header-section-number">5</span> Informations pratiques</h1>
+<h1><span class="header-section-number">4</span> Informations pratiques</h1>
 <p>Durée: <strong>2 jours</strong></p>
-<p><strong>Pour obtenir quoi ?</strong></p>
-<ul>
-<li>Compétences de text mining et les cas d’applications.</li>
-<li>Extraction d’informations des données textuelles</li>
-<li>Construction d’indicateurs basés sur les textes</li>
-</ul>
 <p><strong>Comment ?</strong></p>
-<p>Les différentes techniques de collecte, de nettoyage et d’analyse de données seront illustrées avec des exemples pratiques, codés sous R.</p>
+<p>Présentation de la théorie des graphes et des cas d’usages, illustrées avec des exemples pratiques, codés avec R.</p>
 <p><strong>Quels sont les pré-requis ?</strong></p>
 <p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés. Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
 <center>

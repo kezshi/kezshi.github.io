@@ -22,8 +22,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -93,6 +94,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -155,14 +159,74 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -315,6 +379,7 @@ $(document).ready(function () {
 <li><a href="f_105_dsm.html">105 Data Science pour les managers</a></li>
 <li><a href="f_106_tm_ia.html">106 Analyse des textes avec l’intelligence artificielle</a></li>
 <li>107 Utilisation de l’intelligence artificielle en assurance</li>
+<li><a href="f_108_gestion_projet.html">108 Gestion de projet data science</a></li>
 <li>111 Data Science avec Python</li>
 <li>120 Chatbot et automatisation des échanges</li>
 <li><a href="f_901_blockchain.html">901 Bitcoins et blockchain pour les nuls</a></li>
@@ -339,6 +404,7 @@ $(document).ready(function () {
 <li><a href="f_302_mlvis.html">302 Explication visuelle de machine learning</a></li>
 <li><a href="f_303_datavis.html">303 Data visualisation en assurance</a></li>
 <li><a href="f_304_tm.html">304 Text mining en assurance</a></li>
+<li><a href="f_305_network.html">305 Analyse de réseaux et détection de fraude</a></li>
 <li>306 Web-scraping <a href="1_web_scraping.html">article introductif</a></li>
 </ul>
 <p>Pour les formations intra, n’hésitez pas à me contacter pour construire un programme adapté à votre entreprise, avec des cas réels.</p>
@@ -390,7 +456,7 @@ $(document).ready(function () {
     <hr>
     
 
-<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+<a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
 
 
 

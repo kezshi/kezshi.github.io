@@ -25,8 +25,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -96,6 +97,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -158,14 +162,74 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -404,23 +468,26 @@ div.tocify {
 <p><strong>Durée : 2 jours</strong></p>
 <div id="objectif" class="section level1">
 <h1><span class="header-section-number">1</span> Objectif</h1>
-<p>Apprendre à récupérer, nettoyer et intégrer les données externes publiques (géographiques et démographiques) et des données du marché (automobile et immobilier) pour enrichir les bases de données internes pour les besoins de tarification, de risk management et de marketing.</p>
-<p><strong>A qui s’adresse cette formation ?</strong></p>
-<p>À toute personne souhaitant utiliser des données externes dans les différents domaines d’assurance: produits, marketing, distribution et tarification.</p>
-<p><strong>Pour obtenir quoi ?</strong></p>
+<p>Les données externes permettent mieux connaître les clients, et les intermédiaires d’assurance. Elles permettent aussi d’améliorer la qualité des données pour des projets comme FVA (Fichier des Véhicules Assurés), FICOVIE (Fichier des Contrats d’assurance Vie), et contrats non-réglés. Cette formation permet d’apprendre la mise en place des techniques afin d’exploiter les données externes.</p>
 <ul>
-<li>Une meilleure compréhension de la collecte des données externes, et les techniques de scraping.</li>
-<li>Constituer une base de données pour améliorer la tarification, le marketing ou le risk management.</li>
+<li>Apprendre à récupérer automatiquement des données externes</li>
+<li>Comprendre l’importance et les techinques de nettoyage</li>
+<li>Apprendre à intégrer les données externes publiques (géographiques et démographiques)</li>
+<li>Utilisation des données enrichies pour les besoins de tarification, de détection de fraude et de marketing.</li>
 </ul>
-<p><strong>Comment se déroule la formation ?</strong></p>
-<p>Les différentes techniques de collecte et de nettoyage de données seront illustrées avec des exemples pratiques, codés sous R.</p>
-<p><strong>Quels sont les pré-requis ?</strong></p>
-<p>Base de l’assurance. L’intérêt et l’utilisation des outils numériques sont fortement recommandés.</p>
-<p><strong>Y a-t-il besoin d’ordinateurs ?</strong></p>
-<p>Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
+<p><strong>Points forts</strong></p>
+<ul>
+<li>Retour d’expériences sur des applications concrètes</li>
+<li>Manipulation des données utilisées en assurance</li>
+<li>Astuces et bonnes pratiques concernant l’utilisation des modèles dans une entreprise d’assurance</li>
+</ul>
+</div>
+<div id="public-concerne" class="section level1">
+<h1><span class="header-section-number">2</span> Public concerné</h1>
+<p>À toute personne souhaitant utiliser des données externes dans les différents domaines d’assurance: produits, marketing, distribution et tarification.</p>
 </div>
 <div id="programme" class="section level1">
-<h1><span class="header-section-number">2</span> Programme</h1>
+<h1><span class="header-section-number">3</span> Programme</h1>
 <p><strong>Présentation de R et RStudio</strong></p>
 <ul>
 <li>Bases de programmation avec R</li>
@@ -431,13 +498,14 @@ div.tocify {
 <ul>
 <li>Techniques de web-scraping</li>
 <li>Utilisation des API</li>
-<li>Géocodage des adresses</li>
+<li>Base Adresse Nationale</li>
+<li>SIRENE (Système national d’identification et du répertoire des entreprises et de leurs établissements)</li>
 </ul>
 <p><strong>Nettoyage des bases de données</strong></p>
 <ul>
 <li>Manipulation des données démographiques</li>
-<li>Etude des prix immobiliers</li>
-<li>Cotes des véhicules</li>
+<li>Géocodage des adresses</li>
+<li>Identification des clients professionnels</li>
 <li>Transformation des données et leur intégration</li>
 </ul>
 <p><strong>Analyse géographique des données</strong></p>
@@ -461,15 +529,28 @@ div.tocify {
 </ul>
 </div>
 <div id="informations-pratiques" class="section level1">
-<h1><span class="header-section-number">3</span> Informations pratiques</h1>
+<h1><span class="header-section-number">4</span> Informations pratiques</h1>
 <p>Durée: <strong>2 jours</strong></p>
-<p>Dates:</p>
+<p><strong>Pour obtenir quoi ?</strong></p>
 <ul>
-<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
-<li>En dehors de ces dates, merci de me contacter.</li>
+<li>Une meilleure compréhension de la collecte des données externes, et les techniques de scraping.</li>
+<li>Constituer une base de données pour améliorer la tarification, le marketing ou le risk management.</li>
 </ul>
+<p><strong>Comment se déroule la formation ?</strong></p>
+<p>Les différentes techniques de collecte et de nettoyage de données seront illustrées avec des exemples pratiques, codés sous R.</p>
+<p><strong>Quels sont les pré-requis ?</strong></p>
+<p>Base de l’assurance. L’intérêt et l’utilisation des outils numériques sont fortement recommandés.</p>
+<p><strong>Y a-t-il besoin d’ordinateurs ?</strong></p>
+<p>Chaque participant se munira d’un ordinateur portable pour les travaux pratiques.</p>
+<center>
+<p><a type="button" class="btn btn-primary" href="mailto:shikezhan@gmail.com">Contacter le formateur par mail</a></p>
+</center>
 <!--
 Fin du programme
+
+- SRA
+- BAN
+- SIRENE
 
 Idées diverses
 informations routes
@@ -514,7 +595,7 @@ https://www.data.gouv.fr/fr/datasets/route-500-572583/
     <hr>
     
 
-<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+<a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
 
 
 </div>

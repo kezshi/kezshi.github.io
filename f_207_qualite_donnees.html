@@ -25,8 +25,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -96,6 +97,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -158,14 +162,74 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -410,6 +474,7 @@ div.tocify {
 <li>Qualité de données sous Solvabilité 2</li>
 <li>Contrats d’assurance vie non-réglés</li>
 <li>Projet FVA (Fichier des Véhicules Assurés)</li>
+<li>FICOVIE (Fichier des COntrats d’assurance VIE)</li>
 </ul>
 <p>Cette formation vous propose des techniques concrètes pour la mise en place un processus de contrôle de la qualité des données, une détection automatisée, jusqu’à la résolution de certains dysfonctionnements.</p>
 </div>
@@ -420,6 +485,11 @@ div.tocify {
 <li>Utiliser des techniques data science pour contrôler la qualité des données</li>
 <li>Comment le machine learning peut aider à prédire la qualité des données</li>
 <li>Comment contrôler automatiquement la qualité des données</li>
+</ul>
+<p><strong>Points forts</strong></p>
+<ul>
+<li>Retour d’expériences sur des applications concrètes</li>
+<li>Manipulation d’une base de données utilisée en assurance</li>
 </ul>
 <p><strong>Comment?</strong></p>
 <ul>
@@ -568,11 +638,9 @@ segmentation (réduction de dimension, projection)
 <p>Aucun.</p>
 <p><strong>Y a-t-il besoin d’ordinateurs ?</strong></p>
 <p>Ordinateur avec R et Rstudio installés</p>
-<p><strong>Dates des sessions</strong></p>
-<ul>
-<li>Toutes les formations inter-entreprises sont affichées sur la <a href="0_formations.html">page de liste des programmes et calendrier des formations</a>.</li>
-<li>En dehors de ces dates, merci de me contacter.</li>
-</ul>
+<center>
+<p><a type="button" class="btn btn-primary" href="mailto:shikezhan@gmail.com">Contacter le formateur par mail</a></p>
+</center>
 </div>
 
 <div id="disqus_thread"></div>
@@ -602,7 +670,7 @@ segmentation (réduction de dimension, projection)
     <hr>
     
 
-<p>Copyright &copy; 2017 Site de Kezhan Shi</p>
+<a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
 
 
 </div>
