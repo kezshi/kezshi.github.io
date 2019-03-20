@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Principe du géocodage</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.4/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.0.0/leaflet.js"></script>
+ <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Principe du géocodage</h1>
+
+</div>
+
+
+<style>a[data-toggle='tab'] .header-section-number {
+  display: none;
+}</style>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Les data scientists doivent passer plus de 80% de leur temps à nettoyer leurs données. Les causes de la mauvaise qualité des données sont multiples. Quand la saisie est libre, les erreurs d’orthographe sont fréquentes. La correction de ces erreurs peut être chronophage. Le premier réflexe est souvent de repérer les erreurs commises et de les corriger à la main. Si pour une petite quantité d’erreurs, il semble rapide de corriger à la main, il n’est pas viable de le faire pour une grande quantité de données. Ainsi, il est souvent préférable d’adopter une solution automatisée dès que possible.</p>
+<div class="figure">
+<img src="https://kezhanshi.bitbucket.io/images/divers/tempstravail.png" width="500" />
+
+</div>
+</div>
+<div id="type-de-voies" class="section level1">
+<h1><span class="header-section-number">2</span> Type de voies</h1>
+<div id="distance-des-mots" class="section level2">
+<h2><span class="header-section-number">2.1</span> Distance des mots</h2>
+<p>Prenons l’exemple des adresses non normalisées: on peut écrire “bld” pour “boulevard”. On peut repérer tous les “bld” et les corriger à la main. Mais le problème, c’est que certains écrivent “blvd” par exemple. Puis pour “avenue”, on peut trouver “av”, “ave”, “aven”, “avenu” et d’autres erreurs grossières.</p>
+<p>On peut calculer la distance entre deux mots. Une façon de calculer la distance peut être la suivante:</p>
+<ul>
+<li>On compte le nombre de lettres dans chaque mot.</li>
+<li>Si le nombre de lettres pour un mot donné est identique, la différence est de 0. Si le nombre est différent, on prend la valeur absolue de la différence.</li>
+<li>A la fin, on additionne le nombre de différences.</li>
+</ul>
+<p>Par exemple,</p>
+<ul>
+<li>entre “rue” et “avenue”, on a une distance de 5</li>
+<li>entre “boulevard” et “bld”, on a une distance de 6</li>
+</ul>
+</div>
+<div id="correction" class="section level2">
+<h2><span class="header-section-number">2.2</span> Correction</h2>
+<p>Pour automatiser la correction, on peut procéder aux étapes suivantes:</p>
+<ul>
+<li>On doit d’abord avoir les types de voies normalisées, par exemple “avenue, rue, boulevard”.</li>
+<li>Pour chaque type de voie observé, on peut calculer la distance avec les types normalisés. Pour “av”, on aura donc “4, 5, 7”.</li>
+<li>On prend le minimum, et ici, on obtient bien “avenue”.</li>
+</ul>
+</div>
+<div id="visualisation" class="section level2">
+<h2><span class="header-section-number">2.3</span> Visualisation</h2>
+<p>Afin de montrer le processus de correction, on peut visualiser par une segmentation de ces termes.</p>
+<p><img src="geocodeur_presentation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+</div>
+<div id="nom-de-voie" class="section level1">
+<h1><span class="header-section-number">3</span> Nom de voie</h1>
+<div id="types-de-distance" class="section level2">
+<h2><span class="header-section-number">3.1</span> Types de distance</h2>
+<p>Imaginons le cas suivant:</p>
+<ul>
+<li>Dans notre base, on a deux rues
+<ul>
+<li>“rue Victor Hugo” et</li>
+<li>“rue Hugo Viktor”</li>
+</ul></li>
+<li>Quelqu’un écrit “rue Viktor Hugo” et on suppose qu’il s’est trompé sur la lettre “k” (si ce cas vous apparait ambigu, vous pouvez toujours imaginer un autre cas où l’ordre est important).
+<ul>
+<li>Si on calcule la distance comme précédent, on aura comme distance par rapport aux données de référence: 2, 0. Du coup, la proche serait “rue Hugo Viktor”, ce qui n’est pas ce qu’on souhaitait.</li>
+<li>Pour résoudre le problème, on peut utiliser un autre type de distance: <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein">distance Levenshtein</a>, et on aura 1, 10.</li>
+</ul></li>
+</ul>
+<p>On voit que selon les cas, on peut choisir le bon type de distance pour mieux traiter nos erreurs.</p>
+</div>
+<div id="exemple-dune-adresse" class="section level2">
+<h2><span class="header-section-number">3.2</span> Exemple d’une adresse</h2>
+<p>Testons la méthode par rapport à un vrai cas: <strong>av Gros Malhon</strong> à Rennes.</p>
+<p>Pour cela, on doit d’abord disposer de l’ensemble des adresses à Rennes, puis on calcule la distance entre la voie recherchée et toutes les voies qui existent à Rennes, enfin, on peut classer les résultat selon l’ordre croissant de la distance.</p>
+<div id="htmlwidget-3dbd849d061d205c125a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3dbd849d061d205c125a">{"x":{"filter":"none","data":[["avenue gros malhon","rue hamon","rue jean milon","allée bisson","rue frère salomon","rue freron","rue de gaillon","rue de léon","rue malakoff","allée marbode"],[4,9,9,10,10,10,10,10,10,10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Nom de voie trouvée dans BAN<\/th>\n      <th>Distance textuelle<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="plusieurs-adresses" class="section level2 tabset">
+<h2><span class="header-section-number">3.3</span> Plusieurs adresses</h2>
+<!--- knit those table chunk statements -->
+<div id="avenue-gros-malon" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> avenue Gros Malon</h3>
+<p>Adresse: <strong>avenue Gros Malon</strong></p>
+<div id="htmlwidget-9d7a65bda843e5f78f3d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9d7a65bda843e5f78f3d">{"x":{"filter":"none","data":[["avenue gros malhon","avenue charles tillon","avenue jules maniez","avenue du bois labbe","avenue de cucille","avenue de grignan","rue jean milon","avenue louis barthou","avenue andré malraux","avenue jorge semprun"],[1,8,8,9,9,9,9,9,9,9]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="r-victor-hugo" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> r Victor Hugo</h3>
+<p>Adresse: <strong>r Victor Hugo</strong></p>
+<div id="htmlwidget-9eb9d42fbbc0f55893a9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9eb9d42fbbc0f55893a9">{"x":{"filter":"none","data":[["rue victor hugo","rue victor boner","rue victor janton","rue victor segalen","rue abbé huet","rue victor le gorgeu","rue colette","rue coulabin","rue au duc","rue gounod"],[2,7,7,8,9,9,10,10,10,10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="av-gros-ballon" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> av Gros Ballon</h3>
+<p>Adresse: <strong>av Gros Ballon</strong></p>
+<div id="htmlwidget-d0efb724f835a0f69682" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d0efb724f835a0f69682">{"x":{"filter":"none","data":[["avenue gros malhon","allée bisson","rue de gaillon","rue hamon","rue robelin","rue bara","rue du bignon","rue frère salomon","rue freron","rue glais bizoin"],[6,9,9,9,9,10,10,10,10,10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="avenue-grand-malland" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> avenue Grand Malland</h3>
+<p>Adresse: <strong>avenue Grand Malland</strong></p>
+<div id="htmlwidget-65c7c240b29bd2ffb8be" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-65c7c240b29bd2ffb8be">{"x":{"filter":"none","data":[["avenue gros malhon","avenue andré malraux","avenue jean janvier","avenue germaine dulac","avenue andré mussât","avenue aristide briand","avenue charles tillon","avenue sergent maginot","avenue jules maniez","avenue chardonnet"],[6,7,9,9,10,10,10,10,10,11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="av-grand-malland" class="section level3">
+<h3><span class="header-section-number">3.3.5</span> av Grand Malland</h3>
+<p>Adresse: <strong>av Grand Malland</strong></p>
+<div id="htmlwidget-9c6106dd176b09761845" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9c6106dd176b09761845">{"x":{"filter":"none","data":[["le grand breil","avenue gros malhon","rue jean milon","rue jean moulin","avenue andré malraux","rue jan palach","rue rené collin","square d'alsace","allée andré menard","rue armand rebillon"],[9,10,10,10,10,10,10,11,11,11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="distance-phonetique" class="section level1 tabset">
+<h1><span class="header-section-number">4</span> Distance phonétique</h1>
+<!--- knit those table chunk statements -->
+<div id="avenue-gros-malon-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> avenue Gros Malon</h2>
+<p>Adresse: <strong>avenue Gros Malon</strong></p>
+<div id="htmlwidget-76c43d301bb99924de96" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-76c43d301bb99924de96">{"x":{"filter":"none","data":[["avenue gros malhon","avenue andré malraux","avenue du bois labbe","avenue charles tillon","avenue de grignan","avenue du haut sancé","avenue andré mussât","avenue de cucille","avenue de guyenne","rue jean milon"],[0,6,7,7,7,7,8,8,8,8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="r-victor-hugo-1" class="section level2">
+<h2><span class="header-section-number">4.2</span> r Victor Hugo</h2>
+<p>Adresse: <strong>r Victor Hugo</strong></p>
+<div id="htmlwidget-f641dabb36b23a6ba619" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f641dabb36b23a6ba619">{"x":{"filter":"none","data":[["rue victor hugo","rue victor boner","rue victor janton","rue charles bougot","rue pierre le baud","rue victor le gorgeu","rue victor segalen","rue chateaurenault","rue de la courrouze","rue coutanceau"],[2,6,6,7,7,7,7,8,8,8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="av-gros-ballon-1" class="section level2">
+<h2><span class="header-section-number">4.3</span> av Gros Ballon</h2>
+<p>Adresse: <strong>av Gros Ballon</strong></p>
+<div id="htmlwidget-975464fa9ecb93923a26" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-975464fa9ecb93923a26">{"x":{"filter":"none","data":[["avenue gros malhon","avenue du bois labbe","avenue charles tillon","avenue de grignan","avenue du haut sancé","avenue louis barthou","avenue andré malraux","avenue de cucille","avenue de guyenne","rue robelin"],[1,7,7,7,7,7,7,8,8,8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="avenue-grand-malland-1" class="section level2">
+<h2><span class="header-section-number">4.4</span> avenue Grand Malland</h2>
+<p>Adresse: <strong>avenue Grand Malland</strong></p>
+<div id="htmlwidget-8c06ee0cce2ed363f151" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8c06ee0cce2ed363f151">{"x":{"filter":"none","data":[["avenue gros malhon","avenue de grignan","avenue sergent maginot","avenue du bois labbe","avenue andré malraux","avenue jules maniez","avenue charles tillon","avenue de cucille","avenue du doyen colas","avenue de guyenne"],[3,6,6,7,7,7,8,8,8,8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="av-grand-malland-1" class="section level2">
+<h2><span class="header-section-number">4.5</span> av Grand Malland</h2>
+<p>Adresse: <strong>av Grand Malland</strong></p>
+<div id="htmlwidget-92c98ef176562e45cacc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-92c98ef176562e45cacc">{"x":{"filter":"none","data":[["avenue gros malhon","avenue de grignan","avenue sergent maginot","avenue du bois labbe","avenue andré malraux","avenue jules maniez","avenue charles tillon","avenue de cucille","avenue du doyen colas","avenue de guyenne"],[3,6,6,7,7,7,8,8,8,8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ban_nom<\/th>\n      <th>dist<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 0 ? '' : 'linear-gradient(90deg, transparent ' + (10 - value)/10 * 100 + '%, lightblue ' + (10 - value)/10 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="code-postal-et-ville" class="section level1">
+<h1><span class="header-section-number">5</span> Code postal et ville</h1>
+<div id="extraction" class="section level2">
+<h2><span class="header-section-number">5.1</span> Extraction</h2>
+<div id="htmlwidget-5e6b88fdf37b52a0edab" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5e6b88fdf37b52a0edab">{"x":{"filter":"none","data":[["avenue Gros Malon 35000 Rennes","r Victor Hugo, 35200 Rennes","av Gros Ballon, 35000 Rennes","avenue Grand Malland, 35000 Rennes","av Grand Malland 35000 Rennes"],["35000","35200","35000","35000","35000"],["Rennes","Rennes","Rennes","Rennes","Rennes"],["avenue Gros Malon","r Victor Hugo","av Gros Ballon","avenue Grand Malland","av Grand Malland"],["avenue gros malon","rue victorue hugo","avenue gros ballon","avenue grand malland","avenue grand malland"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Adresse initiale<\/th>\n      <th>Code postal<\/th>\n      <th>Ville<\/th>\n      <th>Voie<\/th>\n      <th>voie corrigée<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="anomalies-code-postal-et-ville" class="section level2">
+<h2><span class="header-section-number">5.2</span> Anomalies code postal et ville</h2>
+<ul>
+<li>Code postal et ville ne sont pas dans les colonnes correspondants</li>
+<li>Code postal et ville incohérents</li>
+</ul>
+<p>On crée un <strong>dictionnaire</strong> à partir de la base BAN</p>
+<p><strong>Normalisation</strong></p>
+<p>Une ville peut avoir plusieur codes postaux, mais un code postal correspond à une seule ville. Si on trouve:</p>
+<ul>
+<li>ville et CP sont cohérents –&gt; OK<br />
+</li>
+<li>trouve ville mais pas CP –&gt; corrger ville<br />
+</li>
+<li>trouve CP mais pas Ville –&gt; corrger CP<br />
+</li>
+<li>ville et CP ne se correspendent pas –&gt; listes de CP et liste de ville à chercher</li>
+<li>ville et CP non trouvé –&gt; KO</li>
+</ul>
+</div>
+</div>
+<div id="numero-de-voie" class="section level1">
+<h1><span class="header-section-number">6</span> Numéro de voie</h1>
+<p><strong>Anomalies</strong></p>
+<ul>
+<li>Numéro inexistant</li>
+<li>Numéro dans un interval(ex. 11-13)</li>
+</ul>
+<p><strong>Normalisation</strong></p>
+<p>On sépare le numéro de voie en deux colonnes, <strong>numéro start</strong> et <strong>numéro end</strong></p>
+<div id="htmlwidget-e647a67d875a14247cea" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e647a67d875a14247cea">{"x":{"filter":"none","data":[["11-13 avenue Gros Malon 35000 Rennes","12 r Victor Hugo, 35200 Rennes","2 av Gros Ballon, 35000 Rennes","3 avenue Grand Malland, 35000 Rennes","7 av Grand Malland 35000 Rennes"],["35000","35200","35000","35000","35000"],["Rennes","Rennes","Rennes","Rennes","Rennes"],["avenue Gros Malon","r Victor Hugo","av Gros Ballon","avenue Grand Malland","av Grand Malland"],["avenue gros malon","rue victorue hugo","avenue gros ballon","avenue grand malland","avenue grand malland"],[11,12,2,3,7],[13,12,2,3,7]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Adresse initiale<\/th>\n      <th>Code postal<\/th>\n      <th>Ville<\/th>\n      <th>Voie<\/th>\n      <th>voie corrigée<\/th>\n      <th>numéro start<\/th>\n      <th>numéro end<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="plan-interactif" class="section level1">
+<h1><span class="header-section-number">7</span> Plan interactif</h1>
+<div id="htmlwidget-0bd035812137656ff63f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0bd035812137656ff63f">{"x":{"filter":"none","data":[["11-13 avenue Gros Malon 35000 Rennes","12 r Victor Hugo, 35200 Rennes","2 av Gros Ballon, 35000 Rennes","3 avenue Grand Malland, 35000 Rennes","7 av Grand Malland 35000 Rennes"],["11 avenue gros malhon 35000 RENNES","12 rue victor hugo 35000 RENNES","2 avenue gros malhon 35000 RENNES","3 avenue gros malhon 35000 RENNES","7 avenue gros malhon 35000 RENNES"],[-1.68194963305718,-1.6759285330139,-1.68184002764756,-1.68224579313764,-1.68198695105112],[48.121957369559,48.1123737349181,48.1218751892979,48.12144080048,48.1216494022645]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Adresse initiale<\/th>\n      <th>Adresse geocodage<\/th>\n      <th>lon<\/th>\n      <th>lat<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6aad19b949ff8f254b74" style="width:100%;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6aad19b949ff8f254b74">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[48.121957369559,48.1123737349181,48.1218751892979,48.12144080048,48.1216494022645],[-1.68194963305718,-1.6759285330139,-1.68184002764756,-1.68224579313764,-1.68198695105112],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["11-13 avenue Gros Malon 35000 Rennes","12 r Victor Hugo, 35200 Rennes","2 av Gros Ballon, 35000 Rennes","3 avenue Grand Malland, 35000 Rennes","7 av Grand Malland 35000 Rennes"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[48.1123737349181,48.121957369559],"lng":[-1.68224579313764,-1.6759285330139]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="comparaison-avec-google-map-et-ban" class="section level1">
+<h1><span class="header-section-number">8</span> Comparaison avec Google Map et BAN</h1>
+<div id="htmlwidget-75c78b8d914380924375" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75c78b8d914380924375">{"x":{"filter":"none","data":[["278 rte de saint malo 35000 rennes ","7 rue de vouziers rennes 35000","68 av du grand maland rennes 35000","68 av gros ballon rennes 35000","68 av du gros ballon rennes 35000","68 av grand malan rennes 35700","che agricol perdiguier rennes 35000","68 av du grand malin rennes 35000"],["rue saint-malo 35000 rennes","7 rue de vouziers 35000 rennes","avenue du grand salan 34420 portiragnes","rue des gros hommes 17290 ballon","rue des gros hommes 17290 ballon","68 avenue charles de gaulle 08200 balan","chemin agricol perdiguier 35000 rennes","avenue de tonbridge west malling 43000 le puy-en-velay"],["10 1 / rue saint-thomas 35400 saint-malo","7 rue des marizys 08400 vouziers","france","france","68 avenue gros malhon 35000 rennes","milan metropolitan city of milan","france","68 avenue du grand morin 77150 lésigny"],["278 rue saint malo 35000 rennes","7 rue vouziers 35000 rennes","68 avenue gros malhon 35000 rennes","68 avenue gros malhon 35000 rennes","68 avenue gros malhon 35000 rennes","68 avenue gros malhon 35000 rennes","chemin agricol perdiguier 35000 rennes","68 avenue gros malhon 35000 rennes"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Adresse initiale<\/th>\n      <th>BAN Geocoder<\/th>\n      <th>Google Geocoder<\/th>\n      <th>Allianz Geocoder<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'95%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'95%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'95%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'95%'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="production" class="section level1">
+<h1><span class="header-section-number">9</span> Production</h1>
+<p>Le principe a été présenté, et il est simple à comprendre, cependant, il n’est pas toujours facile à implémenter à cause de la complexité des données réelles et de leur mauvaise qualité.</p>
+<p>Voici un schéma d’une implémentation.</p>
+<div class="figure">
+<img src="https://kezhanshi.bitbucket.io/images/allianz/geocodeur.jpg" />
+
+</div>
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
