@@ -22,8 +22,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -94,9 +93,6 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
-.html-widget {
-  margin-bottom: 20px;
-}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -159,74 +155,14 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -342,13 +278,20 @@ $(document).ready(function () {
       </a>
     </li>
     <li>
-      <a href="0_photos.html">
+      <a href="0_photos.htm">
         <span class="fa fa-camera"></span>
          
         Photos événements
       </a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="contact.html">
+    <span class="fa fa-id-card"></span>
+     
+    Contact
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -378,10 +321,10 @@ $(document).ready(function () {
 <li><a href="f_104_dx.html">104 Utilisation des données externes en assurance</a></li>
 <li><a href="f_105_dsm.html">105 Data Science pour les managers</a></li>
 <li><a href="f_106_tm_ia.html">106 Analyse des textes avec l’intelligence artificielle</a></li>
-<li>107 Utilisation de l’intelligence artificielle en assurance</li>
+<li><a href="f_107_ia.html">107 Utilisation de l’intelligence artificielle en assurance</a></li>
 <li><a href="f_108_gestion_projet.html">108 Gestion de projet data science</a></li>
 <li>111 Data Science avec Python</li>
-<li>120 Chatbot et automatisation des échanges</li>
+<li><a href="f_120_chatbot.html">120 Chatbot et automatisation des échanges</a></li>
 <li><a href="f_901_blockchain.html">901 Bitcoins et blockchain pour les nuls</a></li>
 </ul>
 <p><strong>Thèmes spécifiques</strong></p>
@@ -391,7 +334,6 @@ $(document).ready(function () {
 <li><a href="f_201elearning_fraudes.html">201 (e-learning) Détection de fraude</a></li>
 <li><a href="f_202_resiliations.html">202 Analyse des résiliations</a></li>
 <li><a href="f_203_marketing.html">203 Marketing, valeur client, et data science</a></li>
-<li><a href="https://evenements.infopro-digital.com/argus/formation-developper-votre-performance-marketing-avec-la-data-science-p-8959">203a Développer votre performance marketing avec la data-science</a></li>
 <li><a href="f_204_geo.html">204 Utilisation des données géographiques</a></li>
 <li><a href="f_205_avis.html">205 Analyse des avis clients</a></li>
 <li><a href="f_206_accidents_auto.html">206 Analyse et visualisation des sinistres automobiles</a></li>
@@ -413,6 +355,13 @@ $(document).ready(function () {
 </center>
 <p></br></p>
 <!--
+
+
+Aux formations
+
+- [203a Développer votre performance marketing avec la data-science](https://evenements.infopro-digital.com/argus/formation-developper-votre-performance-marketing-avec-la-data-science-p-8959)
+
+
 # Calendrier des formations
 
 <center>

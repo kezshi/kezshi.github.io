@@ -25,8 +25,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
  <link rel="shortcut icon" type="image/x-icon" href="http://kezhanshi.bitbucket.io/images/logo/favicon.ico">
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -97,9 +96,6 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
-.html-widget {
-  margin-bottom: 20px;
-}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -162,74 +158,14 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -440,13 +376,20 @@ div.tocify {
       </a>
     </li>
     <li>
-      <a href="0_photos.html">
+      <a href="0_photos.htm">
         <span class="fa fa-camera"></span>
          
         Photos événements
       </a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="contact.html">
+    <span class="fa fa-id-card"></span>
+     
+    Contact
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -489,50 +432,48 @@ div.tocify {
 </div>
 <div id="programme" class="section level1">
 <h1><span class="header-section-number">3</span> Programme</h1>
-<p><strong>Principe et découverte des chatbots</strong></p>
+<p><strong>Présentation et découverte des chatbots</strong></p>
 <ul>
-<li>Utiliser un chatbot personnalisé</li>
-<li>Comprendre le principe et</li>
-<li>Paramétrer</li>
+<li>Types de chatbots et leur usage</li>
+<li>Interfaces conversationnelles: textuelle vs vocale</li>
+<li>Utilisation et bénéfices des chatbots, automatisation des échanges</li>
 </ul>
-<p>Comprendre les outils d’intelligence artificielle textuels et le principe du machine learning.</p>
-<p>Déployer des outils sémantiques: l’exemple des robots-rédacteurs. Recourir aux chatbots audio: Siri, Siv et les futurs usages de l’audio. La stratégie des marques pour créer des conversations. Paramétrer son robot conversationnel pour respecetr des règles déontologiques. Le format conversationnel, une stratégie complémentaire entre média et communauté</p>
-<p>Définir la stratégie de contenu informatif mode conversationnel</p>
-<p>Scénariser un chabot d’information pour sa marque ou sa communauté en ligne. Développer un chatbot multiplateforme sans coder. Retour d’expérience: les applications de la formation sur le terrain (session à distance)</p>
-<p>OUVERTURE</p>
-<p>Pourquoi les chatbots ont le vent en poupe ? L’évolution des interfaces Historique des chatbots LES CHATBOTS Les interfaces conversationnelles : un nouveau paradigme Où trouve-t-on des chatbots ? Textuel VS vocale Les usages les plus courants Les bénéfices ARCHITECTURE D’UN CHATBOT Les différentes briques techniques Intégrer un chatbot dans un SI LES MOTEURS DE LANGAGE NATUREL Définition et terminologie Les acteurs Le machine learning Les limites</p>
-<p>CAS PRATIQUE : « ENTRAINER UN MOTEUR DE LANGAGE NATUREL » Création d’une instance, intentions, entités Entrainement manuelle et ajustement Supervision et correction</p>
-<p>ADOPTER LES BONNES PRATIQUES DE CONVERSATION Définir la présentation du chatbot Gérer les impasses Personnaliser les réponses CAS PRATIQUE : « CRÉER UN CHATBOT » Création d’un scénario conversationnel Gestion du flow conversationnel Gestion de la mémoire Les différents formats de réponses possibles La communication avec une API serveur CAS PRATIQUE : « DÉPLOYER SON CHATBOT Choisir la ou les plateformes de déploiement Faire connaître son chatbot COMMENT FAIRE ÉVOLUER VOTRE CHATBOT Ajout de fonctionnalités L’ANALYTICS Pourquoi de l’analytics ? Quelques outils d’analytics L’AVENIR DES CHATBOTS La voix partout La personnalisation SÉANCE QUESTIONS / RÉPONSES MOT DE LA FIN Partage sur le statut d’apprentissage des participants, collecte des questions Evaluation de la formation et formalités diverses</p>
-<p><strong>Utilisation en assurance</strong></p>
+<p><strong>Comprendre le principe et créer un chatbot</strong></p>
 <ul>
-<li>Automatisation du processus de souscription des contrats</li>
-<li>Amélioration de la qualité des données</li>
-<li>Meilleure connaissance clients</li>
-<li>Exploitation des documents et contrôle de la souscription et de l’indemnisation</li>
-<li>Automatisation des échanges et chatbot</li>
+<li>Création d’un chatbot à partir de zéro</li>
+<li>Création d’un scénario conversationnel</li>
+<li>Gestion du flow conversationnel</li>
+<li>Gérer les impasses et personnaliser les réponses</li>
+<li>Entrainement manuel et ajustement</li>
 </ul>
-<p><strong>Cas d’usage</strong></p>
+<p><strong>Intelligence artificielle et machine learning</strong></p>
 <ul>
-<li>Correction de fautes d’orthographe</li>
-<li>Analyse des avis clients</li>
-<li>Exploitation des adresses des clients et géocodage</li>
-<li>Détection de spams</li>
-<li>Construction de chatbot</li>
-<li>Webscraping</li>
+<li>Moteurs de langage naturel</li>
+<li>Déployer des outils sémantiques</li>
+<li>Comprendre intentions et entités</li>
+<li>Classification des intentions</li>
+<li>Extraction des entités</li>
+</ul>
+<p><strong>Dépoloiement d’un chatbot</strong></p>
+<ul>
+<li>Développer un chatbot multiplateforme sans coder</li>
+<li>Choisir les plateformes de déploiement</li>
+<li>Autres formes de chatbot</li>
 </ul>
 </div>
 <div id="informations-pratiques" class="section level1">
 <h1><span class="header-section-number">4</span> Informations pratiques</h1>
 <p><strong>Pour obtenir quoi ?</strong></p>
 <ul>
-<li>Compétences de text mining et les cas d’applications.</li>
-<li>Extraction d’informations des données textuelles</li>
-<li>Construction d’indicateurs basés sur les textes</li>
+<li>Compréhension du principe de chatbot</li>
+<li>Démystification et les cas d’applications</li>
+<li>Déploiement de chatbot</li>
 </ul>
 <p><strong>Comment ?</strong></p>
 <ul>
+<li>Création d’un chatbot à partir de zéro</li>
 <li>Explication des théories de l’intelligence artificielle dans l’analyse des textes</li>
-<li>Les différentes techniques de collecte, de nettoyage et d’analyse de données seront illustrées avec des exemples pratiques, codés sous R.</li>
+<li>Cas pratique sur le déploiement d’un chatbot</li>
 </ul>
 <p><strong>Quels sont les pré-requis ?</strong></p>
 <p>Aucun en particulier. L’intérêt et l’utilisation des outils numériques sont cependant fortement recommandés.</p>
