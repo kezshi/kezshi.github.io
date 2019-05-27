@@ -1,0 +1,17 @@
+
+
+table, th, td {
+   border: 1px solid black!important;
+}
+
+
+
+
+
+table {
+    border-collapse: collapse!important;
+}
+
+th,td {
+    text-align: center!important;
+}

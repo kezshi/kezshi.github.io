@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Matrice de confusion</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+ <link rel="shortcut icon" type="image/x-icon" href="images/logo/favicon.ico">
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css\style_matrice.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Accueil
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-flask"></span>
+     
+    Data Science
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="0_0_preambule.html">
+        <span class="fa fa-pencil-square-o"></span>
+         
+        Préambule
+      </a>
+    </li>
+    <li>
+      <a href="0_1_collecte.html">
+        <span class="fa fa-hand-paper-o"></span>
+         
+        Collecte des données
+      </a>
+    </li>
+    <li>
+      <a href="0_2_transformation.html">
+        <span class="fa fa-table"></span>
+         
+        Transformation des données
+      </a>
+    </li>
+    <li>
+      <a href="0_3_analytics.html">
+        <span class="fa fa-cog fa-spin"></span>
+         
+        Analyse des données
+      </a>
+    </li>
+    <li>
+      <a href="0_4_datavis.html">
+        <span class="fa fa-line-chart"></span>
+         
+        Visualisation des données
+      </a>
+    </li>
+    <li>
+      <a href="0_5_big_data.html">
+        <span class="fa fa-database"></span>
+         
+        Big Data
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="0_metiers.html">
+    <span class="fa fa-industry"></span>
+     
+    Métiers
+  </a>
+</li>
+<li>
+  <a href="0_techniques.html">
+    <span class="fa fa-wrench"></span>
+     
+    Techniques
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
+     
+    Formation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="0_formations.html">
+        <span class="fa fa-users"></span>
+         
+        Formation en présentiel
+      </a>
+    </li>
+    <li>
+      <a href="0_data_science_mentoring.html">
+        <span class="fa fa-video-camera"></span>
+         
+        e-Mentoring
+      </a>
+    </li>
+    <li>
+      <a href="0_photos.htm">
+        <span class="fa fa-camera"></span>
+         
+        Photos événements
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="contact.html">
+    <span class="fa fa-id-card"></span>
+     
+    Contact
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Matrice de confusion</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<ul>
+<li><strong>Précision</strong> et <strong>rappel</strong>… <strong>précision</strong>, ça se comprend bien en français. Mais <strong>rappel</strong>. Comment on peut se rappeler de la signification du <strong>rappel</strong>?</li>
+<li>Imagine que tu appelles des gens, s’ils rappellent, c’est que ce sont les bonnes personnes.</li>
+<li>Ah oui, pas mal.</li>
+<li>Et c’est la même chose que la <strong>sensibilité</strong>, qui forme un couple avec la <strong>spécificité</strong>…</li>
+<li>Donc ceux qui rappellent sont donc sensibles.</li>
+<li>…</li>
+<li>Bon au moins, c’est cohérent avec les termes anglais: <em>precision and recall</em>.</li>
+<li>Mais attention, <em>accuracy</em> c’est pas pareil que <em>precision</em>, mais on français, on peut aussi traduire par précision. Mais pour distinguer les deux, on dit plutôt <strong>justesse</strong>.</li>
+<li>… C’est vraiment une <strong>matrice de confusion</strong>.</li>
+<li>Alors, on va tenter de donner quelques précisions.</li>
+</ul>
+</div>
+<div id="la-matrice" class="section level1">
+<h1><span class="header-section-number">2</span> La matrice</h1>
+<div id="analyse-globale" class="section level2">
+<h2><span class="header-section-number">2.1</span> Analyse globale</h2>
+<p>Dans cette table croisée à double entrée, on doit avoir les valeurs réelles (en colonne) et les valeurs prédictives (en ligne).</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"><strong>Valeur réelle positive</strong></th>
+<th><strong>Valeur réelle négative</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Prédiction positive</strong></td>
+<td align="center">VP (vrais positifs)</td>
+<td>FP (faux positifs)</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Prédiction négative</strong></td>
+<td align="center">FN (faux négatifs)</td>
+<td>VN (vrais négatifs)</td>
+</tr>
+</tbody>
+</table>
+<p>Ainsi, on a quatre valeurs dont la signification est assez claire.</p>
+<!--
+## Vrais positifs
+
+Quand on prédit positif, la classe est réellement positive. Donc je prédis correctement, et ce sont des vrais positifs.
+
+Et ce sont des cas qu'on cherche à détecter, donc on parle de frappe (traduit de l'anglais, *hit*).
+
+
+
+## Vrais négatifs
+
+Quand on prédit négatif, la classe est réellement négative. Donc je rejette correctement.
+
+Dans le cas de la détection de fraude, on doit rejetter les dossiers non frauduleux.
+
+## Faux positifs
+
+Quand je prédis positif, mais la classe réelle est négative. Donc je me trompe, en donnant une fausse alarme. On parle aussi de l'**erreur de type I** (ou de **première espèce**)
+
+Dans le cas de la détection de fraude, en cas de faux positif, on risque de perdre du temps, et le client risque d'être mécontent.
+
+## Faux négatifs
+
+Quand je prédis négatif, alors que la classe réelle est positive. Donc j'ai raté ces cas, on parle donc du **coup raté** (traduit de l'anglais *miss*). On parle aussi de l'**erreur de type II** (ou de seconde espèce).
+
+Détection de fraude: je n'ai pas réussi à détecter une fraude avérée.
+
+-->
+</div>
+<div id="domaines-dutilisation" class="section level2">
+<h2><span class="header-section-number">2.2</span> Domaines d’utilisation</h2>
+<p>En pratique, cette matrice est utilisée dans plusieurs domaines:</p>
+<ul>
+<li>Diagnostic médical</li>
+<li>Recherche d’information (<em>information retrieval</em>)</li>
+<li>Classification binaire (machine learning)</li>
+</ul>
+<!--
+Pour les problématiques où on prédit des classes homogènes, la matrice de confusion est symétrique.
+
+Ainsi, on va parler de ces paramètres, par rapport à une classe donnée.
+S'il y a plusieurs classes, on peut définir ces différentes notions par rapport à une classe donnée.
+
+
+pour l'exemple de détection de spams, on peut inverser: on peut détecter les non-spams. et ça devient symétrique.
+
+Mais en général, la dissymétrie de la problématique est due au fait que l'une classe est largment minoritaire.
+-->
+</div>
+</div>
+<div id="cas-classiques" class="section level1">
+<h1><span class="header-section-number">3</span> Cas classiques</h1>
+<div id="faible-taux-derreurs" class="section level2">
+<h2><span class="header-section-number">3.1</span> Faible taux d’erreurs</h2>
+<ul>
+<li>Définir la mesure de performance avec un seul nombre: taux d’erreurs</li>
+<li>Exemple, imaginons qu’on vous dit qu’il y a construit un modèle avec un taux d’erreurs de 8%. Doit-on présumer que ce soit a priori un bon modèle ?</li>
+<li>Et s’il vous donne la matrice de confusion suivante ? Que dire ?</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"><strong>Valeur réelle positive</strong></th>
+<th><strong>Valeur réelle négative</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Prédiction positive</strong></td>
+<td align="center">3</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Prédiction négative</strong></td>
+<td align="center">7</td>
+<td>89</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="surdiagnostic" class="section level2">
+<h2><span class="header-section-number">3.2</span> Surdiagnostic</h2>
+<p>Oubli de la fréquence de base</p>
+<ul>
+<li>Hypothèses
+<ul>
+<li>Test d’une maladie au sein d’une population de 1000 personnes avec 0 faux négatif</li>
+<li>Test avec une spécificité du test de 5%</li>
+</ul></li>
+</ul>
+<p>Impacts de la population infectée</p>
+<ul>
+<li>Population infectée : 40%
+<ul>
+<li>400 personnes infectées avec un test positif</li>
+<li>30 personnes faux positifs (600 x 5%)</li>
+<li>La probabilité d’être infecté un test positif : 93%</li>
+</ul></li>
+<li>Population infectée : 2%
+<ul>
+<li>20 personnes infectée avec un test positif</li>
+<li>49 personnes faux positifs (980 x 5%)</li>
+<li>La probabilité d’être infecté un test positif : 29%</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="les-taux" class="section level1">
+<h1><span class="header-section-number">4</span> Les taux</h1>
+<div id="les-denominateurs" class="section level2">
+<h2><span class="header-section-number">4.1</span> Les dénominateurs</h2>
+<p>Quand on calcule un taux, on a un numérateur et un dénominateur.</p>
+<p>Dans la matrice de confusion:</p>
+<ul>
+<li>Quand les dénominateurs sont le nombre de classes réelles, on va parler de <strong>taux de vrais positifs</strong> ou de <strong>taux vrais négatifs</strong>.</li>
+<li>Quand les dénominateurs sont le nombre de prédictions faites, on va parler de <strong>valeur prédictive</strong> (positive ou négative).</li>
+</ul>
+<!--
+Dans ce cas-là, on parle aussi de probabilités (conditionnelles) des classes réelles sachant un résultat de test.
+- Evidemment, mathématiquement parlant, les taux de vrais positifs (ou négatifs) sont aussi des probabilités conditionnelles.
+
+-->
+<table>
+<colgroup>
+<col width="22%" />
+<col width="25%" />
+<col width="25%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center">Valeur réelle positive</th>
+<th>Valeur réelle négative</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Prédiction positive</td>
+<td align="center">VP (vrai positif)</td>
+<td>FP (faux positif)</td>
+<td>VP/(VP+FP)</td>
+<td>FP/(VP+FP)</td>
+</tr>
+<tr class="even">
+<td align="center">Prédiction négative</td>
+<td align="center">FN (faux négatif)</td>
+<td>VN (faux négatif)</td>
+<td>FN/(FN+VN)</td>
+<td>VN/(FN+VN)</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center">VP/P (taux de VP)</td>
+<td>FP/N (taux de FP)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center">FN/P (taux de FN)</td>
+<td>VN/N (taux de VN)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="taux-de-vrai-positifs" class="section level2">
+<h2><span class="header-section-number">4.2</span> Taux de vrai positifs</h2>
+<p>En anglais, c’est le TPR (<em>true positive rate</em>). Autres noms:</p>
+<ul>
+<li>Dans le diagnostic médical, on parle de <strong>sensibilité</strong> (<em>sensitivity</em>)</li>
+<li>Dans le domaine de <em>Information retrieval</em>, on parle de <strong>rappel</strong> (<em>recall</em> ou <em>hit rate</em>)</li>
+</ul>
+<p><span class="math display">\[\mathrm{TPR} = \frac {\mathrm{TP}} {P} = \frac {\mathrm{TP}} {\mathrm{TP}+\mathrm{FN}}\]</span></p>
+<p><strong>Taux de faux négatifs</strong></p>
+<ul>
+<li>en anglais FNR (<em>false negative rate</em>)</li>
+<li><em>miss rate</em></li>
+<li>taux d’<strong>erreur de type II</strong></li>
+</ul>
+<p><span class="math display">\[\mathrm{FNR} = \frac {\mathrm{FN}} {P} = \frac {\mathrm{FN}} {\mathrm{FN} + \mathrm{TP}} = 1 - \mathrm{TPR} \]</span></p>
+</div>
+<div id="taux-de-vrai-negatif" class="section level2">
+<h2><span class="header-section-number">4.3</span> Taux de vrai négatif</h2>
+<ul>
+<li>en anglais <em>true negative rate</em> (TNR)</li>
+<li>Dans un diagnostic médical, on parle de <strong>spécificité</strong> (<em>specificity</em> ou <em>selectivity</em>)</li>
+</ul>
+<p><span class="math display">\[\mathrm{TNR} = \frac {\mathrm{TN}} {N} = \frac {\mathrm{TN}} {\mathrm{TN} + \mathrm{FP}} = 1 - \mathrm{FPR}\]</span></p>
+<p><strong>Taux de faux positifs</strong></p>
+<ul>
+<li>en anglais: <em>false positive rate</em> (FPR)</li>
+<li>taux d’erreurs de type I ou taux d’erreurs de première espèce</li>
+<li>recherche d’information: <em>fall-out</em></li>
+</ul>
+<p><span class="math display">\[\mathrm{FPR} = \frac {\mathrm{FP}} {N} = \frac {\mathrm{FP}} {\mathrm{FP} + \mathrm{TN}} = 1 - \mathrm{TNR}\]</span></p>
+</div>
+<div id="valeur-predictive-positive" class="section level2">
+<h2><span class="header-section-number">4.4</span> Valeur prédictive positive</h2>
+<ul>
+<li>PPV: <em>positive predictive value</em></li>
+<li>Précision</li>
+</ul>
+<p><span class="math display">\[\mathrm{PPV} = \frac {\mathrm{TP}} {\mathrm{TP} + \mathrm{FP}}\]</span></p>
+<p><strong>Taux de fausses découvertes</strong></p>
+<p>On a donc le complémentaire pour la prédiction positive correcte, qui est la prédiction positive fausse.</p>
+<ul>
+<li>FDR: <em>false discovery rate</em></li>
+</ul>
+<p><span class="math display">\[\mathrm{FDR} = \frac {\mathrm{FP}} {\mathrm{FP} + \mathrm{TP}} = 1 - \mathrm{PPV} \]</span></p>
+</div>
+<div id="valeur-predictive-negative" class="section level2">
+<h2><span class="header-section-number">4.5</span> Valeur prédictive négative</h2>
+<ul>
+<li>NPV: <em>negative predictive value</em></li>
+</ul>
+<p><span class="math display">\[\mathrm{NPV} = \frac {\mathrm{TN}} {\mathrm{TN} + \mathrm{FN}}\]</span></p>
+<p><strong>Taux de fausses omissions</strong></p>
+<ul>
+<li>FOR: <em>false omission rate</em></li>
+</ul>
+<p><span class="math display">\[\mathrm{FOR} = \frac {\mathrm{FN}} {\mathrm{FN} + \mathrm{TN}} = 1 - \mathrm{NPV} \]</span></p>
+</div>
+<div id="justesse-ou-precision-totale" class="section level2">
+<h2><span class="header-section-number">4.6</span> Justesse ou précision totale</h2>
+<ul>
+<li>ACC: <em>accuracy</em></li>
+</ul>
+<p><span class="math display">\[\mathrm{ACC} = \frac {\mathrm{TP} + \mathrm{TN}} {P + N} = \frac {\mathrm{TP} + \mathrm{TN}} {\mathrm{TP} + \mathrm{TN} + \mathrm{FP} + \mathrm{FN}} \]</span></p>
+<p><strong>Taux d’erreurs</strong></p>
+<p>On peut sans doute du taux d’erreur, qui serait <span class="math inline">\(1-ACC\)</span></p>
+</div>
+</div>
+<div id="les-couples-de-taux" class="section level1">
+<h1><span class="header-section-number">5</span> Les couples de taux</h1>
+<div id="precision-et-rappel" class="section level2">
+<h2><span class="header-section-number">5.1</span> Précision et rappel</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center">Valeur réelle positive</th>
+<th>Valeur réelle négative</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Prédiction positive</strong></td>
+<td align="center">VP (vrai positif)</td>
+<td>FP (faux positif)</td>
+<td><em>Précision</em></td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Prédiction négative</strong></td>
+<td align="center">FN (faux négatif)</td>
+<td>VN (faux négatif)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"><em>Rappel</em></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sensibilite-et-specificite" class="section level2">
+<h2><span class="header-section-number">5.2</span> Sensibilité et spécificité</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center">Valeur réelle positive</th>
+<th>Valeur réelle négative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Prédiction positive</strong></td>
+<td align="center">VP (vrai positif)</td>
+<td>FP (faux positif)</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Prédiction négative</strong></td>
+<td align="center">FN (faux négatif)</td>
+<td>VN (faux négatif)</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"><em>Sensibilité</em></td>
+<td></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td><em>Spécificité</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="les-taux-combines" class="section level1">
+<h1><span class="header-section-number">6</span> Les taux combinés</h1>
+<div id="score-f1" class="section level2">
+<h2><span class="header-section-number">6.1</span> Score F1</h2>
+<p>Moyenne harmonique de précision et rappel</p>
+<p><span class="math display">\[F_1 = 2 \cdot \frac {\mathrm{PPV} \cdot \mathrm{TPR}} {\mathrm{PPV} + \mathrm{TPR}} = 
+\frac {2 \mathrm{TP}} {2 \mathrm{TP} + \mathrm{FP} + \mathrm{FN}}\]</span></p>
+</div>
+<div id="coefficient-de-correlation-de-matthews" class="section level2">
+<h2><span class="header-section-number">6.2</span> Coefficient de corrélation de Matthews</h2>
+<p>MCC: Matthews correlation coefficient</p>
+<p><span class="math display">\[ \mathrm{MCC} = \frac{ \mathrm{TP} \times \mathrm{TN} - \mathrm{FP} \times \mathrm{FN} } {\sqrt{ (\mathrm{TP}+\mathrm{FP}) ( \mathrm{TP} + \mathrm{FN} ) ( \mathrm{TN} + \mathrm{FP} ) ( \mathrm{TN} + \mathrm{FN} ) } }\]</span></p>
+</div>
+<div id="informedness" class="section level2">
+<h2><span class="header-section-number">6.3</span> Informedness</h2>
+<ul>
+<li>Bookmaker Informedness (BM)</li>
+</ul>
+<p><span class="math display">\[ \mathrm{BM} = \mathrm{TPR} + \mathrm{TNR} - 1\]</span></p>
+</div>
+<div id="markedness-mk" class="section level2">
+<h2><span class="header-section-number">6.4</span> Markedness (MK)</h2>
+<p><span class="math display">\[ \mathrm{MK} = \mathrm{PPV} + \mathrm{NPV} - 1\]</span></p>
+</div>
+</div>
+<div id="la-super-matrice" class="section level1">
+<h1><span class="header-section-number">7</span> La super matrice</h1>
+<p><img src="https://kezhanshi.bitbucket.io/images/conf_roc/matrice_confusion.png" /></p>
+</div>
+<div id="courbe-roc" class="section level1">
+<h1><span class="header-section-number">8</span> Courbe ROC</h1>
+<div id="prediction-en-probabilite" class="section level2">
+<h2><span class="header-section-number">8.1</span> Prédiction en probabilité</h2>
+<ul>
+<li>Prédiction en terme de probabilité</li>
+<li>Seuil habituel: 0,5</li>
+<li>Graphique pour les densités</li>
+</ul>
+<p><img src="https://kezhanshi.bitbucket.io/images/conf_roc/densities.png" /></p>
+<p>Source: <a href="http://www.navan.name/roc/" class="uri">http://www.navan.name/roc/</a></p>
+<p>Identifier les taux suivants</p>
+<ul>
+<li>Taux de faux positfs</li>
+<li>Taux de vrais positifs</li>
+<li>Taux de faux négatifs</li>
+<li>Taux de vrais négatifs</li>
+</ul>
+<p>En pratique, on a plutôt des courbes de densités qui n’ont pas une forme normale.</p>
+<p><img src="201808_matrice_confusion_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="201808_matrice_confusion_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="construction-de-la-courbe" class="section level2">
+<h2><span class="header-section-number">8.2</span> Construction de la courbe</h2>
+<ul>
+<li>En faisant varier le seuil</li>
+<li>Calculer la matrice de confusion</li>
+<li>Taux de VP en fonction du taux de FP</li>
+</ul>
+<p><img src="https://kezhanshi.bitbucket.io/images/conf_roc/roc.png" /></p>
+</div>
+<div id="auc" class="section level2">
+<h2><span class="header-section-number">8.3</span> AUC</h2>
+<p>Aire sous la courbe</p>
+<p>Commentaires</p>
+<ul>
+<li>Insensible aux probabilités (en valeur absolue)</li>
+<li>Uniquement l’ordre des probabilités (valeur relative est importante)</li>
+<li>Pour le nombre de classes supérieur à 2, utiliser “one versus all”</li>
+<li>Seuil à déterminer en fonction du critère business
+<ul>
+<li>Si le seuil est bas, on peut détecter “tous” les positifs donc le taux de VP est élevé. Mais le taux de FP aussi (donc fausse prédiction postive, en réalité, négatif).</li>
+<li>Si le seuil est haut, tout ce qu’on détecte est VP, mais on détecte pas un grand nombre.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1><span class="header-section-number">9</span> Conclusion</h1>
+<ul>
+<li>Grâce à la matrice de confusion, le data scientist est quand même moins confus devant les confusions du modèle.</li>
+<li>Voilà, maintenant tu sais tout.</li>
+<li><em>Let’s</em> <strong>ROC</strong> <em>and roll</em></li>
+<li>Attens attends, pour être sûr que tu as tout compris, voici quelques questions.</li>
+</ul>
+</div>
+<div id="test-de-connaissance" class="section level1">
+<h1><span class="header-section-number">10</span> Test de connaissance</h1>
+<ul>
+<li>Si on augmente le seuil de classification, comment la précision et le rappel évoluent ?</li>
+<li>Si on vous dit que l’AUC de son modèle est de 0,2. C’est bien ou pas ?</li>
+<li>Si on multiplie les probabilités de prédiction par 2, comment l’AUC évolue ?</li>
+</ul>
+</div>
+<div id="source" class="section level1">
+<h1><span class="header-section-number">11</span> Source</h1>
+<p>Bon OK, tu as compris, tout est sur wikipeia !</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Precision_and_recall" class="uri">https://en.wikipedia.org/wiki/Precision_and_recall</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Binary_classification" class="uri">https://en.wikipedia.org/wiki/Binary_classification</a></li>
+<li><a href="https://en.wikipedia.org/wiki/F1_score" class="uri">https://en.wikipedia.org/wiki/F1_score</a></li>
+<li><a href="https://fr.wikipedia.org/wiki/Surdiagnostic" class="uri">https://fr.wikipedia.org/wiki/Surdiagnostic</a></li>
+<li><a href="https://fr.wikipedia.org/wiki/Sensibilit%C3%A9_et_sp%C3%A9cificit%C3%A9" class="uri">https://fr.wikipedia.org/wiki/Sensibilit%C3%A9_et_sp%C3%A9cificit%C3%A9</a></li>
+<li><a href="http://www.navan.name/roc/" class="uri">http://www.navan.name/roc/</a></li>
+</ul>
+<!--
+
+http://www.navan.name/roc/
+
+-->
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kezhan'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-79158649-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <hr>
+    
+
+<a href="https://kezshi.github.io/">Site internet de Kezhan SHI</a>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
