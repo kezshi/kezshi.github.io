@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="font-size: 16px;">
+<html style="font-size: 16px;" lang="fr-FR">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
@@ -24,7 +24,7 @@
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",
-		"name": "Site1",
+		"name": "DaTask",
 		"url": "index.html",
 		"logo": "images/logodatask.png"
 }</script>
@@ -34,7 +34,25 @@
     <meta name="theme-color" content="#478ac9">
     <link rel="canonical" href="formation data science">
     <meta property="og:url" content="index.html">
-  </head>
+  <script>
+    function gdprConfirmed() {
+        return true;
+    }
+    if (gdprConfirmed()) {
+    document.write("\
+    \
+    <!-- Google Analytics -->\
+    <gascript async src=\"https://www.googletagmanager.com/gtag/js?id=79158649\"></gascript>\
+    <gascript>\
+        window.dataLayer = window.dataLayer || [];\
+        function gtag(){dataLayer.push(arguments);}\
+        gtag('js', new Date());\
+        gtag('config', '79158649');\
+    </gascript>\
+    <!-- End Google Analytics -->\
+    ".replace(/gascript/g, 'script'));
+    }
+    </script></head>
   <body data-home-page="Datask.html" data-home-page-title="Datask" class="u-body"><header class="u-clearfix u-header u-header" id="sec-8003"><div class="u-clearfix u-sheet u-sheet-1">
         <a href="index.html" class="u-image u-logo u-image-1" title="Datask - firmation data science">
           <img src="images/logodatask.png" class="u-logo-image u-logo-image-1" data-image-width="163">
@@ -80,7 +98,7 @@
                   </p>
                 </div>
               </div>
-              <div class="u-align-center u-container-style u-image u-layout-cell u-right-cell u-size-25 u-size-xs-60 u-image-1" src="" data-image-width="1600" data-image-height="1068">
+              <div class="u-align-center u-container-style u-image u-layout-cell u-right-cell u-size-25 u-size-xs-60 lazyload u-image-1" src="" data-image-width="1600" data-image-height="1068" data-bg="url(&quot;images/datascienceapprendre.jpg&quot;)">
                 <div class="u-container-layout u-valign-middle u-container-layout-2" src=""></div>
               </div>
             </div>
@@ -440,7 +458,7 @@
               </div>
               <div class="u-align-center u-container-style u-layout-cell u-right-cell u-size-38 u-size-xs-60 u-layout-cell-2" src="">
                 <div class="u-container-layout u-container-layout-2" src="">
-                  <img class="u-expand-resize u-image u-image-1" src="images/templepiliersprojetdatascienceassurance2.png" data-image-width="960" data-image-height="540">
+                  <img class="u-expand-resize u-image lazyload u-image-1" data-image-width="960" data-image-height="540" data-src="images/templepiliersprojetdatascienceassurance2.png">
                 </div>
               </div>
             </div>
@@ -453,6 +471,5 @@
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-f796"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <p class="u-small-text u-text u-text-variant u-text-1">contact@datask.net</p>
       </div></footer>
-
   </body>
 </html>
