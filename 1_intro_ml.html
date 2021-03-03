@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Introduction au Machine Learning</title>
+<!-- Material Design fonts -->
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="1_intro_ml_files/header-attrs-2.3/header-attrs.js"></script>
+<script src="1_intro_ml_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="1_intro_ml_files/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<script src="1_intro_ml_files/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script src="1_intro_ml_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="1_intro_ml_files/navigation-1.1/tabsets.js"></script>
+<script src="1_intro_ml_files/navigation-1.1/codefolding.js"></script>
+<link href="1_intro_ml_files/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+<script src="1_intro_ml_files/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+<link href="1_intro_ml_files/bootstrap_material-0.1/bootstrap-material-design.min.css" rel="stylesheet" />
+<link href="1_intro_ml_files/bootstrap_material-0.1/ripples.min.css" rel="stylesheet" />
+<script src="1_intro_ml_files/bootstrap_material-0.1/material.min.js"></script>
+<script src="1_intro_ml_files/bootstrap_material-0.1/ripples.min.js"></script>
+<link href="1_intro_ml_files/material-0.1/material.css" rel="stylesheet" />
+<script src="1_intro_ml_files/material-0.1/material.js"></script>
+
+
+
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("toc");
+});
+</script>
+
+<!-- code folding -->
+
+</head>
+
+<body>
+
+<div class="header-panel shadow z-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-3">
+        <div id="header">
+    <h1 class="title">Introduction au Machine Learning</h1>
+                </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+<div class="container-fluid main-container">
+    <div class="row">
+      <nav class="col-xs-3 menu">
+        <div id="toc">
+        <ul>
+        <li><a href="#préambule">Préambule</a></li>
+        <li><a href="#définition">Définition</a></li>
+        <li><a href="#types-dapprentissage">Types d’apprentissage</a></li>
+        <li><a href="#arbre-de-classification">Arbre de classification</a></li>
+        <li><a href="#hyperparamètrage">Hyperparamètrage</a></li>
+        <li><a href="#performance-dun-modèle">Performance d’un modèle</a></li>
+        <li><a href="#sur-apprentissage">Sur-apprentissage</a></li>
+        <li><a href="#présentation-des-résultats">Présentation des résultats</a></li>
+        <li><a href="#apprentissage-dun-algorithme">Apprentissage d’un algorithme</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+        <li><a href="#pour-aller-plus-loin">Pour aller plus loin</a></li>
+        </ul>
+        </div>
+        
+        
+        
+      </nav>
+     <div class="pages col-xs-9">
+     <div class="row">
+       <div class="col-xs-10">
+
+
+
+<!--
+https://jsfiddle.net/wqmf8ad6/
+https://stackoverflow.com/questions/35259023/bootstrap-tabs-next-previous-buttons
+-->
+<div id="préambule" class="section level1">
+<h1>Préambule</h1>
+<p>Cette capsule a pour objectif d’introduction la notion de machine learning aux actuaires. Les notions principales seront présentées avec un cas d’application qui est la prédiction de sinistres graves</p>
+<ul>
+<li>types d’algorithmes de machine learning</li>
+<li>fonctionnement d’un arbre de classification</li>
+<li>hyperparamétrage</li>
+<li>sur-apprentissage et sous-apprentissage</li>
+<li>métrique d’évaluation</li>
+<li>tuning des modèles</li>
+</ul>
+<div id="machine-learning-est-partout" class="section level2">
+<h2>Machine learning est partout</h2>
+<p>Donner un aperçu global des cas d’application du machine learning dans notre vie quotidienne.</p>
+</div>
+<div id="machine-learning-en-assurance" class="section level2">
+<h2>Machine learning en assurance</h2>
+<p>Différents cas d’application du machine learning en assurance</p>
+</div>
+</div>
+<div id="définition" class="section level1">
+<h1>Définition</h1>
+<div id="définition-générale" class="section level2">
+<h2>Définition générale</h2>
+<p>Définir le machine learning de façon générale</p>
+</div>
+<div id="définition-pour-les-actuaires" class="section level2">
+<h2>Définition pour les actuaires</h2>
+<p>Les actuaires connaissent en réalité déjà cette notion de machine learning, mais qu’est-ce qui est différent ?</p>
+<p>point sur les hyperparamètres, sur apprentissage, etc.</p>
+</div>
+<div id="data-science-en-général" class="section level2">
+<h2>Data science en général</h2>
+<p>Complément à donner concernant la data science en générale.</p>
+<p>Données non structurées</p>
+</div>
+</div>
+<div id="types-dapprentissage" class="section level1">
+<h1>Types d’apprentissage</h1>
+<div id="définition-générale-1" class="section level2">
+<h2>Définition générale</h2>
+<ul>
+<li>apprentissage supervisé</li>
+<li>apprentissage non supervisé</li>
+</ul>
+</div>
+<div id="cas-de-lanalyse-des-sinistres" class="section level2">
+<h2>Cas de l’analyse des sinistres</h2>
+<p>Si on dispose d’une base de données de sinistres, que peut-on faire ? Selon les types d’apprentissage définis précédemment, on peut définir plusieurs problématiques. Par la suite, on va traiter le cas de prédiction des sinistres graves.</p>
+</div>
+</div>
+<div id="arbre-de-classification" class="section level1">
+<h1>Arbre de classification</h1>
+<div id="présentation-dun-arbre-de-classification" class="section level2">
+<h2>présentation d’un arbre de classification</h2>
+<p>L’arbre de classification est un algorithme classique en machine learning. on explique de façon intuitivement le fonctionnement.</p>
+</div>
+</div>
+<div id="hyperparamètrage" class="section level1">
+<h1>Hyperparamètrage</h1>
+<p>On présente les hyperparamètres pour un arbre de classification</p>
+<div id="profondeur-de-larbre" class="section level2">
+<h2>Profondeur de l’arbre</h2>
+</div>
+<div id="autres-hyperparamètres" class="section level2">
+<h2>Autres hyperparamètres</h2>
+</div>
+</div>
+<div id="performance-dun-modèle" class="section level1">
+<h1>Performance d’un modèle</h1>
+<div id="matrice-de-confusion" class="section level2">
+<h2>Matrice de confusion</h2>
+<p>Définition d’une matrice de confusion</p>
+</div>
+<div id="justesse" class="section level2">
+<h2>Justesse</h2>
+<p>Un seul nombre pour évaluer un modèle, on expliquer d’abord la justesse d’un modèle</p>
+</div>
+<div id="autres-métriques" class="section level2">
+<h2>Autres métriques</h2>
+<p>Métrique: justesse, mais aussi d’autres métriques à partir de la matrice de confusion</p>
+</div>
+<div id="choix-des-métriques" class="section level2">
+<h2>Choix des métriques</h2>
+</div>
+</div>
+<div id="sur-apprentissage" class="section level1">
+<h1>Sur-apprentissage</h1>
+<div id="définition-1" class="section level2">
+<h2>Définition</h2>
+<p>Sous-apprentissage</p>
+<p>Sur-apprentissage</p>
+</div>
+<div id="tuning-des-modèles" class="section level2">
+<h2>Tuning des modèles</h2>
+</div>
+</div>
+<div id="présentation-des-résultats" class="section level1">
+<h1>Présentation des résultats</h1>
+<div id="comparaison-des-algorithmes" class="section level2">
+<h2>Comparaison des algorithmes</h2>
+<p>Présentation des résultats des différents algorithmes. On ne va pas entrer dans les détails de différents algorithmes dans cette capsule, mais une autre capsule consacrée aux algorithmes de classification.</p>
+<ul>
+<li>SVM</li>
+<li>Réseau de neurones</li>
+<li></li>
+</ul>
+</div>
+</div>
+<div id="apprentissage-dun-algorithme" class="section level1">
+<h1>Apprentissage d’un algorithme</h1>
+<div id="arbre-de-classification-1" class="section level2">
+<h2>Arbre de classification</h2>
+<ul>
+<li>Compréhension intuitive</li>
+<li>Construction à la main</li>
+<li>Mise en place avec un langage de programmation</li>
+</ul>
+</div>
+</div>
+<div id="quiz" class="section level1">
+<h1>Quiz</h1>
+<!--
+https://jsfiddle.net/wqmf8ad6/
+https://stackoverflow.com/questions/35259023/bootstrap-tabs-next-previous-buttons
+
+<iframe
+    title="Inline Frame Example"
+    width="100%"
+    height="600"
+    src="quiz1.html">
+</iframe>
+-->
+</div>
+<div id="pour-aller-plus-loin" class="section level1">
+<h1>Pour aller plus loin</h1>
+<ul>
+<li>manager
+<ul>
+<li>design d’un cas d’application</li>
+<li>data science en générale: acculturation data, avec des données non structurées</li>
+</ul></li>
+<li>application
+<ul>
+<li>python ou R: application pour la prédiction de sinistres</li>
+</ul></li>
+<li>compréhension des algorithmes
+<ul>
+<li>algorithmes de classification (vus dans la comparaision des algorithmes)</li>
+<li>algorithmes de régression: on peut prédire directement le montant de sinistre, et c’est une problématique de régression, et on a d’autres algorithmes à présenter.</li>
+</ul></li>
+</ul>
+</div>
+
+    </div>
+    <div class="col-xs-2">
+        </div>
+  </div>
+  </div>
+  </div>
+  <div class="row">
+    </div>
+  </div>
+
+<script>
+$(document).ready(function () {
+  // add bootstrap table styles to pandoc tables
+  $('tr.header').parent('thead').parent('table').addClass('table table-striped table-hover');
+
+    var images = $('.pages img');
+  images.filter(function() {
+      if ($(this).parent().attr("class") == "figure") {
+          return(false)
+      } else {
+          return(true);
+      }
+  }).wrap("<div class='figure'></div>");
+  images.addClass("image-thumb").wrap("<div class='panel-body'></div>");
+  $('.figure p.caption').wrap("<div class='panel-footer'></div>");
+  $('.figure').addClass('panel panel-default');
+  
+    $('.pages img')
+ 	  .addClass("image-lb");
+  $('.pages').magnificPopup({
+	      type:'image',
+	      closeOnContentClick: false,
+	      closeBtnInside: false,
+        delegate: 'img',
+	      gallery: {enabled: false },
+          removalDelay: 500,
+          callbacks: {
+              beforeOpen: function() {
+                // just a hack that adds mfp-anim class to markup
+                this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+              }
+          },
+          mainClass: 'mfp-move-from-top',
+	      image: {
+	        verticalFit: true,
+            titleSrc: 'alt'
+	      }
+ 	    });
+ 	
+    
+    $('#toc ul li').first().addClass("active");
+    $('#toc ul li').attr("data-target", function() {
+        return($(this).children("a").attr("href"));
+    })
+    $('body .section.level1').first().addClass("active");
+    $('body .section.level1').not('.active').hide();
+    
+    $('#toc a[href*="#"]').click(function() {
+
+      var id = $(this).attr("href");
+      if (id === "#") return;
+      if (id.substring(0, 8) === "#dyntab-") return;
+      toggle_page(id);
+
+      // Menu
+      var menu_entry = $(".menu li[data-target='"+id+"']");
+      menu_entry.addClass("active");
+      $(".menu li").not(menu_entry).removeClass("active"); 
+      
+
+    });
+
+    function toggle_page(id) {
+      $(".page").not(page).removeClass("active").hide();
+      window.page = id;
+      var page = $(window.page);
+      window.location.hash = window.page;
+      //$(this).addClass("active");
+
+      page.show();
+
+      var totop = setInterval(function () {
+        $(".pages").animate({scrollTop: 0}, 0);
+      }, 10);
+
+      setTimeout(function () {
+        page.addClass("active");
+        setTimeout(function () {
+          clearInterval(totop);
+        }, 1000);
+      }, 100);
+
+      window.dispatchEvent(new Event('resize'));
+
+    }
+
+
+    $(".menu li").click(function () {
+
+      toggle_page($(this).data("target"));
+
+      // Menu
+      if (!$(this).data("target")) return;
+      if ($(this).is(".active")) return;
+      $(".menu li").not($(this)).removeClass("active");
+      $(this).addClass("active");
+
+    });
+  
+    
+
+
+    window.page = window.location.hash;
+    if (window.page != "") {
+      $(".menu").find("li[data-target=" + window.page + "]").trigger("click");
+    }
+
+    /* init material bootstrap js */
+    $.material.init();
+});
+</script>
+
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
